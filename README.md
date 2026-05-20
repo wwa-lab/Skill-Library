@@ -11,8 +11,13 @@ right skill and use it in OpenCode.
 
 - New user: start with [docs/getting-started-opencode.md](docs/getting-started-opencode.md).
 - Not sure which skill to use: use [docs/skill-selection-guide.md](docs/skill-selection-guide.md).
+- Browser-friendly local entry: open [docs/index.html](docs/index.html) directly from this repo.
 - IBM i forward delivery: start with `ibm-i-workflow-orchestrator`.
 - Legacy reverse-modernization: start with `legacy-modernization-orchestrator`.
+
+If a Markdown link opens in Chrome as `file+.vscode-resource...`, use
+`docs/index.html` instead. That URL is an editor-internal preview resource, not
+a normal local file URL.
 
 The library is intentionally simple:
 
@@ -149,6 +154,7 @@ description: Use when modernizing IBM i RPG applications, analyzing RPG code, ex
 
 - [docs/getting-started-opencode.md](docs/getting-started-opencode.md)
 - [docs/skill-selection-guide.md](docs/skill-selection-guide.md)
+- [docs/index.html](docs/index.html)
 - [docs/skill-authoring.md](docs/skill-authoring.md)
 - [docs/import-existing-skills.md](docs/import-existing-skills.md)
 - [docs/naming-conventions.md](docs/naming-conventions.md)

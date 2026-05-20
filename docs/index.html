@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OpenCode Skill Library - Start Here</title>
+    <style type="text/css">
+      :root {
+        color-scheme: light;
+        --bg: #f8fafc;
+        --surface: #ffffff;
+        --ink: #172033;
+        --muted: #5b6475;
+        --line: #d8dee8;
+        --blue: #1d4ed8;
+        --green: #047857;
+        --amber: #b45309;
+        --slate: #334155;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        line-height: 1.55;
+      }
+
+      .page {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 32px 24px 56px;
+      }
+
+      .hero {
+        padding: 8px 0 24px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        margin-bottom: 10px;
+        font-size: clamp(32px, 5vw, 56px);
+        line-height: 1.04;
+        letter-spacing: 0;
+      }
+
+      h2 {
+        margin: 40px 0 14px;
+        font-size: 24px;
+        letter-spacing: 0;
+      }
+
+      h3 {
+        margin: 24px 0 8px;
+        font-size: 18px;
+      }
+
+      p,
+      li,
+      td,
+      th {
+        font-size: 15px;
+      }
+
+      a {
+        color: var(--blue);
+        text-decoration-thickness: 1px;
+        text-underline-offset: 3px;
+      }
+
+      code {
+        padding: 2px 5px;
+        border: 1px solid #e2e8f0;
+        border-radius: 4px;
+        background: #f1f5f9;
+        color: #0f172a;
+        font-size: 0.92em;
+      }
+
+      pre {
+        overflow-x: auto;
+        padding: 14px 16px;
+        border: 1px solid #1f2937;
+        border-radius: 8px;
+        background: #111827;
+        color: #e5e7eb;
+      }
+
+      pre code {
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: inherit;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 12px 0 28px;
+        background: var(--surface);
+      }
+
+      th,
+      td {
+        padding: 11px 12px;
+        border: 1px solid var(--line);
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        background: #eef2f7;
+        color: #263244;
+        font-weight: 700;
+      }
+
+      .lead {
+        max-width: 780px;
+        color: var(--muted);
+        font-size: 18px;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 22px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        min-height: 40px;
+        padding: 9px 13px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: var(--surface);
+        color: var(--ink);
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      .button.primary {
+        border-color: var(--blue);
+        background: var(--blue);
+        color: #ffffff;
+      }
+
+      .note {
+        margin-top: 18px;
+        padding: 12px 14px;
+        border-left: 4px solid var(--amber);
+        background: #fffbeb;
+        color: #713f12;
+      }
+
+      .overview {
+        display: block;
+        width: 100%;
+        height: auto;
+        margin: 24px 0 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #0f172a;
+      }
+
+      .family-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+        margin-top: 12px;
+      }
+
+      .family {
+        padding: 16px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+      }
+
+      .family h3 {
+        margin-top: 0;
+      }
+
+      .tag {
+        display: inline-block;
+        margin-bottom: 10px;
+        padding: 3px 7px;
+        border-radius: 999px;
+        background: #e0f2fe;
+        color: #075985;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .tag.green {
+        background: #dcfce7;
+        color: #166534;
+      }
+
+      .footer {
+        margin-top: 44px;
+        padding-top: 18px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      @media (max-width: 760px) {
+        main {
+          padding: 22px 16px 42px;
+        }
+
+        .family-grid {
+          grid-template-columns: 1fr;
+        }
+
+        th,
+        td {
+          padding: 9px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <div class="hero">
+        <h1>OpenCode Skill Library</h1>
+        <p class="lead">
+          Start here to install shared skills, choose the right skill for your
+          artifact, and route work through the IBM i delivery or Legacy Spec
+          Factory modernization chains.
+        </p>
+        <div class="actions">
+          <a class="button primary" href="#choose">Choose A Skill</a>
+          <a class="button" href="getting-started-opencode.md">Markdown Quick Start</a>
+          <a class="button" href="skill-selection-guide.md">Markdown Selector</a>
+        </div>
+        <p class="note">
+          If a Markdown link opens as <code>file+.vscode-resource...</code> in
+          Chrome, open this <code>docs/index.html</code> file directly from the
+          repository instead. That URL is an editor-internal preview resource.
+        </p>
+      </div>
+
+      <img
+        class="overview"
+        src="assets/skill-library-repo-overview.svg"
+        alt="Internal OpenCode Skills Library overview"
+      />
+
+      <div id="quick-start" class="section">
+        <h2>10-Minute OpenCode Setup</h2>
+        <ol>
+          <li>Preview what will be installed.</li>
+          <li>Install the shared skills into OpenCode.</li>
+          <li>Pick an orchestrator or direct skill from the guide below.</li>
+        </ol>
+        <pre><code>node scripts/install-opencode-skills.mjs --dry-run
+node scripts/install-opencode-skills.mjs</code></pre>
+      </div>
+
+      <div id="choose" class="section">
+        <h2>Choose A Starting Skill</h2>
+        <table summary="Starting skill recommendations by input artifact and use case">
+          <thead>
+            <tr>
+              <th>You Have</th>
+              <th>Start With</th>
+              <th>Use When</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Unclear requirement, ticket, email, or notes</td>
+              <td><code>ibm-i-requirement-normalizer</code></td>
+              <td>Normalize messy input into a structured requirement package.</td>
+            </tr>
+            <tr>
+              <td>IBM i delivery work and you are not sure what comes next</td>
+              <td><code>ibm-i-workflow-orchestrator</code></td>
+              <td>Route forward delivery from requirement through specs, code, review, and tests.</td>
+            </tr>
+            <tr>
+              <td>Existing RPGLE/CLLE source plus a change request</td>
+              <td><code>ibm-i-impact-analyzer</code></td>
+              <td>Identify impact, risk, touched objects, and handoff needs.</td>
+            </tr>
+            <tr>
+              <td>Raw IBM i / AS400 source, DDS, logs, screens, reports, or SME notes</td>
+              <td><code>legacy-modernization-orchestrator</code></td>
+              <td>Find the right reverse-modernization stage and next skill.</td>
+            </tr>
+            <tr>
+              <td>Approved legacy evidence bundle</td>
+              <td><code>legacy-ibmi-inventory</code></td>
+              <td>Create the first inventory and object map for reverse engineering.</td>
+            </tr>
+            <tr>
+              <td>Approved reverse-engineering analysis needing a source-of-truth spec</td>
+              <td><code>legacy-spec-writer</code></td>
+              <td>Produce evidence-backed <code>spec.yaml</code>, <code>spec.md</code>, and traceability.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="section">
+        <h2>Skill Families</h2>
+        <div class="family-grid">
+          <div class="family">
+            <span class="tag green">Forward Delivery</span>
+            <h3>IBM i Skill Family</h3>
+            <p>
+              Use this family when you already have a requirement, change
+              request, spec, or implementation task and need to move forward
+              through IBM i delivery.
+            </p>
+            <p><a href="../skills/ibm-i/README.md">Open IBM i family README</a></p>
+          </div>
+
+          <div class="family">
+            <span class="tag">Reverse Modernization</span>
+            <h3>Legacy Spec Factory</h3>
+            <p>
+              Use this family when you need to understand an existing legacy
+              system and turn source/runtime evidence into reviewable specs.
+            </p>
+            <p>
+              <a href="../skills/legacy-spec-factory/README.md">
+                Open Legacy Spec Factory README
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>First Prompts</h2>
+        <h3>IBM i forward delivery</h3>
+        <pre><code>Use ibm-i-workflow-orchestrator.
+I have this requirement/change request and need help choosing the next skill.</code></pre>
+
+        <h3>Legacy reverse engineering</h3>
+        <pre><code>Use legacy-modernization-orchestrator.
+I have IBM i / AS400 source, DDS, job logs, or SME notes and need to understand the system.</code></pre>
+      </div>
+
+      <div class="footer">
+        This page is a browser-friendly companion to the Markdown docs in this
+        repository. OpenCode installs skills from <code>skills/</code>; this page
+        only helps people choose where to begin.
+      </div>
+    </div>
+  </body>
+</html>
