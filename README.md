@@ -40,6 +40,13 @@ The IBM i family was migrated from `wwa-lab/build-agent-skill` after stabilizati
 
 See `skills/ibm-i/README.md` for the full map.
 
+Pending internal pilot skills are reserved but not installed until their `SKILL.md` files are copied in:
+
+| Future Skill | Author | Status |
+|--------------|--------|--------|
+| `ibm-i-requirement-intake` | Oliver | Placeholder only |
+| `ibm-i-ut-plan-to-xml` | Kevin | Placeholder only |
+
 ## Quick Start
 
 Validate the library:

@@ -47,10 +47,10 @@ Any stage      -> Workflow Orchestrator
 
 These placeholders reserve final paths for internal pilot skills that are not in the public source repo yet. They intentionally do not contain `SKILL.md`, so validation and installation skip them until the internal skill content is copied in.
 
-| Future Skill | Placeholder Path | Notes |
-|--------------|------------------|-------|
-| `ibm-i-requirement-intake` | `requirement-intake/` | Internal legacy name: `as400-requirment-intake`; use corrected spelling and IBM i namespace on import. |
-| `ibm-i-ut-plan-to-xml` | `ut-plan-to-xml/` | Converts IBM i UT Plan artifacts into XML once internal pilot content is imported. |
+| Future Skill | Author | Placeholder Path | Notes |
+|--------------|--------|------------------|-------|
+| `ibm-i-requirement-intake` | Oliver | `requirement-intake/` | Internal legacy name: `as400-requirment-intake`; use corrected spelling and IBM i namespace on import. |
+| `ibm-i-ut-plan-to-xml` | Kevin | `ut-plan-to-xml/` | Converts IBM i UT Plan artifacts into XML once internal pilot content is imported. |
 
 ## Design Principles
 

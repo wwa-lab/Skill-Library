@@ -1,5 +1,7 @@
 # Placeholder: IBM i Requirement Intake
 
+Author: Oliver
+
 This directory is reserved for the internal pilot skill currently known as:
 
 ```text
@@ -26,7 +28,7 @@ ibm-i-requirement-intake
    ```yaml
    license: Internal
    metadata:
-     author: Leo L Zhang
+     author: Oliver
      maintainer: platform-engineering
      source: internal-pilot-run
      legacy_name: as400-requirment-intake
@@ -42,4 +44,3 @@ ibm-i-requirement-intake
    ```
 
 This placeholder intentionally does not include `SKILL.md`, so it is not installed into OpenCode yet.
-

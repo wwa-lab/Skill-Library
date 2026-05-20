@@ -1,5 +1,7 @@
 # Placeholder: IBM i UT Plan to XML
 
+Author: Kevin
+
 This directory is reserved for the internal pilot skill:
 
 ```text
@@ -20,7 +22,7 @@ ibm-i-ut-plan-to-xml
    ```yaml
    license: Internal
    metadata:
-     author: Leo L Zhang
+     author: Kevin
      maintainer: platform-engineering
      source: internal-pilot-run
      domain: ibm-i
@@ -35,4 +37,3 @@ ibm-i-ut-plan-to-xml
    ```
 
 This placeholder intentionally does not include `SKILL.md`, so it is not installed into OpenCode yet.
-
