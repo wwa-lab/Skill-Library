@@ -36,6 +36,27 @@ node scripts/install-opencode-skills.mjs
 
 Directories that start with `_` are skipped by default.
 
+## Manual Copy Without Node
+
+You can also copy skills manually. OpenCode only needs each skill folder under
+the flat runtime directory:
+
+```text
+~/.config/opencode/skills/<skill-name>/
+```
+
+The `<skill-name>` must match the `name` field in `SKILL.md`.
+
+Examples:
+
+```text
+skills/ibm-i/code-generator/ -> ~/.config/opencode/skills/ibm-i-code-generator/
+skills/legacy-spec-factory/legacy-spec-writer/ -> ~/.config/opencode/skills/legacy-spec-writer/
+```
+
+See `docs/manual-copy-opencode.md` for the full manual-copy guide and IBM i
+folder mapping.
+
 ## Install One Domain
 
 ```bash

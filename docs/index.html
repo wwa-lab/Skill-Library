@@ -248,6 +248,7 @@
           <a class="button primary" href="#choose">Choose A Skill</a>
           <a class="button" href="getting-started-opencode.md">Markdown Quick Start</a>
           <a class="button" href="skill-selection-guide.md">Markdown Selector</a>
+          <a class="button" href="manual-copy-opencode.md">Manual Copy</a>
         </div>
         <p class="note">
           If a Markdown link opens as <code>file+.vscode-resource...</code> in
@@ -264,6 +265,7 @@
 
       <div id="quick-start" class="section">
         <h2>10-Minute OpenCode Setup</h2>
+        <h3>Option A: Script Install</h3>
         <ol>
           <li>Preview what will be installed.</li>
           <li>Install the shared skills into OpenCode.</li>
@@ -271,6 +273,18 @@
         </ol>
         <pre><code>node scripts/install-opencode-skills.mjs --dry-run
 node scripts/install-opencode-skills.mjs</code></pre>
+        <h3>Option B: Manual Copy</h3>
+        <p>
+          Copy each skill folder into <code>~/.config/opencode/skills/&lt;skill-name&gt;/</code>.
+          The destination folder name must match the <code>name</code> field in
+          <code>SKILL.md</code>.
+        </p>
+        <pre><code>skills/ibm-i/code-generator/ -> ~/.config/opencode/skills/ibm-i-code-generator/
+skills/legacy-spec-factory/legacy-spec-writer/ -> ~/.config/opencode/skills/legacy-spec-writer/</code></pre>
+        <p>
+          See <a href="manual-copy-opencode.md">manual-copy-opencode.md</a> for
+          the full manual-copy guide.
+        </p>
       </div>
 
       <div id="choose" class="section">

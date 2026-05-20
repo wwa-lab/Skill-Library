@@ -12,6 +12,7 @@ right skill and use it in OpenCode.
 - New user: start with [docs/getting-started-opencode.md](docs/getting-started-opencode.md).
 - Not sure which skill to use: use [docs/skill-selection-guide.md](docs/skill-selection-guide.md).
 - Browser-friendly local entry: open [docs/index.html](docs/index.html) directly from this repo.
+- No Node install: use [docs/manual-copy-opencode.md](docs/manual-copy-opencode.md).
 - IBM i forward delivery: start with `ibm-i-workflow-orchestrator`.
 - Legacy reverse-modernization: start with `legacy-modernization-orchestrator`.
 
@@ -102,6 +103,15 @@ Install all real skills into the default OpenCode skills directory:
 node scripts/install-opencode-skills.mjs
 ```
 
+Manual copy without Node:
+
+```text
+Copy skill folders into ~/.config/opencode/skills/<skill-name>/
+```
+
+See [docs/manual-copy-opencode.md](docs/manual-copy-opencode.md) for the exact
+rules and IBM i folder mapping.
+
 Install only one domain:
 
 ```bash
@@ -155,6 +165,7 @@ description: Use when modernizing IBM i RPG applications, analyzing RPG code, ex
 - [docs/getting-started-opencode.md](docs/getting-started-opencode.md)
 - [docs/skill-selection-guide.md](docs/skill-selection-guide.md)
 - [docs/index.html](docs/index.html)
+- [docs/manual-copy-opencode.md](docs/manual-copy-opencode.md)
 - [docs/skill-authoring.md](docs/skill-authoring.md)
 - [docs/import-existing-skills.md](docs/import-existing-skills.md)
 - [docs/naming-conventions.md](docs/naming-conventions.md)

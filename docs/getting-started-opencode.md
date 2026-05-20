@@ -4,6 +4,13 @@ Use this guide when you want to start using the shared skill library quickly.
 
 ## 10-Minute Path
 
+Choose one installation path:
+
+- Script install: fastest when Node is available.
+- Manual copy: use when you do not want to run Node.
+
+### Option A: Script Install
+
 1. Preview what will be installed:
 
    ```bash
@@ -16,13 +23,36 @@ Use this guide when you want to start using the shared skill library quickly.
    node scripts/install-opencode-skills.mjs
    ```
 
-3. Pick the right starting skill:
+### Option B: Manual Copy
+
+OpenCode reads skills from:
+
+```text
+~/.config/opencode/skills
+```
+
+Copy each skill folder there using the `name` field in `SKILL.md` as the
+destination folder name.
+
+Examples:
+
+```text
+skills/ibm-i/code-generator/ -> ~/.config/opencode/skills/ibm-i-code-generator/
+skills/legacy-spec-factory/legacy-spec-writer/ -> ~/.config/opencode/skills/legacy-spec-writer/
+```
+
+For detailed manual-copy steps and IBM i folder mapping, read
+[manual-copy-opencode.md](manual-copy-opencode.md).
+
+### Start Using Skills
+
+1. Pick the right starting skill:
 
    - Not sure which skill to use: read [skill-selection-guide.md](skill-selection-guide.md).
    - IBM i forward delivery work: start with `ibm-i-workflow-orchestrator`.
    - Legacy reverse-modernization work: start with `legacy-modernization-orchestrator`.
 
-4. Ask OpenCode directly with the skill name and your artifact.
+2. Ask OpenCode directly with the skill name and your artifact.
 
 ## Recommended First Prompts
 
