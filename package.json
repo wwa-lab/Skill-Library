@@ -1,0 +1,12 @@
+{
+  "name": "internal-opencode-skills-library",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "validate": "node scripts/validate-skills.mjs",
+    "install": "node scripts/install-opencode-skills.mjs",
+    "install:dry-run": "node scripts/install-opencode-skills.mjs --dry-run --include-examples"
+  }
+}
+

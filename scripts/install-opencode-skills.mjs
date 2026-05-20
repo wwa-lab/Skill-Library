@@ -1,0 +1,273 @@
+#!/usr/bin/env node
+
+import fs from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
+import process from "node:process";
+
+const rootDir = process.cwd();
+const skillsDir = path.join(rootDir, "skills");
+const markerFileName = ".skill-library-source.json";
+const managedBy = "Skill-Library";
+const defaultDest = path.join(os.homedir(), ".config", "opencode", "skills");
+
+function printHelp() {
+  console.log(`Usage: node scripts/install-opencode-skills.mjs [options]
+
+Options:
+  --domain <name>       Install one domain. Can be repeated.
+  --dest <path>         Install destination. Defaults to ~/.config/opencode/skills.
+  --include-examples    Include skill directories that start with "_".
+  --dry-run             Print planned actions without writing files.
+  --force               Overwrite existing destination folders without this repository's marker.
+  --help                Show this help.
+`);
+}
+
+function expandHome(targetPath) {
+  if (targetPath === "~") {
+    return os.homedir();
+  }
+
+  if (targetPath.startsWith("~/")) {
+    return path.join(os.homedir(), targetPath.slice(2));
+  }
+
+  return path.resolve(targetPath);
+}
+
+function parseArgs(argv) {
+  const options = {
+    domains: [],
+    dest: defaultDest,
+    includeExamples: false,
+    dryRun: false,
+    force: false,
+    help: false,
+  };
+
+  for (let index = 0; index < argv.length; index += 1) {
+    const arg = argv[index];
+
+    if (arg === "--domain") {
+      const value = argv[index + 1];
+      if (!value) {
+        throw new Error("--domain requires a value");
+      }
+      options.domains.push(value);
+      index += 1;
+    } else if (arg === "--dest") {
+      const value = argv[index + 1];
+      if (!value) {
+        throw new Error("--dest requires a value");
+      }
+      options.dest = expandHome(value);
+      index += 1;
+    } else if (arg === "--include-examples") {
+      options.includeExamples = true;
+    } else if (arg === "--dry-run") {
+      options.dryRun = true;
+    } else if (arg === "--force") {
+      options.force = true;
+    } else if (arg === "--help" || arg === "-h") {
+      options.help = true;
+    } else {
+      throw new Error(`Unknown option: ${arg}`);
+    }
+  }
+
+  return options;
+}
+
+function parseFrontmatter(content) {
+  if (!content.startsWith("---\n")) {
+    return null;
+  }
+
+  const end = content.indexOf("\n---", 4);
+  if (end === -1) {
+    return null;
+  }
+
+  const block = content.slice(4, end).trimEnd();
+  const data = {};
+  const lines = block.split(/\r?\n/);
+
+  for (let index = 0; index < lines.length; index += 1) {
+    const line = lines[index];
+    const match = line.match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
+    if (!match) {
+      continue;
+    }
+
+    const [, key, rawValue] = match;
+    const value = rawValue.trim();
+
+    if (value === ">" || value === "|") {
+      const blockLines = [];
+
+      while (index + 1 < lines.length && /^\s+/.test(lines[index + 1])) {
+        index += 1;
+        blockLines.push(lines[index].trim());
+      }
+
+      data[key] = value === ">" ? blockLines.join(" ").trim() : blockLines.join("\n").trim();
+    } else {
+      data[key] = value.replace(/^['"]|['"]$/g, "").trim();
+    }
+  }
+
+  return data;
+}
+
+async function pathExists(targetPath) {
+  try {
+    await fs.access(targetPath);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function listDirectories(targetPath) {
+  if (!(await pathExists(targetPath))) {
+    return [];
+  }
+
+  const entries = await fs.readdir(targetPath, { withFileTypes: true });
+  return entries
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name)
+    .sort();
+}
+
+async function discoverSkills(options) {
+  const selectedDomains = new Set(options.domains);
+  const domains = await listDirectories(skillsDir);
+  const skills = [];
+
+  for (const domain of domains) {
+    if (selectedDomains.size > 0 && !selectedDomains.has(domain)) {
+      continue;
+    }
+
+    const domainPath = path.join(skillsDir, domain);
+    const skillDirs = await listDirectories(domainPath);
+
+    for (const skillDir of skillDirs) {
+      if (skillDir.startsWith("_") && !options.includeExamples) {
+        continue;
+      }
+
+      const sourcePath = path.join(domainPath, skillDir);
+      const skillFile = path.join(sourcePath, "SKILL.md");
+
+      if (!(await pathExists(skillFile))) {
+        continue;
+      }
+
+      const frontmatter = parseFrontmatter(await fs.readFile(skillFile, "utf8"));
+      if (!frontmatter?.name) {
+        throw new Error(`${path.relative(rootDir, skillFile)} is missing frontmatter name`);
+      }
+
+      skills.push({
+        domain,
+        skillDir,
+        sourcePath,
+        skillFile,
+        installedName: frontmatter.name,
+      });
+    }
+  }
+
+  return skills;
+}
+
+async function readMarker(targetPath) {
+  const markerPath = path.join(targetPath, markerFileName);
+
+  try {
+    return JSON.parse(await fs.readFile(markerPath, "utf8"));
+  } catch {
+    return null;
+  }
+}
+
+async function canOverwrite(targetPath, options) {
+  if (!(await pathExists(targetPath))) {
+    return true;
+  }
+
+  if (options.force) {
+    return true;
+  }
+
+  const marker = await readMarker(targetPath);
+  return marker?.managedBy === managedBy;
+}
+
+async function installSkill(skill, options) {
+  const destinationPath = path.join(options.dest, skill.installedName);
+  const relativeSource = path.relative(rootDir, skill.sourcePath);
+
+  if (options.dryRun) {
+    console.log(`[dry-run] ${relativeSource} -> ${destinationPath}`);
+    return;
+  }
+
+  if (!(await canOverwrite(destinationPath, options))) {
+    throw new Error(
+      `Refusing to overwrite ${destinationPath} because it does not have ${markerFileName}. Use --force if this is intentional.`,
+    );
+  }
+
+  await fs.mkdir(options.dest, { recursive: true });
+  await fs.rm(destinationPath, { recursive: true, force: true });
+  await fs.cp(skill.sourcePath, destinationPath, {
+    recursive: true,
+    filter: (source) => path.basename(source) !== markerFileName,
+  });
+
+  const marker = {
+    managedBy,
+    installedName: skill.installedName,
+    sourcePath: relativeSource,
+    installedAt: new Date().toISOString(),
+  };
+
+  await fs.writeFile(
+    path.join(destinationPath, markerFileName),
+    `${JSON.stringify(marker, null, 2)}\n`,
+    "utf8",
+  );
+
+  console.log(`Installed ${skill.installedName}`);
+}
+
+async function main() {
+  const options = parseArgs(process.argv.slice(2));
+
+  if (options.help) {
+    printHelp();
+    return;
+  }
+
+  const skills = await discoverSkills(options);
+
+  if (skills.length === 0) {
+    console.log("No skills selected for installation.");
+    return;
+  }
+
+  for (const skill of skills) {
+    await installSkill(skill, options);
+  }
+
+  console.log(`${options.dryRun ? "Planned" : "Installed"} ${skills.length} skill${skills.length === 1 ? "" : "s"}.`);
+}
+
+main().catch((error) => {
+  console.error(error.message ?? error);
+  process.exit(1);
+});
