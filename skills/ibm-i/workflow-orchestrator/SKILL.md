@@ -12,7 +12,7 @@ description: >
   sequences work; it does not replace the generation or review skills themselves.
 license: Apache-2.0
 metadata:
-  author: wwa-lab
+  author: Leo L Zhang
   maintainer: platform-engineering
   source: https://github.com/wwa-lab/build-agent-skill
   source_commit: 479a427

@@ -12,7 +12,7 @@ description: >
   changes. Does not execute tests, generate code, write specs, or produce QA/UAT/SIT plans.
 license: Apache-2.0
 metadata:
-  author: wwa-lab
+  author: Leo L Zhang
   maintainer: platform-engineering
   source: https://github.com/wwa-lab/build-agent-skill
   source_commit: 479a427

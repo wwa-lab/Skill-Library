@@ -15,7 +15,7 @@ description: >
   review skill — it does not generate, rewrite, or replace specifications.
 license: Apache-2.0
 metadata:
-  author: wwa-lab
+  author: Leo L Zhang
   maintainer: platform-engineering
   source: https://github.com/wwa-lab/build-agent-skill
   source_commit: 479a427

@@ -42,7 +42,7 @@ description: >
   Use this skill whenever a user provides an IBM i Program Spec and asks to implement it.
 license: Apache-2.0
 metadata:
-  author: wwa-lab
+  author: Leo L Zhang
   maintainer: platform-engineering
   source: https://github.com/wwa-lab/build-agent-skill
   source_commit: 479a427
