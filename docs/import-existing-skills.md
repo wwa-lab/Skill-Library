@@ -69,6 +69,19 @@ node scripts/install-opencode-skills.mjs \
 
 If the imported skills include harnesses, run dry-run or list modes when available before executing model-backed tests.
 
+## Using Placeholders
+
+For internal pilot skills that are known but not ready to import, create the final target directory with a `README.md` only. Do not add `SKILL.md` until the real skill content is ready.
+
+Example:
+
+```text
+skills/ibm-i/requirement-intake/README.md
+skills/ibm-i/ut-plan-to-xml/README.md
+```
+
+This reserves the destination path without making the installer publish an incomplete skill. When the internal skill is ready, copy in `SKILL.md`, add resources, remove any obsolete placeholder notes, and run validation.
+
 ## Commit Shape
 
 Prefer separate commits:

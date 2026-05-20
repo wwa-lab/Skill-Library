@@ -43,6 +43,15 @@ Any stage      -> Workflow Orchestrator
 | `ibm-i-code-reviewer` | `code-reviewer/` | Review RPGLE/CLLE source against Program Specs for correctness and enhancement safety. |
 | `ibm-i-workflow-orchestrator` | `workflow-orchestrator/` | Route work to the right skill, plan batch `task.md` runs, and execute approved batches. |
 
+## Pending Internal Pilot Imports
+
+These placeholders reserve final paths for internal pilot skills that are not in the public source repo yet. They intentionally do not contain `SKILL.md`, so validation and installation skip them until the internal skill content is copied in.
+
+| Future Skill | Placeholder Path | Notes |
+|--------------|------------------|-------|
+| `ibm-i-requirement-intake` | `requirement-intake/` | Internal legacy name: `as400-requirment-intake`; use corrected spelling and IBM i namespace on import. |
+| `ibm-i-ut-plan-to-xml` | `ut-plan-to-xml/` | Converts IBM i UT Plan artifacts into XML once internal pilot content is imported. |
+
 ## Design Principles
 
 - Layer boundary discipline: each skill stays in its document or artifact layer.
