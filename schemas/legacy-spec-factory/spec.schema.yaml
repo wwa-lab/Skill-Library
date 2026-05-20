@@ -1,0 +1,163 @@
+# Legacy Spec Factory canonical spec schema guide.
+# This is a human-readable YAML schema contract, not a JSON Schema validator.
+# Do not feed this file to JSON Schema / AJV validators.
+
+schema_version: "0.1"
+required_top_level_fields:
+  - schema_version
+  - spec_id
+  - capability
+  - status
+  - source_system
+  - target_platform
+  - business_goal
+  - scope
+  - evidence
+  - observed_behaviors
+  - business_rules
+  - modernization_decisions
+  - data_model
+  - process_flow
+  - inputs
+  - outputs
+  - exceptions
+  - acceptance_criteria
+  - open_questions
+  - traceability
+optional_top_level_fields:
+  - tests
+
+spec:
+  schema_version: "schema version this spec instance is written against, e.g. \"0.1\""
+  spec_id: "string, required, see docs/id-conventions.md"
+  capability:
+    id: "CAP-<SLUG>-<NNN>"
+    name: "business capability name"
+    slug: "CAPABILITY-SLUG"
+    owner: "person or team"
+  status: "draft | in_review | approved | retired"
+  source_system:
+    name: "IBM i / AS400 system name"
+    libraries:
+      - "library name"
+    collection_date: "YYYY-MM-DD"
+  target_platform:
+    architecture: "Java/cloud target description"
+    service_hint: "optional target service/module"
+  business_goal: "business outcome the target capability must support"
+  scope:
+    in_scope:
+      - "included behavior or artifact"
+    out_of_scope:
+      - "excluded behavior or artifact"
+  evidence:
+    - id: "EV-<SLUG>-<NNN>"
+      source_type: "rpgle | clle | cobol | dds_pf | dds_lf | dds_dspf | dds_prtf | db2 | job_log | spool | screen | report | sme_note | sample_transaction"
+      location: "file/member/path/object/location"
+      excerpt_ref: "optional pointer, never paste sensitive raw data unless approved"
+      evidence_strength: "confirmed_from_code | observed_in_runtime | confirmed_by_sme | strongly_inferred | weakly_inferred | needs_sme_review | contradictory | missing"
+      summary: "short evidence summary"
+      sensitive: "yes | no | unknown"
+  observed_behaviors:
+    - id: "BEH-<SLUG>-<NNN>"
+      knowledge_type: "observed_behavior"
+      statement: "what the legacy system does"
+      evidence_ids:
+        - "EV-<SLUG>-<NNN>"
+      confidence: "high | medium | low"
+      review_status: "draft | needs_sme_review | auto_validated_spot_check_only | approved | rejected | retired"
+  business_rules:
+    - id: "BR-<SLUG>-<NNN>"
+      knowledge_type: "inferred_business_rule"
+      rule: "business rule statement"
+      evidence_ids:
+        - "EV-<SLUG>-<NNN>"
+      confidence: "high | medium | low"
+      review_status: "draft | needs_sme_review | auto_validated_spot_check_only | approved | rejected | retired"
+      # auto_validated_spot_check_only is set by legacy-ibmi-runtime-evidence-miner
+      # when ≥ N runtime samples corroborate the rule; SME spot-checks the
+      # bucket instead of confirming each entry. See
+      # skills/legacy-ibmi-runtime-evidence-miner/references/rule-auto-validation-protocol.md
+      auto_validation:
+        matched_records: 0
+        runtime_evidence_ids:
+          - "EV-RUN-<NNN>"
+        validated_at: "YYYY-MM-DD"
+        validated_by: "legacy-ibmi-runtime-evidence-miner"
+        protocol_version: 1
+      linked_behaviors:
+        - "BEH-<SLUG>-<NNN>"
+  modernization_decisions:
+    - id: "DEC-<SLUG>-<NNN>"
+      knowledge_type: "modernization_decision"
+      decision: "target-system decision"
+      rationale: "why the new system should work this way"
+      evidence_ids:
+        - "EV-<SLUG>-<NNN>"
+      impact: "implementation and testing impact"
+      review_status: "draft | needs_sme_review | approved | rejected | retired"
+  data_model:
+    entities:
+      - name: "target entity name"
+        legacy_sources:
+          - "OBJ-<SLUG>-<NNN>"
+        fields:
+          - name: "field name"
+            legacy_field: "legacy field name"
+            type: "target type"
+            evidence_ids:
+              - "EV-<SLUG>-<NNN>"
+            evidence_strength: "confirmed_from_code | observed_in_runtime | confirmed_by_sme | strongly_inferred | weakly_inferred | needs_sme_review | contradictory | missing"
+            review_status: "draft | needs_sme_review | approved | rejected | retired"
+  process_flow:
+    steps:
+      - id: "STEP-<SLUG>-<NNN>"
+        description: "process step"
+        evidence_ids:
+          - "EV-<SLUG>-<NNN>"
+  inputs:
+    - id: "IN-<SLUG>-<NNN>"
+      name: "input name"
+      source: "api | screen | batch | file | integration | manual"
+      required: "yes | no | conditional"
+      validation: "input validation rule"
+      evidence_ids:
+        - "EV-<SLUG>-<NNN>"
+  outputs:
+    - id: "OUT-<SLUG>-<NNN>"
+      name: "output name"
+      target: "api_response | event | database | report | spool | file | integration"
+      description: "output behavior"
+      evidence_ids:
+        - "EV-<SLUG>-<NNN>"
+  exceptions:
+    - id: "EX-<SLUG>-<NNN>"
+      condition: "exception or error condition"
+      expected_behavior: "required handling"
+      severity: "info | warning | error | blocking"
+      evidence_ids:
+        - "EV-<SLUG>-<NNN>"
+  acceptance_criteria:
+    - id: "AC-<SLUG>-<NNN>"
+      format: "gherkin | checklist"
+      text: "acceptance criterion"
+      validates:
+        - "BR-<SLUG>-<NNN>"
+  tests:
+    - id: "TC-<SLUG>-<NNN>"
+      type: "golden_master | unit | integration | acceptance"
+      validates:
+        - "BR-<SLUG>-<NNN>"
+      sample_data_ref: "path or evidence ID"
+  open_questions:
+    - id: "TBD-<SLUG>-<NNN>"
+      question: "unresolved issue"
+      blocking: "yes | no | pending_sme_judgment"
+      related_ids:
+        - "EV-<SLUG>-<NNN>"
+  traceability:
+    - from_id: "BR-<SLUG>-<NNN>"
+      to_ids:
+        - "EV-<SLUG>-<NNN>"
+        - "AC-<SLUG>-<NNN>"
+        - "TC-<SLUG>-<NNN>"

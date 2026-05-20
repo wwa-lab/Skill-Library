@@ -1,0 +1,164 @@
+# Blocked draft manifest. This example intentionally contains
+# `sensitivity: unknown`, a missing redacted file, and missing redaction owner
+# information to demonstrate a hard stop. Do not use it as approved downstream
+# evidence.
+
+package_state: "blocked"
+
+capability:
+  name: "Inventory Reorder Review"
+  slug: "INVENTORY-SYSTEM"
+  description: "Partial capability export for reorder-report analysis"
+  source_system: "IBM i library INVSYS"
+  collection_date: "2026-05-15"
+  collection_context: "Partial capability export for reorder-report analysis"
+
+redaction:
+  owner: null
+  owner_title: null
+  owner_email: null
+  redaction_date: null
+  approval_date: null
+
+sme_review:
+  owner: "Inventory Operations SME"
+  owner_title: "Operations Lead"
+  owner_email: "inventory-sme@example.invalid"
+  review_date: "2026-05-16"
+  approval_status: "blocked"
+  approval_notes: "Evidence package is blocked because one transaction sample has unknown sensitivity and report evidence is missing."
+
+intake_decision:
+  status: "blocked"
+  downstream_inventory_allowed: false
+  decision_notes: "Unknown sensitivity and missing required evidence block inventory."
+
+evidence_items:
+  - evidence_id: "EV-INVENTORY-SYSTEM-001"
+    type: "source_member"
+    subtype: "rpgle"
+    source_location:
+      library: "INVSYS"
+      source_file: "QRPGLESRC"
+      member_name: "INVREORD"
+      object_name: "INVREORD"
+      object_type: "PGM"
+      last_modified: null
+    original_filename: "INVREORD.RPGLE"
+    redacted_filename: "01_sources/EV-INVENTORY-SYSTEM-001-INVREORD.RPGLE"
+    size_bytes: null
+    description: "Inventory reorder calculation program"
+    sensitivity: "internal"
+    sensitive_content: []
+    redaction_status: "reviewed"
+    redaction_notes: "Source member was reviewed as source-only evidence."
+    sme_approval: true
+    reviewed_by: "Inventory Operations SME"
+    review_date: "2026-05-16"
+    tags:
+      - "source-of-truth"
+    review_status: "approved"
+
+  - evidence_id: "EV-INVENTORY-SYSTEM-002"
+    type: "source_member"
+    subtype: "dds"
+    source_location:
+      library: "INVSYS"
+      source_file: "QDDSSRC"
+      member_name: "INVMAST"
+      object_name: "INVMAST"
+      object_type: "FILE"
+      last_modified: null
+    original_filename: "INVMAST.DDS"
+    redacted_filename: "02_metadata/EV-INVENTORY-SYSTEM-002-INVMAST.DDS"
+    size_bytes: null
+    description: "Inventory master file DDS metadata"
+    sensitivity: "internal"
+    sensitive_content: []
+    redaction_status: "reviewed"
+    redaction_notes: "DDS metadata only; no production values included."
+    sme_approval: true
+    reviewed_by: "Inventory Operations SME"
+    review_date: "2026-05-16"
+    tags:
+      - "data-model"
+    review_status: "approved"
+
+  - evidence_id: "EV-INVENTORY-SYSTEM-003"
+    type: "transaction_sample"
+    subtype: "csv"
+    source_location:
+      transaction_type: "INVTRN"
+      source_file: "INVTRN"
+      library: "INVSYS"
+      sample_date: "2026-05-15"
+      sample_count: 25
+      sampling_notes: "Raw sample inventory only; content not inspected by agent."
+    original_filename: "inventory-transactions-sample.csv"
+    redacted_filename: null
+    size_bytes: null
+    description: "Inventory transaction sample awaiting sensitivity classification"
+    sensitivity: "unknown"
+    sensitive_content: []
+    redaction_status: "pending"
+    redaction_notes: "Sensitivity unknown; redaction owner has not reviewed the transaction sample."
+    sme_approval: false
+    reviewed_by: null
+    review_date: null
+    tags:
+      - "blocked"
+      - "transaction-sample"
+    review_status: "rejected"
+
+unresolved_items:
+  - tbd_id: "TBD-INVENTORY-SYSTEM-001"
+    category: "evidence_gaps"
+    points_to:
+      - "DSPF source"
+    finding: "DSPF source missing."
+    resolver: "source_owner"
+    blocks_inventory: true
+    blocks_later_analysis: true
+    next_step: "Collect display file source or document SME waiver."
+    status: "open"
+  - tbd_id: "TBD-INVENTORY-SYSTEM-002"
+    category: "evidence_gaps"
+    points_to:
+      - "spool report sample"
+    finding: "Spool report sample missing."
+    resolver: "sme"
+    blocks_inventory: true
+    blocks_later_analysis: true
+    next_step: "Collect representative redacted spool sample."
+    status: "open"
+  - tbd_id: "TBD-INVENTORY-SYSTEM-003"
+    category: "sme_questions"
+    points_to:
+      - "EV-INVENTORY-SYSTEM-003"
+    finding: "Transaction sample sensitivity unknown."
+    resolver: "redaction_owner"
+    blocks_inventory: true
+    blocks_later_analysis: true
+    next_step: "Assign redaction owner to classify and approve the sample."
+    status: "open"
+
+summary:
+  total_items: 3
+  items_by_type:
+    source_member: 2
+    transaction_sample: 1
+  items_by_review_status:
+    approved: 2
+    in_review: 0
+    rejected: 1
+    draft: 0
+  items_by_redaction_status:
+    reviewed: 2
+    pending: 1
+    approved: 0
+    not_required: 0
+    failed: 0
+  next_steps:
+    - "Assign redaction owner for EV-INVENTORY-SYSTEM-003."
+    - "Collect DSPF and spool report evidence."
+    - "Repeat evidence-intake review before running legacy-ibmi-inventory."

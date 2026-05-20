@@ -1,0 +1,10 @@
+Customer Service Menu
+---------------------
+
+  1. Account Update
+  2. Address Change
+  3. Statement Reprint
+  4. Payment Inquiry
+  5. Customer Inquiry
+
+User selects option 5 to launch program CUSTINQ.

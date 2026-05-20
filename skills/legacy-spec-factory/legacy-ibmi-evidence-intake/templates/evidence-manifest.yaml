@@ -1,0 +1,328 @@
+# Evidence Manifest
+#
+# Structured registry of all collected, redacted, and reviewed evidence for one
+# business capability. This manifest is the evidence traceability source of
+# truth throughout the modernization pipeline.
+#
+# Replace example values with actual data. Do not include raw sensitive values.
+
+package_state: "approved_for_inventory"
+intake_mode: "internal_source_review" # internal_source_review | governed_redaction
+
+capability:
+  name: "Customer Credit Check"
+  slug: "CREDIT-CHECK"
+  description: "Decision engine that validates customer credit and approves or denies credit requests"
+  source_system: "IBM i AS400, Library CRDSYS"
+  collection_date: "2026-05-15"
+  collection_context: "Production environment, air-gapped finance network"
+
+redaction:
+  owner: "Jane Smith"
+  owner_title: "Data Privacy Officer"
+  owner_email: "jane.smith@company.com"
+  redaction_date: "2026-05-15"
+  approval_date: "2026-05-16"
+
+intake_review:
+  owner: "Leo Developer"
+  owner_title: "Developer / Intake Reviewer"
+  owner_email: "leo.developer@company.com"
+  review_date: "2026-05-16"
+  approval_status: "approved_with_non_blocking_tbd"
+  approval_notes: "Source paths were supplied by the project team inside the isolated company environment; inventory may proceed before SME assignment."
+
+sme_review:
+  required: false
+  owner: null
+  owner_title: null
+  owner_email: null
+  review_date: null
+  approval_status: "not_required"
+  approval_notes: "SME review is deferred until business-rule validation; not required for Step 0 source intake."
+
+intake_decision:
+  status: "pass_with_warnings"
+  downstream_inventory_allowed: true
+  decision_notes: "Inventory may proceed; one non-blocking screen gap is carried forward."
+
+evidence_items:
+  # RPGLE source member
+  - evidence_id: "EV-CREDIT-CHECK-001"
+    type: "source_member"
+    subtype: "rpgle"
+    source_location:
+      library: "CRDSYS"
+      source_file: "QRPGLESRC"
+      member_name: "CUSTPGM"
+      object_name: "CUSTPGM"
+      object_type: "PGM"
+      last_modified: "2025-06-10"
+    original_filename: "CUSTPGM.RPGLE"
+    redacted_filename: "source/CUSTPGM.RPGLE"
+    source_path_verified: true
+    redaction_required: false
+    size_bytes: 45620
+    description: "Main customer credit validation program"
+    sensitivity: "confidential"
+    sensitive_content:
+      - "customer account numbers"
+      - "credit limits"
+      - "algorithm parameters"
+    redaction_status: "reviewed"
+    approval_basis: "developer_review"
+    redaction_notes: |
+      - Customer account numbers (CUSTNO) replaced with stable fake IDs.
+      - Credit limits masked while preserving numeric scale.
+      - Approval logic preserved (IF/THEN branches intact).
+      - Field types and lengths preserved.
+      - Spot-check: verified calculation logic still valid.
+    sme_required: false
+    sme_approval: false
+    reviewed_by: "Leo Developer"
+    review_date: "2026-05-16"
+    tags:
+      - "critical"
+      - "source-of-truth"
+      - "entry-point"
+    review_status: "approved"
+
+  # CLLE command procedure
+  - evidence_id: "EV-CREDIT-CHECK-002"
+    type: "source_member"
+    subtype: "clle"
+    source_location:
+      library: "CRDSYS"
+      source_file: "QCLLESRC"
+      member_name: "CUSTMENU"
+      object_name: "CUSTMENU"
+      object_type: "PGM"
+      last_modified: "2025-06-08"
+    original_filename: "CUSTMENU.CLLE"
+    redacted_filename: "source/CUSTMENU.CLLE"
+    source_path_verified: true
+    redaction_required: false
+    size_bytes: 12340
+    description: "Menu driver and job routing for customer credit module"
+    sensitivity: "internal"
+    sensitive_content: []
+    redaction_status: "not_required"
+    approval_basis: "source_path_provided"
+    redaction_notes: "No PII or financial data; approved as-is."
+    sme_required: false
+    sme_approval: false
+    reviewed_by: "Leo Developer"
+    review_date: "2026-05-16"
+    tags:
+      - "entry-point"
+      - "control-flow"
+    review_status: "approved"
+
+  # Display file source
+  - evidence_id: "EV-CREDIT-CHECK-003"
+    type: "source_member"
+    subtype: "dds"
+    source_location:
+      library: "CRDSYS"
+      source_file: "QDDSSRC"
+      member_name: "CUSTSCN01"
+      object_name: "CUSTSCN01"
+      object_type: "DSPF"
+      last_modified: "2025-04-20"
+    original_filename: "CUSTSCN01.DSPF"
+    redacted_filename: "source/CUSTSCN01.DSPF"
+    source_path_verified: true
+    redaction_required: false
+    size_bytes: 8900
+    description: "Customer inquiry screen display file"
+    sensitivity: "internal"
+    sensitive_content: []
+    redaction_status: "not_required"
+    approval_basis: "source_path_provided"
+    redaction_notes: "Screen field definitions only; no data included."
+    sme_required: false
+    sme_approval: false
+    reviewed_by: "Leo Developer"
+    review_date: "2026-05-16"
+    tags:
+      - "ui"
+      - "field-definitions"
+    review_status: "approved"
+
+  # Database physical file metadata
+  - evidence_id: "EV-CREDIT-CHECK-010"
+    type: "db_metadata"
+    subtype: "db2_field_description"
+    source_location:
+      library: "CRDSYS"
+      object_name: "CUSTMAST"
+      object_type: "FILE"
+      collection_method: "DSPFFD"
+      collection_date: "2026-05-15"
+    original_filename: "CUSTMAST-metadata.txt"
+    redacted_filename: "02_metadata/EV-CREDIT-CHECK-010-CUSTMAST-FD.txt"
+    source_path_verified: true
+    redaction_required: false
+    size_bytes: 5600
+    description: "DB2 customer master table field descriptions"
+    sensitivity: "internal"
+    sensitive_content: []
+    redaction_status: "not_required"
+    approval_basis: "source_path_provided"
+    redaction_notes: "Metadata only; no data values included."
+    sme_required: false
+    sme_approval: false
+    reviewed_by: "Leo Developer"
+    review_date: "2026-05-16"
+    tags:
+      - "data-model"
+      - "table-structure"
+    review_status: "approved"
+
+  # Job log
+  - evidence_id: "EV-CREDIT-CHECK-020"
+    type: "job_log"
+    subtype: "job_log"
+    source_location:
+      job_name: "CRDBATCH"
+      job_user: null
+      job_number: null
+      job_queue: "BATCHQ"
+      library: "CRDSYS"
+      collection_date: "2026-05-14"
+      collection_time: "23:45:00"
+    original_filename: "CRDBATCH-joblog-20260514.txt"
+    redacted_filename: "03_logs/EV-CREDIT-CHECK-020-JOBLOG.txt"
+    source_path_verified: false
+    redaction_required: true
+    size_bytes: 125000
+    description: "Job log from overnight credit batch run"
+    sensitivity: "confidential"
+    sensitive_content:
+      - "customer transaction IDs"
+      - "account numbers"
+    redaction_status: "approved"
+    approval_basis: "redaction_owner_review"
+    redaction_notes: |
+      - Transaction IDs replaced with stable fake IDs.
+      - Summary counts preserved.
+      - Timestamps and durations preserved.
+      - Error messages kept because they are business-critical operational evidence.
+      - Spot-check: verified log timestamps match source code expectations.
+    sme_required: true
+    sme_approval: true
+    reviewed_by: "Bob Johnson"
+    review_date: "2026-05-16"
+    tags:
+      - "runtime-evidence"
+      - "batch-execution"
+    review_status: "approved"
+
+  # Screen sample / screenshot
+  - evidence_id: "EV-CREDIT-CHECK-030"
+    type: "screen_sample"
+    subtype: "screenshot"
+    source_location:
+      screen_name: "CUSTINQ"
+      display_file: "CUSTSCN01"
+      library: "CRDSYS"
+      collection_date: "2026-05-14"
+      collection_method: "screenshot from DSPMNU CRDSYS/CUSTMENU"
+    original_filename: "CUSTINQ-screen-sample.png"
+    redacted_filename: "04_samples/EV-CREDIT-CHECK-030-CUSTINQ.png"
+    source_path_verified: false
+    redaction_required: true
+    size_bytes: 45000
+    description: "Customer inquiry screen with test data sample"
+    sensitivity: "confidential"
+    sensitive_content:
+      - "test account numbers"
+      - "test credit limits"
+    redaction_status: "approved"
+    approval_basis: "redaction_owner_review"
+    redaction_notes: |
+      - Account number field contains synthetic test value only.
+      - Credit limit field contains synthetic test value only.
+      - Field layout and flow visible for analysis.
+    sme_required: true
+    sme_approval: true
+    reviewed_by: "Bob Johnson"
+    review_date: "2026-05-16"
+    tags:
+      - "user-interface"
+      - "field-layout"
+    review_status: "approved"
+
+  # Transaction sample
+  - evidence_id: "EV-CREDIT-CHECK-040"
+    type: "transaction_sample"
+    subtype: "csv"
+    source_location:
+      transaction_type: "CREDRQ"
+      source_file: "CREDRQ sample export"
+      library: "CRDSYS"
+      sample_date: "2026-05-14"
+      sample_count: 10
+      sampling_notes: "Representative redacted sample selected by operations SME"
+    original_filename: "credit-requests-20260514-sample.csv"
+    redacted_filename: "04_samples/EV-CREDIT-CHECK-040-CREDRQ-SAMPLE.csv"
+    source_path_verified: false
+    redaction_required: true
+    size_bytes: 3200
+    description: "10 representative credit request transactions with outcomes"
+    sensitivity: "confidential"
+    sensitive_content:
+      - "customer IDs"
+      - "request amounts"
+      - "approval decisions"
+    redaction_status: "approved"
+    approval_basis: "redaction_owner_review"
+    redaction_notes: |
+      - Customer IDs replaced with stable fake IDs.
+      - Amount scale and range preserved to show business logic.
+      - Approval codes preserved (A, D, P).
+      - Transaction flow and decision timing visible.
+    sme_required: true
+    sme_approval: true
+    reviewed_by: "Bob Johnson"
+    review_date: "2026-05-16"
+    tags:
+      - "test-data"
+      - "business-logic-validation"
+    review_status: "approved"
+
+unresolved_items:
+  - tbd_id: "TBD-CREDIT-CHECK-001"
+    category: "evidence_gaps"
+    points_to:
+      - "CUSTSCN02"
+    finding: "Secondary approval screen source not yet collected."
+    resolver: "source_owner"
+    blocks_inventory: false
+    blocks_later_analysis: true
+    next_step: "Collect CUSTSCN02 DSPF before complete flow analysis."
+    status: "open"
+
+summary:
+  total_items: 7
+  items_by_type:
+    source_member: 3
+    db_metadata: 1
+    job_log: 1
+    screen_sample: 1
+    transaction_sample: 1
+  items_by_review_status:
+    approved: 7
+    in_review: 0
+    rejected: 0
+    draft: 0
+  items_by_redaction_status:
+    approved: 3
+    not_required: 3
+    reviewed: 1
+    pending: 0
+    failed: 0
+  next_steps:
+    - "Proceed to legacy-ibmi-inventory with approved evidence set."
+    - "Collect CUSTSCN02 DSPF before complete flow analysis."
+    - "Reference evidence IDs in all downstream analyses."

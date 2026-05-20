@@ -1,0 +1,7 @@
+     A          R CUSTMSTR
+     A            CUSTNO         9P 0
+     A            CUSTNAME      30A
+     A            STATUS         1A
+     A            CRDLMT         9P 2
+     A            USEDAMT        9P 2
+     A          K CUSTNO

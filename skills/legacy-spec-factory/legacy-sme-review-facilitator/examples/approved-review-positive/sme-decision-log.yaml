@@ -1,0 +1,66 @@
+review_id: "REVIEW-CREDIT-CHECK-001"
+review_date: "2026-05-16"
+artifact_under_review: "05_brds/CREDIT-CHECK/brd.md"
+capability_slug: "CREDIT-CHECK"
+
+sme_reviewer:
+  name: "Jane D. Miller"
+  role: "Accounts Payable Team Lead"
+  organization: "Finance Department"
+  date: "2026-05-16"
+
+decisions:
+  - item_id: "BEH-CREDIT-CHECK-006"
+    item_type: "behavior_claim"
+    question_posed: "Is blocking transactions over the credit limit intended business behavior?"
+    sme_answer: "Yes, that's correct. CREDCHK enforces the limit strictly."
+    decision_outcome: "confirmed"
+    referenced_evidence:
+      - "EV-CREDIT-CHECK-015"
+      - "EV-CREDIT-CHECK-008"
+    sign_off_flag: "JDM 2026-05-16"
+
+  - item_id: "BR-CREDIT-CHECK-003"
+    item_type: "inferred_rule"
+    question_posed: "Does this rule accurately reflect business intent?"
+    sme_answer: "Not quite. It's only compounded daily if balance exceeds $10k."
+    decision_outcome: "rejected"
+    referenced_evidence:
+      - "EV-CREDIT-CHECK-012"
+    suggested_revision: |
+      Interest is compounded daily only on balances greater than $10,000;
+      simple interest applies to balances of $10,000 or less.
+    sign_off_flag: "JDM 2026-05-16"
+
+  - item_id: "TBD-CREDIT-CHECK-002"
+    item_type: "tbd"
+    question_posed: "Should the legacy validation sequence be preserved exactly, and who can confirm the exact order?"
+    sme_answer: "The sequence is a business rule, not a bug. Ops needs to confirm the exact order."
+    decision_outcome: "deferred"
+    referenced_evidence:
+      - "EV-CREDIT-CHECK-018"
+    sign_off_flag: ""
+    escalation:
+      reason: "Operations must confirm the exact validation sequence."
+      owner: "Operations Manager"
+      target_date: "2026-05-23"
+      next_step: "Gather operations notes and update the decision log."
+
+escalations:
+  - item_id: "TBD-CREDIT-CHECK-002"
+    reason: "Operations must confirm the exact validation sequence."
+    owner: "Operations Manager"
+    target_date: "2026-05-23"
+    next_step: "Gather operations notes and update the decision log."
+
+signoff_summary: |
+  I, Jane D. Miller, confirm that the decisions recorded in this log accurately
+  reflect my judgment. I approve the confirmed outcomes for advancement to
+  legacy-spec-writer, with the deferred item routed to Operations.
+
+  Date: 2026-05-16
+  Signature / Initials: JDM
+
+session_notes: |
+  Review completed in one synchronous session. The deferred item is not approved
+  and must remain visible in follow-up findings.

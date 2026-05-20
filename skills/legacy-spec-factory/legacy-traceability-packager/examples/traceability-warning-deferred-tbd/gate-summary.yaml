@@ -1,0 +1,66 @@
+# Example-only compact summary for the pass_with_warnings outcome.
+# A real run writes the four package files; this gate-summary is illustrative
+# and is what an orchestrator would derive from traceability-package.yaml +
+# traceability-review.md.
+
+schema_version: "0.1"
+package_id: "PKG-RETURNS-001"
+package_date: "2026-05-16T16:45:00Z"
+packager: "legacy-traceability-packager v0.1.1"
+
+capability:
+  id: "CAP-RETURNS-001"
+  slug: "RETURNS"
+  owner:
+    name: "Aisha Khan"
+    role: "Returns Policy Owner"
+
+status: "pass_with_warnings"
+
+gate_results:
+  intake_resolved: pass
+  id_inventory_clean: pass
+  cross_reference_walk: pass
+  evidence_sensitivity: pass
+  business_rule_closure: pass
+  coverage_tables: pass
+  tbd_carry_forward: warning
+  package_assembly: pass
+
+findings:
+  blocking: []
+  warnings:
+    - find_id: "FIND-RETURNS-001"
+      rule: "BLOCKING-TBD-DEFERRED"
+      severity: "warning"
+      step: 7
+      tbd_id: "TBD-RETURNS-002"
+      tbd_resolver: "Aisha Khan"
+      tbd_planned_resolution_date: "2026-07-31"
+      deferral_recorded_in: "05_specs/RETURNS/spec-review.md#sme-decisions"
+      detail: "TBD has blocking: true and a named SME deferral with planned date. Carried forward verbatim into open_questions[]."
+      forbidden_action: "legacy-traceability-packager MUST NOT demote TBD-RETURNS-002.blocking from true to false."
+  info: []
+
+package_written: true
+files_written:
+  - "06_traceability_packages/RETURNS/traceability-package.yaml"
+  - "06_traceability_packages/RETURNS/traceability-package.md"
+  - "06_traceability_packages/RETURNS/coverage-audit.md"
+  - "06_traceability_packages/RETURNS/traceability-review.md"
+
+next_routing:
+  primary_next_skill: "legacy-brd-to-sdd-handoff"
+  rationale: "All blocking gates pass. One deferred blocking TBD is carried forward for Phase 2; downstream Atlas chain must track for 2026-07-31."
+  per_finding:
+    - find_id: "FIND-RETURNS-001"
+      responsible_skill: "legacy-spec-writer"
+      capability_owner: "Aisha Khan"
+      re_run_packager_after: true
+      target_resolution_date: "2026-07-31"
+
+sme_package_approver:
+  name: "Aisha Khan"
+  role: "Returns Policy Owner"
+  date: "2026-05-16"
+  notes: "Approved as pass_with_warnings. TBD-RETURNS-002 deferred to Phase 2; review status maintained per spec-review.md."

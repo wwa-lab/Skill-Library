@@ -1,0 +1,170 @@
+schema_version: "0.1"
+plan_id: "STEP-CREDIT-LIMIT-001"
+capability:
+  id: "CAP-CREDIT-LIMIT-001"
+  name: "Credit Limit Enforcement"
+  slug: "CREDIT-LIMIT"
+  owner: "Jane Smith (Credit Card Auth SME)"
+status: "approved"
+source_artifacts:
+  spec_yaml: "05_specs/CREDIT-LIMIT/spec.yaml"
+  spec_md: "05_specs/CREDIT-LIMIT/spec.md"
+  spec_review: "05_specs/CREDIT-LIMIT/spec-review.md"
+  brd: "05_brds/CREDIT-LIMIT/brd.md"
+evidence_safety:
+  redaction_log: "07_runtime-evidence/redaction-log-2025-05-01.md"
+  evidence_manifest: "07_runtime-evidence/evidence-manifest.yaml"
+  all_samples_redacted: true
+  any_sensitivity_unknown: false
+coverage_policy:
+  business_critical_rules_require_tc: true
+  expected_outputs_must_be_observed: true
+test_cases:
+  - id: "TC-CREDIT-LIMIT-001"
+    type: "golden_master"
+    title: "Valid order within credit limit"
+    priority: "P0"
+    review_status: "approved"
+    validates:
+      business_rules:
+        - "BR-CREDIT-LIMIT-001"
+      acceptance_criteria:
+        - "AC-CREDIT-LIMIT-001"
+    coverage_reason: "Happy path: typical customer order within available credit"
+    legacy_execution_path:
+      mode: "screen"
+      objects:
+        - "OBJ-CREDIT-LIMIT-001"
+      flow_ids:
+        - "FLOW-CREDIT-LIMIT-001"
+    preconditions:
+      - "Customer FAKE-CUST-001 exists in legacy DB"
+      - "Customer credit limit = $5,000"
+      - "Available balance = $3,500"
+    input_refs:
+      - evidence_id: "EV-CREDIT-LIMIT-001"
+        redacted_sample_ref: "07_runtime-evidence/sample-transactions/valid-order-001.json"
+        notes: "Order amount $2,000; customer has $3,500 available"
+    expected_output_refs:
+      - evidence_id: "EV-CREDIT-LIMIT-002"
+        artifact_ref: "07_runtime-evidence/auth-responses/valid-order-001-approved.txt"
+        assertion: "Legacy system approved with status=APPROVED, amount_approved=$2,000"
+    comparison:
+      mode: "exact"
+      normalization_rules: []
+      tolerances: []
+      ignored_fields: []
+    data_reset:
+      required: true
+      notes: "Reset customer available balance to $3,500 before each run"
+    sensitive_data_handling:
+      contains_masked_values: true
+      redaction_notes_ref: "EV-CREDIT-LIMIT-001"
+    reviewer_notes:
+      - "Capability owner confirmed this is typical happy path (2025-05-16)"
+
+  - id: "TC-CREDIT-LIMIT-002"
+    type: "golden_master"
+    title: "Order rejected: credit limit exceeded"
+    priority: "P0"
+    review_status: "approved"
+    validates:
+      business_rules:
+        - "BR-CREDIT-LIMIT-002"
+      acceptance_criteria:
+        - "AC-CREDIT-LIMIT-002"
+    coverage_reason: "Rejection path: order amount exceeds available credit"
+    legacy_execution_path:
+      mode: "screen"
+      objects:
+        - "OBJ-CREDIT-LIMIT-001"
+      flow_ids:
+        - "FLOW-CREDIT-LIMIT-001"
+    preconditions:
+      - "Customer FAKE-CUST-002 exists in legacy DB"
+      - "Customer credit limit = $5,000"
+      - "Available balance = $1,500"
+    input_refs:
+      - evidence_id: "EV-CREDIT-LIMIT-003"
+        redacted_sample_ref: "07_runtime-evidence/sample-transactions/rejected-order-001.json"
+        notes: "Order amount $3,000; customer has only $1,500 available"
+    expected_output_refs:
+      - evidence_id: "EV-CREDIT-LIMIT-004"
+        artifact_ref: "07_runtime-evidence/auth-responses/rejected-order-001-denied.txt"
+        assertion: "Legacy system rejected with status=CREDIT_LIMIT_EXCEEDED"
+    comparison:
+      mode: "presence"
+      normalization_rules: []
+      tolerances: []
+      ignored_fields: []
+    data_reset:
+      required: true
+      notes: "Reset customer available balance to $1,500 before each run"
+    sensitive_data_handling:
+      contains_masked_values: true
+      redaction_notes_ref: "EV-CREDIT-LIMIT-003"
+    reviewer_notes:
+      - "Capability owner confirmed rejection message (2025-05-16)"
+
+  - id: "TC-CREDIT-LIMIT-003"
+    type: "golden_master"
+    title: "Order at exact credit limit (boundary)"
+    priority: "P1"
+    review_status: "approved"
+    validates:
+      business_rules:
+        - "BR-CREDIT-LIMIT-001"
+      acceptance_criteria:
+        - "AC-CREDIT-LIMIT-003"
+    coverage_reason: "Boundary condition: order amount equals available credit"
+    legacy_execution_path:
+      mode: "screen"
+      objects:
+        - "OBJ-CREDIT-LIMIT-001"
+      flow_ids:
+        - "FLOW-CREDIT-LIMIT-001"
+    preconditions:
+      - "Customer FAKE-CUST-003 exists in legacy DB"
+      - "Available balance = $2,500"
+    input_refs:
+      - evidence_id: "EV-CREDIT-LIMIT-005"
+        redacted_sample_ref: "07_runtime-evidence/sample-transactions/boundary-order-001.json"
+        notes: "Order amount = $2,500 (equals available balance)"
+    expected_output_refs:
+      - evidence_id: "EV-CREDIT-LIMIT-006"
+        artifact_ref: "07_runtime-evidence/auth-responses/boundary-order-001-approved.txt"
+        assertion: "Legacy system approved with amount_approved=$2,500"
+    comparison:
+      mode: "exact"
+      normalization_rules: []
+      tolerances: []
+      ignored_fields: []
+    data_reset:
+      required: true
+      notes: "Reset customer available balance to $2,500 before each run"
+    sensitive_data_handling:
+      contains_masked_values: true
+      redaction_notes_ref: "EV-CREDIT-LIMIT-005"
+    reviewer_notes:
+      - "Boundary case confirmed by capability owner (2025-05-16)"
+
+coverage_summary:
+  covered_business_rules:
+    - "BR-CREDIT-LIMIT-001"
+    - "BR-CREDIT-LIMIT-002"
+  covered_acceptance_criteria:
+    - "AC-CREDIT-LIMIT-001"
+    - "AC-CREDIT-LIMIT-002"
+    - "AC-CREDIT-LIMIT-003"
+  deferred_items: []
+  blocking_gaps: []
+findings: []
+signoffs:
+  - role: "capability_owner_sme"
+    name: "Jane Smith"
+    date: "2025-05-16"
+    decision: "approved"
+    approved_ids:
+      - "TC-CREDIT-LIMIT-001"
+      - "TC-CREDIT-LIMIT-002"
+      - "TC-CREDIT-LIMIT-003"

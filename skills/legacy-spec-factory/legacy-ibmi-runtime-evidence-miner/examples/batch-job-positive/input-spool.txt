@@ -1,0 +1,17 @@
+                            CREDIT AUTHORIZATION REPORT
+                            Report Date: 05/15/2026
+
+CUSTOMER DATA                                          CREDIT DECISION
+-------- ----   --    -- -------- --- ---- ---- ---  -----------
+Cust ID  Name   Type Status Amount   Fee Int Risk Decision Code
+======== ===== ==== ===== ========= === ==== ==== ==== ========
+00000001 ACME  CLI  ACTV  1,500.00  15  12  LOW  APPR A001
+00000002 BETA  VAR  INAC    150.50  02  06  LOW  DENY D002
+00000003 GAMMA CLI  ACTV  5,000.00  50  10  HIGH APPR A003
+
+                                          Page Total:    6,650.50
+
+Report Grand Total:    6,650.50
+Report Date/Time: 05/15/2026 14:35:22
+
+End of Report

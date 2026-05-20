@@ -1,0 +1,147 @@
+# Canonical capability spec, written against schemas/spec.schema.yaml v0.1
+# Fill in fields per references/synthesis-rules.md. Every claim must trace
+# to an EV-* in `evidence[]`. Anti-hallucination rules: see
+# references/anti-hallucination.md and references/rule-extraction-protocol.md.
+
+schema_version: "0.1"
+
+spec_id: SPEC-<CAP-SLUG>-001
+
+capability:
+  id: CAP-<CAP-SLUG>-001
+  name: "<Capability Name>"
+  slug: <CAP-SLUG>
+  owner: "<Capability owner SME>"
+
+status: draft  # draft | in_review | approved | retired
+
+source_system:
+  name: "<IBM i system name / partition>"
+  libraries:
+    - "<library>"
+  collection_date: YYYY-MM-DD
+
+target_platform:
+  architecture: "<e.g., Java 21 + Spring Boot 3 + PostgreSQL>"
+  service_hint: "<e.g., card-auth-service>"
+
+business_goal: "<one-sentence outcome the target capability must support>"
+
+scope:
+  in_scope:
+    - "<behavior in scope>"
+  out_of_scope:
+    - "<behavior explicitly excluded>"
+
+evidence:
+  - id: EV-<CAP-SLUG>-001
+    source_type: rpgle  # rpgle | clle | cobol | dds_pf | dds_lf | dds_dspf | dds_prtf | db2 | job_log | spool | screen | report | sme_note | sample_transaction
+    location: "<file/member/path>"
+    excerpt_ref: ""  # never paste sensitive raw data
+    evidence_strength: confirmed_from_code  # confirmed_from_code | observed_in_runtime | confirmed_by_sme | strongly_inferred | weakly_inferred | needs_sme_review | contradictory | missing
+    summary: "<one-line summary>"
+    sensitive: "no"  # yes | no | unknown
+
+observed_behaviors:
+  - id: BEH-<CAP-SLUG>-001
+    knowledge_type: observed_behavior
+    statement: "<what the legacy does>"
+    evidence_ids:
+      - EV-<CAP-SLUG>-001
+    confidence: high  # high | medium | low
+    review_status: draft  # draft | needs_sme_review | approved | rejected | retired
+
+business_rules:
+  - id: BR-<CAP-SLUG>-001
+    knowledge_type: inferred_business_rule
+    rule: "<declarative rule statement>"
+    evidence_ids:
+      - EV-<CAP-SLUG>-001
+    confidence: medium
+    review_status: needs_sme_review
+    linked_behaviors:
+      - BEH-<CAP-SLUG>-001
+
+modernization_decisions:
+  - id: DEC-<CAP-SLUG>-001
+    knowledge_type: modernization_decision
+    decision: "<target-system decision>"
+    rationale: "<must reference a BR / BEH / target_platform constraint>"
+    evidence_ids:
+      - EV-<CAP-SLUG>-001
+    impact: "<implementation and testing impact>"
+    review_status: draft
+
+data_model:
+  entities:
+    - name: "<target entity name>"
+      legacy_sources:
+        - OBJ-<CAP-SLUG>-001
+      fields:
+        - name: "<field name>"
+          legacy_field: "<legacy field>"
+          type: "<target type>"
+          evidence_ids:
+            - EV-<CAP-SLUG>-001
+          evidence_strength: confirmed_from_code  # confirmed_from_code | observed_in_runtime | confirmed_by_sme | strongly_inferred | weakly_inferred | needs_sme_review | contradictory | missing
+          review_status: draft  # draft | needs_sme_review | approved | rejected | retired
+
+process_flow:
+  steps:
+    - id: STEP-<CAP-SLUG>-001
+      description: "<process step>"
+      evidence_ids:
+        - EV-<CAP-SLUG>-001
+
+inputs:
+  - id: IN-<CAP-SLUG>-001
+    name: "<input name>"
+    source: api  # api | screen | batch | file | integration | manual
+    required: "yes"
+    validation: "<validation rule>"
+    evidence_ids:
+      - EV-<CAP-SLUG>-001
+
+outputs:
+  - id: OUT-<CAP-SLUG>-001
+    name: "<output name>"
+    target: api_response  # api_response | event | database | report | spool | file | integration
+    description: "<output behavior>"
+    evidence_ids:
+      - EV-<CAP-SLUG>-001
+
+exceptions:
+  - id: EX-<CAP-SLUG>-001
+    condition: "<error condition>"
+    expected_behavior: "<required handling>"
+    severity: warning  # info | warning | error | blocking
+    evidence_ids:
+      - EV-<CAP-SLUG>-001
+
+# Acceptance criteria: emit only for APPROVED business rules.
+# Do not generate ACs for draft or needs_sme_review rules.
+# Once the SME approves a BR, add a corresponding AC here.
+acceptance_criteria: []
+
+# tests: optional sketch only
+# tests:
+#   - id: TC-<CAP-SLUG>-001
+#     type: golden_master  # golden_master | unit | integration | acceptance
+#     validates:
+#       - BR-<CAP-SLUG>-001
+#     sample_data_ref: ""
+
+open_questions:
+  - id: TBD-<CAP-SLUG>-001
+    question: "<open question>"
+    blocking: "yes"  # yes | no | pending_sme_judgment
+    related_ids:
+      - EV-<CAP-SLUG>-001
+
+# Traceability: map BRs to supporting evidence and approved ACs.
+# Only include AC-* for approved BRs. For needs_sme_review or draft BRs,
+# reference evidence only until the BR is approved.
+traceability:
+  - from_id: BR-<CAP-SLUG>-001
+    to_ids:
+      - EV-<CAP-SLUG>-001

@@ -1,0 +1,58 @@
+# Gate Summary — pass_with_warnings outcome
+#
+# Example-only compact view of a warning-level outcome. A real
+# approved_with_non_blocking_tbd run writes only the five package files
+# defined in SKILL.md; orchestrators derive summaries like this from
+# sdd-handoff.yaml or handoff-review.md.
+
+schema_version: "0.1"
+handoff_id: "HANDOFF-RETURNS-2026-05-16"
+handoff_date: "2026-05-16T15:47:00Z"
+validator: "Claude Code / legacy-brd-to-sdd-handoff v0.1.0"
+
+capability:
+  id: "CAP-RETURNS-001"
+  slug: "RETURNS"
+  owner:
+    name: "Aisha Khan"
+    role: "Returns Policy Owner"
+
+status: "approved_with_non_blocking_tbd"   # display label: pass_with_warnings
+
+gate_results:
+  brd_approved_and_signed: pass
+  spec_approved_and_signed: pass
+  no_blocking_tbd: warning
+  every_approved_br_has_ac: pass
+  every_linked_ac_approved: pass
+  evidence_cleared: pass
+  traceability_complete: pass
+
+findings:
+  blocking: []
+  warnings:
+    - id: "BLOCKING-TBD-DEFERRED"
+      severity: "warning"
+      step: 3
+      tbd_id: "TBD-RETURNS-002"
+      tbd_resolver: "Aisha Khan"
+      tbd_planned_resolution_date: "2026-07-31"
+      deferral_recorded_in: "05_specs/RETURNS/spec-review.md#sme-decisions"
+      detail: "TBD has blocking: true and a named SME deferral with planned date. Carried forward verbatim into the handoff's open_questions[]."
+      observed_only: true
+      carried_forward_to: "open_questions[]"
+  info: []
+
+package_written: true
+files_written:
+  - "06_sdd_handoffs/RETURNS/sdd-handoff.yaml"
+  - "06_sdd_handoffs/RETURNS/sdd-handoff.md"
+  - "06_sdd_handoffs/RETURNS/atlas-context-pack.json"
+  - "06_sdd_handoffs/RETURNS/handoff-review.md"
+  - "06_sdd_handoffs/RETURNS/traceability.md"
+
+sme_handoff_approver:
+  name: "Aisha Khan"
+  role: "Returns Policy Owner"
+  date: "2026-05-16"
+  notes: "Approved with one named deferral (TBD-RETURNS-002). Atlas chain to track for Phase 2 reactivation by 2026-07-31."

@@ -1,0 +1,129 @@
+schema_version: "0.1"
+capability:
+  id: CAP-CREDIT-CHECK-001
+  name: Customer Credit Check
+  slug: CREDIT-CHECK
+  owner: Credit Operations SME
+status: draft
+source_system:
+  name: REDACTED-IBM-I
+  libraries:
+    - REDLIB
+  collection_date: "2026-05-13"
+evidence:
+  - id: EV-CREDIT-CHECK-001
+    source_type: rpgle
+    location: REDLIB/QRPGLESRC/ORDENTR
+    evidence_strength: confirmed_from_code
+    summary: Order entry program references credit check routine before order release.
+    sensitivity: internal
+  - id: EV-CREDIT-CHECK-002
+    source_type: clle
+    location: REDLIB/QCLLESRC/ORDSUBMIT
+    evidence_strength: confirmed_from_code
+    summary: Batch submit wrapper calls order release after validation step.
+    sensitivity: internal
+  - id: EV-CREDIT-CHECK-003
+    source_type: dds_pf
+    location: REDLIB/QDDSSRC/CUSTPF
+    evidence_strength: confirmed_from_code
+    summary: Customer master includes redacted credit limit and hold status fields.
+    sensitivity: internal
+  - id: EV-CREDIT-CHECK-004
+    source_type: dds_prtf
+    location: REDLIB/QDDSSRC/CRHOLDP
+    evidence_strength: confirmed_from_code
+    summary: Credit hold report printer file is present.
+    sensitivity: internal
+  - id: EV-CREDIT-CHECK-005
+    source_type: spool
+    location: evidence/redacted/spool/credit-hold-report-001.txt
+    evidence_strength: observed_in_runtime
+    summary: Redacted spool sample shows held orders grouped by customer.
+    sensitivity: confidential
+objects:
+  - id: OBJ-CREDIT-CHECK-001
+    name: ORDENTR
+    object_type: program
+    library: REDLIB
+    source_member: REDLIB/QRPGLESRC/ORDENTR
+    description: Interactive order entry program.
+    evidence_ids:
+      - EV-CREDIT-CHECK-001
+    sensitivity: internal
+    review_status: needs_sme_review
+    notes: Contains call or internal routine for credit validation.
+  - id: OBJ-CREDIT-CHECK-002
+    name: ORDSUBMIT
+    object_type: program
+    library: REDLIB
+    source_member: REDLIB/QCLLESRC/ORDSUBMIT
+    description: CL wrapper for submitted order release job.
+    evidence_ids:
+      - EV-CREDIT-CHECK-002
+    sensitivity: internal
+    review_status: needs_sme_review
+    notes: Confirm whether scheduler also invokes this wrapper.
+  - id: OBJ-CREDIT-CHECK-003
+    name: CUSTPF
+    object_type: pf
+    library: REDLIB
+    source_member: REDLIB/QDDSSRC/CUSTPF
+    description: Customer master physical file.
+    evidence_ids:
+      - EV-CREDIT-CHECK-003
+    sensitivity: internal
+    review_status: needs_sme_review
+    notes: Redacted field names preserve length and decimal shape.
+  - id: OBJ-CREDIT-CHECK-004
+    name: CRHOLDP
+    object_type: prtf
+    library: REDLIB
+    source_member: REDLIB/QDDSSRC/CRHOLDP
+    description: Credit hold report printer file.
+    evidence_ids:
+      - EV-CREDIT-CHECK-004
+      - EV-CREDIT-CHECK-005
+    sensitivity: internal
+    review_status: needs_sme_review
+    notes: Ties report source to observed spool output.
+relationships:
+  - from_id: OBJ-CREDIT-CHECK-001
+    relationship: reads
+    to_id: OBJ-CREDIT-CHECK-003
+    evidence_ids:
+      - EV-CREDIT-CHECK-001
+    confidence: high
+    review_status: needs_sme_review
+  - from_id: OBJ-CREDIT-CHECK-002
+    relationship: depends_on
+    to_id: OBJ-CREDIT-CHECK-001
+    evidence_ids:
+      - EV-CREDIT-CHECK-002
+    confidence: medium
+    review_status: needs_sme_review
+  - from_id: OBJ-CREDIT-CHECK-001
+    relationship: uses_printer_file
+    to_id: OBJ-CREDIT-CHECK-004
+    evidence_ids:
+      - EV-CREDIT-CHECK-004
+      - EV-CREDIT-CHECK-005
+    confidence: high
+    review_status: needs_sme_review
+coverage_gaps:
+  - id: TBD-CREDIT-CHECK-001
+    question: Confirm whether the nightly scheduler invokes ORDSUBMIT directly or through another wrapper.
+    blocking: pending_sme_judgment
+    related_ids:
+      - OBJ-CREDIT-CHECK-002
+open_questions:
+  - id: TBD-CREDIT-CHECK-002
+    question: Does any data area override the credit check threshold during month-end processing?
+    blocking: pending_sme_judgment
+    related_ids:
+      - OBJ-CREDIT-CHECK-001
+sme_review:
+  reviewer:
+  review_date:
+  decision: pending
+  notes:

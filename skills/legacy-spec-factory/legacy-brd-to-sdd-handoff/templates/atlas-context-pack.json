@@ -1,0 +1,348 @@
+{
+  "schema_version": "0.1",
+  "handoff_type": "legacy-spec-factory-to-atlas-sdd",
+  "handoff_id": "HANDOFF-CREDIT-CHECK-2026-05-16",
+  "handoff_date": "2026-05-16T14:32:00Z",
+  "handoff_validator": "Claude Code / legacy-brd-to-sdd-handoff v0.1.0",
+  "capability": {
+    "id": "CAP-CREDIT-CHECK-001",
+    "name": "Credit Limit Enforcement",
+    "slug": "CREDIT-CHECK",
+    "owner": {
+      "name": "John Smith",
+      "role": "Credit Policy Manager",
+      "email": "john.smith@company.com"
+    }
+  },
+  "business_goal": "Prevent credit exposure on orders by ensuring no customer exceeds their authorized credit threshold",
+  "scope": {
+    "in_scope": [
+      "Credit limit validation for online and phone orders",
+      "Rejection of orders that exceed customer credit limit",
+      "Error messaging and transaction logging"
+    ],
+    "out_of_scope": [
+      "Cash/check orders (no credit limit applies)",
+      "Internal admin overrides (separate process)",
+      "Credit limit modification or adjustment workflows"
+    ]
+  },
+  "status": "approved",
+  "gate_checklist": {
+    "brd_approved": true,
+    "brd_signed_by_sme": true,
+    "spec_approved": true,
+    "spec_signed_by_sme": true,
+    "no_blocking_tbd": true,
+    "all_rules_have_ac": true,
+    "evidence_cleared": true,
+    "traceability_complete": true
+  },
+  "source_artifacts": {
+    "brd": {
+      "id": "BRD-CREDIT-CHECK-001",
+      "path": "05_brds/CREDIT-CHECK/brd.md",
+      "status": "approved",
+      "approved_by": {
+        "name": "John Smith",
+        "role": "Credit Policy Manager",
+        "date": "2026-05-15"
+      }
+    },
+    "spec": {
+      "id": "SPEC-CREDIT-CHECK-001",
+      "path": "05_specs/CREDIT-CHECK/spec.yaml",
+      "status": "approved",
+      "approved_by": {
+        "name": "John Smith",
+        "role": "Credit Policy Manager",
+        "date": "2026-05-15"
+      }
+    },
+    "module": {
+      "id": "MODULE-CARD-AUTH-001",
+      "slug": "card-auth",
+      "path": "04_modules/card-auth/"
+    }
+  },
+  "business_rules": [
+    {
+      "id": "BR-CREDIT-CHECK-001",
+      "statement": "System must reject orders where the order amount exceeds the customer's authorized credit limit",
+      "knowledge_type": "inferred_business_rule",
+      "evidence_ids": [
+        "EV-CREDIT-CHECK-001",
+        "EV-CREDIT-CHECK-002"
+      ],
+      "confidence": "high",
+      "review_status": "approved"
+    },
+    {
+      "id": "BR-CREDIT-CHECK-002",
+      "statement": "Credit limit is read from CUSTPF using customer ID as key",
+      "knowledge_type": "observed_behavior",
+      "evidence_ids": [
+        "EV-CREDIT-CHECK-003"
+      ],
+      "confidence": "high",
+      "review_status": "approved"
+    }
+  ],
+  "acceptance_criteria": [
+    {
+      "id": "AC-CREDIT-CHECK-001",
+      "rule_id": "BR-CREDIT-CHECK-001",
+      "criterion": "Order is rejected with error code 42 when amount exceeds limit",
+      "how_to_test": "Submit order with amount > customer limit; verify error code 42 returned",
+      "priority": "P0",
+      "review_status": "approved"
+    },
+    {
+      "id": "AC-CREDIT-CHECK-002",
+      "rule_id": "BR-CREDIT-CHECK-001",
+      "criterion": "Error message 'Credit limit exceeded' is returned to caller",
+      "how_to_test": "Verify ERRMSG field contains 'Credit limit exceeded'",
+      "priority": "P0",
+      "review_status": "approved"
+    },
+    {
+      "id": "AC-CREDIT-CHECK-003",
+      "rule_id": "BR-CREDIT-CHECK-002",
+      "criterion": "Credit limit is correctly read from CUSTPF customer master file",
+      "how_to_test": "Query CUSTPF for test customer; verify CRDLIM field matches system value",
+      "priority": "P0",
+      "review_status": "approved"
+    }
+  ],
+  "modernization_decisions": [
+    {
+      "id": "DEC-CREDIT-CHECK-001",
+      "decision": "Implement credit check as a reusable Spring Boot service",
+      "rationale": "Allows order entry, billing, and other bounded contexts to call the service independently",
+      "trade_off": "Service boundary adds network hop vs. monolithic implementation",
+      "impact": "Enables independent scaling and testing of credit business logic",
+      "review_status": "approved"
+    },
+    {
+      "id": "DEC-CREDIT-CHECK-002",
+      "decision": "Use PostgreSQL CUSTMSTR table as the system-of-record for credit limits",
+      "rationale": "CUSTMSTR is the master data source in legacy; preserved for accuracy",
+      "trade_off": "Synchronization required if credit limits are changed outside the system",
+      "impact": "Simplifies data migration; one source of truth maintained",
+      "review_status": "approved"
+    }
+  ],
+  "data_model": {
+    "entities": [
+      {
+        "legacy_name": "CUSTPF",
+        "target_name": "Customer",
+        "target_table": "CUSTMSTR",
+        "fields": [
+          {
+            "legacy_field": "CUSTID",
+            "target_field": "customer_id",
+            "type": "varchar(10)",
+            "notes": "Customer identifier; primary key"
+          },
+          {
+            "legacy_field": "CRDLIM",
+            "target_field": "credit_limit",
+            "type": "decimal(9,2)",
+            "notes": "Authorized credit limit"
+          },
+          {
+            "legacy_field": "CRDUSD",
+            "target_field": "credit_used",
+            "type": "decimal(9,2)",
+            "notes": "Amount of credit currently in use (open orders + invoices)"
+          }
+        ]
+      }
+    ]
+  },
+  "inputs": [
+    {
+      "id": "IN-CREDIT-CHECK-001",
+      "name": "Order",
+      "source": "order-entry-service",
+      "required_fields": [
+        "customer_id",
+        "order_amount",
+        "order_type"
+      ],
+      "data_type": "JSON",
+      "notes": "Incoming order request from order-entry service"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "OUT-CREDIT-CHECK-001",
+      "name": "Credit Decision",
+      "target": "order-entry-service",
+      "fields": [
+        "decision",
+        "reason",
+        "available_credit"
+      ],
+      "data_type": "JSON",
+      "notes": "Credit check result; used to accept or reject order"
+    }
+  ],
+  "exceptions": [
+    {
+      "id": "EX-CREDIT-CHECK-001",
+      "condition": "Customer record not found in CUSTMSTR",
+      "expected_behavior": "Return error code 99 (customer not found) to caller",
+      "handling": "Service returns 400 BadRequest with error message",
+      "severity": "error"
+    },
+    {
+      "id": "EX-CREDIT-CHECK-002",
+      "condition": "Order amount is zero or negative",
+      "expected_behavior": "Treat as non-credit order; no limit check needed",
+      "handling": "Service returns approval without credit limit validation",
+      "severity": "info"
+    }
+  ],
+  "test_cases": [
+    {
+      "id": "TC-CREDIT-CHECK-001",
+      "title": "Order approved when amount is below credit limit",
+      "acceptance_criteria": [
+        "AC-CREDIT-CHECK-001",
+        "AC-CREDIT-CHECK-002"
+      ],
+      "golden_master_enabled": true,
+      "legacy_transaction": "CARDTEST001"
+    },
+    {
+      "id": "TC-CREDIT-CHECK-002",
+      "title": "Order rejected when amount exceeds credit limit",
+      "acceptance_criteria": [
+        "AC-CREDIT-CHECK-001"
+      ],
+      "golden_master_enabled": true,
+      "legacy_transaction": "CARDTEST002"
+    },
+    {
+      "id": "TC-CREDIT-CHECK-003",
+      "title": "Customer not found error",
+      "acceptance_criteria": [
+        "EX-CREDIT-CHECK-001"
+      ],
+      "golden_master_enabled": false,
+      "legacy_transaction": null,
+      "notes": "Error case; may not have legacy equivalent"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "EV-CREDIT-CHECK-001",
+      "type": "program_analysis",
+      "source": "02_programs/CREDIT-CHECK/program-analysis.md",
+      "sensitivity": "public",
+      "redaction_status": "not_required",
+      "redacted_filename": "02_programs/CREDIT-CHECK/program-analysis.md",
+      "source_path_verified": true,
+      "redaction_required": false,
+      "sme_required": false,
+      "sme_approval": false
+    },
+    {
+      "id": "EV-CREDIT-CHECK-002",
+      "type": "program_analysis",
+      "source": "02_programs/CREDIT-CHECK/program-analysis.md",
+      "sensitivity": "public",
+      "redaction_status": "not_required",
+      "redacted_filename": "02_programs/CREDIT-CHECK/program-analysis.md",
+      "source_path_verified": true,
+      "redaction_required": false,
+      "sme_required": false,
+      "sme_approval": false
+    },
+    {
+      "id": "EV-CREDIT-CHECK-003",
+      "type": "flow_analysis",
+      "source": "03_flows/CREDIT-CHECK/credit-check-auth/flow.md",
+      "sensitivity": "internal",
+      "redaction_status": "reviewed",
+      "redacted_filename": "03_flows/CREDIT-CHECK/credit-check-auth/flow.md",
+      "source_path_verified": true,
+      "redaction_required": false,
+      "sme_required": false,
+      "sme_approval": false
+    }
+  ],
+  "evidence_summary": {
+    "total_evidence_items": 3,
+    "cleared_for_distribution": 3,
+    "evidence_ids": [
+      "EV-CREDIT-CHECK-001",
+      "EV-CREDIT-CHECK-002",
+      "EV-CREDIT-CHECK-003"
+    ]
+  },
+  "open_questions": [
+    {
+      "id": "TBD-CREDIT-CHECK-001",
+      "question": "Should the system apply a daily credit limit in addition to the per-order limit?",
+      "knowledge_type": "unknown_tbd",
+      "blocking": false,
+      "resolution": "Deferred to Phase 2 by John Smith, Credit Policy Manager",
+      "resolver": "John Smith",
+      "planned_resolution_date": "2026-06-30",
+      "notes": "Not in scope for Phase 1; current system has no daily limit; revisit after Go-Live"
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "CUSTPF contains all active and inactive customer records; service will query live",
+      "rationale": "Customer master is System of Record; all credit decisions depend on CUSTPF",
+      "impact": "Downstream service must handle missing customer gracefully (error 99)",
+      "source": "05_specs/CREDIT-CHECK/spec.yaml#assumptions[0]"
+    },
+    {
+      "assumption": "Credit limit values in CUSTPF are always valid decimal(9,2)",
+      "rationale": "Observed in all analyzed transactions; DDS confirms numeric(9,2)",
+      "impact": "No currency conversion needed; all comparisons are numeric",
+      "source": "05_specs/CREDIT-CHECK/spec.yaml#assumptions[1]"
+    }
+  ],
+  "findings": {
+    "blocking": [],
+    "warnings": [],
+    "info": []
+  },
+  "sme_sign_offs": [
+    {
+      "approval_scope": "BRD",
+      "name": "John Smith",
+      "role": "Credit Policy Manager",
+      "date": "2026-05-15",
+      "source": "05_brds/CREDIT-CHECK/brd-review.md",
+      "status": "approved"
+    },
+    {
+      "approval_scope": "Spec",
+      "name": "John Smith",
+      "role": "Credit Policy Manager",
+      "date": "2026-05-15",
+      "source": "05_specs/CREDIT-CHECK/spec-review.md",
+      "status": "approved"
+    },
+    {
+      "approval_scope": "Handoff",
+      "name": "John Smith",
+      "role": "Credit Policy Manager",
+      "date": "2026-05-16",
+      "source": "06_sdd_handoffs/CREDIT-CHECK/handoff-review.md",
+      "status": "approved",
+      "notes": "Approved for Atlas SDD chain consumption."
+    }
+  ],
+  "carried_forward_decision_ids": [
+    "DEC-CREDIT-CHECK-001",
+    "DEC-CREDIT-CHECK-002"
+  ]
+}

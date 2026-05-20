@@ -1,0 +1,85 @@
+* DSPF source for ORDER-ENTRY-003 (Order Entry Screen with Subfile)
+* IBM i Display File DDS
+* ==============================================================================
+*
+* File: ORDERENT
+* Library: DEMO01
+* Description: Interactive order entry screen with line item subfile
+* Purpose: Allow users to browse, add, edit, and delete order lines
+*
+* ==============================================================================
+
+A                                      DSPSIZ(24 80)
+A                                      INDARA
+A                                      ERRSFL(SUBFAIL 00)
+
+* ==============================================================================
+* HEADER: Main entry screen
+* ==============================================================================
+
+A R MAINSCR
+A                                 1  2'Order Entry Screen'
+A                                      DSPATR(HI)
+A                          1 01       ERRMSG('Invalid input' 01)
+A                                23  2'F1=Accept  F2=Cancel  F5=Refresh'
+A
+A                                 3  2'Order Number:'
+A  03                              3 20PROT
+A                          03 ORDNO        5A  I
+A                                 4  2'Customer ID:'
+A                          04 CUSTID       5A  I  MANDATORY
+A                                 5  2'Order Date:'
+A  05                              5 20PROT
+A                          05 ORDDATE      8A  I  DATFMT(*ISO)
+A                                 6  2'Total Amount:'
+A  06                              6 20PROT
+A                          06 TOTAL        9S 2 O  EDTCDE(A)
+A
+A                                 8  2'Select items:'
+A                                      DSPATR(HI)
+
+* ==============================================================================
+* SUBFILE DETAIL: Individual line items (repeating records)
+* ==============================================================================
+
+A R ORDDETAIL                          SFL
+A  1 SEL              1A  I  (selection field)
+A    LINENO           3S 0 O
+A    ITEMNO           5A  O
+A    ITEMDESC        30A  O
+A    QTY              5S 0 I
+A    UNITPRICE        8S 2 O  EDTCDE(A)
+A    LINEAMT          9S 2 O  EDTCDE(A)
+
+* ==============================================================================
+* SUBFILE CONTROL: Subfile container and paging controls
+* ==============================================================================
+
+A R ORDCTL                              SFLCTL(ORDDETAIL)
+A                                      SFLPAG(10)
+A                                      SFLSIZ(100)
+A                                      SFLDROP(05)
+A                                      SFLCLR(99)
+A
+A                                10  2'Line#'
+A                                10  8'Item#'
+A                                10 15'Description'
+A                                10 50'Qty'
+A                                10 60'Unit Price'
+A                                10 73'Amount'
+A
+A N99                                 SFLRCDNBR(SFLREC)
+A N99                                 SFLMSG('Subfile display error' 99)
+
+* ==============================================================================
+* FUNCTION KEYS
+* ==============================================================================
+
+A            CA01(ACCEPT)
+A            CA02(CANCEL)
+A            CF05(REFRESH)
+A            CF06(DELETE)
+
+* ==============================================================================
+* End of Display File
+* ==============================================================================

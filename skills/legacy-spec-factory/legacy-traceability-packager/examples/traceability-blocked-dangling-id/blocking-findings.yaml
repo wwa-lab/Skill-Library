@@ -1,0 +1,98 @@
+# Concrete blocking-findings.yaml emitted for the dangling-id example.
+# Matches the shape defined in templates/blocking-findings.yaml.
+
+schema_version: "0.1"
+package_id: "PKG-ORDER-ENTRY-001"
+attempt_number: 1
+attempt_date: "2026-05-16T16:12:00Z"
+packager: "legacy-traceability-packager v0.1.1"
+
+capability:
+  id: "CAP-ORDER-ENTRY-001"
+  name: "Order Entry"
+  slug: "ORDER-ENTRY"
+  owner:
+    name: "Sarah Chen"
+    role: "Order Operations Lead"
+
+status: "blocked"
+
+source_artifacts:
+  spec:
+    id: "SPEC-ORDER-ENTRY-001"
+    path: "05_specs/ORDER-ENTRY/spec.yaml"
+    status: "approved"
+    approved_by:
+      name: "Sarah Chen"
+      role: "Order Operations Lead"
+      date: "2026-05-15"
+  brd:
+    id: "BRD-ORDER-ENTRY-001"
+    path: "05_brds/ORDER-ENTRY/brd.md"
+    status: "approved"
+    approved_by:
+      name: "Sarah Chen"
+      role: "Order Operations Lead"
+      date: "2026-05-13"
+  module:
+    id: "MODULE-ORDER-ENTRY-001"
+    path: "04_modules/order-entry/"
+    status: "approved"
+  inventory:
+    path: "01_inventory/inventory.yaml"
+    sme_review_decision: "approved"
+  evidence_manifest:
+    path: "evidence/manifest.yaml"
+    package_state: "approved_for_inventory"
+    intake_decision:
+      downstream_inventory_allowed: true
+
+gate_results:
+  intake_resolved: pass
+  id_inventory_clean: pass
+  cross_reference_walk: FAIL
+  evidence_sensitivity: not_evaluated
+  business_rule_closure: not_evaluated
+  coverage_tables: not_evaluated
+  tbd_carry_forward: not_evaluated
+  package_assembly: not_evaluated
+
+findings:
+  blocking:
+    - find_id: "FIND-ORDER-ENTRY-001"
+      rule: "BR-DANGLING-IN-AC"
+      severity: "blocking"
+      step: 3
+      points_to:
+        - "05_specs/ORDER-ENTRY/spec.yaml#acceptance_criteria[3]"
+        - "AC-ORDER-ENTRY-004"
+        - "BR-ORDER-ENTRY-007"
+      detail: "AC-ORDER-ENTRY-004.validates references BR-ORDER-ENTRY-007 but BR-ORDER-ENTRY-007 is not defined in spec.yaml.business_rules[]."
+      required_remediation:
+        responsible_skill: "legacy-spec-writer"
+        permitted_actions:
+          - "Add BR-ORDER-ENTRY-007 to business_rules[] with evidence + behavior links, then re-run packager."
+          - "Update AC-ORDER-ENTRY-004.validates to point to an existing approved BR-*, then re-run packager."
+          - "If AC-ORDER-ENTRY-004 is out of scope, retire it per docs/id-conventions.md and re-run packager."
+        forbidden_action: "legacy-traceability-packager MUST NOT mint BR-ORDER-ENTRY-007 or rewrite AC-ORDER-ENTRY-004."
+
+  warnings: []
+  info: []
+
+package_written: false
+files_written:
+  - "06_traceability_packages/ORDER-ENTRY/traceability-review.md"
+  - "06_traceability_packages/ORDER-ENTRY/blocking-findings.yaml"
+files_not_written:
+  - "06_traceability_packages/ORDER-ENTRY/traceability-package.yaml"
+  - "06_traceability_packages/ORDER-ENTRY/traceability-package.md"
+  - "06_traceability_packages/ORDER-ENTRY/coverage-audit.md"
+
+next_routing:
+  primary_next_skill: "legacy-spec-writer"
+  rationale: "spec.yaml references BR-ORDER-ENTRY-007 from AC-ORDER-ENTRY-004 but the rule is not defined. Only legacy-spec-writer can mint or retire BR / AC records."
+  per_finding:
+    - find_id: "FIND-ORDER-ENTRY-001"
+      responsible_skill: "legacy-spec-writer"
+      capability_owner: "Sarah Chen"
+      re_run_packager_after: true

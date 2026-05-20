@@ -1,0 +1,70 @@
+# Legacy Spec Factory
+# Copyright 2026 Leo L Zhang
+#
+# Original author: Leo L Zhang
+# License: Apache License 2.0
+#
+# Structured findings emitted by legacy-step-validator.
+# Companion to 06_quality/step-validation-report.md.
+# Always emitted when status is `pass_with_warnings` or `blocked`.
+
+report:
+  validator_skill: legacy-step-validator
+  validator_version: 0.1.0
+  step_type: inventory  # inventory | program | flow | module | spec | handoff
+  step_id: STEP-<CAPABILITY-SLUG>-<NNN>
+  package_path: <directory or file reviewed>
+  executed_at: <YYYY-MM-DD HH:MM ZZZ>
+
+compact_result:
+  status: blocked  # pass | pass_with_warnings | blocked
+  blocking_items: []  # populated below if blocked
+  warnings: []        # populated below if pass_with_warnings
+  sme_decision: pending  # approved | approved_with_non_blocking_tbd | pending | blocked | not_required
+  downstream_next_step: none
+  remediation_step: none
+
+findings:
+  - finding_id: FIND-<SLUG>-001
+    dimension: 4            # 1..10
+    layer: mechanical       # mechanical | semantic | sme_readiness
+    severity: blocking      # blocking | non_blocking
+    step_type: inventory
+    points_to:
+      - 01_inventory/inventory.yaml
+      - OBJ-CREDIT-CHECK-003
+    resolver: runner
+    recommended_action: <one short sentence>
+    referenced_check: <row from references/validation-checklists.md>
+    notes: <optional context>
+
+  - finding_id: FIND-<SLUG>-002
+    dimension: 6
+    layer: sme_readiness
+    severity: blocking
+    step_type: inventory
+    points_to:
+      - 01_inventory/inventory.yaml
+    resolver: sme
+    recommended_action: <one short sentence>
+    referenced_check: <row>
+    notes: <optional>
+
+unresolved_items:
+  - id: TBD-<SLUG>-001
+    category: evidence_gaps   # missing_inputs | evidence_gaps | contradictory_evidence | sme_questions | downstream_handoff_blockers
+    points_to: []
+    resolver: source_owner
+    blocks_current_step: yes
+    blocks_next_step: yes
+    notes:
+
+waivers:
+  # Only populated when an SME has explicitly waived a blocking finding.
+  # The validator records the waiver verbatim; it does not invent waivers.
+  - finding_id: FIND-<SLUG>-NNN
+    waived_by_role: <e.g., credit ops SME>
+    waived_by_name: <SME name>
+    waived_at: <YYYY-MM-DD>
+    reason: <short justification>
+    new_severity: non_blocking

@@ -1,0 +1,45 @@
+# Evidence manifest for EXAMPLE-tutorial. All items registered and approved.
+# Raw evidence is NEVER committed — only redacted artifacts under this directory.
+
+version: 1
+
+bundle:
+  id: EV-BUNDLE-EXAMPLE-2026-05-16
+  source_system: "AS400 prod environment (synthetic)"
+  collected_at: 2026-05-16
+  collected_by: synthetic
+  sme_contact:
+    name: "Jane Doe (synthetic)"
+    role: "Pricing team lead"
+
+items:
+  - evidence_id: EV-SRC-001
+    type: source
+    member: PRICECALC.RPGLE
+    relative_path: source/PRICECALC.RPGLE
+    sensitivity: redacted
+    redaction_note: "Customer account numbers replaced with C0001..C9999"
+    sme_approval:
+      decision: approved
+      at: 2026-05-16
+      by: "Jane Doe"
+
+  - evidence_id: EV-DDS-001
+    type: dds
+    member: PRICEFL.PF
+    relative_path: dds/PRICEFL.PF
+    sensitivity: no
+    sme_approval:
+      decision: approved
+      at: 2026-05-16
+      by: "Jane Doe"
+
+  - evidence_id: EV-SME-001
+    type: sme_note
+    relative_path: notes/pricing-rules-walkthrough.md
+    sensitivity: no
+    sme_approval:
+      decision: approved
+      at: 2026-05-16
+      by: "Jane Doe"
+    note: "SME walkthrough of tier discount + promotion stacking rules"

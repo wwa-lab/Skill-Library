@@ -1,0 +1,9 @@
+     A          R ARTXNREC
+     A            RUNDATE        8S 0
+     A            DOCNO         10A
+     A            CUSTNO         9P 0
+     A            DOCAMT         9P 2
+     A            APPLIED_AMT    9P 2
+     A            STATUS         1A
+     A          K RUNDATE
+     A          K DOCNO

@@ -1,0 +1,34 @@
+schema_version: "0.1"
+spec_id:
+capability:
+  id:
+  name:
+  slug:
+  owner:
+status: draft
+source_system:
+  name:
+  libraries: []
+  collection_date:
+target_platform:
+  architecture:
+  service_hint:
+business_goal:
+scope:
+  in_scope: []
+  out_of_scope: []
+evidence: []
+observed_behaviors: []
+business_rules: []
+modernization_decisions: []
+data_model:
+  entities: []
+process_flow:
+  steps: []
+inputs: []
+outputs: []
+exceptions: []
+acceptance_criteria: []
+tests: []
+open_questions: []
+traceability: []

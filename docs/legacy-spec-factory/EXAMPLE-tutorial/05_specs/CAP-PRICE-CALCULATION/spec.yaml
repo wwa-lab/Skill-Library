@@ -1,0 +1,79 @@
+# Spec for CAP-PRICE-CALCULATION. Conforms to schemas/spec.schema.yaml.
+# Consumed by forward SDLC (wwa-lab/build-agent-skill).
+
+spec:
+  capability_id: CAP-PRICE-CALCULATION
+  display_name: "Calculate Final Unit Price for One Order Line"
+  status: approved          # 8a draft | 8b in_review | 8c approved
+  version: 1.0.0
+
+  module_slug: PRICE-CALC
+
+  source_artifacts:
+    inventory: 01_inventory/inventory.yaml
+    module_overview: 04_modules/PRICE-CALC/module-overview.md
+    flows: [03_flows/PRICE-CALC/flow-calculate-price.md]
+    programs: [02_programs/PRICE-CALC/PRICECALC/program-analysis.md]
+    evidence_manifest: evidence/redacted/evidence-manifest.yaml
+
+  summary: |
+    Given an item, customer tier, quantity, and optional promotion code,
+    return the final unit price for one order line. Read-only operation,
+    no side effects.
+
+  rules:
+    - id: BR-PRICE-001
+      title: "Final price formula"
+      statement: |
+        final_price = round(
+          base_price × qty × (1 - tier_discount/100) × (1 - promo_discount/100),
+          2dp
+        )
+      knowledge_type: confirmed_from_code
+      evidence_ids: [EV-SRC-001]
+      review_status: approved
+      acceptance_criteria:
+        - "Given ITEMID='A123', TIER='B', QTY=10, PROMO='' and BASEPRC=10.00 DISCPCT=5.00, return 95.00"
+        - "Given the same with PROMO='SUMMR', return 90.25"
+        - "Result is always rounded to 2 decimal places (banker's rounding NOT used — half-up matching legacy)"
+
+    - id: BR-PRICE-002
+      title: "Promo code stacking"
+      statement: |
+        Promo discount mapping:
+          SUMMR / WINTR → 5%
+          VIP10        → 10%
+          anything else → 0% (silent — no error)
+      knowledge_type: confirmed_from_code
+      evidence_ids: [EV-SRC-001, EV-SME-001]
+      review_status: approved
+      acceptance_criteria:
+        - "PROMO='SUMMR' applies 5% discount"
+        - "PROMO='WINTR' applies 5% discount"
+        - "PROMO='VIP10' applies 10% discount"
+        - "PROMO='ABC' (or any unrecognized value) applies 0% discount and returns success — does NOT raise an error"
+
+  inputs:
+    - {name: item_id,    type: string(10), required: true}
+    - {name: tier,       type: string(1),  required: true, allowed_values: [A, B, C, D]}
+    - {name: quantity,   type: integer,    required: true, min: 1}
+    - {name: promo_code, type: string(5),  required: false}
+
+  outputs:
+    - {name: final_price, type: decimal(13,2)}
+    - {name: status_code, type: string(1), allowed_values: ['0', '1']}
+
+  error_conditions:
+    - id: ERR-PRICE-001
+      condition: "Item / tier combination not found in PRICEFL"
+      legacy_behavior: "status_code='1', final_price=0"
+      acceptance_criteria: ["Caller receives status='1' and price=0; no exception thrown"]
+
+  modernization_decisions: []
+  open_tbds: []
+
+  sme_review:
+    decision: approved
+    at: 2026-05-16
+    by: "Jane Doe"
+    notes: "All rules confirmed. Silent-skip on unknown promo is intentional and must be preserved in the modernized implementation."

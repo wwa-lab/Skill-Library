@@ -1,0 +1,45 @@
+# Blocked SME Review Findings
+#
+# Machine-readable record for an SME review attempt that must stop before
+# question-pack creation, decision logging, or sign-off.
+
+blocked_review_id: "REVIEW-<CAPABILITY-SLUG>-<NNN>-BLOCKED"
+blocked_date: "YYYY-MM-DD"
+artifact_attempted: "<path/to/artifact.md or .yaml>"
+capability_slug: "<CAPABILITY-SLUG>"
+status: "blocked"
+
+blocking_issues:
+  - blocking_id: "FIND-<CAPABILITY-SLUG>-<NNN>"
+    category: "missing_sme_owner"
+    # One of: missing_sme_owner, unknown_evidence_sensitivity,
+    #         unknown_evidence_redaction, unredacted_evidence,
+    #         artifact_not_ready, unbounded_scope, missing_evidence_manifest,
+    #         unstable_ids
+    severity: "critical"
+    # One of: critical, high, medium, low
+    source_item_ids:
+      - "TBD-<CAPABILITY-SLUG>-<NNN>"
+    evidence_ids:
+      - "EV-<CAPABILITY-SLUG>-<NNN>"
+    description: |
+      <What blocked review and why it prevents SME participation or safe
+      decision capture.>
+    required_action: |
+      <Concrete remediation required before retrying review.>
+    owner: "<Name, role, team, or next skill responsible>"
+    target_resolution_date: "YYYY-MM-DD"
+    routing_destination: "<skill name or team>"
+    status: "awaiting_action"
+
+unblocking_pathway:
+  - step: "Assign named SME owner"
+    owner: "<Capability owner or orchestrator>"
+    completion_signal: "SME name, role, organization, and availability recorded"
+  - step: "Resolve evidence classification/redaction"
+    owner: "legacy-ibmi-evidence-intake"
+    completion_signal: "Evidence manifest has known sensitivity and acceptable redaction_status for every referenced EV-*"
+
+retry_condition: |
+  Retry SME review only after every blocking issue above has status `resolved`
+  or has an explicit SME/source-owner waiver recorded in the upstream artifact.

@@ -1,0 +1,182 @@
+# Canonical modernization decision package
+# Generated from legacy-modernization-decision-writer.
+# This file is YAML only. Expanded narrative records live under decisions/.
+
+schema_version: "0.1"
+step_id: STEP-<CAP-SLUG>-001
+capability:
+  id: CAP-<CAP-SLUG>-001
+  slug: <CAP-SLUG>
+  name: "<Capability Name>"
+  owner: "<capability owner>"
+
+status: draft # draft | in_review | approved | rejected | retired
+
+source_spec:
+  spec_id: SPEC-<CAP-SLUG>-001
+  spec_status: draft # draft | in_review | approved | rejected | retired
+  path: "05_specs/<CAP-SLUG>/spec.yaml"
+  source_commit: "<commit-sha-or-review-baseline>"
+
+decision_authorities:
+  sme_owner:
+    role: "IBM i / Business SME"
+    person: "<name>"
+    required_for: "legacy behavior fidelity and BR/BEH linkage"
+  architecture_owner:
+    role: "Architecture Owner"
+    person: "<name>"
+    required_for: "target-system fit and implementation trade-offs"
+  product_owner:
+    role: "Product Owner"
+    person: "<name-or-not-required>"
+    required_for: "business impact, migration, compatibility, or customer workflow decisions"
+
+decisions:
+  - id: DEC-<CAP-SLUG>-001
+    knowledge_type: modernization_decision
+    category: architecture # architecture | data | api_surface | error_handling | async_boundary | compatibility | audit | security | observability
+    review_status: draft # draft | needs_sme_review | approved | rejected | retired
+
+    decision: "<target-system decision>"
+    context: "<business reason and legacy scenario that prompted the decision>"
+
+    alternatives_considered:
+      - option: "<option 1>"
+        description: "<brief description>"
+        pros:
+          - "<advantage>"
+        cons:
+          - "<disadvantage>"
+      - option: "<option 2>"
+        description: "<brief description>"
+        pros:
+          - "<advantage>"
+        cons:
+          - "<disadvantage>"
+
+    chosen_option: "<selected option>"
+    chosen_rationale: "<why this option wins>"
+    rejected_options:
+      - option: "<rejected option>"
+        reason: "<why it was rejected>"
+
+    rationale: "<evidence-backed explanation grounded in BR/BEH/EV and, when applicable, explicit target constraints>"
+
+    linked_rules_and_behaviors:
+      - id: BR-<CAP-SLUG>-NNN
+        type: business_rule
+        relevance: "<how the decision supports or affects this rule>"
+      - id: BEH-<CAP-SLUG>-NNN
+        type: observed_behavior
+        relevance: "<how the decision preserves, replaces, or constrains this behavior>"
+
+    evidence_ids:
+      - EV-<CAP-SLUG>-NNN
+
+    target_platform_constraints:
+      - constraint: "<explicit platform fact, or empty list if not a platform technology choice>"
+        source: "<approved platform brief, architecture note, or authority approval>"
+
+    linked_tbds:
+      - id: TBD-<CAP-SLUG>-NNN
+        blocking: yes
+        owner: "<role/person>"
+        resolution_needed: "<decision gap to close>"
+
+    implementation_impact:
+      effort: "<rough effort signal, not a task breakdown>"
+      dependencies:
+        - "<dependency or downstream design area>"
+      risks:
+        - "<key technical or organizational risk>"
+
+    compatibility_impact:
+      backward_compatibility: "<effects on legacy integration during migration>"
+      cross_capability_impact:
+        - "<effects on other capabilities>"
+      integration_impact:
+        - "<effects on external systems or partners>"
+
+    risks_and_mitigations:
+      - risk: "<specific unresolved issue>"
+        mitigation: "<plan to address>"
+        owner: "<person/role responsible>"
+        status: open # open | mitigated | accepted | retired
+
+    pending_approvals:
+      - role: "IBM i / Business SME"
+        reason: "<why this approval is still needed>"
+      - role: "Architecture Owner"
+        reason: "<why this approval is still needed>"
+
+    approvals:
+      - role: "IBM i / Business SME"
+        person: "<name>"
+        date: YYYY-MM-DD
+        sign_off: deferred # approved | requested_changes | needs_discussion | deferred
+        notes: "<optional notes on legacy-fidelity review>"
+      - role: "Architecture Owner"
+        person: "<name>"
+        date: YYYY-MM-DD
+        sign_off: deferred # approved | requested_changes | needs_discussion | deferred
+        notes: "<optional notes on target-system review>"
+      - role: "Product Owner"
+        person: "<name-or-not-required>"
+        date: YYYY-MM-DD
+        sign_off: deferred # approved | requested_changes | needs_discussion | deferred | not_required
+        notes: "<optional notes on business-impact review>"
+
+    reconciliation:
+      spec_yaml_update_required: yes
+      spec_yaml_fields:
+        decision: "<schema-compliant decision text>"
+        rationale: "<schema-compliant rationale text>"
+        evidence_ids:
+          - EV-<CAP-SLUG>-NNN
+        impact: "<schema-compliant implementation/testing impact summary>"
+        review_status: draft # draft | needs_sme_review | approved | rejected | retired
+      reconciliation_notes: "<how this DEC was incorporated back to spec.yaml, if applicable>"
+
+    linked_acceptance_criteria:
+      # Optional. These must already exist in spec.yaml; decision-writer does not mint AC-*.
+      - AC-<CAP-SLUG>-NNN
+
+decision_package_summary:
+  total_decisions: <N>
+  approved_count: <N>
+  needs_sme_review_count: <N>
+  draft_count: <N>
+  rejected_count: <N>
+  retired_count: <N>
+  blocking_tbds: <N>
+  readiness_for_handoff: awaiting_approval # ready | awaiting_approval | blocked_on_tbd | not_ready
+
+  decision_categories:
+    architecture: <N>
+    data: <N>
+    api_surface: <N>
+    error_handling: <N>
+    async_boundary: <N>
+    compatibility: <N>
+    audit: <N>
+    security: <N>
+    observability: <N>
+
+  key_risks:
+    - "<unresolved decision X>"
+    - "<missing authority Y>"
+    - "<architectural uncertainty Z>"
+
+traceability_index:
+  - dec_id: DEC-<CAP-SLUG>-001
+    linked_brs:
+      - BR-<CAP-SLUG>-NNN
+    linked_behs:
+      - BEH-<CAP-SLUG>-NNN
+    linked_evs:
+      - EV-<CAP-SLUG>-NNN
+    linked_tbds:
+      - TBD-<CAP-SLUG>-NNN
+    linked_acs:
+      - AC-<CAP-SLUG>-NNN

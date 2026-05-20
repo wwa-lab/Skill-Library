@@ -1,0 +1,8 @@
+CPF9898  Completion  20  2026-05-20 11:02:18.000111  QPGMR     QSYS     0001
+  Message . . . . :   CREDIT CHECK REQUEST SUBMITTED
+  Cause . . . . . :   CLLE wrapper submitted the credit check request.
+
+CPF9898  Diagnostic  40  2026-05-20 11:02:16.441009  CREDITCHK  MYLIB    0002
+  Message . . . . :   CUSTOMER ON HOLD
+  Cause . . . . . :   Credit lookup returned a hold-style status.
+  Recovery  . . . :   Business handling for hold status requires SME review.

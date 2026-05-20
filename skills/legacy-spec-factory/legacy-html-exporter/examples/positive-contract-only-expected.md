@@ -1,0 +1,3 @@
+- canonical source path: `docs/EXAMPLE-tutorial/STATUS.md`
+- generated HTML path: `docs/EXAMPLE-tutorial/STATUS.html`
+- whether Markdown remains canonical: yes

@@ -1,0 +1,17 @@
+schema_version: "0.1"
+status: "blocked"
+capability:
+  id: "CAP-CREDIT-LIMIT-001"
+  slug: "CREDIT-LIMIT"
+findings:
+  - id: "FIND-CREDIT-LIMIT-001"
+    severity: "blocking"
+    layer: "evidence"
+    title: "Missing expected-output evidence for missing-customer rejection"
+    related_ids:
+      - "BR-CREDIT-LIMIT-003"
+      - "AC-CREDIT-LIMIT-004"
+    problem: "The approved acceptance criterion requires a missing-customer rejection, but the package contains no redacted runtime evidence showing the legacy output for that scenario."
+    required_remediation: "Collect and redact a job log, screen output, response file, or DB snapshot for the missing-customer path, or record an SME-approved deferral before creating a TC-*."
+    resolver: "Test data owner"
+    downstream_next_step: "legacy-ibmi-evidence-intake"

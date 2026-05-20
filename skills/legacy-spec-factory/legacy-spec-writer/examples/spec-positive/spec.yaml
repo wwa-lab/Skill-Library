@@ -1,0 +1,362 @@
+schema_version: "0.1"
+
+spec_id: SPEC-CARD-AUTH-CREDLIM-001
+
+capability:
+  id: CAP-CARD-AUTH-CREDLIM-001
+  name: "Credit Limit Enforcement"
+  slug: CARD-AUTH-CREDLIM
+  owner: "Anna Chen (Card Operations)"
+
+status: in_review  # 1 BR still needs_sme_review
+
+source_system:
+  name: "IBM i partition AMH (Card Authorization library set)"
+  libraries:
+    - CUAUTHLIB
+    - CCMSTRLIB
+  collection_date: 2026-05-12
+
+target_platform:
+  architecture: "Java 21 + Spring Boot 3 + PostgreSQL + Kafka (event log)"
+  service_hint: "card-auth-service / credit-limit-domain"
+
+business_goal: |
+  Ensure no on-us card authorization is approved when it would cause the
+  cardholder's outstanding balance to exceed their established credit limit;
+  provide an auditable trail for every approval and decline.
+
+scope:
+  in_scope:
+    - "Online (Visa/Mastercard inbound) authorizations"
+    - "Manual override authorizations from CSR menu (option 7)"
+    - "Credit-limit check using authoritative master in CCMSTRLIB"
+    - "Audit row written for every decision (approve or decline)"
+  out_of_scope:
+    - "Settlement (SETTLEMENT module)"
+    - "Chargeback / dispute (CHARGEBACK module)"
+    - "Credit-limit setting / change (CUSTOMER-MASTER module)"
+    - "Off-us authorizations (different module entirely)"
+
+evidence:
+  - id: EV-CARD-AUTH-CREDLIM-001
+    source_type: rpgle
+    location: "CUAUTHLIB/CREDITCHK member: lines 18–34 (validation logic)"
+    excerpt_ref: ""
+    evidence_strength: confirmed_from_code
+    summary: "CREDITCHK: IF RequestAmt > CredLimit then return 'D'"
+    sensitive: "no"
+  - id: EV-CARD-AUTH-CREDLIM-002
+    source_type: rpgle
+    location: "CUAUTHLIB/CU110A member: lines 240–260 (audit row WRITE)"
+    excerpt_ref: ""
+    evidence_strength: confirmed_from_code
+    summary: "CU110A always writes TXNLOGPF row with decision before responding"
+    sensitive: "no"
+  - id: EV-CARD-AUTH-CREDLIM-003
+    source_type: dds_pf
+    location: "CCMSTRLIB/CREDFILE: field CREDLIMIT (decimal 11,2)"
+    excerpt_ref: ""
+    evidence_strength: confirmed_from_code
+    summary: "CREDLIMIT field type and precision"
+    sensitive: "no"
+  - id: EV-CARD-AUTH-CREDLIM-004
+    source_type: sme_note
+    location: "Anna Chen SME interview 2026-05-12"
+    excerpt_ref: "spec-review.md note 1"
+    evidence_strength: confirmed_by_sme
+    summary: "Credit limit enforcement is per-cardholder; reflects regulatory PBOC requirement on consumer lending exposure"
+    sensitive: "no"
+  - id: EV-CARD-AUTH-CREDLIM-005
+    source_type: rpgle
+    location: "CUAUTHLIB/CU110A member: lines 270–280 (decline-response builder)"
+    excerpt_ref: ""
+    evidence_strength: confirmed_from_code
+    summary: "Decline response code mapped to ISO 8583 51 (insufficient funds)"
+    sensitive: "no"
+
+observed_behaviors:
+  - id: BEH-CARD-AUTH-CREDLIM-001
+    knowledge_type: observed_behavior
+    statement: |
+      CREDITCHK subroutine compares the requested authorization amount
+      against CREDFILE.CREDLIMIT and returns 'D' (decline) if the request
+      exceeds the limit, 'A' (approve) otherwise.
+    evidence_ids:
+      - EV-CARD-AUTH-CREDLIM-001
+      - EV-CARD-AUTH-CREDLIM-003
+    confidence: high
+    review_status: approved
+  - id: BEH-CARD-AUTH-CREDLIM-002
+    knowledge_type: observed_behavior
+    statement: |
+      For every authorization processed by CU110A, a row is written to
+      TXNLOGPF with the decision ('APPROVED' or 'DECLINED') before any
+      response is returned to the caller.
+    evidence_ids:
+      - EV-CARD-AUTH-CREDLIM-002
+    confidence: high
+    review_status: approved
+  - id: BEH-CARD-AUTH-CREDLIM-003
+    knowledge_type: observed_behavior
+    statement: |
+      A credit-limit decline maps to ISO 8583 response code 51
+      (insufficient funds) in the outbound message to Visa/Mastercard.
+    evidence_ids:
+      - EV-CARD-AUTH-CREDLIM-005
+    confidence: high
+    review_status: approved
+
+business_rules:
+  - id: BR-CARD-AUTH-CREDLIM-001
+    knowledge_type: inferred_business_rule
+    rule: |
+      An authorization request whose amount exceeds the cardholder's
+      established credit limit must be declined.
+    evidence_ids:
+      - EV-CARD-AUTH-CREDLIM-001
+      - EV-CARD-AUTH-CREDLIM-003
+      - EV-CARD-AUTH-CREDLIM-004
+    confidence: high
+    review_status: approved
+    linked_behaviors:
+      - BEH-CARD-AUTH-CREDLIM-001
+  - id: BR-CARD-AUTH-CREDLIM-002
+    knowledge_type: inferred_business_rule
+    rule: |
+      Every authorization decision (approve or decline) must be persisted
+      to the audit log before the response is returned to the caller.
+    evidence_ids:
+      - EV-CARD-AUTH-CREDLIM-002
+      - EV-CARD-AUTH-CREDLIM-004
+    confidence: high
+    review_status: approved
+    linked_behaviors:
+      - BEH-CARD-AUTH-CREDLIM-002
+  - id: BR-CARD-AUTH-CREDLIM-003
+    knowledge_type: inferred_business_rule
+    rule: |
+      A credit-limit decline must convey ISO 8583 response code 51
+      (insufficient funds) to external card networks.
+    evidence_ids:
+      - EV-CARD-AUTH-CREDLIM-005
+    confidence: medium
+    review_status: needs_sme_review
+    linked_behaviors:
+      - BEH-CARD-AUTH-CREDLIM-003
+
+modernization_decisions:
+  - id: DEC-CARD-AUTH-CREDLIM-001
+    knowledge_type: modernization_decision
+    decision: |
+      Implement credit-limit check as a synchronous in-process call to the
+      Customer Master service via gRPC (sub-50ms p99); fallback policy
+      below.
+    rationale: |
+      BR-001 must be enforced in real-time for every authorization. Legacy
+      CHAIN access to CCMSTRLIB averages < 10ms; gRPC equivalent stays
+      within p99 budget while supporting the target_platform's
+      microservice boundary.
+    evidence_ids:
+      - EV-CARD-AUTH-CREDLIM-001
+    impact: |
+      Card-auth-service requires customer-master service contract;
+      fallback policy (use stale cache vs. decline) needs SME decision.
+    review_status: draft
+  - id: DEC-CARD-AUTH-CREDLIM-002
+    knowledge_type: modernization_decision
+    decision: |
+      Audit log target = append-only Kafka topic `auth-decision-log` with
+      a downstream consumer projecting to a queryable PostgreSQL table.
+    rationale: |
+      BR-002 requires durable audit before response. Kafka append-only
+      gives ordering and durability; downstream projection supports the
+      legacy operational pattern of reading TXNLOGPF for reconciliation.
+    evidence_ids:
+      - EV-CARD-AUTH-CREDLIM-002
+    impact: |
+      Affects FLOW-NIGHTLY-RECON modernization; reconciliation logic must
+      switch from PF read to Kafka consumer or PostgreSQL projection.
+    review_status: draft
+
+data_model:
+  entities:
+    - name: AuthorizationDecision
+      legacy_sources:
+        - OBJ-CARD-AUTH-050  # TXNLOGPF
+      fields:
+        - name: transactionId
+          legacy_field: TxnID
+          type: string  # UUID
+          evidence_ids:
+            - EV-CARD-AUTH-CREDLIM-002
+          evidence_strength: confirmed_from_code
+          review_status: approved
+        - name: customerId
+          legacy_field: CustID
+          type: string
+          evidence_ids:
+            - EV-CARD-AUTH-CREDLIM-002
+          evidence_strength: confirmed_from_code
+          review_status: approved
+        - name: requestedAmount
+          legacy_field: AuthAmt
+          type: BigDecimal
+          evidence_ids:
+            - EV-CARD-AUTH-CREDLIM-002
+          evidence_strength: confirmed_from_code
+          review_status: approved
+        - name: decision
+          legacy_field: Decision
+          type: enum {APPROVED, DECLINED}
+          evidence_ids:
+            - EV-CARD-AUTH-CREDLIM-002
+          evidence_strength: confirmed_from_code
+          review_status: approved
+        - name: declineReason
+          legacy_field: DeclineRsn
+          type: string (nullable)
+          evidence_ids:
+            - EV-CARD-AUTH-CREDLIM-002
+          evidence_strength: confirmed_from_code
+          review_status: approved
+        - name: decisionTimestamp
+          legacy_field: DecTimestamp
+          type: Instant
+          evidence_ids:
+            - EV-CARD-AUTH-CREDLIM-002
+          evidence_strength: confirmed_from_code
+          review_status: approved
+
+process_flow:
+  steps:
+    - id: STEP-CARD-AUTH-CREDLIM-001
+      description: "Receive authorization request (amount, customerId, channel)"
+      evidence_ids:
+        - EV-CARD-AUTH-CREDLIM-001
+    - id: STEP-CARD-AUTH-CREDLIM-002
+      description: "Fetch cardholder's current credit limit from authoritative source"
+      evidence_ids:
+        - EV-CARD-AUTH-CREDLIM-003
+    - id: STEP-CARD-AUTH-CREDLIM-003
+      description: "Compare requested amount to credit limit; determine approve/decline"
+      evidence_ids:
+        - EV-CARD-AUTH-CREDLIM-001
+    - id: STEP-CARD-AUTH-CREDLIM-004
+      description: "Persist audit row (decision, timestamps, reason if declined) before returning"
+      evidence_ids:
+        - EV-CARD-AUTH-CREDLIM-002
+    - id: STEP-CARD-AUTH-CREDLIM-005
+      description: "Return response to caller (success with auth code, or decline with reason code 51)"
+      evidence_ids:
+        - EV-CARD-AUTH-CREDLIM-005
+
+inputs:
+  - id: IN-CARD-AUTH-CREDLIM-001
+    name: AuthorizationRequest
+    source: api
+    required: "yes"
+    validation: "amount > 0; customerId matches active cardholder"
+    evidence_ids:
+      - EV-CARD-AUTH-CREDLIM-001
+
+outputs:
+  - id: OUT-CARD-AUTH-CREDLIM-001
+    name: AuthorizationResponse
+    target: api_response
+    description: "Response with decision (APPROVED + authCode) or (DECLINED + reason code 51)"
+    evidence_ids:
+      - EV-CARD-AUTH-CREDLIM-005
+  - id: OUT-CARD-AUTH-CREDLIM-002
+    name: AuditLogEntry
+    target: event
+    description: "One AuthorizationDecision event appended to auth-decision-log topic"
+    evidence_ids:
+      - EV-CARD-AUTH-CREDLIM-002
+
+exceptions:
+  - id: EX-CARD-AUTH-CREDLIM-001
+    condition: "Customer master service unavailable when credit-limit lookup attempted"
+    expected_behavior: "Decline with response code 96 (system error); audit row written"
+    severity: error
+    evidence_ids:
+      - EV-CARD-AUTH-CREDLIM-004
+  - id: EX-CARD-AUTH-CREDLIM-002
+    condition: "Audit log write fails after decision computed"
+    expected_behavior: "Decline with response code 96; do not return APPROVED if audit not persisted"
+    severity: blocking
+    evidence_ids:
+      - EV-CARD-AUTH-CREDLIM-002
+
+acceptance_criteria:
+  - id: AC-CARD-AUTH-CREDLIM-001
+    format: gherkin
+    text: |
+      Given an active cardholder C with credit limit 50000.00
+      And no in-flight authorizations consuming the limit
+      When an authorization request arrives for customerId=C and amount=60000.00
+      Then the response is DECLINED with reason code 51
+      And an AuthorizationDecision audit event is appended with decision=DECLINED
+      And the audit event timestamp precedes the response sent to the caller
+    validates:
+      - BR-CARD-AUTH-CREDLIM-001
+      - BR-CARD-AUTH-CREDLIM-002
+  - id: AC-CARD-AUTH-CREDLIM-002
+    format: gherkin
+    text: |
+      Given an active cardholder C with credit limit 50000.00
+      When an authorization request arrives for customerId=C and amount=40000.00
+      Then the response is APPROVED
+      And an AuthorizationDecision audit event is appended with decision=APPROVED
+      And the audit event timestamp precedes the response sent to the caller
+    validates:
+      - BR-CARD-AUTH-CREDLIM-002
+  - id: AC-CARD-AUTH-CREDLIM-003
+    format: checklist
+    text: |
+      - [ ] Audit write failure prevents APPROVED response (EX-002)
+      - [ ] Customer master service unavailability declines with code 96 (EX-001)
+      - [ ] Audit row contains decisionTimestamp earlier than response observed by caller
+    validates:
+      - BR-CARD-AUTH-CREDLIM-002
+
+open_questions:
+  - id: TBD-CARD-AUTH-CREDLIM-001
+    question: |
+      Confirm BR-003 (ISO 8583 code 51): is this hard-required for all
+      external card-network responses, or only for Visa/Mastercard? Other
+      networks may use different decline codes.
+    blocking: "yes"
+    related_ids:
+      - EV-CARD-AUTH-CREDLIM-005
+      - BR-CARD-AUTH-CREDLIM-003
+  - id: TBD-CARD-AUTH-CREDLIM-002
+    question: |
+      Confirm fallback policy when Customer Master service is unavailable:
+      decline outright (current legacy behavior) vs. allow stale cache up to N seconds?
+    blocking: "pending_sme_judgment"
+    related_ids:
+      - DEC-CARD-AUTH-CREDLIM-001
+      - EX-CARD-AUTH-CREDLIM-001
+
+traceability:
+  - from_id: BR-CARD-AUTH-CREDLIM-001
+    to_ids:
+      - EV-CARD-AUTH-CREDLIM-001
+      - EV-CARD-AUTH-CREDLIM-003
+      - EV-CARD-AUTH-CREDLIM-004
+      - BEH-CARD-AUTH-CREDLIM-001
+      - AC-CARD-AUTH-CREDLIM-001
+  - from_id: BR-CARD-AUTH-CREDLIM-002
+    to_ids:
+      - EV-CARD-AUTH-CREDLIM-002
+      - EV-CARD-AUTH-CREDLIM-004
+      - BEH-CARD-AUTH-CREDLIM-002
+      - AC-CARD-AUTH-CREDLIM-001
+      - AC-CARD-AUTH-CREDLIM-002
+      - AC-CARD-AUTH-CREDLIM-003
+  - from_id: BR-CARD-AUTH-CREDLIM-003
+    to_ids:
+      - EV-CARD-AUTH-CREDLIM-005
+      - BEH-CARD-AUTH-CREDLIM-003
+      - TBD-CARD-AUTH-CREDLIM-001  # not yet to an AC; BR still needs SME review

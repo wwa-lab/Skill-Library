@@ -1,0 +1,9 @@
+CREDIT CHECK REVIEW
+-------------------
+Customer: 100200300
+Status: A
+Requested Amount: 1200.00
+Available Credit: 1000.00
+Decision: D
+Approved Amount: 1000.00
+Reason: REQUEST OVER AVAILABLE CREDIT

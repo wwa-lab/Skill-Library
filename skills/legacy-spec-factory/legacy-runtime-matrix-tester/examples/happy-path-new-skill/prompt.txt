@@ -1,0 +1,19 @@
+Use /legacy-runtime-matrix-tester.
+
+User input:
+
+I just finished legacy-ibmi-inventory v0.1.0 and it's ready for runtime
+testing. The skill is synced to all three runtimes (Codex, Claude Code,
+OpenCode), and I have the canonical test prompts in examples/. Can you run
+the full smoke test protocol and update the runtime matrix?
+
+Skill name: legacy-ibmi-inventory
+Runtimes to test: all
+Run mode: full (discovery + trigger + adversarial)
+Canonical version: v0.1.0
+
+Return:
+- status of pre-test checks
+- per-runtime results (discovery, trigger, adversarial)
+- updated runtime matrix entry
+- scorecard location (if created)

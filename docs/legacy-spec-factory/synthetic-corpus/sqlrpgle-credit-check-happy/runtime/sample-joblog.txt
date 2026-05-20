@@ -1,0 +1,9 @@
+CPF9898  Completion  20  2026-05-20 10:14:02.101234  QPGMR  QSYS        0001
+  Message . . . . :   CREDIT CHECK COMPLETED
+  Cause . . . . . :   CLLE wrapper CRDTCMD completed call to CREDITCHK.
+
+CPF9898  Diagnostic  40  2026-05-20 10:13:59.998120  CREDITCHK  MYLIB    0002
+  Message . . . . :   REQUEST OVER AVAILABLE CREDIT
+  Cause . . . . . :   Requested amount exceeded available credit returned
+    from CREDITVW.
+  Recovery  . . . :   Return denied decision with capped approved amount.

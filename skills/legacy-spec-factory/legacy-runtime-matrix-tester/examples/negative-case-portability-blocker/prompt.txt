@@ -1,0 +1,17 @@
+Use /legacy-runtime-matrix-tester.
+
+User input:
+
+I finished legacy-spec-writer v0.2.0 and synced it to Codex. But I can't test
+it in Claude Code yet because my local Claude CLI isn't logged in. Should I
+mark it as passed anyway? The Codex tests all passed.
+
+Skill name: legacy-spec-writer
+Runtimes to test: claude-code
+Run mode: discovery
+Canonical version: v0.2.0
+
+Return:
+- blocking issues (if any)
+- recommendation for matrix entry
+- whether field pilot is blocked

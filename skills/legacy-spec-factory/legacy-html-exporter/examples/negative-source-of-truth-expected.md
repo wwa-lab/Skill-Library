@@ -1,0 +1,3 @@
+- action: blocked
+- reason: HTML companion export does not replace the Markdown source of truth
+- canonical source of truth: `docs/EXAMPLE-tutorial/05_specs/CAP-PRICE-CALCULATION/spec.md`

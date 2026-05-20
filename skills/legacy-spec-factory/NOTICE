@@ -1,0 +1,14 @@
+Legacy Spec Factory
+
+Copyright 2026 Leo L Zhang
+
+Original author: Leo L Zhang
+
+This project contains agent skill designs, documentation templates, workflow
+patterns, evaluation rubrics, and modernization guidance for converting IBM i
+(AS/400) legacy system behavior into evidence-backed specifications for
+AI-native SDLC.
+
+This notice should be retained in substantial copies or redistributions of the
+project, including copied or derived skill definitions.
+

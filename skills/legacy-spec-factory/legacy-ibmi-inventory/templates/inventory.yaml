@@ -1,0 +1,22 @@
+schema_version: "0.1"
+capability:
+  id:
+  name:
+  slug:
+  owner:
+status: draft
+source_system:
+  name:
+  libraries: []
+  collection_date:
+evidence: []
+objects: []
+relationships: []
+coverage_gaps: []
+open_questions: []
+sme_review:
+  reviewer:
+  review_date:
+  decision: pending
+  notes:
+

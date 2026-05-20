@@ -1,0 +1,63 @@
+review_id: "REVIEW-INVOICE-AGING-001"
+review_date: "2026-05-16"
+artifact_under_review: "05_specs/INVOICE-AGING/spec.yaml"
+capability_slug: "INVOICE-AGING"
+
+sme_reviewer:
+  name: "Arun Patel"
+  role: "Billing Operations SME"
+  organization: "Finance Operations"
+  date: "2026-05-16"
+
+decisions:
+  - item_id: "BEH-INVOICE-AGING-004"
+    item_type: "behavior_claim"
+    question_posed: "Is the seven-day grace period intentional behavior?"
+    sme_answer: "Yes. The seven-day grace period is intentional for government accounts."
+    decision_outcome: "confirmed"
+    referenced_evidence:
+      - "EV-INVOICE-AGING-011"
+    sign_off_flag: "AP 2026-05-16"
+
+  - item_id: "BR-INVOICE-AGING-002"
+    item_type: "inferred_rule"
+    question_posed: "Does aging start on invoice date for every customer type?"
+    sme_answer: "No. For government accounts it starts after the grace period."
+    decision_outcome: "rejected"
+    referenced_evidence:
+      - "EV-INVOICE-AGING-012"
+    suggested_revision: |
+      Aging starts on invoice date for standard accounts and after the
+      seven-day grace period for government accounts.
+    sign_off_flag: "AP 2026-05-16"
+
+  - item_id: "TBD-INVOICE-AGING-003"
+    item_type: "tbd"
+    question_posed: "Do disputed invoices age during active dispute review?"
+    sme_answer: "I need the disputed-invoice report before I can answer that."
+    decision_outcome: "needs_more_evidence"
+    referenced_evidence: []
+    sign_off_flag: ""
+    escalation:
+      reason: "SME needs disputed-invoice report evidence."
+      owner: "Billing Reporting Owner"
+      target_date: "2026-05-24"
+      next_step: "Collect and redact disputed-invoice report sample."
+
+escalations:
+  - item_id: "TBD-INVOICE-AGING-003"
+    reason: "SME needs disputed-invoice report evidence."
+    owner: "Billing Reporting Owner"
+    target_date: "2026-05-24"
+    next_step: "Collect and redact disputed-invoice report sample."
+
+signoff_summary: |
+  I, Arun Patel, confirm that the recorded decisions reflect my written
+  responses. Confirmed and rejected items may be routed to the owning skill.
+  The disputed-invoice TBD remains unresolved pending evidence collection.
+
+  Date: 2026-05-16
+  Signature / Initials: AP
+
+session_notes: |
+  Review completed asynchronously by question pack response.

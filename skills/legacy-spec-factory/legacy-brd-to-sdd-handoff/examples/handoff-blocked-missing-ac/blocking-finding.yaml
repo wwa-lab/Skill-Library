@@ -1,0 +1,86 @@
+# Blocking Finding Record
+#
+# This file is the machine-readable output that legacy-brd-to-sdd-handoff
+# emits when the gate blocks. The full sdd-handoff.yaml is NOT written;
+# only handoff-review.md and this finding file are produced.
+
+schema_version: "0.1"
+handoff_attempt_id: "HANDOFF-ORDER-ENTRY-2026-05-15"
+attempt_date: "2026-05-15T10:14:00Z"
+validator: "Claude Code / legacy-brd-to-sdd-handoff v0.1.0"
+
+capability:
+  id: "CAP-ORDER-ENTRY-001"
+  slug: "ORDER-ENTRY"
+  owner:
+    name: "Sarah Chen"
+    role: "Order Management Lead"
+
+status: "blocked"
+
+source_artifacts:
+  brd:
+    id: "BRD-ORDER-ENTRY-001"
+    path: "05_brds/ORDER-ENTRY/brd.md"
+    status: "approved"
+    approved_by:
+      name: "Sarah Chen"
+      role: "Order Management Lead"
+      date: "2026-05-14"
+  spec:
+    id: "SPEC-ORDER-ENTRY-001"
+    path: "05_specs/ORDER-ENTRY/spec.yaml"
+    status: "approved"
+    approved_by:
+      name: "Sarah Chen"
+      role: "Order Management Lead"
+      date: "2026-05-14"
+
+# Gate Outcomes
+gate_results:
+  brd_approved_and_signed: pass
+  spec_approved_and_signed: pass
+  no_blocking_tbd: pass
+  every_approved_br_has_ac: FAIL    # <-- blocking
+  every_linked_ac_approved: pass
+  evidence_cleared: pass
+  traceability_complete: warning    # downstream of the BR-AC gap
+
+findings:
+  blocking:
+    - id: "BR-MISSING-AC"
+      severity: "blocking"
+      step: 4
+      rule_id: "BR-ORDER-ENTRY-003"
+      rule_statement: "System must apply promotional discounts during order entry"
+      rule_review_status: "approved"
+      detail: "Approved business rule has no entries in acceptance_criteria_ids[]."
+      required_remediation:
+        responsible_skill: "legacy-spec-writer"
+        action: "Extract acceptance criteria for BR-ORDER-ENTRY-003 from the program analysis of ORDENTRY (promotional-discount branch), the flow analysis of the discount path, and the runtime evidence sampling promotional orders. Have Sarah Chen approve each AC. Then re-run legacy-brd-to-sdd-handoff."
+        forbidden_action: "legacy-brd-to-sdd-handoff MUST NOT invent acceptance criteria for this rule. Only legacy-spec-writer, with SME approval, may mint AC-* records."
+
+  warnings:
+    - id: "ORPHANED-BR-DOWNSTREAM"
+      severity: "warning"
+      detail: "BR-ORDER-ENTRY-003 does not appear in the traceability matrix beyond evidence linkage, because no AC-* hangs off it. Resolves automatically once the blocking finding above is fixed."
+
+  info: []
+
+# Package output
+package_written: false
+files_written:
+  - "06_sdd_handoffs/ORDER-ENTRY/handoff-review.md"
+  - "06_sdd_handoffs/ORDER-ENTRY/blocking-finding.yaml"
+files_not_written:
+  - "06_sdd_handoffs/ORDER-ENTRY/sdd-handoff.yaml"
+  - "06_sdd_handoffs/ORDER-ENTRY/sdd-handoff.md"
+  - "06_sdd_handoffs/ORDER-ENTRY/atlas-context-pack.json"
+  - "06_sdd_handoffs/ORDER-ENTRY/traceability.md"
+
+# Routing for the orchestrator
+next_step:
+  skill: "legacy-spec-writer"
+  capability_slug: "ORDER-ENTRY"
+  scope: "BR-ORDER-ENTRY-003 only"
+  re_run_handoff_after: true

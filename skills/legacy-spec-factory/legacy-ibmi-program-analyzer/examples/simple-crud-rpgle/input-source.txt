@@ -1,0 +1,43 @@
+**==============================================================================
+** CREDITCHK: Simple Credit Limit Validation (RPGLE)
+**
+** Purpose: Validate customer credit amount against stored credit limit
+** Date: 2025-12-15
+** Author: Credit Systems Team
+**==============================================================================
+
+H MAIN
+
+D CreditChk       PR              1A
+D   CustID                  9P 0 const
+D   RequestAmount           7P 2 const
+D   ApprovedAmount          7P 2
+
+D CreditChk       PI              1A
+D   CustID                  9P 0 const
+D   RequestAmount           7P 2 const
+D   ApprovedAmount          7P 2
+
+D CREDFILE      E DS                  EXTNAME(CREDFILE)
+D CUSTFILE      E DS                  EXTNAME(CUSTFILE)
+
+F CREDFILE    IF   A        K        DISK
+F CUSTFILE    IF   A        K        DISK
+
+/free
+
+   CHAIN CustID CREDFILE;
+   if not %found(CREDFILE);
+      ApprovedAmount = 0;
+      return 'D';  // DENIED: Customer not found
+   endif;
+
+   if RequestAmount <= CREDLIMIT;
+      ApprovedAmount = RequestAmount;
+      return 'A';  // APPROVED
+   else;
+      ApprovedAmount = CREDLIMIT;
+      return 'D';  // DENIED: Exceeds limit
+   endif;
+
+/end-free

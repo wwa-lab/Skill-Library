@@ -1,0 +1,5 @@
+     A          R CREDITR                    PFILE(CUSTMAST)
+     A            CUSTNO
+     A            STATUS
+     A            AVAIL_CREDIT    9P 2
+     A          K CUSTNO

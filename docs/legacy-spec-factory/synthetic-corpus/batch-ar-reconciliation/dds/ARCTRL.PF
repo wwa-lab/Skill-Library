@@ -1,0 +1,6 @@
+     A          R CTRLREC
+     A            CTRLKEY       10A
+     A            CTRLRUNDT      8S 0
+     A            RESTARTFL      1A
+     A            BATCHSTS      10A
+     A          K CTRLKEY

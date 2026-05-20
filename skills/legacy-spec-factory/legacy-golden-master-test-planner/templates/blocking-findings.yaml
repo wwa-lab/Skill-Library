@@ -1,0 +1,18 @@
+schema_version: "0.1"
+status: "blocked"
+capability:
+  id: "CAP-<CAPABILITY-SLUG>-001"
+  slug: "<CAPABILITY-SLUG>"
+findings:
+  - id: "FIND-<CAPABILITY-SLUG>-001"
+    severity: "blocking"
+    layer: "evidence" # input | mechanical | semantic | evidence | sme | handoff
+    title: "<short finding title>"
+    related_ids:
+      - "BR-<CAPABILITY-SLUG>-001"
+      - "AC-<CAPABILITY-SLUG>-001"
+      - "EV-<CAPABILITY-SLUG>-001"
+    problem: "<what failed>"
+    required_remediation: "<specific action needed>"
+    resolver: "<role/name>"
+    downstream_next_step: "<skill or owner to route to>"

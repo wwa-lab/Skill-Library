@@ -1,0 +1,209 @@
+# SME Decision Log
+#
+# Machine-readable record of all decisions made during SME review session.
+# Every decision is traceable to a named SME, with date and explicit outcome.
+#
+
+review_id: "REVIEW-<CAPABILITY-SLUG>-<NNN>"
+review_date: "YYYY-MM-DD"
+artifact_under_review: "<path/to/artifact.md or .yaml>"
+capability_slug: "<CAPABILITY-SLUG>"
+
+sme_reviewer:
+  name: "<SME full name>"
+  role: "<SME role/title, e.g., 'Accounts Payable Team Lead'>"
+  organization: "<org>"
+  date: "YYYY-MM-DD"
+
+# ============================================================================
+# DECISIONS
+# ============================================================================
+# Each decision corresponds to one review question.
+# Every decision must have an outcome and SME identification.
+
+decisions:
+  # ========================================================================
+  # OPEN TBD
+  # ========================================================================
+
+  - item_id: "TBD-<CAPABILITY>-<NNN>"
+    item_type: "tbd"
+    # Type: one of [tbd, inferred_rule, behavior_claim, modernization_decision, contradiction]
+
+    question_posed: |
+      <The exact question asked of the SME, verbatim from question-pack>
+
+    sme_answer: |
+      <The SME's exact response, verbatim>
+
+    decision_outcome: "confirmed"
+    # One of: confirmed, rejected, deferred, marked_non_blocking, marked_blocking,
+    #         split_into_follow_ups, needs_more_evidence
+
+    # If confirmed / rejected / marked_non_blocking / marked_blocking:
+    sign_off_flag: "SME-initials YYYY-MM-DD"
+    # Format: "JDM 2026-05-16" (SME initials + ISO date)
+
+    # If deferred or needs_more_evidence:
+    escalation:
+      reason: "<Why SME could not decide now>"
+      owner: "<Who will resolve this (name or role)>"
+      target_date: "YYYY-MM-DD"
+      next_step: "<What needs to happen next, e.g., 'Gather production logs', 'Schedule follow-up meeting'>"
+
+    referenced_evidence:
+      - "EV-<CAPABILITY>-<NNN>"
+      - "EV-<CAPABILITY>-<NNN>"
+      # List all EV-* IDs the SME considered when making decision
+
+    notes: |
+      (Optional context or clarification)
+
+  # ========================================================================
+  # INFERRED BUSINESS RULE
+  # ========================================================================
+
+  - item_id: "BR-<CAPABILITY>-<NNN>"
+    item_type: "inferred_rule"
+
+    question_posed: |
+      We inferred from the analysis: "[rule statement]"
+      Does this rule accurately reflect business intent?
+
+    sme_answer: |
+      <SME response, including any corrections or refinements>
+
+    decision_outcome: "confirmed"
+    # One of: confirmed, rejected, deferred, marked_non_blocking,
+    #         marked_blocking, split_into_follow_ups, needs_more_evidence
+
+    # If confirmed / rejected:
+    sign_off_flag: "SME-initials YYYY-MM-DD"
+
+    # If rejected because the rule is close but needs changes:
+    suggested_revision: |
+      <SME's proposed correction to the rule>
+
+    referenced_evidence:
+      - "EV-<CAPABILITY>-<NNN>"
+
+    notes: |
+      (Optional context)
+
+  # ========================================================================
+  # CONTRADICTION
+  # ========================================================================
+
+  - item_id: "FIND-<CAPABILITY>-<NNN>"
+    item_type: "contradiction"
+
+    question_posed: |
+      Evidence shows two different behaviors:
+      - [Position A] (EV-X)
+      - [Position B] (EV-Y)
+
+      Which is correct, or when is each appropriate?
+
+    sme_answer: |
+      <SME judgment on the contradiction>
+
+    decision_outcome: "confirmed"
+    # One of: confirmed (SME chose one position or explained when each applies),
+    #         rejected, deferred, split_into_follow_ups, needs_more_evidence
+
+    sign_off_flag: "SME-initials YYYY-MM-DD"
+
+    referenced_evidence:
+      - "EV-<CAPABILITY>-<NNN>"
+      - "EV-<CAPABILITY>-<NNN>"
+
+    notes: |
+      (SME clarification of when each behavior applies, if both are valid)
+
+  # ========================================================================
+  # BEHAVIOR CONFIRMATION
+  # ========================================================================
+
+  - item_id: "BEH-<CAPABILITY>-<NNN>"
+    item_type: "behavior_claim"
+
+    question_posed: |
+      We observed: "[behavior claim]"
+      Is this the intended system behavior, or a known issue?
+
+    sme_answer: |
+      <SME confirmation or clarification>
+
+    decision_outcome: "confirmed"
+    # One of: confirmed (behavior is intended, including explicit conditions),
+    #         rejected, deferred, split_into_follow_ups, needs_more_evidence
+
+    sign_off_flag: "SME-initials YYYY-MM-DD"
+
+    referenced_evidence:
+      - "EV-<CAPABILITY>-<NNN>"
+
+    notes: |
+      (Any context on the behavior, e.g., "This is a known workaround from 2018")
+
+  # ========================================================================
+  # MODERNIZATION DECISION
+  # ========================================================================
+
+  - item_id: "DEC-<CAPABILITY>-<NNN>"
+    item_type: "modernization_decision"
+
+    question_posed: |
+      We propose: "[decision statement]"
+      Does this align with your business goals? Any concerns?
+
+    sme_answer: |
+      <SME acceptance, rejection, or conditions>
+
+    decision_outcome: "confirmed"
+    # One of: confirmed (SME accepts, including explicit conditions),
+    #         rejected, deferred, split_into_follow_ups, needs_more_evidence
+
+    sign_off_flag: "SME-initials YYYY-MM-DD"
+
+    referenced_evidence: []
+
+    notes: |
+      (Any SME constraints or conditions on the decision)
+
+# ============================================================================
+# ESCALATIONS
+# ============================================================================
+# Summarize all deferred or escalated items.
+
+escalations:
+  - item_id: "TBD-<CAPABILITY>-<NNN>"
+    reason: "<Why could not be decided>"
+    owner: "<Name or role of person who will resolve>"
+    target_date: "YYYY-MM-DD"
+    next_step: "<Specific action to unblock this, e.g., 'Gather production logs', 'Schedule Ops meeting'>"
+
+# ============================================================================
+# SIGN-OFF
+# ============================================================================
+# SME approval of the entire decision log.
+
+signoff_summary: |
+  I, [SME name], have reviewed the decisions recorded in this log and confirm
+  that they accurately reflect my judgments and the business intent as I
+  understand it.
+
+  I approve the outcomes marked "confirmed" and "marked_non_blocking" for
+  advancement to downstream skills.
+
+  Date: [ISO date]
+  Signature / Initials: [SME initials]
+
+# ============================================================================
+# SESSION NOTES
+# ============================================================================
+# Optional context about the review session.
+
+session_notes: |
+  (Any additional context: scheduling notes, SME availability, surface-level
+   impressions, unexpected findings, etc.)

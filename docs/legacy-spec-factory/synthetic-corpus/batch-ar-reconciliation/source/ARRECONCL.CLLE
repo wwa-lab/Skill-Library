@@ -1,0 +1,10 @@
+             PGM
+             DCL        VAR(&JOBD) TYPE(*CHAR) LEN(10) VALUE('ARRECON')
+             DCL        VAR(&JOBQ) TYPE(*CHAR) LEN(10) VALUE('FINBATCH')
+
+             SBMJOB     CMD(CALL PGM(ARRECON)) JOB(&JOBD) JOBQ(&JOBQ)
+
+             SNDPGMMSG  MSGID(CPF9898) MSGF(QCPFMSG) +
+                          MSGDTA('AR reconciliation batch submitted')
+
+             ENDPGM

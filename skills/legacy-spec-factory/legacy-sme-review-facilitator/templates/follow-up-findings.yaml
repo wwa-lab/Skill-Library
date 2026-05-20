@@ -1,0 +1,220 @@
+# Follow-Up Findings
+#
+# Record of all unresolved items, rule revisions, and routing decisions
+# from SME review session. Each finding is actionable and traces back
+# to a source item in the decision log.
+#
+
+follow_up_id: "FOLLOWUP-<CAPABILITY-SLUG>-<NNN>"
+review_id: "REVIEW-<CAPABILITY-SLUG>-<NNN>"
+generated_date: "YYYY-MM-DD"
+capability_slug: "<CAPABILITY-SLUG>"
+
+# ============================================================================
+# FINDINGS
+# ============================================================================
+
+findings:
+  # ========================================================================
+  # DEFERRED TBD
+  # ========================================================================
+
+  - finding_id: "FIND-<CAPABILITY>-<NNN>"
+    source_item_id: "TBD-<CAPABILITY>-<NNN>"
+    category: "deferred_tbd"
+    # Categories: deferred_tbd, rule_revision_needed, behavior_clarification,
+    #             new_contradiction, evidence_gap, documentation_note, escalation
+    severity: "critical"
+    # One of: critical (blocks SDD or next phase), high (must be resolved soon),
+    #         medium (tracked follow-up), low (documentation or hygiene)
+
+    description: |
+      <Summary of the deferred TBD and why it could not be resolved in session>
+
+    sme_context: |
+      <Any context from the SME about why this is deferred or what would help resolve it>
+
+    owner: "<Name or role of person responsible for resolution>"
+    target_date: "YYYY-MM-DD"
+
+    # What needs to happen next to resolve or unblock this finding
+    next_step: |
+      <Specific action, e.g., "Gather production logs", "Schedule follow-up meeting with Ops">
+
+    blocking_status: "blocking"
+    # One of: blocking (must be resolved before downstream advancement),
+    #         non_blocking (does not prevent downstream work),
+    #         unknown (SME did not specify)
+
+    routing_destination: "legacy-ibmi-evidence-intake"
+    # Where this finding should be routed next (skill name or team)
+
+  # ========================================================================
+  # RULE REVISION NEEDED
+  # ========================================================================
+
+  - finding_id: "FIND-<CAPABILITY>-<NNN>"
+    source_item_id: "BR-<CAPABILITY>-<NNN>"
+    category: "rule_revision_needed"
+    severity: "high"
+
+    description: |
+      <Summary of the rule as currently stated in artifact>
+
+    sme_correction: |
+      <SME's proposed correction or refinement>
+
+    reason: |
+      <Why the current rule is incomplete or inaccurate>
+
+    owner: "legacy-spec-writer"
+    target_date: "YYYY-MM-DD"
+
+    next_step: |
+      Update spec.yaml BR-<CAPABILITY>-<NNN> with the revised statement above
+
+    blocking_status: "non_blocking"
+    # Rule revision is typically non-blocking; upstream spec-writer handles it
+
+  # ========================================================================
+  # BEHAVIOR CLARIFICATION
+  # ========================================================================
+
+  - finding_id: "FIND-<CAPABILITY>-<NNN>"
+    source_item_id: "BEH-<CAPABILITY>-<NNN>"
+    category: "behavior_clarification"
+    severity: "medium"
+
+    description: |
+      <Summary of the observed behavior in artifact>
+
+    sme_clarification: |
+      <SME's explanation of the behavior, context, or conditions>
+
+    owner: "Documentation"
+    target_date: "YYYY-MM-DD"
+
+    next_step: |
+      Update spec.md or BRD with SME clarification; record as design note if this
+      is a legacy workaround we are intentionally preserving
+
+    blocking_status: "non_blocking"
+
+  # ========================================================================
+  # NEW CONTRADICTION DISCOVERED
+  # ========================================================================
+
+  - finding_id: "FIND-<CAPABILITY>-<NNN>"
+    source_item_id: "FIND-<CAPABILITY>-<NNN>"
+    category: "new_contradiction"
+    severity: "critical"
+
+    description: |
+      During SME review, the following contradiction was uncovered:
+      - [Position A]: <description>
+      - [Position B]: <description>
+
+    sme_judgment: |
+      <SME's view on the contradiction, or request for more evidence>
+
+    owner: "legacy-ibmi-evidence-intake"
+    target_date: "YYYY-MM-DD"
+
+    next_step: |
+      Collect additional evidence to clarify or validate SME judgment
+
+    blocking_status: "unknown"
+
+  # ========================================================================
+  # EVIDENCE GAP
+  # ========================================================================
+
+  - finding_id: "FIND-<CAPABILITY>-<NNN>"
+    source_item_id: "TBD-<CAPABILITY>-<NNN>"
+    category: "evidence_gap"
+    severity: "critical"
+
+    description: |
+      The following evidence is weak or missing:
+      <Description of what evidence is needed>
+
+    sme_request: |
+      <SME's request: "We need to see production logs showing...", etc.>
+
+    owner: "legacy-ibmi-evidence-intake"
+    target_date: "YYYY-MM-DD"
+
+    next_step: |
+      Collect, redact, and index the requested evidence; update evidence manifest;
+      route back to SME for confirmation
+
+    blocking_status: "blocking"
+    # Evidence gaps often block downstream advancement until filled
+
+  # ========================================================================
+  # DOCUMENTATION NOTE
+  # ========================================================================
+
+  - finding_id: "FIND-<CAPABILITY>-<NNN>"
+    source_item_id: "DEC-<CAPABILITY>-<NNN>"
+    category: "documentation_note"
+    severity: "low"
+
+    description: |
+      <Summary of a finding that requires documentation or clarification in
+       downstream artifacts, but is not technically blocking>
+
+    sme_note: |
+      <Context or condition that should be recorded in spec or design notes>
+
+    owner: "Documentation / legacy-spec-writer"
+    target_date: "YYYY-MM-DD"
+
+    next_step: |
+      Add design note, rationale, or context to spec.md explaining the SME judgment
+
+    blocking_status: "non_blocking"
+
+# ============================================================================
+# ROUTING
+# ============================================================================
+# High-level summary of where findings go for resolution.
+
+routing:
+  - finding_ids: ["FIND-<CAPABILITY>-001", "FIND-<CAPABILITY>-002"]
+    next_skill: "legacy-ibmi-evidence-intake"
+    reason: "Evidence collection and redaction"
+    target_date: "YYYY-MM-DD"
+
+  - finding_ids: ["FIND-<CAPABILITY>-003"]
+    next_skill: "legacy-spec-writer"
+    reason: "Update BR and AC based on SME corrections"
+    target_date: "YYYY-MM-DD"
+
+  - finding_ids: ["FIND-<CAPABILITY>-004"]
+    next_skill: "legacy-brd-to-sdd-handoff"
+    reason: "Advance artifact to SDD handoff gate (non-blocking findings do not block)"
+    target_date: "YYYY-MM-DD"
+
+  - finding_ids: ["FIND-<CAPABILITY>-005"]
+    next_skill: "Documentation"
+    reason: "Record SME context as design note"
+    target_date: "YYYY-MM-DD"
+
+# ============================================================================
+# SUMMARY
+# ============================================================================
+
+summary: |
+  Total findings from review: <count>
+
+  Blocking findings: <count> (must be resolved before downstream advancement)
+  Non-blocking findings: <count> (do not prevent downstream work)
+  Unknown status: <count> (SME deferred decision on blocking status)
+
+  Primary owners for follow-up:
+  - <Owner 1>: <count> findings
+  - <Owner 2>: <count> findings
+
+  Recommendation: <e.g., "Proceed to SDD handoff; resolve blocking findings
+  in parallel", or "Hold; resolve evidence gaps before handoff">

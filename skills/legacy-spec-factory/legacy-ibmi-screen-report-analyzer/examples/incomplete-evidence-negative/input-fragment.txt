@@ -1,0 +1,33 @@
+* Fragment: Incomplete DSPF source for ORDER-LINES-SCR
+*
+* This is a PARTIAL DDS member; the file was truncated during extraction.
+* Multiple sections are missing (likely subfile definition, function keys).
+*
+* ==============================================================================
+
+A                                      DSPSIZ(24 80)
+A                                      INDARA
+
+A R LINESCR
+A                                 1  2'Order Line Entry'
+A                                      DSPATR(HI)
+A
+A                                 3  2'Line Number:'
+A                          LINENO       3S 0 I
+A                                 4  2'Item Number:'
+A                          ITEMNO       5A  I  MANDATORY
+A                                 5  2'Quantity:'
+A  01                              5 20PROT
+A                          QTY          5S 0 I
+A                                 6  2'Unit Price:'
+A  02                              6 20PROT
+A                          PRICE        8S 2 O  EDTCDE(A)
+
+* ... (rest of DDS cut off) ...
+* ... (subfile definition missing) ...
+* ... (function key definitions missing) ...
+* ... (error handling missing) ...
+
+* ==============================================================================
+* End of partial DDS fragment
+* ==============================================================================

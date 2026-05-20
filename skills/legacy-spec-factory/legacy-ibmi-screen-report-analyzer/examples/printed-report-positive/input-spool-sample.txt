@@ -1,0 +1,26 @@
+INVOICE REPORT                                              Page:    1
+As of: 05/11/26
+
+Customer ID Customer Name                   Invoice No        Amount
+00001       ABC Corp (redacted)             INV-001001        10,234.56
+
+Customer Total:00001                                           10,234.56
+______________________________________________________________________________
+
+00002       XYZ Inc (redacted)              INV-002001         5,678.90
+
+Customer Total:00002                                            5,678.90
+______________________________________________________________________________
+
+00003       DEF Ltd (redacted)              INV-003001         3,456.78
+                                           INV-003002         2,345.67
+
+Customer Total:00003                                            5,802.45
+______________________________________________________________________________
+
+
+GRAND TOTAL                                                3   21,716.91
+______________________________________________________________________________
+
+
+(Page break occurs here; page 2 continues with next set of customers)

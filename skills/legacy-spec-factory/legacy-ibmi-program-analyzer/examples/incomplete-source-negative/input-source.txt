@@ -1,0 +1,61 @@
+**==============================================================================
+** RATECOMP: Rate Computation (Source Incomplete)
+**
+** Note: This is a PARTIAL SOURCE extract.
+** Missing: Called subroutine definitions, copybook definitions
+** Partial: Entry point parameters undocumented
+**==============================================================================
+
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. RATECOMP.
+
+       ENVIRONMENT DIVISION.
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+           SELECT RATEFILE ASSIGN TO EXTERNAL RATEDATA.
+
+       DATA DIVISION.
+       FILE SECTION.
+       FD RATEFILE.
+       01 RATE-REC.
+           05 RATE-CODE PIC X(4).
+           05 RATE-VALUE PIC 9(3)V99.
+
+       WORKING-STORAGE SECTION.
+       01 WS-INPUT-AMOUNT PIC 9(7)V99.
+       01 WS-COMPUTED-RATE PIC 9(3)V99.
+       01 WS-STATUS PIC 9.
+
+       PROCEDURE DIVISION.
+           ACCEPT WS-INPUT-AMOUNT.
+
+           PERFORM VALIDATE-AMOUNT.
+
+           PERFORM COMPUTE-RATE.
+
+           IF WS-STATUS = 0
+               DISPLAY 'Rate: ' WS-COMPUTED-RATE
+           ELSE
+               DISPLAY 'Error: ' WS-STATUS
+           END-IF.
+
+           STOP RUN.
+
+       VALIDATE-AMOUNT.
+           IF WS-INPUT-AMOUNT < 0
+               MOVE 1 TO WS-STATUS
+           ELSE
+               MOVE 0 TO WS-STATUS
+           END-IF.
+
+       COMPUTE-RATE.
+           **[Comment in source indicates call to external, but call not visible]
+           **Needs CALL 'GET-BASE-RATE' here
+
+           PERFORM LOOKUP-ADJUSTMENT-TABLE.
+
+           **[Details missing]
+
+       LOOKUP-ADJUSTMENT-TABLE.
+           **[Paragraph body not provided in source extract]
+           **[This paragraph appears to modify WS-COMPUTED-RATE]

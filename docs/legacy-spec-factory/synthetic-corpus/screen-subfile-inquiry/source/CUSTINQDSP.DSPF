@@ -1,0 +1,44 @@
+* DSPF source for customer inquiry with subfile
+* ==============================================================================
+*
+* File: CUSTINQDSP
+* Description: Customer inquiry header and recent transaction subfile
+*
+* ==============================================================================
+
+A                                      DSPSIZ(24 80)
+A                                      INDARA
+
+A R INQHDR
+A                                 1  2'Customer Inquiry'
+A                                      DSPATR(HI)
+A                                 3  2'Customer No:'
+A            CUSTNO         9P 0  B  3 20
+A                                 4  2'Customer Name:'
+A N30        CUSTNAME      30A  O  4 20
+A                                 5  2'Status:'
+A N31        STATUS         1A  O  5 20
+A                                 6  2'Credit Limit:'
+A N32        CRDLMT         9P 2 O  6 20 EDTCDE(A)
+A                                23  2'Enter=View  F5=Refresh  F12=Back'
+
+A R TXNSFL                            SFL
+A            OPT             1A  B
+A            TXNDATE         8A  O
+A            TXNTYPE        10A  O
+A            TXNAMT          9P 2 O  EDTCDE(A)
+A            TXNSTAT        10A  O
+
+A R TXNCTL                            SFLCTL(TXNSFL)
+A                                      SFLPAG(8)
+A                                      SFLSIZ(64)
+A                                      SFLCLR(90)
+A                                9  2'Opt'
+A                                9  7'Date'
+A                                9 18'Type'
+A                                9 32'Amount'
+A                                9 46'Status'
+A N90                                 SFLRCDNBR(SFLRRN)
+
+A            CA05(REFRESH)
+A            CA12(BACK)

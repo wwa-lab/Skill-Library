@@ -1,0 +1,333 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1050" width="1600" height="1050" role="img" aria-labelledby="title desc">
+  <title id="title">Legacy Spec Factory Skill System</title>
+  <desc id="desc">A hand-drawn whiteboard style poster showing the 19 current canonical Legacy Spec Factory skills, grouped by pipeline stage and readiness status.</desc>
+  <defs>
+    <style>
+      .bg { fill: #fffdf4; }
+      .ink { fill: #111827; }
+      .muted { fill: #475569; }
+      .blue { fill: #0b3a96; }
+      .green { fill: #17672c; }
+      .orange { fill: #a24f00; }
+      .red { fill: #b31919; }
+      .panel { fill: #fffefa; stroke: #123a9c; stroke-width: 3; rx: 16; }
+      .card { fill: #fffefa; stroke: #111827; stroke-width: 2.3; rx: 8; }
+      .field { fill: #fbfff9; stroke: #17672c; stroke-width: 2.5; rx: 8; }
+      .repo { fill: #fffefa; stroke: #111827; stroke-width: 2.3; rx: 8; }
+      .dash { fill: #fffefa; stroke: #123a9c; stroke-width: 2.2; stroke-dasharray: 9 6; rx: 8; }
+      .line { stroke: #111827; stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .blueLine { stroke: #123a9c; stroke-width: 3; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .redLine { stroke: #d61f1f; stroke-width: 3; fill: none; stroke-linecap: round; }
+      .greenLine { stroke: #17672c; stroke-width: 2.5; fill: none; stroke-linecap: round; }
+      .arrow { fill: #0b3a96; stroke: #111827; stroke-width: 1.8; }
+      .title { font: 700 46px "Comic Sans MS", "Marker Felt", "Bradley Hand", "Chalkboard SE", cursive; letter-spacing: .5px; }
+      .subtitle { font: 700 24px "Comic Sans MS", "Marker Felt", "Bradley Hand", "Chalkboard SE", cursive; }
+      .h2 { font: 700 24px "Comic Sans MS", "Marker Felt", "Bradley Hand", "Chalkboard SE", cursive; }
+      .h3 { font: 700 20px "Comic Sans MS", "Marker Felt", "Bradley Hand", "Chalkboard SE", cursive; }
+      .body { font: 650 17px "Comic Sans MS", "Marker Felt", "Bradley Hand", "Chalkboard SE", cursive; }
+      .small { font: 650 14px "Comic Sans MS", "Marker Felt", "Bradley Hand", "Chalkboard SE", cursive; }
+      .tiny { font: 650 12px "Comic Sans MS", "Marker Felt", "Bradley Hand", "Chalkboard SE", cursive; }
+      .name { font: 700 15px "Comic Sans MS", "Marker Felt", "Bradley Hand", "Chalkboard SE", cursive; }
+      .mini { font: 700 11px "Comic Sans MS", "Marker Felt", "Bradley Hand", "Chalkboard SE", cursive; }
+    </style>
+    <marker id="arrowHead" markerWidth="12" markerHeight="10" refX="10" refY="5" orient="auto">
+      <path d="M0,0 L12,5 L0,10 z" fill="#111827"/>
+    </marker>
+    <marker id="blueArrow" markerWidth="14" markerHeight="12" refX="12" refY="6" orient="auto">
+      <path d="M0,0 L14,6 L0,12 z" fill="#0b3a96"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1600" height="1050"/>
+
+  <!-- Header doodles -->
+  <rect x="42" y="32" width="132" height="92" class="card"/>
+  <rect x="58" y="48" width="100" height="56" fill="#101820" stroke="#111827" stroke-width="2"/>
+  <path d="M70 61h62M70 73h80M70 85h48M70 97h70" stroke="#89d957" stroke-width="3" stroke-linecap="round"/>
+  <path d="M92 124h34M78 136h62" class="line"/>
+  <ellipse cx="218" cy="58" rx="29" ry="13" fill="#fffefa" stroke="#111827" stroke-width="2.5"/>
+  <path d="M189 58v54c0 8 58 8 58 0V58" class="line"/>
+  <path d="M260 78h40l24 24v58h-64z" fill="#fffefa" stroke="#111827" stroke-width="2.5"/>
+  <path d="M300 78v25h24" class="line"/>
+  <text x="274" y="132" class="h3 ink">EV</text>
+
+  <text x="338" y="66" class="title ink">Legacy Spec Factory Skill System</text>
+  <path d="M337 82 C520 90 760 76 1010 82 S1270 86 1360 78" class="redLine"/>
+  <path d="M337 92 C560 98 790 88 1020 94 S1260 100 1360 90" class="redLine"/>
+  <text x="360" y="130" class="subtitle ink">From IBM i evidence to trusted BRD, then to SDD Handoff</text>
+  <text x="360" y="156" class="body muted">Current status: 19 canonical skills · 10 field-pilot ready · 9 repo-ready</text>
+
+  <path d="M1280 34h74l28 26v94h-102z" fill="#fffefa" stroke="#111827" stroke-width="2.5"/>
+  <path d="M1354 34v29h28" class="line"/>
+  <path d="M1300 63h18M1300 91h18M1300 119h18" class="line"/>
+  <rect x="1288" y="52" width="16" height="16" fill="none" stroke="#17672c" stroke-width="2"/>
+  <rect x="1288" y="80" width="16" height="16" fill="none" stroke="#17672c" stroke-width="2"/>
+  <rect x="1288" y="108" width="16" height="16" fill="none" stroke="#17672c" stroke-width="2"/>
+  <path d="M1291 59l5 5 8-12M1291 87l5 5 8-12M1291 115l5 5 8-12" class="greenLine"/>
+  <circle cx="1430" cy="92" r="38" fill="#fffefa" stroke="#111827" stroke-width="2.5"/>
+  <path d="M1458 120l38 38" class="line"/>
+  <text x="1426" y="190" class="small red" text-anchor="middle">REVIEWED</text>
+
+  <!-- Panels -->
+  <rect x="20" y="164" width="430" height="600" class="panel"/>
+  <rect x="470" y="164" width="330" height="600" class="panel"/>
+  <rect x="820" y="164" width="370" height="600" class="panel"/>
+  <rect x="1210" y="164" width="370" height="600" class="panel"/>
+
+  <!-- Panel headers -->
+  <circle cx="48" cy="190" r="18" fill="#123a9c"/>
+  <text x="48" y="198" class="h2" fill="#fffefa" text-anchor="middle">1</text>
+  <text x="74" y="198" class="h2 blue">A. Routing &amp; IBM i Extraction</text>
+
+  <circle cx="498" cy="190" r="18" fill="#123a9c"/>
+  <text x="498" y="198" class="h2" fill="#fffefa" text-anchor="middle">2</text>
+  <text x="524" y="198" class="h2 blue">B. BRD, Spec &amp; SME</text>
+
+  <circle cx="848" cy="190" r="18" fill="#123a9c"/>
+  <text x="848" y="198" class="h2" fill="#fffefa" text-anchor="middle">3</text>
+  <text x="874" y="198" class="h2 blue">C. Quality &amp; Traceability</text>
+
+  <circle cx="1238" cy="190" r="18" fill="#123a9c"/>
+  <text x="1238" y="198" class="h2" fill="#fffefa" text-anchor="middle">4</text>
+  <text x="1264" y="198" class="h2 blue">D. SDD Handoff Bridge</text>
+
+  <!-- Panel A cards -->
+  <g>
+    <rect x="38" y="220" width="286" height="48" class="repo"/>
+    <text x="58" y="242" class="name ink">legacy-modernization-orchestrator</text>
+    <text x="58" y="260" class="small orange">Repo-ready 9.0</text>
+    <path d="M330 244h34" class="line" marker-end="url(#arrowHead)"/>
+    <text x="372" y="242" class="small ink">route</text>
+    <text x="372" y="258" class="tiny ink">decision</text>
+
+    <rect x="38" y="278" width="286" height="48" class="repo"/>
+    <text x="58" y="300" class="name ink">legacy-ibmi-evidence-intake</text>
+    <text x="58" y="318" class="small orange">Repo-ready 9.16</text>
+    <path d="M330 302h34" class="line" marker-end="url(#arrowHead)"/>
+    <text x="372" y="300" class="small ink">EV-* manifest</text>
+
+    <rect x="38" y="336" width="286" height="48" class="repo"/>
+    <text x="58" y="358" class="name ink">legacy-ibmi-inventory</text>
+    <text x="58" y="376" class="small orange">Repo-ready 9.0</text>
+    <path d="M330 360h34" class="line" marker-end="url(#arrowHead)"/>
+    <text x="372" y="358" class="small ink">inventory.yaml</text>
+
+    <rect x="38" y="394" width="286" height="48" class="field"/>
+    <text x="58" y="416" class="name ink">legacy-ibmi-runtime-evidence-miner</text>
+    <text x="58" y="434" class="small green">Field-pilot 9.57</text>
+    <path d="M330 418h34" class="line" marker-end="url(#arrowHead)"/>
+    <text x="372" y="411" class="tiny ink">runtime-</text>
+    <text x="372" y="427" class="tiny ink">evidence.jsonl</text>
+
+    <rect x="38" y="452" width="286" height="48" class="repo"/>
+    <text x="58" y="474" class="name ink">legacy-ibmi-program-analyzer</text>
+    <text x="58" y="492" class="small orange">Repo-ready 9.0</text>
+    <path d="M330 476h34" class="line" marker-end="url(#arrowHead)"/>
+    <text x="372" y="469" class="tiny ink">program-</text>
+    <text x="372" y="485" class="tiny ink">analysis.md</text>
+
+    <rect x="38" y="510" width="286" height="48" class="repo"/>
+    <text x="58" y="532" class="name ink">legacy-ibmi-flow-analyzer</text>
+    <text x="58" y="550" class="small orange">Repo-ready 9.0</text>
+    <path d="M330 534h34" class="line" marker-end="url(#arrowHead)"/>
+    <text x="372" y="532" class="small ink">flow.md</text>
+
+    <rect x="38" y="568" width="286" height="48" class="repo"/>
+    <text x="58" y="590" class="name ink">legacy-ibmi-module-analyzer</text>
+    <text x="58" y="608" class="small orange">Repo-ready 9.0</text>
+    <path d="M330 592h34" class="line" marker-end="url(#arrowHead)"/>
+    <text x="372" y="590" class="small ink">4 views</text>
+
+    <rect x="38" y="626" width="286" height="48" class="repo"/>
+    <text x="58" y="648" class="name ink">legacy-ibmi-data-model-analyzer</text>
+    <text x="58" y="666" class="small orange">Repo-ready 9.0</text>
+    <path d="M330 650h34" class="line" marker-end="url(#arrowHead)"/>
+    <text x="372" y="648" class="small ink">data model</text>
+
+    <rect x="38" y="684" width="286" height="48" class="repo"/>
+    <text x="58" y="706" class="name ink">legacy-ibmi-screen-report-analyzer</text>
+    <text x="58" y="724" class="small orange">Repo-ready 9.38</text>
+    <path d="M330 708h34" class="line" marker-end="url(#arrowHead)"/>
+    <text x="372" y="701" class="tiny ink">screen/report</text>
+    <text x="372" y="717" class="tiny ink">analysis</text>
+  </g>
+
+  <!-- Blue arrow between panels -->
+  <path d="M450 450h34v-24l42 48-42 48v-24h-34z" class="arrow"/>
+  <path d="M800 450h34v-24l42 48-42 48v-24h-34z" class="arrow"/>
+  <path d="M1190 450h34v-24l42 48-42 48v-24h-34z" class="arrow"/>
+
+  <!-- Panel B cards -->
+  <g>
+    <rect x="488" y="230" width="244" height="76" class="field"/>
+    <circle cx="514" cy="268" r="17" fill="none" stroke="#17672c" stroke-width="2.5"/>
+    <path d="M506 267l7 8 13-18" class="greenLine"/>
+    <text x="542" y="258" class="name ink">legacy-brd-writer</text>
+    <text x="542" y="282" class="small green">Field-pilot 9.56</text>
+    <path d="M742 268h34" class="line" marker-end="url(#arrowHead)"/>
+    <text x="746" y="302" class="small ink">brd.md</text>
+
+    <rect x="488" y="342" width="244" height="76" class="repo"/>
+    <circle cx="514" cy="380" r="17" fill="none" stroke="#a24f00" stroke-width="2.5"/>
+    <path d="M506 380l7 8 13-18" stroke="#a24f00" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <text x="542" y="370" class="name ink">legacy-spec-writer</text>
+    <text x="542" y="394" class="small orange">Repo-ready 9.0</text>
+    <path d="M742 380h34" class="line" marker-end="url(#arrowHead)"/>
+    <text x="746" y="414" class="small ink">spec.yaml</text>
+
+    <rect x="488" y="454" width="244" height="88" class="field"/>
+    <circle cx="514" cy="494" r="17" fill="none" stroke="#17672c" stroke-width="2.5"/>
+    <path d="M506 493l7 8 13-18" class="greenLine"/>
+    <text x="542" y="482" class="name ink">legacy-sme-review-</text>
+    <text x="542" y="500" class="name ink">facilitator</text>
+    <text x="542" y="524" class="small green">Field-pilot 9.55</text>
+    <path d="M742 498h34" class="line" marker-end="url(#arrowHead)"/>
+    <text x="742" y="536" class="tiny ink">review log</text>
+
+    <rect x="488" y="574" width="244" height="88" class="field"/>
+    <circle cx="514" cy="614" r="17" fill="none" stroke="#17672c" stroke-width="2.5"/>
+    <path d="M506 613l7 8 13-18" class="greenLine"/>
+    <text x="542" y="602" class="name ink">legacy-modernization-</text>
+    <text x="542" y="620" class="name ink">decision-writer</text>
+    <text x="542" y="644" class="small green">Field-pilot 9.56</text>
+    <path d="M742 618h34" class="line" marker-end="url(#arrowHead)"/>
+    <text x="742" y="656" class="tiny ink">DEC package</text>
+
+    <path d="M508 724c12-38 62-38 74 0M580 724c12-38 62-38 74 0M540 706c0-20 34-20 34 0M612 706c0-20 34-20 34 0" class="line"/>
+    <rect x="604" y="690" width="136" height="42" class="field"/>
+    <text x="618" y="717" class="body green">SME REVIEW</text>
+    <circle cx="764" cy="710" r="24" fill="#fffefa" stroke="#17672c" stroke-width="3"/>
+    <path d="M752 710l10 12 18-27" class="greenLine"/>
+  </g>
+
+  <!-- Panel C cards -->
+  <g>
+    <rect x="840" y="232" width="254" height="66" class="field"/>
+    <circle cx="866" cy="265" r="16" fill="none" stroke="#17672c" stroke-width="2.5"/>
+    <path d="M858 264l7 8 13-18" class="greenLine"/>
+    <text x="894" y="258" class="name ink">legacy-step-contract</text>
+    <text x="894" y="280" class="small green">Field-pilot 9.52</text>
+    <path d="M1102 265h34" class="line" marker-end="url(#arrowHead)"/>
+    <text x="1139" y="257" class="tiny ink">step</text>
+    <text x="1139" y="273" class="tiny ink">contract</text>
+
+    <rect x="840" y="318" width="254" height="66" class="field"/>
+    <circle cx="866" cy="351" r="16" fill="none" stroke="#17672c" stroke-width="2.5"/>
+    <path d="M858 350l7 8 13-18" class="greenLine"/>
+    <text x="894" y="344" class="name ink">legacy-step-validator</text>
+    <text x="894" y="366" class="small green">Field-pilot 9.53</text>
+    <path d="M1102 351h34" class="line" marker-end="url(#arrowHead)"/>
+    <text x="1139" y="343" class="tiny ink">validation</text>
+    <text x="1139" y="359" class="tiny ink">report</text>
+
+    <rect x="840" y="404" width="254" height="66" class="field"/>
+    <circle cx="866" cy="437" r="16" fill="none" stroke="#17672c" stroke-width="2.5"/>
+    <path d="M858 436l7 8 13-18" class="greenLine"/>
+    <text x="894" y="430" class="name ink">legacy-traceability-packager</text>
+    <text x="894" y="452" class="small green">Field-pilot 9.51</text>
+    <path d="M1102 437h34" class="line" marker-end="url(#arrowHead)"/>
+    <text x="1139" y="429" class="tiny ink">traceability</text>
+    <text x="1139" y="445" class="tiny ink">package</text>
+
+    <rect x="840" y="490" width="254" height="66" class="field"/>
+    <circle cx="866" cy="523" r="16" fill="none" stroke="#17672c" stroke-width="2.5"/>
+    <path d="M858 522l7 8 13-18" class="greenLine"/>
+    <text x="894" y="516" class="name ink">legacy-runtime-matrix-tester</text>
+    <text x="894" y="538" class="small green">Field-pilot 9.56</text>
+    <path d="M1102 523h34" class="line" marker-end="url(#arrowHead)"/>
+    <text x="1139" y="515" class="tiny ink">runtime</text>
+    <text x="1139" y="531" class="tiny ink">matrix</text>
+
+    <rect x="840" y="576" width="254" height="72" class="field"/>
+    <circle cx="866" cy="612" r="16" fill="none" stroke="#17672c" stroke-width="2.5"/>
+    <path d="M858 611l7 8 13-18" class="greenLine"/>
+    <text x="894" y="602" class="name ink">legacy-golden-master-</text>
+    <text x="894" y="620" class="name ink">test-planner</text>
+    <text x="894" y="642" class="small green">Field-pilot 9.59</text>
+    <path d="M1102 612h34" class="line" marker-end="url(#arrowHead)"/>
+    <text x="1139" y="604" class="tiny ink">golden</text>
+    <text x="1139" y="620" class="tiny ink">master</text>
+
+    <path d="M864 706l-28 18v36l28 18 28-18v-36zM974 706l-28 18v36l28 18 28-18v-36zM1084 706l-28 18v36l28 18 28-18v-36z" fill="#fffefa" stroke="#111827" stroke-width="2.3"/>
+    <path d="M895 742h48M1005 742h48" class="line" stroke-dasharray="8 6"/>
+    <path d="M850 742l10 12 20-30" class="greenLine"/>
+  </g>
+
+  <!-- Panel D -->
+  <g>
+    <rect x="1234" y="232" width="300" height="78" class="field"/>
+    <circle cx="1260" cy="271" r="17" fill="none" stroke="#17672c" stroke-width="2.5"/>
+    <path d="M1252 270l7 8 13-18" class="greenLine"/>
+    <text x="1288" y="262" class="name ink">legacy-brd-to-sdd-handoff</text>
+    <text x="1288" y="286" class="small green">Field-pilot 9.63</text>
+
+    <path d="M1220 402 C1270 360 1330 360 1380 402 S1490 444 1540 402" class="line"/>
+    <path d="M1240 394v70M1518 394v70M1228 464h316M1260 446h244" class="line"/>
+    <path d="M1360 472v46" class="blueLine" marker-end="url(#blueArrow)"/>
+
+    <rect x="1252" y="540" width="274" height="190" class="dash"/>
+    <text x="1280" y="582" class="h2 blue">Atlas Engineering</text>
+    <text x="1310" y="612" class="h2 blue">Delivery Hub</text>
+    <text x="1290" y="648" class="body ink">Requirements</text>
+    <text x="1290" y="674" class="body ink">Stories</text>
+    <text x="1290" y="700" class="body ink">Spec / Architecture</text>
+    <text x="1290" y="726" class="body ink">Design / Tasks / Code</text>
+  </g>
+
+  <!-- Workflow row -->
+  <g>
+    <rect x="30" y="790" width="164" height="48" class="card"/>
+    <text x="74" y="821" class="h3 ink">Evidence</text>
+    <path d="M205 814h30" class="blueLine" marker-end="url(#blueArrow)"/>
+    <rect x="246" y="790" width="164" height="48" class="card"/>
+    <text x="284" y="821" class="h3 ink">Analysis</text>
+    <path d="M421 814h30" class="blueLine" marker-end="url(#blueArrow)"/>
+    <rect x="462" y="790" width="164" height="48" class="card"/>
+    <text x="526" y="821" class="h3 ink">BRD</text>
+    <path d="M637 814h30" class="blueLine" marker-end="url(#blueArrow)"/>
+    <rect x="678" y="790" width="174" height="48" class="card"/>
+    <text x="714" y="821" class="h3 ink">SME Review</text>
+    <path d="M864 814h30" class="blueLine" marker-end="url(#blueArrow)"/>
+    <rect x="906" y="790" width="194" height="48" class="card"/>
+    <text x="954" y="821" class="h3 ink">Traceability</text>
+    <path d="M1112 814h30" class="blueLine" marker-end="url(#blueArrow)"/>
+    <rect x="1154" y="790" width="190" height="48" class="card"/>
+    <text x="1200" y="821" class="h3 ink">SDD Handoff</text>
+    <path d="M1356 814h30" class="blueLine" marker-end="url(#blueArrow)"/>
+    <rect x="1398" y="790" width="168" height="48" class="card"/>
+    <text x="1440" y="821" class="h3 ink">Delivery</text>
+  </g>
+
+  <!-- Traceability chain -->
+  <g>
+    <rect x="45" y="860" width="108" height="46" class="dash"/><text x="99" y="891" class="h3 ink" text-anchor="middle">EV</text>
+    <path d="M160 883h44" class="blueLine" marker-end="url(#blueArrow)"/>
+    <rect x="214" y="860" width="108" height="46" class="dash"/><text x="268" y="891" class="h3 ink" text-anchor="middle">BEH</text>
+    <path d="M329 883h44" class="blueLine" marker-end="url(#blueArrow)"/>
+    <rect x="383" y="860" width="108" height="46" class="dash"/><text x="437" y="891" class="h3 ink" text-anchor="middle">BR</text>
+    <path d="M498 883h44" class="blueLine" marker-end="url(#blueArrow)"/>
+    <rect x="552" y="860" width="108" height="46" class="dash"/><text x="606" y="891" class="h3 ink" text-anchor="middle">DEC</text>
+    <path d="M667 883h44" class="blueLine" marker-end="url(#blueArrow)"/>
+    <rect x="721" y="860" width="108" height="46" class="dash"/><text x="775" y="891" class="h3 ink" text-anchor="middle">BRD</text>
+    <path d="M836 883h44" class="blueLine" marker-end="url(#blueArrow)"/>
+    <rect x="890" y="860" width="108" height="46" class="dash"/><text x="944" y="891" class="h3 ink" text-anchor="middle">REQ</text>
+    <path d="M1005 883h44" class="blueLine" marker-end="url(#blueArrow)"/>
+    <rect x="1059" y="860" width="108" height="46" class="dash"/><text x="1113" y="891" class="h3 ink" text-anchor="middle">SPEC</text>
+    <path d="M1174 883h44" class="blueLine" marker-end="url(#blueArrow)"/>
+    <rect x="1228" y="860" width="108" height="46" class="dash"/><text x="1282" y="891" class="h3 ink" text-anchor="middle">TEST</text>
+    <path d="M1343 883h44" class="blueLine" marker-end="url(#blueArrow)"/>
+    <rect x="1397" y="860" width="108" height="46" class="dash"/><text x="1451" y="891" class="h3 ink" text-anchor="middle">CODE</text>
+  </g>
+
+  <!-- Legend -->
+  <rect x="24" y="930" width="1552" height="78" class="card"/>
+  <path d="M72 954l-32 16v28l32 18 32-18v-28z" fill="#fffefa" stroke="#17672c" stroke-width="3"/>
+  <path d="M55 982l13 15 25-36" class="greenLine"/>
+  <text x="122" y="984" class="h2 green">9.5+ Field-pilot ready</text>
+  <path d="M482 954l-32 16v28l32 18 32-18v-28z" fill="#fffefa" stroke="#a24f00" stroke-width="3"/>
+  <path d="M465 982l13 15 25-36" stroke="#a24f00" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <text x="532" y="984" class="h2 orange">9.0+ Repo-ready / hardening</text>
+  <path d="M922 954l-32 16v28l32 18 32-18v-28z" fill="#fffefa" stroke="#b31919" stroke-width="3"/>
+  <path d="M908 972l28 28M936 972l-28 28" stroke="#b31919" stroke-width="3" stroke-linecap="round"/>
+  <text x="972" y="984" class="h2 red">No Output, No Pass. No Pass, No Next.</text>
+</svg>

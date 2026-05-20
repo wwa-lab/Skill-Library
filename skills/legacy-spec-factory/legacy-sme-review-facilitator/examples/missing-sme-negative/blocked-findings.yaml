@@ -1,0 +1,70 @@
+blocked_review_id: "REVIEW-ORDER-ENTRY-001-BLOCKED"
+blocked_date: "2026-05-16"
+artifact_attempted: "04_modules/ORDER-ENTRY/module-overview.md"
+capability_slug: "ORDER-ENTRY"
+status: "blocked"
+
+blocking_issues:
+  - blocking_id: "FIND-ORDER-ENTRY-001"
+    category: "missing_sme_owner"
+    severity: "critical"
+    source_item_ids:
+      - "TBD-ORDER-ENTRY-001"
+    evidence_ids: []
+    description: |
+      No named SME owner is assigned to ORDER-ENTRY. SME review cannot start
+      without a specific person, role, organization, and availability.
+    required_action: |
+      Assign a named SME owner and confirm review availability.
+    owner: "Capability Owner"
+    target_resolution_date: "2026-05-20"
+    routing_destination: "legacy-modernization-orchestrator"
+    status: "awaiting_action"
+
+  - blocking_id: "FIND-ORDER-ENTRY-002"
+    category: "unknown_evidence_sensitivity"
+    severity: "critical"
+    source_item_ids:
+      - "TBD-ORDER-ENTRY-002"
+    evidence_ids:
+      - "EV-ORDER-ENTRY-001"
+    description: |
+      EV-ORDER-ENTRY-001 has `sensitivity: unknown` and
+      `redaction_status: unknown`, so it cannot be shared in an SME review
+      package.
+    required_action: |
+      Classify sensitivity, redact if required, and update the evidence
+      manifest before retrying the review.
+    owner: "legacy-ibmi-evidence-intake"
+    target_resolution_date: "2026-05-20"
+    routing_destination: "legacy-ibmi-evidence-intake"
+    status: "awaiting_action"
+
+  - blocking_id: "FIND-ORDER-ENTRY-003"
+    category: "unknown_evidence_redaction"
+    severity: "critical"
+    source_item_ids:
+      - "TBD-ORDER-ENTRY-002"
+    evidence_ids:
+      - "EV-ORDER-ENTRY-002"
+    description: |
+      EV-ORDER-ENTRY-002 has known `sensitivity: internal`, but
+      `redaction_status: unknown`, so the redaction gate is still blocked.
+    required_action: |
+      Record an acceptable redaction_status for EV-ORDER-ENTRY-002 before
+      retrying the review. Do not change its known sensitivity classification.
+    owner: "legacy-ibmi-evidence-intake"
+    target_resolution_date: "2026-05-20"
+    routing_destination: "legacy-ibmi-evidence-intake"
+    status: "awaiting_action"
+
+unblocking_pathway:
+  - step: "Assign named SME owner"
+    owner: "Capability Owner"
+    completion_signal: "SME name, role, organization, and availability recorded"
+  - step: "Resolve evidence classification/redaction"
+    owner: "legacy-ibmi-evidence-intake"
+    completion_signal: "Evidence manifest has known sensitivity and acceptable redaction_status for every referenced EV-*"
+
+retry_condition: |
+  Retry only after every blocking issue is resolved in the upstream artifacts.

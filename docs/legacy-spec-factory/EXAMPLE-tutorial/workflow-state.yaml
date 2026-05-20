@@ -1,0 +1,90 @@
+# EXAMPLE-tutorial project state. Real shape, fabricated content.
+# Re-render STATUS.md after any edit:
+#   python3 scripts/generate-status.py docs/EXAMPLE-tutorial/
+
+version: 1
+
+project:
+  name: EXAMPLE-tutorial
+  root: docs/EXAMPLE-tutorial/
+  started_at: 2026-05-16
+  last_updated_at: 2026-05-16
+  last_updated_by: legacy-spec-writer
+
+current_focus:
+  capability_id: CAP-PRICE-CALCULATION
+  module_slug: PRICE-CALC
+  stage_id: "8c Spec Approved"
+  next_skill: legacy-golden-master-test-planner
+  next_artifact: 06_quality/CAP-PRICE-CALCULATION/golden-master-tests.md
+  stage_card: skills/legacy-modernization-orchestrator/references/stage-cards/06-spec-writing.md
+  open_gates: []
+
+capabilities:
+  - id: CAP-PRICE-CALCULATION
+    module_slug: PRICE-CALC
+    stage_id: "8c Spec Approved"
+    last_artifact: 05_specs/CAP-PRICE-CALCULATION/spec.yaml
+    last_skill: legacy-spec-writer
+    last_updated: 2026-05-16
+    blocking:
+      tbds: []
+      sme_pending: []
+      gates: []
+    archived: false
+
+history:
+  - at: 2026-05-16T09:00:00Z
+    skill: legacy-ibmi-evidence-intake
+    capability_id: null
+    stage_after: "1 Evidence Ready"
+    artifact: evidence/redacted/evidence-manifest.yaml
+    note: "intake — 3 items registered, all redacted, SME approved"
+  - at: 2026-05-16T10:15:00Z
+    skill: legacy-ibmi-inventory
+    capability_id: null
+    stage_after: "2c Inventory Done"
+    artifact: 01_inventory/inventory.yaml
+    note: "inventory — 1 program, 1 file, SME approved"
+  - at: 2026-05-16T11:30:00Z
+    skill: legacy-ibmi-program-analyzer
+    capability_id: null
+    stage_after: "3b Program Analysis Done"
+    artifact: 02_programs/PRICE-CALC/PRICECALC/program-analysis.md
+    note: "analyzed PRICECALC"
+  - at: 2026-05-16T11:45:00Z
+    skill: legacy-ibmi-batch-digest
+    capability_id: null
+    stage_after: "3b Program Analysis Done"
+    artifact: 02_programs/PRICE-CALC/programs-batch-digest.md
+    note: "digest for PRICE-CALC — critical/1, standard/0, low_risk/0, not-analyzed/0"
+  - at: 2026-05-16T13:00:00Z
+    skill: legacy-ibmi-flow-analyzer
+    capability_id: null
+    stage_after: "3d Flow Analysis Done"
+    artifact: 03_flows/PRICE-CALC/flow-calculate-price.md
+    note: "synthesized flow-calculate-price"
+  - at: 2026-05-16T14:00:00Z
+    skill: legacy-ibmi-module-analyzer
+    capability_id: CAP-PRICE-CALCULATION
+    stage_after: "3f Module Analysis Done"
+    artifact: 04_modules/PRICE-CALC/module-overview.md
+    note: "4-view synthesis — 2 BR seeds, 1 CAP seed (CAP-PRICE-CALCULATION)"
+  - at: 2026-05-16T15:00:00Z
+    skill: legacy-spec-writer
+    capability_id: CAP-PRICE-CALCULATION
+    stage_after: "8a Spec Drafted"
+    artifact: 05_specs/CAP-PRICE-CALCULATION/spec.yaml
+    note: "draft spec — 2 rules, 1 TBD"
+  - at: 2026-05-16T16:00:00Z
+    skill: legacy-sme-review-facilitator
+    capability_id: CAP-PRICE-CALCULATION
+    stage_after: "8a Spec Drafted"
+    artifact: 08_business-understanding/CAP-PRICE-CALCULATION/sme-review-2026-05-16.md
+    note: "SME confirmed 2 inferred rules, resolved 1 TBD"
+  - at: 2026-05-16T16:45:00Z
+    skill: legacy-spec-writer
+    capability_id: CAP-PRICE-CALCULATION
+    stage_after: "8c Spec Approved"
+    artifact: 05_specs/CAP-PRICE-CALCULATION/spec.yaml
+    note: "SME signed off — promoted to approved"

@@ -1,0 +1,74 @@
+# Legacy Spec Factory — Workflow State (cross-session "save game")
+#
+# Location: <project-root>/workflow-state.yaml
+# Owner:    legacy-modernization-orchestrator (Step 0 reads, Step 8 writes)
+# Writers:  orchestrator + every downstream skill, per docs/workflow-state-contract.md
+#
+# Rules in one breath:
+#   - `current_focus` and `capabilities[]` are OVERWRITTEN by the writer.
+#   - `history[]` is APPEND-ONLY (newest at the bottom).
+#   - Never invent stage maturity. Use stage ids exactly as listed in
+#     references/stage-identification.md.
+#   - Never delete an entry from `capabilities[]`; mark it `archived: true`.
+#   - If a field is unknown, write `null` — do NOT guess.
+#
+# This file is safe to commit. It contains no source code, no PII, and no
+# unredacted evidence — only IDs, stage labels, and artifact paths.
+
+version: 1
+
+project:
+  # PPCR-style name: <PPCR-Number>-<short-description>, hyphen-separated.
+  # Allowed characters: [A-Za-z0-9-]; must start alphanumeric.
+  # Examples: XXX260004-demo, XXX260123-credit-check
+  name: <PPCR-style name, e.g. XXX260004-demo>
+
+  # Project artifact root, relative to the repository root.
+  # All artifact paths in this file (capabilities[].last_artifact,
+  # history[].artifact, current_focus.next_artifact) are relative to THIS
+  # root, NOT the repository root. Derived from `name` as `docs/<name>/`.
+  # Override only if your project lives elsewhere.
+  root: docs/<name>/
+
+  started_at: <YYYY-MM-DD when the first turn happened>
+  last_updated_at: <YYYY-MM-DD of the most recent write>
+  last_updated_by: <skill name that wrote last, e.g. "legacy-spec-writer">
+
+# What the orchestrator is routing RIGHT NOW. Always reflects the most
+# recent routing decision. Overwritten on every orchestrator turn.
+current_focus:
+  capability_id: null            # CAP-* once scoped to a capability
+  module_slug: null              # MODULE-SLUG once scoped to a module
+  stage_id: null                 # e.g. "3b Program Analysis Done"
+  next_skill: null               # e.g. "legacy-ibmi-flow-analyzer"
+  next_artifact: null            # full path including filename
+  stage_card: null               # references/stage-cards/<NN>-<slug>.md
+  open_gates: []                 # gate names currently blocking, e.g. ["evidence_approval"]
+
+# One entry per CAP-* in flight. Overwritten per-capability by whichever
+# skill last touched it. Never deleted — archive instead.
+capabilities: []
+# Example entry:
+# - id: CAP-ORDER-PRICING
+#   module_slug: CREDIT-CHECK
+#   stage_id: "8c Spec Approved"
+#   last_artifact: 05_specs/CAP-ORDER-PRICING/spec.yaml
+#   last_skill: legacy-spec-writer
+#   last_updated: 2026-05-16
+#   blocking:
+#     tbds: []                   # TBD-* IDs still open
+#     sme_pending: []            # rule / view IDs awaiting SME confirmation
+#     gates: []                  # gate names blocking advancement
+#   archived: false
+
+# Append-only audit trail. Newest entry at the bottom. One line per skill
+# completion. Use this to reconstruct project history without rereading every
+# artifact.
+history: []
+# Example entry:
+# - at: 2026-05-16T14:30:00Z
+#   skill: legacy-spec-writer
+#   capability_id: CAP-ORDER-PRICING
+#   stage_after: "8c Spec Approved"
+#   artifact: 05_specs/CAP-ORDER-PRICING/spec.yaml
+#   note: "SME signed off via review session 2026-05-16"

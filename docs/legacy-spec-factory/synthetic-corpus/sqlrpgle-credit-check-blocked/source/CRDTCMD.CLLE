@@ -1,0 +1,11 @@
+             PGM        PARM(&CUSTNO &REQAMT)
+             DCL        VAR(&CUSTNO) TYPE(*DEC) LEN(9 0)
+             DCL        VAR(&REQAMT) TYPE(*DEC) LEN(9 2)
+             DCL        VAR(&APPRAMT) TYPE(*DEC) LEN(9 2)
+
+             CALL       PGM(CREDITCHK) PARM(&CUSTNO &REQAMT &APPRAMT)
+
+             SNDPGMMSG  MSGID(CPF9898) MSGF(QCPFMSG) +
+                          MSGDTA('CREDIT CHECK REQUEST SUBMITTED')
+
+             ENDPGM

@@ -1,0 +1,98 @@
+# Legacy Spec Factory
+# Copyright 2026 Leo L Zhang
+#
+# Original author: Leo L Zhang
+# License: Apache License 2.0
+#
+# Example: structured findings for the BLOCKED module validation
+# (companion to examples/blocked/step-validation-report.md).
+# All IDs are illustrative.
+
+report:
+  validator_skill: legacy-step-validator
+  validator_version: 0.1.0
+  step_type: module
+  step_id: STEP-CARD-AUTH-002
+  package_path: 04_modules/CARD-AUTH/
+  executed_at: 2026-05-14 14:42 UTC
+
+compact_result:
+  status: blocked
+  blocking_items:
+    - FIND-CARD-AUTH-001
+    - FIND-CARD-AUTH-002
+    - FIND-CARD-AUTH-003
+    - FIND-CARD-AUTH-004
+  warnings: []
+  sme_decision: pending
+  downstream_next_step: none
+  remediation_step: legacy-ibmi-flow-analyzer
+
+findings:
+  - finding_id: FIND-CARD-AUTH-001
+    dimension: 1
+    layer: mechanical
+    severity: blocking
+    step_type: module
+    points_to:
+      - 04_modules/CARD-AUTH/03-program-flow.md
+      - FLOW-CHARGEBACK-001
+    resolver: runner
+    recommended_action: Route FLOW-CHARGEBACK-001 back to legacy-ibmi-flow-analyzer or remove it from this module's scope.
+    referenced_check: "Module mechanical: every in-scope flow is approved or approved_with_non_blocking_tbd"
+    notes: "FLOW-CHARGEBACK-001 status is blocked_pending_sme; module cannot include it yet."
+
+  - finding_id: FIND-CARD-AUTH-002
+    dimension: 2
+    layer: semantic
+    severity: blocking
+    step_type: module
+    points_to:
+      - 04_modules/CARD-AUTH/01-operation-flow.md
+      - ACTOR-CARD-AUTH-003
+      - 04_modules/CARD-AUTH/03-program-flow.md
+    resolver: runner
+    recommended_action: Add a View 3 entry node for Settlement Operator or tag the actor as manual.
+    referenced_check: "Module semantic: every View 1 actor appears in View 3 (or is tagged manual)"
+    notes: "Cross-view inconsistency between View 1 and View 3."
+
+  - finding_id: FIND-CARD-AUTH-003
+    dimension: 6
+    layer: sme_readiness
+    severity: blocking
+    step_type: module
+    points_to:
+      - 04_modules/CARD-AUTH/04-data-flow.md
+    resolver: sme
+    recommended_action: Record SME role, date, and IDs approved or revert status to in_review.
+    referenced_check: "Module SME readiness: SME approval recorded for any view claiming approved"
+    notes: "View 4 claims approved but no SME role / date / IDs recorded."
+
+  - finding_id: FIND-CARD-AUTH-004
+    dimension: 9
+    layer: semantic
+    severity: blocking
+    step_type: module
+    points_to:
+      - 04_modules/CARD-AUTH/02-system-flow.md
+      - program-analysis-OBJ-CARD-AUTH-005.md
+    resolver: sme
+    recommended_action: Surface the IFS drop path contradiction as TBD-CARD-AUTH-007 and route it to SME.
+    referenced_check: "Module semantic: tier-2 SME claims contradicting tier-1 code surfaced as TBDs"
+    notes: "SME claim 'IFS drop path is retired' is not currently surfaced as a TBD."
+
+unresolved_items:
+  - id: TBD-CARD-AUTH-007
+    category: contradictory_evidence
+    points_to:
+      - 04_modules/CARD-AUTH/02-system-flow.md
+      - program-analysis-OBJ-CARD-AUTH-005.md
+    resolver: sme
+    blocks_current_step: yes
+    blocks_next_step: yes
+    notes: >
+      SME claim 'IFS drop path is retired' contradicts active code path
+      in RPG2. Either the code is dead or the SME memory is stale; SME
+      decision required, recorded as a DEC-* if resolved.
+
+waivers: []

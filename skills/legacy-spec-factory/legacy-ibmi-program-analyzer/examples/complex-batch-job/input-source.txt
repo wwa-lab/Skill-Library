@@ -1,0 +1,123 @@
+**==============================================================================
+** ORDSUBMIT: Order Submission Batch Job (RPGLE)
+**
+** Purpose: Process pending orders, validate credit, compute shipping, update
+** customer risk profile, and submit batch print job.
+** Date: 2025-12-15
+**==============================================================================
+
+H MAIN
+
+D ProcessOrders   PR
+D RC              S              4P 0 INZ(0)
+D OrderCount      S              5P 0 INZ(0)
+D ErrorCount      S              5P 0 INZ(0)
+
+F ORDFILE     IF   A        K        DISK
+F CUSTFILE    IF   A        K        DISK
+F SHIPFILE    IF   A        K        DISK
+F CUSTMSTR    UF   A        K        DISK
+
+/free
+   ProcessOrders();
+   *INLR = *ON;
+/end-free
+
+P ProcessOrders   B
+D PI
+D   ReturnCode            4P 0
+
+D LoopCount       S              5P 0
+D OrderID         S              9P 0
+D CustID          S              9P 0
+D OrderAmt        S              7P 2
+D ShipCost        S              5P 2
+D CreditStatus    S              1A
+D RC              S              4P 0
+
+   MONITOR;
+      OPEN ORDFILE;
+      OPEN CUSTFILE;
+      OPEN SHIPFILE;
+      OPEN CUSTMSTR;
+
+      EVAL LoopCount = 0;
+      DOWHILE LoopCount < 999;
+         READ ORDFILE;
+         IF %EOF(ORDFILE);
+            LEAVE;
+         ENDIF;
+
+         EVAL LoopCount = LoopCount + 1;
+         EVAL OrderID = ORDID;
+         EVAL CustID = CUSTID_FK;
+         EVAL OrderAmt = AMOUNT;
+
+         // Validate credit
+         EVAL CreditStatus = ValidateCredit(CustID: OrderAmt);
+
+         IF CreditStatus = 'D';
+            EVAL ErrorCount = ErrorCount + 1;
+            EVAL RC = -1;
+         ELSE;
+            // Compute shipping
+            EVAL ShipCost = GetShipCost(OrderAmt);
+
+            // Update customer risk
+            CALL 'UPDTRISK' (CustID: OrderAmt: RC);
+
+            IF RC = 0;
+               EVAL OrderCount = OrderCount + 1;
+            ELSE;
+               EVAL ErrorCount = ErrorCount + 1;
+            ENDIF;
+         ENDIF;
+      ENDDO;
+
+      CLOSE ORDFILE;
+      CLOSE CUSTFILE;
+      CLOSE SHIPFILE;
+      CLOSE CUSTMSTR;
+
+   ON-ERROR;
+      EVAL ReturnCode = -99;
+      SNDPGMMSG 'Batch job failed unexpectedly';
+   ENDMON;
+
+P ProcessOrders   E
+
+P ValidateCredit   B
+D PI              PR              1A
+D   CustID                  9P 0 const
+D   RequestAmt              7P 2 const
+
+D CREDFILE      E DS                  EXTNAME(CREDFILE)
+D CreditLimit   S              7P 2
+
+   CHAIN CustID CUSTMSTR;
+   IF NOT %FOUND(CUSTMSTR);
+      RETURN 'D';
+   ENDIF;
+
+   IF RequestAmt > CREDLIMIT;
+      RETURN 'D';
+   ELSE;
+      RETURN 'A';
+   ENDIF;
+
+P ValidateCredit   E
+
+P GetShipCost     B
+D PI              PR            5P 2
+D   OrderAmount             7P 2 const
+
+D ShipRate        S              5P 4 INZ(0.0100)
+
+   CHAIN OrderAmount SHIPFILE;
+   IF %FOUND(SHIPFILE);
+      RETURN SHIP_COST;
+   ELSE;
+      RETURN OrderAmount * ShipRate;
+   ENDIF;
+
+P GetShipCost     E

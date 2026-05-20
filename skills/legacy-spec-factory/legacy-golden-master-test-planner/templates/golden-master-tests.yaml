@@ -1,0 +1,73 @@
+schema_version: "0.1"
+plan_id: "STEP-<CAPABILITY-SLUG>-001"
+capability:
+  id: "CAP-<CAPABILITY-SLUG>-001"
+  name: "<capability name>"
+  slug: "<CAPABILITY-SLUG>"
+  owner: "<SME or owning team>"
+status: "draft" # draft | in_review | approved | blocked
+source_artifacts:
+  spec_yaml: "05_specs/<CAPABILITY-SLUG>/spec.yaml"
+  spec_md: "05_specs/<CAPABILITY-SLUG>/spec.md"
+  spec_review: "05_specs/<CAPABILITY-SLUG>/spec-review.md"
+  brd: null
+evidence_safety:
+  redaction_log: "<path>"
+  evidence_manifest: "<path>"
+  all_samples_redacted: false
+  any_sensitivity_unknown: true
+coverage_policy:
+  business_critical_rules_require_tc: true
+  expected_outputs_must_be_observed: true
+test_cases:
+  - id: "TC-<CAPABILITY-SLUG>-001"
+    type: "golden_master"
+    title: "<short behavior name>"
+    priority: "P0" # P0 | P1 | P2
+    review_status: "draft" # draft | needs_sme_review | approved | rejected | retired
+    validates:
+      business_rules:
+        - "BR-<CAPABILITY-SLUG>-001"
+      acceptance_criteria:
+        - "AC-<CAPABILITY-SLUG>-001"
+    coverage_reason: "<why this case is required>"
+    legacy_execution_path:
+      mode: "batch" # batch | screen | report | integration | api | file | manual
+      objects:
+        - "OBJ-<CAPABILITY-SLUG>-001"
+      flow_ids:
+        - "FLOW-<CAPABILITY-SLUG>-001"
+    preconditions:
+      - "<legacy state that must exist before execution>"
+    input_refs:
+      - evidence_id: "EV-<CAPABILITY-SLUG>-001"
+        redacted_sample_ref: "07_runtime-evidence/sample-transactions/<sample>.json"
+        notes: "<field shape, scale, or setup notes>"
+    expected_output_refs:
+      - evidence_id: "EV-<CAPABILITY-SLUG>-002"
+        artifact_ref: "07_runtime-evidence/spool-samples/<sample>.txt"
+        assertion: "<observable expected output>"
+    comparison:
+      mode: "exact" # exact | normalized | tolerant | presence | ordering_insensitive
+      normalization_rules: []
+      tolerances: []
+      ignored_fields: []
+    data_reset:
+      required: true
+      notes: "<reset or isolation requirement>"
+    sensitive_data_handling:
+      contains_masked_values: true
+      redaction_notes_ref: "<path or EV-* ID>"
+    reviewer_notes: []
+coverage_summary:
+  covered_business_rules: []
+  covered_acceptance_criteria: []
+  deferred_items: []
+  blocking_gaps: []
+findings: []
+signoffs:
+  - role: "capability_owner_sme"
+    name: ""
+    date: ""
+    decision: "pending" # pending | approved | rejected
+    approved_ids: []

@@ -1,0 +1,6 @@
+     A          R RPTLINE                    SKIPA(1)
+     A            MSGTEXT       50A
+     A            DOCNO         10A
+     A            DOCAMT         9P 2
+     A            APPLIED_AMT    9P 2
+     A            DIFFAMT        9P 2

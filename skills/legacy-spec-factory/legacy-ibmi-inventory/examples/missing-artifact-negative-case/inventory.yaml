@@ -1,0 +1,85 @@
+schema_version: "0.1"
+capability:
+  id: CAP-CREDIT-CHECK-001
+  name: Customer Credit Check
+  slug: CREDIT-CHECK
+  owner: Credit Operations SME
+status: blocked
+source_system:
+  name: REDACTED-IBM-I
+  libraries:
+    - REDLIB
+  collection_date: "2026-05-13"
+evidence:
+  - id: EV-CREDIT-CHECK-001
+    source_type: rpgle
+    location: REDLIB/QRPGLESRC/ORDENTR
+    evidence_strength: confirmed_from_code
+    summary: Program references CRHOLDP and CRCHKSRV, but neither artifact is present in the bundle.
+    sensitivity: internal
+objects:
+  - id: OBJ-CREDIT-CHECK-001
+    name: ORDENTR
+    object_type: program
+    library: REDLIB
+    source_member: REDLIB/QRPGLESRC/ORDENTR
+    description: Interactive order entry program.
+    evidence_ids:
+      - EV-CREDIT-CHECK-001
+    sensitivity: internal
+    review_status: needs_sme_review
+    notes: Source references missing PRTF and missing called service program.
+  - id: OBJ-CREDIT-CHECK-002
+    name: CRHOLDP
+    object_type: prtf
+    library: REDLIB
+    source_member:
+    description: Referenced credit hold printer file; source not provided.
+    evidence_ids:
+      - EV-CREDIT-CHECK-001
+    sensitivity: unknown
+    review_status: needs_sme_review
+    notes: Missing PRTF blocks report traceability.
+  - id: OBJ-CREDIT-CHECK-003
+    name: CRCHKSRV
+    object_type: service_program
+    library: REDLIB
+    source_member:
+    description: Referenced credit check service program; source not provided.
+    evidence_ids:
+      - EV-CREDIT-CHECK-001
+    sensitivity: unknown
+    review_status: needs_sme_review
+    notes: Missing service program blocks Program Call Map completeness.
+relationships:
+  - from_id: OBJ-CREDIT-CHECK-001
+    relationship: uses_printer_file
+    to_id: OBJ-CREDIT-CHECK-002
+    evidence_ids:
+      - EV-CREDIT-CHECK-001
+    confidence: medium
+    review_status: needs_sme_review
+  - from_id: OBJ-CREDIT-CHECK-001
+    relationship: calls
+    to_id: OBJ-CREDIT-CHECK-003
+    evidence_ids:
+      - EV-CREDIT-CHECK-001
+    confidence: medium
+    review_status: needs_sme_review
+coverage_gaps:
+  - id: TBD-CREDIT-CHECK-001
+    question: Provide DDS source or approved spool sample for CRHOLDP.
+    blocking: yes
+    related_ids:
+      - OBJ-CREDIT-CHECK-002
+  - id: TBD-CREDIT-CHECK-002
+    question: Provide source or interface contract for CRCHKSRV.
+    blocking: yes
+    related_ids:
+      - OBJ-CREDIT-CHECK-003
+open_questions: []
+sme_review:
+  reviewer:
+  review_date:
+  decision: blocked
+  notes: Do not proceed to program analysis or spec generation until missing artifacts are resolved or explicitly waived by SME.

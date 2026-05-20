@@ -1,0 +1,71 @@
+# Blocking Finding — approved BRD but no approved spec
+#
+# Emitted when the gate refuses to substitute the BRD for the spec.
+
+schema_version: "0.1"
+handoff_attempt_id: "HANDOFF-CUST-ONBOARD-2026-05-16-attempt-01"
+attempt_date: "2026-05-16T09:02:00Z"
+validator: "Claude Code / legacy-brd-to-sdd-handoff v0.1.0"
+
+capability:
+  id: "CAP-CUST-ONBOARD-001"
+  slug: "CUST-ONBOARD"
+  owner:
+    name: "Priya Patel"
+    role: "Customer Operations Lead"
+
+status: "blocked"            # display label: blocked
+
+source_artifacts:
+  brd:
+    id: "BRD-CUST-ONBOARD-001"
+    path: "05_brds/CUST-ONBOARD/brd.md"
+    status: "approved"
+    approved_by:
+      name: "Priya Patel"
+      role: "Customer Operations Lead"
+      date: "2026-05-14"
+  spec:
+    id: null
+    path: "05_specs/CUST-ONBOARD/spec.yaml"
+    status: "missing"
+    approved_by: null
+
+gate_results:
+  brd_approved_and_signed: pass
+  spec_approved_and_signed: FAIL          # blocking
+  no_blocking_tbd: not_evaluated
+  every_approved_br_has_ac: not_evaluated
+  every_linked_ac_approved: not_evaluated
+  evidence_cleared: not_evaluated
+  traceability_complete: not_evaluated
+
+findings:
+  blocking:
+    - id: "SPEC-MISSING"
+      severity: "blocking"
+      step: 2
+      detail: "05_specs/CUST-ONBOARD/spec.yaml does not exist."
+      required_remediation:
+        responsible_skill: "legacy-spec-writer"
+        action: "Generate the approved spec package (spec.yaml, spec.md, spec-review.md, traceability.md) from the approved BRD and the upstream module/flow/program analyses. Have Priya Patel approve business_rules, acceptance_criteria, and modernization_decisions. Then re-run legacy-brd-to-sdd-handoff."
+        forbidden_action: "legacy-brd-to-sdd-handoff MUST NOT substitute the BRD for the spec, fabricate the spec, or carry BRD content forward as if it were spec content. The BRD's BR-* are seeds, not approved rules; promoting them is legacy-spec-writer's job."
+
+  warnings: []
+  info: []
+
+package_written: false
+files_written:
+  - "06_sdd_handoffs/CUST-ONBOARD/handoff-review.md"
+  - "06_sdd_handoffs/CUST-ONBOARD/blocking-finding.yaml"
+files_not_written:
+  - "06_sdd_handoffs/CUST-ONBOARD/sdd-handoff.yaml"
+  - "06_sdd_handoffs/CUST-ONBOARD/sdd-handoff.md"
+  - "06_sdd_handoffs/CUST-ONBOARD/atlas-context-pack.json"
+  - "06_sdd_handoffs/CUST-ONBOARD/traceability.md"
+
+next_step:
+  skill: "legacy-spec-writer"
+  capability_slug: "CUST-ONBOARD"
+  scope: "full spec package"
+  re_run_handoff_after: true

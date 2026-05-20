@@ -1,0 +1,80 @@
+# Blocking Finding — approved spec carries an unresolved blocking TBD
+
+schema_version: "0.1"
+handoff_attempt_id: "HANDOFF-INVOICE-RECON-2026-05-16-attempt-01"
+attempt_date: "2026-05-16T11:18:00Z"
+validator: "Claude Code / legacy-brd-to-sdd-handoff v0.1.0"
+
+capability:
+  id: "CAP-INVOICE-RECON-001"
+  slug: "INVOICE-RECON"
+  owner:
+    name: "Daniel Müller"
+    role: "Accounts Receivable Manager"
+
+status: "blocked"            # display label: blocked
+
+source_artifacts:
+  brd:
+    id: "BRD-INVOICE-RECON-001"
+    path: "05_brds/INVOICE-RECON/brd.md"
+    status: "approved"
+    approved_by:
+      name: "Daniel Müller"
+      role: "Accounts Receivable Manager"
+      date: "2026-05-13"
+  spec:
+    id: "SPEC-INVOICE-RECON-001"
+    path: "05_specs/INVOICE-RECON/spec.yaml"
+    status: "approved"
+    approved_by:
+      name: "Daniel Müller"
+      role: "Accounts Receivable Manager"
+      date: "2026-05-15"
+
+gate_results:
+  brd_approved_and_signed: pass
+  spec_approved_and_signed: pass
+  no_blocking_tbd: FAIL                # blocking
+  every_approved_br_has_ac: not_evaluated
+  every_linked_ac_approved: not_evaluated
+  evidence_cleared: not_evaluated
+  traceability_complete: not_evaluated
+
+findings:
+  blocking:
+    - id: "BLOCKING-TBD-UNRESOLVED"
+      severity: "blocking"
+      step: 3
+      tbd_id: "TBD-INVOICE-RECON-004"
+      tbd_question: "How are partial payments allocated when an invoice spans two fiscal periods?"
+      tbd_blocking: true
+      tbd_resolution: "pending"
+      tbd_resolver: null
+      detail: "Spec is marked status: approved but carries a TBD with blocking: true and resolution: pending. The forward-SDLC contract forbids advancing in this state."
+      required_remediation:
+        responsible_role: "Capability-owner SME (Daniel Müller)"
+        permitted_actions:
+          - "Resolve the question: add evidence or a decision; mark TBD blocking: false; set resolution. Then re-run handoff."
+          - "Demote to non-blocking with explicit deferral: keep blocking: true, set resolution to a named SME deferral with planned_resolution_date. Then re-run handoff (will produce a BLOCKING-TBD-DEFERRED warning and status pass_with_warnings)."
+          - "Remove the affected behaviour from scope: update spec.scope.out_of_scope, retire the TBD per docs/id-conventions.md. Then re-run handoff."
+        forbidden_action: "legacy-brd-to-sdd-handoff MUST NOT silently demote, paraphrase, or drop the TBD on the SME's behalf. The TBD's text and status must change only through legacy-spec-writer with an updated SME sign-off in spec-review.md."
+
+  warnings: []
+  info: []
+
+package_written: false
+files_written:
+  - "06_sdd_handoffs/INVOICE-RECON/handoff-review.md"
+  - "06_sdd_handoffs/INVOICE-RECON/blocking-finding.yaml"
+files_not_written:
+  - "06_sdd_handoffs/INVOICE-RECON/sdd-handoff.yaml"
+  - "06_sdd_handoffs/INVOICE-RECON/sdd-handoff.md"
+  - "06_sdd_handoffs/INVOICE-RECON/atlas-context-pack.json"
+  - "06_sdd_handoffs/INVOICE-RECON/traceability.md"
+
+next_step:
+  skill: "legacy-spec-writer"
+  capability_slug: "INVOICE-RECON"
+  scope: "TBD-INVOICE-RECON-004 only — record SME decision in spec-review.md and update spec.yaml"
+  re_run_handoff_after: true

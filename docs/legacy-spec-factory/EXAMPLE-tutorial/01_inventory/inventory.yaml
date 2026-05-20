@@ -1,0 +1,69 @@
+# Inventory for PRICE-CALC module. Approved by SME.
+# Consumed by: legacy-ibmi-program-analyzer, legacy-ibmi-flow-analyzer,
+#              legacy-ibmi-module-analyzer.
+
+version: 1
+
+module:
+  slug: PRICE-CALC
+  display_name: "Price Calculation"
+  scope: "Unit price calculation for one order line"
+
+objects:
+  - id: OBJ-PRICE-CALC-PRICECALC
+    type: program
+    subtype: rpgle
+    name: PRICECALC
+    source_member: PRICECALC.RPGLE
+    evidence_ids: [EV-SRC-001]
+    role: "Calculates final unit price given customer tier and item"
+    called_by:
+      - external: "Order Entry program ORDENTR (out of scope for this PPCR)"
+    calls:
+      - OBJ-PRICE-CALC-PRICEFL
+    criticality: critical
+    criticality_reason: "Result feeds directly into invoiced line price (money path)"
+    criticality_confirmed_by_sme: true
+
+  - id: OBJ-PRICE-CALC-PRICEFL
+    type: file
+    subtype: physical_file
+    name: PRICEFL
+    source_member: PRICEFL.PF
+    evidence_ids: [EV-DDS-001]
+    role: "Base price + tier discount table"
+    fields:
+      - {name: ITEMID, type: char(10), key: true}
+      - {name: TIER, type: char(1), key: true}
+      - {name: BASEPRC, type: packed(9,2)}
+      - {name: DISCPCT, type: packed(5,2)}
+
+coverage_gaps: []
+
+sme_review:
+  decision: approved
+  at: 2026-05-16
+  by: "Jane Doe"
+  criticality_confirmed_at: 2026-05-16
+  criticality_summary:
+    critical: 1
+    standard: 0
+    low_risk: 0
+  downstream_required:
+    screen_report_analyzer:
+      required: false
+      reason: "No DSPF / PRTF / menu objects — PRICECALC is a callable subroutine with no UI surface"
+      triggered_by_objects: []
+    data_model_analyzer:
+      required: false
+      reason: "Only 1 file (PRICEFL); below 3-file threshold and no FK-like relations"
+      triggered_by_objects: []
+  notes: |
+    Confirmed PRICECALC + PRICEFL are the only in-scope objects for this
+    PPCR. The promotion stacking logic is hard-coded in PRICECALC source
+    (no separate promotion table) — see EV-SME-001 walkthrough.
+    PRICECALC classified as `critical` since its output is the invoiced
+    line price.
+    Both downstream triggers are correctly NOT met for this tiny
+    example; a real module with DSPF + multiple files would set them
+    `required: true`.

@@ -1,0 +1,11 @@
+CPF9898  Completion  20  2026-05-20 14:10:12.110000  CUSTMENU  CSRLIB   0001
+  Message . . . . :   Option 5 selected from Customer Service Menu
+  Cause . . . . . :   User launched Customer Inquiry.
+
+CPF9898  Diagnostic  40  2026-05-20 14:10:15.220000  CUSTINQ   CSRLIB   0002
+  Message . . . . :   Subfile reload requested
+  Cause . . . . . :   F5 refresh key detected in inquiry screen.
+
+CPF9898  Completion  20  2026-05-20 14:10:21.441000  CUSTINQ   CSRLIB   0003
+  Message . . . . :   Return to menu
+  Cause . . . . . :   F12 back key detected in inquiry screen.

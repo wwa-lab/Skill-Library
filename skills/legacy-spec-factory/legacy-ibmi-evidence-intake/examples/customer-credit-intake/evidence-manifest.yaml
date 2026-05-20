@@ -1,0 +1,76 @@
+package_state: "approved_for_inventory"
+
+capability:
+  name: "Customer Credit Check"
+  slug: "CREDIT-CHECK"
+  description: "Source-only intake for the credit-check decision program"
+  source_system: "IBM i library CRDSYS"
+  collection_date: "2026-05-15"
+  collection_context: "Controlled export of redacted source evidence for one capability"
+
+redaction:
+  owner: "Data Privacy Owner"
+  owner_title: "Data Privacy Officer"
+  owner_email: "privacy-owner@example.invalid"
+  redaction_date: "2026-05-15"
+  approval_date: "2026-05-16"
+
+sme_review:
+  owner: "Credit Operations SME"
+  owner_title: "Finance Systems Lead"
+  owner_email: "credit-sme@example.invalid"
+  review_date: "2026-05-16"
+  approval_status: "approved"
+  approval_notes: "Source-only evidence was reviewed and approved for inventory."
+
+intake_decision:
+  status: "pass"
+  downstream_inventory_allowed: true
+  decision_notes: "Approved source-only evidence package for inventory."
+
+evidence_items:
+  - evidence_id: "EV-CREDIT-CHECK-001"
+    type: "source_member"
+    subtype: "rpgle"
+    source_location:
+      library: "CRDSYS"
+      source_file: "QRPGLESRC"
+      member_name: "CREDITCHK"
+      object_name: "CREDITCHK"
+      object_type: "PGM"
+      last_modified: "2026-04-30"
+    original_filename: "CREDITCHK.RPGLE"
+    redacted_filename: "01_sources/EV-CREDIT-CHECK-001-CREDITCHK.RPGLE"
+    size_bytes: 18420
+    description: "Main customer credit decision program"
+    sensitivity: "internal"
+    sensitive_content: []
+    redaction_status: "not_required"
+    redaction_notes: "Source only; no production records included."
+    sme_approval: true
+    reviewed_by: "Credit Operations SME"
+    review_date: "2026-05-16"
+    tags:
+      - "entry-point"
+      - "source-of-truth"
+    review_status: "approved"
+
+unresolved_items: []
+
+summary:
+  total_items: 1
+  items_by_type:
+    source_member: 1
+  items_by_review_status:
+    approved: 1
+    in_review: 0
+    rejected: 0
+    draft: 0
+  items_by_redaction_status:
+    not_required: 1
+    approved: 0
+    reviewed: 0
+    pending: 0
+    failed: 0
+  next_steps:
+    - "Proceed to legacy-ibmi-inventory."

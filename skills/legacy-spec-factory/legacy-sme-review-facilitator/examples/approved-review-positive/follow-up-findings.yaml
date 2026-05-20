@@ -1,0 +1,53 @@
+follow_up_id: "FOLLOWUP-CREDIT-CHECK-001"
+review_id: "REVIEW-CREDIT-CHECK-001"
+generated_date: "2026-05-16"
+capability_slug: "CREDIT-CHECK"
+
+findings:
+  - finding_id: "FIND-CREDIT-CHECK-001"
+    source_item_id: "BR-CREDIT-CHECK-003"
+    category: "rule_revision_needed"
+    severity: "high"
+    description: |
+      Interest compounding applies only above the $10,000 balance threshold.
+    sme_correction: |
+      Interest is compounded daily only on balances greater than $10,000;
+      simple interest applies to balances of $10,000 or less.
+    owner: "legacy-spec-writer"
+    target_date: "2026-05-17"
+    next_step: "Update BR-CREDIT-CHECK-003 and dependent acceptance criteria."
+    blocking_status: "non_blocking"
+    routing_destination: "legacy-spec-writer"
+
+  - finding_id: "FIND-CREDIT-CHECK-002"
+    source_item_id: "TBD-CREDIT-CHECK-002"
+    category: "deferred_tbd"
+    severity: "critical"
+    description: |
+      Operations must confirm the exact validation sequence before the TBD can
+      be resolved.
+    sme_context: |
+      SME confirmed the sequence is business-significant, but not the exact
+      ordered list.
+    owner: "Operations Manager"
+    target_date: "2026-05-23"
+    next_step: "Gather operations notes and update the decision log."
+    blocking_status: "blocking"
+    routing_destination: "Operations"
+
+routing:
+  - finding_ids:
+      - "FIND-CREDIT-CHECK-001"
+    next_skill: "legacy-spec-writer"
+    reason: "Rule revision from SME review."
+    target_date: "2026-05-17"
+
+  - finding_ids:
+      - "FIND-CREDIT-CHECK-002"
+    next_skill: "Operations"
+    reason: "Deferred TBD requires operations confirmation."
+    target_date: "2026-05-23"
+
+summary: |
+  One non-blocking rule revision can proceed to spec refinement. One blocking
+  deferred TBD remains open until Operations confirms validation sequence.

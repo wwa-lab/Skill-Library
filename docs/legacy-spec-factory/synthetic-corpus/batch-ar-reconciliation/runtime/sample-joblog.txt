@@ -1,0 +1,16 @@
+CPF9898  Completion  20  2026-05-20 22:00:00.000100  QPGMR     QSYS     0001
+  Message . . . . :   AR reconciliation batch submitted
+  Cause . . . . . :   ARRECONCL submitted ARRECON to FINBATCH job queue.
+
+CPF9898  Diagnostic  40  2026-05-20 22:00:04.121100  ARRECON   FINLIB   0002
+  Message . . . . :   RESTART PATH ACTIVE
+  Cause . . . . . :   Control file restart flag was set to Y.
+
+CPF9898  Diagnostic  40  2026-05-20 22:17:44.112980  ARRECON   FINLIB   0003
+  Message . . . . :   RECON EXCEPTION
+  Cause . . . . . :   Document INV000184 has mismatch between document amount
+    and applied amount.
+
+CPF9898  Completion  20  2026-05-20 23:41:08.332000  ARRECON   FINLIB   0004
+  Message . . . . :   Batch status updated to COMPLETE
+  Cause . . . . . :   ARCTRL checkpoint row updated at job end.

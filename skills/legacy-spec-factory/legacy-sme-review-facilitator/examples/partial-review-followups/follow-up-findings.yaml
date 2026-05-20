@@ -1,0 +1,51 @@
+follow_up_id: "FOLLOWUP-INVOICE-AGING-001"
+review_id: "REVIEW-INVOICE-AGING-001"
+generated_date: "2026-05-16"
+capability_slug: "INVOICE-AGING"
+
+findings:
+  - finding_id: "FIND-INVOICE-AGING-001"
+    source_item_id: "BR-INVOICE-AGING-002"
+    category: "rule_revision_needed"
+    severity: "high"
+    description: |
+      Aging start date rule must distinguish standard and government accounts.
+    sme_correction: |
+      Aging starts on invoice date for standard accounts and after the
+      seven-day grace period for government accounts.
+    owner: "legacy-spec-writer"
+    target_date: "2026-05-18"
+    next_step: "Revise BR-INVOICE-AGING-002 and linked acceptance criteria."
+    blocking_status: "non_blocking"
+    routing_destination: "legacy-spec-writer"
+
+  - finding_id: "FIND-INVOICE-AGING-002"
+    source_item_id: "TBD-INVOICE-AGING-003"
+    category: "evidence_gap"
+    severity: "critical"
+    description: |
+      SME cannot decide whether disputed invoices age without reviewing the
+      disputed-invoice report.
+    sme_request: "I need the disputed-invoice report before I can answer that."
+    owner: "Billing Reporting Owner"
+    target_date: "2026-05-24"
+    next_step: "Collect, redact, and index disputed-invoice report sample."
+    blocking_status: "blocking"
+    routing_destination: "legacy-ibmi-evidence-intake"
+
+routing:
+  - finding_ids:
+      - "FIND-INVOICE-AGING-001"
+    next_skill: "legacy-spec-writer"
+    reason: "Apply SME correction to inferred rule."
+    target_date: "2026-05-18"
+
+  - finding_ids:
+      - "FIND-INVOICE-AGING-002"
+    next_skill: "legacy-ibmi-evidence-intake"
+    reason: "Collect and redact disputed-invoice report evidence."
+    target_date: "2026-05-24"
+
+summary: |
+  Partial review is signed but not fully passable. One rule can be revised;
+  one TBD remains blocked pending evidence collection.

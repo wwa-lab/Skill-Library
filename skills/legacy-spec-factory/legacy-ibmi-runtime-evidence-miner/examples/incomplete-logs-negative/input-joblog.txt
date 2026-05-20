@@ -1,0 +1,60 @@
+JOBLOG display for job: CREDITCHK User: BATCHPROC Number: 123456
+Subsystem: BATCH Job queue: BATCHQ
+Start date/time: 05/15/26 01:00:02.123456 Start request ID: QC2FA4AE1234
+
+CPF9898 -- A job is being initiated.
+
+Message ID . . . . . . :   CPF9898
+Message type . . . . . :   Completion
+Severity . . . . . . . :   00
+Date sent . . . . . . :   05/15/2026
+Time sent . . . . . . :   01:00:02
+From program . . . . . :   QSYSMAIN
+From library . . . . . :   QSYS
+From module . . . . . :   MAIN
+
+Message . . . . . :   A job is being initiated.
+
+---
+
+Command issued from QSYS of job BATCHPROC
+Call CREDITCHK/MAIN
+Return code 0
+
+---
+
+CALL VALIDATECREDIT
+Date sent . . . . . . :   05/15/2026
+Time sent . . . . . . :   01:00:30
+
+VALIDATECREDIT completed successfully
+Return code 0
+
+---
+
+CALL CALCFEE
+Date sent . . . . . . :   05/15/2026
+Time sent . . . . . . :   01:02:35
+
+CALCFEE completed successfully
+Return code 0
+
+---
+
+CALL UPDATEACCOUNT
+Date sent . . . . . . :   05/15/2026
+Time sent . . . . . . :   01:02:40
+
+CPF5003 -- Cannot open file CUSTFILE.
+
+Message ID . . . . . . :   CPF5003
+Message type . . . . . :   Diagnostic
+Severity . . . . . . . :   40
+Date sent . . . . . . :   05/15/2026
+Time sent . . . . . . :   01:02:41
+From program . . . . . :   QDBSRV
+From library . . . . . :   QSYS
+
+---
+
+[LOG TRUNCATED - REMAINING CONTENT LOST DUE TO DISK SPACE OR NETWORK FAILURE]

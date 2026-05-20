@@ -1,0 +1,107 @@
+JOBLOG display for job: CREDITCHK User: BATCHPROC Number: 123456
+Subsystem: BATCH Job queue: BATCHQ
+Start date/time: 05/15/26 01:00:02.123456 Start request ID: QC2FA4AE1234
+
+
+5722SS1 V7R3M0 050515 010002 PAGE 1
+JOBLOG display for CREDITCHK
+System: SYSTEM1
+
+CPF9898 -- A job is being initiated.
+
+Message ID . . . . . . :   CPF9898
+Message type . . . . . :   Completion
+Severity . . . . . . . :   00
+Date sent . . . . . . :   05/15/2026
+Time sent . . . . . . :   01:00:02
+From program . . . . . :   QSYSMAIN
+From library . . . . . :   QSYS
+From module . . . . . :   MAIN
+
+To program . . . . . . :   QSYSMAIN
+To library . . . . . . :   QSYS
+
+Message . . . . . :   A job is being initiated.
+
+---
+
+Command issued from QSYS of job BATCHPROC
+Call CREDITCHK/MAIN
+Return code 0
+
+---
+
+CALL VALIDATECREDIT
+Date sent . . . . . . :   05/15/2026
+Time sent . . . . . . :   01:00:30
+
+VALIDATECREDIT completed successfully
+Return code 0
+
+---
+
+CALL CALCFEE
+Date sent . . . . . . :   05/15/2026
+Time sent . . . . . . :   01:02:35
+
+CALCFEE completed successfully
+Return code 0
+
+---
+
+CALL UPDATEACCOUNT
+Date sent . . . . . . :   05/15/2026
+Time sent . . . . . . :   01:02:40
+
+CPF5003 -- Cannot open file CUSTFILE.
+
+Message ID . . . . . . :   CPF5003
+Message type . . . . . :   Diagnostic
+Severity . . . . . . . :   40
+Date sent . . . . . . :   05/15/2026
+Time sent . . . . . . :   01:02:41
+From program . . . . . :   QDBSRV
+From library . . . . . :   QSYS
+From module . . . . . :   UPDATE
+
+To program . . . . . . :   CREDITUPD
+To library . . . . . . :   MYLIB
+To module . . . . . . :   MAIN
+
+Message . . . . . :   Cannot open file CUSTFILE.
+
+Recovery action: RETRY after 2 seconds
+Date sent . . . . . . :   05/15/2026
+Time sent . . . . . . :   01:02:43
+
+RETRY UPDATEACCOUNT
+Date sent . . . . . . :   05/15/2026
+Time sent . . . . . . :   01:02:43
+
+UPDATEACCOUNT completed successfully
+Return code 0
+
+---
+
+Job Statistics:
+Start date/time: 05/15/2026 01:00:02
+End date/time:   05/15/2026 02:30:15
+Job duration: 1 hour 30 minutes 13 seconds
+
+CPF9898 -- Job has ended normally.
+
+Message ID . . . . . . :   CPF9898
+Message type . . . . . :   Completion
+Severity . . . . . . . :   00
+Date sent . . . . . . :   05/15/2026
+Time sent . . . . . . :   02:30:15
+From program . . . . . :   QSYSMAIN
+From library . . . . . :   QSYS
+From module . . . . . :   MAIN
+
+To program . . . . . . :   QSYSMAIN
+To library . . . . . . :   QSYS
+
+Message . . . . . :   Job has ended normally.
+
+End of job log.

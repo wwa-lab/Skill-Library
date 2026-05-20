@@ -1,0 +1,55 @@
+* PRTF DDS source for INVOICERPT (Invoice Report)
+* IBM i Printer File DDS - toy redacted example
+* ==============================================================================
+*
+* File: INVOICERPT
+* Library: DEMO01
+* Description: Invoice print file layout. Program evidence and spool samples
+*              are required to prove grouping, sorting, and total formulas.
+*
+* ==============================================================================
+
+A                                      PAGESIZE(66 80)
+A                                      OVERFLOW(60)
+
+* Page/report heading formats
+A          R RPTHEAD
+A                                  1  1'INVOICE REPORT'
+A                                  1 50'Page:'
+A            PAGENO         5S 0O  1 56
+A                                  2  1'As of:'
+A            RUNDATE        8A  O  2  8
+
+A          R COLHEAD
+A                                  4  1'Customer ID'
+A                                  4 15'Customer Name'
+A                                  4 50'Invoice No'
+A                                  4 65'Amount'
+
+* Detail line format
+A          R INVDETAIL
+A            CUSTID         5S 0O  1  1EDTWRD('00000')
+A            CUSTNAME      30A  O  1 15
+A            INVNO         10A  O  1 50
+A            INVAMT        10S 2O  1 65EDTCDE(A)
+
+* Subtotal-like line format. The program decides when this prints and what
+* values are accumulated.
+A          R CUSTSUBTL
+A                                      SPACEB(1)
+A                                  1  1'Customer Total:'
+A            CUSTID         5S 0O  1 25EDTWRD('00000')
+A            CUSTCNT        4S 0O  1 40
+A            CUSTTOTAL     10S 2O  1 50EDTCDE(A)
+A                                      SPACEA(1)
+
+* Trailer format. The program decides end-of-report timing and formulas.
+A          R RPTOTAL
+A                                      SPACEB(2)
+A                                  1  1'GRAND TOTAL'
+A            INVCOUNT       5S 0O  1 40
+A            GRANDTOTAL    10S 2O  1 50EDTCDE(A)
+
+* ==============================================================================
+* End of Printer File
+* ==============================================================================
