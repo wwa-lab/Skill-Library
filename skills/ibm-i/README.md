@@ -1,5 +1,7 @@
 # IBM i Skill Family
 
+![IBM i Skill Family overview](../../docs/assets/ibm-i-skill-family-overview.svg)
+
 This domain contains the internal IBM i skill family migrated from `wwa-lab/build-agent-skill` at source commit `479a427`.
 The original Apache-2.0 license is retained in `skills/ibm-i/LICENSE`.
 
