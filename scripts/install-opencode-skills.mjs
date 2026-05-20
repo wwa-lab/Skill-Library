@@ -4,8 +4,10 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import process from "node:process";
+import { fileURLToPath } from "node:url";
 
-const rootDir = process.cwd();
+const scriptDir = path.dirname(fileURLToPath(import.meta.url));
+const rootDir = path.resolve(scriptDir, "..");
 const skillsDir = path.join(rootDir, "skills");
 const markerFileName = ".skill-library-source.json";
 const managedBy = "Skill-Library";
@@ -17,6 +19,7 @@ function printHelp() {
 
 Options:
   --domain <name>       Install one family/domain. Can be repeated. Aliases such as ibm-i are supported.
+  --project <path>      Install into another repo's .opencode/skills directory.
   --dest <path>         Install destination. Defaults to ~/.config/opencode/skills.
   --include-examples    Include skill directories that start with "_".
   --dry-run             Print planned actions without writing files.
@@ -41,6 +44,8 @@ function parseArgs(argv) {
   const options = {
     domains: [],
     dest: defaultDest,
+    destProvided: false,
+    project: null,
     includeExamples: false,
     dryRun: false,
     force: false,
@@ -57,12 +62,20 @@ function parseArgs(argv) {
       }
       options.domains.push(value);
       index += 1;
+    } else if (arg === "--project") {
+      const value = argv[index + 1];
+      if (!value) {
+        throw new Error("--project requires a value");
+      }
+      options.project = expandHome(value);
+      index += 1;
     } else if (arg === "--dest") {
       const value = argv[index + 1];
       if (!value) {
         throw new Error("--dest requires a value");
       }
       options.dest = expandHome(value);
+      options.destProvided = true;
       index += 1;
     } else if (arg === "--include-examples") {
       options.includeExamples = true;
@@ -75,6 +88,14 @@ function parseArgs(argv) {
     } else {
       throw new Error(`Unknown option: ${arg}`);
     }
+  }
+
+  if (options.project && options.destProvided) {
+    throw new Error("Use either --project or --dest, not both");
+  }
+
+  if (options.project) {
+    options.dest = path.join(options.project, ".opencode", "skills");
   }
 
   return options;

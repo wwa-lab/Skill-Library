@@ -106,6 +106,14 @@ Install all real skills into the default OpenCode skills directory:
 node scripts/install-opencode-skills.mjs
 ```
 
+Install into another repo without copying the script:
+
+```bash
+node /path/to/Skill-Library/scripts/install-opencode-skills.mjs --project /path/to/target-repo
+```
+
+That writes to `/path/to/target-repo/.opencode/skills`.
+
 Manual copy without Node:
 
 ```text
@@ -140,7 +148,8 @@ The default destination is:
 ~/.config/opencode/skills
 ```
 
-Use `--dest <path>` to install elsewhere.
+Use `--project <repo>` for project-local OpenCode skills, or `--dest <path>`
+for an explicit destination.
 
 ## Creating a Skill
 
