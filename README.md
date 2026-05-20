@@ -4,6 +4,16 @@
 
 This repository manages reusable OpenCode skills for internal engineering work.
 
+## Start Here
+
+This repo is for sharing reusable skills so teammates can quickly find the
+right skill and use it in OpenCode.
+
+- New user: start with [docs/getting-started-opencode.md](docs/getting-started-opencode.md).
+- Not sure which skill to use: use [docs/skill-selection-guide.md](docs/skill-selection-guide.md).
+- IBM i forward delivery: start with `ibm-i-workflow-orchestrator`.
+- Legacy reverse-modernization: start with `legacy-modernization-orchestrator`.
+
 The library is intentionally simple:
 
 - Skills are grouped by domain in this repository.
@@ -137,7 +147,9 @@ description: Use when modernizing IBM i RPG applications, analyzing RPG code, ex
 
 ## Docs
 
-- `docs/skill-authoring.md`
-- `docs/import-existing-skills.md`
-- `docs/naming-conventions.md`
-- `docs/opencode-installation.md`
+- [docs/getting-started-opencode.md](docs/getting-started-opencode.md)
+- [docs/skill-selection-guide.md](docs/skill-selection-guide.md)
+- [docs/skill-authoring.md](docs/skill-authoring.md)
+- [docs/import-existing-skills.md](docs/import-existing-skills.md)
+- [docs/naming-conventions.md](docs/naming-conventions.md)
+- [docs/opencode-installation.md](docs/opencode-installation.md)
