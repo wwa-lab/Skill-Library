@@ -1,5 +1,7 @@
 # Internal OpenCode Skills Library
 
+![Internal OpenCode Skills Library overview](docs/assets/skill-library-repo-overview.svg)
+
 This repository manages reusable OpenCode skills for internal engineering work.
 
 The library is intentionally simple:
