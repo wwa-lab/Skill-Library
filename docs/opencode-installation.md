@@ -50,14 +50,14 @@ The `<skill-name>` must match the `name` field in `SKILL.md`.
 Examples:
 
 ```text
-skills/ibm-i/code-generator/ -> ~/.config/opencode/skills/ibm-i-code-generator/
+skills/ibm-i-skill-family/ibm-i-code-generator/ -> ~/.config/opencode/skills/ibm-i-code-generator/
 skills/legacy-spec-factory/legacy-spec-writer/ -> ~/.config/opencode/skills/legacy-spec-writer/
 ```
 
-See `docs/manual-copy-opencode.md` for the full manual-copy guide and IBM i
-folder mapping.
+See `docs/manual-copy-opencode.md` for the full manual-copy guide and
+copy-ready folder examples.
 
-## Install One Domain
+## Install One Family Or Domain Alias
 
 ```bash
 node scripts/install-opencode-skills.mjs --domain java
@@ -68,6 +68,9 @@ Install the IBM i skill family:
 ```bash
 node scripts/install-opencode-skills.mjs --domain ibm-i
 ```
+
+`ibm-i` is an alias for the copy-ready family folder
+`skills/ibm-i-skill-family/`.
 
 You can pass `--domain` multiple times:
 

@@ -37,11 +37,11 @@ destination folder name.
 Examples:
 
 ```text
-skills/ibm-i/code-generator/ -> ~/.config/opencode/skills/ibm-i-code-generator/
+skills/ibm-i-skill-family/ibm-i-code-generator/ -> ~/.config/opencode/skills/ibm-i-code-generator/
 skills/legacy-spec-factory/legacy-spec-writer/ -> ~/.config/opencode/skills/legacy-spec-writer/
 ```
 
-For detailed manual-copy steps and IBM i folder mapping, read
+For detailed manual-copy steps and copy-ready folder examples, read
 [manual-copy-opencode.md](manual-copy-opencode.md).
 
 ### Start Using Skills

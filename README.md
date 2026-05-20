@@ -22,7 +22,7 @@ a normal local file URL.
 
 The library is intentionally simple:
 
-- Skills are grouped by domain in this repository.
+- Skills are grouped by family in this repository.
 - Skills are installed into OpenCode as flat, namespaced folders.
 - The repository manages skills only, not agents or commands.
 
@@ -31,7 +31,8 @@ The library is intentionally simple:
 ```text
 skills/
   common/       Shared skills that apply across domains
-  ibm-i/        IBM i skill family for requirements, specs, DDS, code, review, and tests
+  ibm-i-skill-family/
+                IBM i skill family for requirements, specs, DDS, code, review, and tests
   java/         Java, Spring, Maven, Gradle, JVM, and testing skills
   legacy-spec-factory/
                 Reverse-modernization skill family for legacy evidence-to-spec workflows
@@ -56,7 +57,7 @@ The IBM i family was migrated from `wwa-lab/build-agent-skill` after stabilizati
 - Unit test planning and executable SQL/CL test scaffold generation.
 - Workflow orchestration for routing and batch `task.md` execution.
 
-See `skills/ibm-i/README.md` for the full map.
+See `skills/ibm-i-skill-family/README.md` for the full map.
 
 Pending internal pilot skills are reserved but not installed until their `SKILL.md` files are copied in:
 
@@ -110,7 +111,7 @@ Copy skill folders into ~/.config/opencode/skills/<skill-name>/
 ```
 
 See [docs/manual-copy-opencode.md](docs/manual-copy-opencode.md) for the exact
-rules and IBM i folder mapping.
+rules and copy-ready folder examples.
 
 Install only one domain:
 
@@ -150,7 +151,7 @@ Use `--dest <path>` to install elsewhere.
 Example:
 
 ```text
-skills/ibm-i/rpg-modernization/SKILL.md
+skills/ibm-i-skill-family/ibm-i-rpg-modernization/SKILL.md
 ```
 
 ```yaml

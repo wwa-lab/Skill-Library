@@ -107,7 +107,7 @@ async function readDomainConfig(domainPath) {
   const configPath = path.join(domainPath, "domain.json");
 
   if (!(await pathExists(configPath))) {
-    return { nameStrategy: "prefix" };
+    return { metadataDomain: path.basename(domainPath), nameStrategy: "prefix" };
   }
 
   const config = JSON.parse(await fs.readFile(configPath, "utf8"));
@@ -119,7 +119,11 @@ async function readDomainConfig(domainPath) {
     );
   }
 
-  return { ...config, nameStrategy };
+  return {
+    ...config,
+    metadataDomain: config.metadataDomain ?? path.basename(domainPath),
+    nameStrategy,
+  };
 }
 
 async function discoverSkills() {
@@ -208,8 +212,12 @@ async function validateSkill(skill, errors, warnings) {
       }
     }
 
-    if (metadata.domain && metadata.domain !== skill.domain) {
-      addMessage(warnings, skill, `metadata.domain should be "${skill.domain}", found "${metadata.domain}"`);
+    if (metadata.domain && metadata.domain !== skill.domainConfig.metadataDomain) {
+      addMessage(
+        warnings,
+        skill,
+        `metadata.domain should be "${skill.domainConfig.metadataDomain}", found "${metadata.domain}"`,
+      );
     }
   }
 

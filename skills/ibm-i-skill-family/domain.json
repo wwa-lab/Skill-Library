@@ -1,0 +1,9 @@
+{
+  "aliases": ["ibm-i"],
+  "displayName": "IBM i Skill Family",
+  "metadataDomain": "ibm-i",
+  "nameStrategy": "preserve",
+  "source": "https://github.com/wwa-lab/build-agent-skill",
+  "sourceCommit": "479a427",
+  "status": "stable-baseline"
+}

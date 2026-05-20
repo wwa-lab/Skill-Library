@@ -30,7 +30,7 @@ mkdir -p ~/.config/opencode/skills
 
 For one skill:
 
-1. Open the source folder, for example `skills/ibm-i/code-generator/`.
+1. Open the source folder, for example `skills/ibm-i-skill-family/ibm-i-code-generator/`.
 2. Open `SKILL.md` and read the frontmatter `name`.
 3. Copy the whole source folder to `~/.config/opencode/skills/`.
 4. Rename the copied folder to the `name`, for example
@@ -44,8 +44,12 @@ Copy one IBM i skill:
 
 ```bash
 mkdir -p ~/.config/opencode/skills/ibm-i-code-generator
-cp -R skills/ibm-i/code-generator/. ~/.config/opencode/skills/ibm-i-code-generator/
+cp -R skills/ibm-i-skill-family/ibm-i-code-generator/. ~/.config/opencode/skills/ibm-i-code-generator/
 ```
+
+Copy multiple IBM i skills by selecting the `ibm-i-*` folders that contain
+`SKILL.md` and copying them into `~/.config/opencode/skills/`. Skip placeholder
+folders until their `SKILL.md` files are added.
 
 Copy one Legacy Spec Factory skill:
 
@@ -61,31 +65,31 @@ the original `legacy-*` folder names:
 cp -R skills/legacy-spec-factory/legacy-* ~/.config/opencode/skills/
 ```
 
-## IBM i Manual Mapping
+## IBM i Copy-Ready Folders
 
-IBM i source folders use short directory names in this repository. The installed
-OpenCode folders must use the full `ibm-i-*` skill names.
+IBM i source folders are copy-ready. The source folder name already matches the
+OpenCode folder name.
 
 | Source Folder | OpenCode Folder |
 |---------------|-----------------|
-| `skills/ibm-i/code-generator/` | `~/.config/opencode/skills/ibm-i-code-generator/` |
-| `skills/ibm-i/code-reviewer/` | `~/.config/opencode/skills/ibm-i-code-reviewer/` |
-| `skills/ibm-i/compile-precheck/` | `~/.config/opencode/skills/ibm-i-compile-precheck/` |
-| `skills/ibm-i/dds-generator/` | `~/.config/opencode/skills/ibm-i-dds-generator/` |
-| `skills/ibm-i/dds-reviewer/` | `~/.config/opencode/skills/ibm-i-dds-reviewer/` |
-| `skills/ibm-i/file-spec/` | `~/.config/opencode/skills/ibm-i-file-spec/` |
-| `skills/ibm-i/functional-spec/` | `~/.config/opencode/skills/ibm-i-functional-spec/` |
-| `skills/ibm-i/impact-analyzer/` | `~/.config/opencode/skills/ibm-i-impact-analyzer/` |
-| `skills/ibm-i/program-analyzer/` | `~/.config/opencode/skills/ibm-i-program-analyzer/` |
-| `skills/ibm-i/program-spec/` | `~/.config/opencode/skills/ibm-i-program-spec/` |
-| `skills/ibm-i/requirement-normalizer/` | `~/.config/opencode/skills/ibm-i-requirement-normalizer/` |
-| `skills/ibm-i/spec-reviewer/` | `~/.config/opencode/skills/ibm-i-spec-reviewer/` |
-| `skills/ibm-i/technical-design/` | `~/.config/opencode/skills/ibm-i-technical-design/` |
-| `skills/ibm-i/test-scaffold/` | `~/.config/opencode/skills/ibm-i-test-scaffold/` |
-| `skills/ibm-i/ut-plan-generator/` | `~/.config/opencode/skills/ibm-i-ut-plan-generator/` |
-| `skills/ibm-i/workflow-orchestrator/` | `~/.config/opencode/skills/ibm-i-workflow-orchestrator/` |
+| `skills/ibm-i-skill-family/ibm-i-code-generator/` | `~/.config/opencode/skills/ibm-i-code-generator/` |
+| `skills/ibm-i-skill-family/ibm-i-code-reviewer/` | `~/.config/opencode/skills/ibm-i-code-reviewer/` |
+| `skills/ibm-i-skill-family/ibm-i-compile-precheck/` | `~/.config/opencode/skills/ibm-i-compile-precheck/` |
+| `skills/ibm-i-skill-family/ibm-i-dds-generator/` | `~/.config/opencode/skills/ibm-i-dds-generator/` |
+| `skills/ibm-i-skill-family/ibm-i-dds-reviewer/` | `~/.config/opencode/skills/ibm-i-dds-reviewer/` |
+| `skills/ibm-i-skill-family/ibm-i-file-spec/` | `~/.config/opencode/skills/ibm-i-file-spec/` |
+| `skills/ibm-i-skill-family/ibm-i-functional-spec/` | `~/.config/opencode/skills/ibm-i-functional-spec/` |
+| `skills/ibm-i-skill-family/ibm-i-impact-analyzer/` | `~/.config/opencode/skills/ibm-i-impact-analyzer/` |
+| `skills/ibm-i-skill-family/ibm-i-program-analyzer/` | `~/.config/opencode/skills/ibm-i-program-analyzer/` |
+| `skills/ibm-i-skill-family/ibm-i-program-spec/` | `~/.config/opencode/skills/ibm-i-program-spec/` |
+| `skills/ibm-i-skill-family/ibm-i-requirement-normalizer/` | `~/.config/opencode/skills/ibm-i-requirement-normalizer/` |
+| `skills/ibm-i-skill-family/ibm-i-spec-reviewer/` | `~/.config/opencode/skills/ibm-i-spec-reviewer/` |
+| `skills/ibm-i-skill-family/ibm-i-technical-design/` | `~/.config/opencode/skills/ibm-i-technical-design/` |
+| `skills/ibm-i-skill-family/ibm-i-test-scaffold/` | `~/.config/opencode/skills/ibm-i-test-scaffold/` |
+| `skills/ibm-i-skill-family/ibm-i-ut-plan-generator/` | `~/.config/opencode/skills/ibm-i-ut-plan-generator/` |
+| `skills/ibm-i-skill-family/ibm-i-workflow-orchestrator/` | `~/.config/opencode/skills/ibm-i-workflow-orchestrator/` |
 
-## Legacy Spec Factory Manual Mapping
+## Legacy Spec Factory Copy-Ready Folders
 
 Legacy Spec Factory uses preserved names. The source folder is already the
 OpenCode folder name.

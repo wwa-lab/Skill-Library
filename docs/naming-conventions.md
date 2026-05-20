@@ -1,21 +1,22 @@
 # Naming Conventions
 
-This repository uses domain-first naming.
+This repository uses family-first layout with copy-ready skill folders.
 
-## Domains
+## Families
 
-Domains live under `skills/`:
+Families live under `skills/`:
 
 ```text
 skills/common/
-skills/ibm-i/
+skills/ibm-i-skill-family/
 skills/java/
+skills/legacy-spec-factory/
 ```
 
-Domain names must be lowercase kebab-case:
+Family folder names must be lowercase kebab-case:
 
 ```text
-ibm-i
+ibm-i-skill-family
 java
 common
 ```
@@ -26,8 +27,12 @@ Skill directories must be lowercase kebab-case:
 
 ```text
 skills/java/spring-boot-api-review/
-skills/ibm-i/rpg-modernization/
+skills/ibm-i-skill-family/ibm-i-rpg-modernization/
 ```
+
+Prefer copy-ready skill directory names: the folder containing `SKILL.md`
+should usually match the `name` field so a teammate can copy the folder directly
+into OpenCode.
 
 Internal example or fixture directories may start with `_`:
 
@@ -66,19 +71,21 @@ For those domains, add `skills/<domain>/domain.json`:
 
 ```json
 {
+  "metadataDomain": "ibm-i",
   "nameStrategy": "preserve"
 }
 ```
 
-With `preserve`, the `name` in `SKILL.md` must match the skill directory name:
+With `preserve`, the `name` in `SKILL.md` must match the skill directory name.
+Use this for copy-ready family folders:
 
 ```text
+skills/ibm-i-skill-family/ibm-i-code-generator/ -> ibm-i-code-generator
 skills/legacy-spec-factory/legacy-spec-writer/ -> legacy-spec-writer
 ```
 
 Use this only for mature imported families whose existing names are already clear
-in a flat OpenCode runtime. New internal domains should use the default
-domain-prefixed strategy.
+in a flat OpenCode runtime.
 
 ## Descriptions
 

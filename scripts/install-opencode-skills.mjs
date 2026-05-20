@@ -15,7 +15,7 @@ function printHelp() {
   console.log(`Usage: node scripts/install-opencode-skills.mjs [options]
 
 Options:
-  --domain <name>       Install one domain. Can be repeated.
+  --domain <name>       Install one family/domain. Can be repeated. Aliases such as ibm-i are supported.
   --dest <path>         Install destination. Defaults to ~/.config/opencode/skills.
   --include-examples    Include skill directories that start with "_".
   --dry-run             Print planned actions without writing files.
@@ -156,17 +156,35 @@ async function listDirectories(targetPath) {
     .sort();
 }
 
+async function readDomainConfig(domainPath) {
+  const configPath = path.join(domainPath, "domain.json");
+
+  if (!(await pathExists(configPath))) {
+    return { aliases: [] };
+  }
+
+  const config = JSON.parse(await fs.readFile(configPath, "utf8"));
+  const aliases = Array.isArray(config.aliases) ? config.aliases : [];
+  return { ...config, aliases };
+}
+
 async function discoverSkills(options) {
   const selectedDomains = new Set(options.domains);
   const domains = await listDirectories(skillsDir);
   const skills = [];
 
   for (const domain of domains) {
-    if (selectedDomains.size > 0 && !selectedDomains.has(domain)) {
+    const domainPath = path.join(skillsDir, domain);
+    const domainConfig = await readDomainConfig(domainPath);
+    const selectableNames = new Set([domain, ...domainConfig.aliases]);
+
+    if (
+      selectedDomains.size > 0 &&
+      ![...selectedDomains].some((selectedDomain) => selectableNames.has(selectedDomain))
+    ) {
       continue;
     }
 
-    const domainPath = path.join(skillsDir, domain);
     const skillDirs = await listDirectories(domainPath);
 
     for (const skillDir of skillDirs) {

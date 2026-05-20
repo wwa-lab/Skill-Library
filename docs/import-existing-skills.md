@@ -5,10 +5,10 @@ Use this process when a team already has a stable skill or skill family and want
 ## Import Steps
 
 1. Identify every source skill directory that contains a `SKILL.md`.
-2. Choose the target domain, such as `common`, `ibm-i`, or `java`.
-3. Copy each skill into `skills/<domain>/<short-skill-name>/`.
-4. Keep the frontmatter `name` as `<domain>-<short-skill-name>`, unless this
-   is a mature imported family using preserved names.
+2. Choose the target family, such as `common`, `ibm-i-skill-family`, or `java`.
+3. Copy each skill into `skills/<family>/<installed-skill-name>/`.
+4. Keep the frontmatter `name` aligned with the installed skill name. For
+   copy-ready families, the skill directory and frontmatter `name` should match.
 5. Preserve useful `references/`, `scripts/`, `assets/`, `examples/`, and `tests/`.
 6. Remove local noise such as `.DS_Store`, temporary files, and stale `tests/results/*` output.
 7. Add `license` and `metadata` to every imported `SKILL.md`.
@@ -18,7 +18,8 @@ Use this process when a team already has a stable skill or skill family and want
 
 ## Path Mapping
 
-The repository is domain-first, while OpenCode installs skills into a flat directory.
+The repository is family-first, while OpenCode installs skills into a flat directory.
+Skill folders should be copy-ready whenever possible.
 
 Example:
 
@@ -27,7 +28,7 @@ source repo:
 .claude/ibm-i-code-generator/SKILL.md
 
 this repo:
-skills/ibm-i/code-generator/SKILL.md
+skills/ibm-i-skill-family/ibm-i-code-generator/SKILL.md
 
 installed into OpenCode:
 ~/.config/opencode/skills/ibm-i-code-generator/SKILL.md
@@ -51,13 +52,14 @@ metadata:
 ---
 ```
 
-## Preserving Mature Names
+## Preserving Copy-Ready Names
 
 If the source family already has stable skill names that are clear in OpenCode's
-flat install namespace, place a `domain.json` file in the target domain:
+flat install namespace, place a `domain.json` file in the target family:
 
 ```json
 {
+  "metadataDomain": "ibm-i",
   "nameStrategy": "preserve"
 }
 ```
@@ -75,9 +77,8 @@ installed into OpenCode:
 ~/.config/opencode/skills/legacy-spec-writer/SKILL.md
 ```
 
-Use preserved names for freeze imports where renaming would break known prompts
-or make the skill name unnecessarily long. Do not use it for new domains that
-still need a repository namespace.
+Use preserved names for copy-ready imports where the source folder should be
+usable directly in OpenCode.
 
 ## Verification
 
@@ -105,8 +106,8 @@ For internal pilot skills that are known but not ready to import, create the fin
 Example:
 
 ```text
-skills/ibm-i/requirement-intake/README.md
-skills/ibm-i/ut-plan-to-xml/README.md
+skills/ibm-i-skill-family/ibm-i-requirement-intake/README.md
+skills/ibm-i-skill-family/ibm-i-ut-plan-to-xml/README.md
 ```
 
 This reserves the destination path without making the installer publish an incomplete skill. When the internal skill is ready, copy in `SKILL.md`, add resources, remove any obsolete placeholder notes, and run validation.
