@@ -7,7 +7,8 @@ Use this process when a team already has a stable skill or skill family and want
 1. Identify every source skill directory that contains a `SKILL.md`.
 2. Choose the target domain, such as `common`, `ibm-i`, or `java`.
 3. Copy each skill into `skills/<domain>/<short-skill-name>/`.
-4. Keep the frontmatter `name` as `<domain>-<short-skill-name>`.
+4. Keep the frontmatter `name` as `<domain>-<short-skill-name>`, unless this
+   is a mature imported family using preserved names.
 5. Preserve useful `references/`, `scripts/`, `assets/`, `examples/`, and `tests/`.
 6. Remove local noise such as `.DS_Store`, temporary files, and stale `tests/results/*` output.
 7. Add `license` and `metadata` to every imported `SKILL.md`.
@@ -49,6 +50,34 @@ metadata:
   domain: ibm-i
 ---
 ```
+
+## Preserving Mature Names
+
+If the source family already has stable skill names that are clear in OpenCode's
+flat install namespace, place a `domain.json` file in the target domain:
+
+```json
+{
+  "nameStrategy": "preserve"
+}
+```
+
+Then keep the source skill directory and frontmatter name aligned:
+
+```text
+source repo:
+skills/legacy-spec-writer/SKILL.md
+
+this repo:
+skills/legacy-spec-factory/legacy-spec-writer/SKILL.md
+
+installed into OpenCode:
+~/.config/opencode/skills/legacy-spec-writer/SKILL.md
+```
+
+Use preserved names for freeze imports where renaming would break known prompts
+or make the skill name unnecessarily long. Do not use it for new domains that
+still need a repository namespace.
 
 ## Verification
 

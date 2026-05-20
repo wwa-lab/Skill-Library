@@ -19,6 +19,14 @@ function expectedSkillName(domain, skillDirName) {
   return `${domain}-${normalizeSkillDirName(skillDirName)}`;
 }
 
+function expectedSkillNameForStrategy(domain, skillDirName, nameStrategy) {
+  if (nameStrategy === "preserve") {
+    return normalizeSkillDirName(skillDirName);
+  }
+
+  return expectedSkillName(domain, skillDirName);
+}
+
 function parseFrontmatter(content) {
   if (!content.startsWith("---\n")) {
     return null;
@@ -95,6 +103,25 @@ async function listDirectories(targetPath) {
     .sort();
 }
 
+async function readDomainConfig(domainPath) {
+  const configPath = path.join(domainPath, "domain.json");
+
+  if (!(await pathExists(configPath))) {
+    return { nameStrategy: "prefix" };
+  }
+
+  const config = JSON.parse(await fs.readFile(configPath, "utf8"));
+  const nameStrategy = config.nameStrategy ?? "prefix";
+
+  if (!["prefix", "preserve"].includes(nameStrategy)) {
+    throw new Error(
+      `${path.relative(rootDir, configPath)}: nameStrategy must be "prefix" or "preserve"`,
+    );
+  }
+
+  return { ...config, nameStrategy };
+}
+
 async function discoverSkills() {
   if (!(await pathExists(skillsDir))) {
     return [];
@@ -105,6 +132,7 @@ async function discoverSkills() {
 
   for (const domain of domains) {
     const domainPath = path.join(skillsDir, domain);
+    const domainConfig = await readDomainConfig(domainPath);
     const skillDirs = await listDirectories(domainPath);
 
     for (const skillDir of skillDirs) {
@@ -112,7 +140,7 @@ async function discoverSkills() {
       const skillFile = path.join(skillPath, "SKILL.md");
 
       if (await pathExists(skillFile)) {
-        skills.push({ domain, skillDir, skillPath, skillFile });
+        skills.push({ domain, domainConfig, skillDir, skillPath, skillFile });
       }
     }
   }
@@ -147,7 +175,11 @@ async function validateSkill(skill, errors, warnings) {
   }
 
   const { name, description, metadata } = parsed.data;
-  const expectedName = expectedSkillName(skill.domain, skill.skillDir);
+  const expectedName = expectedSkillNameForStrategy(
+    skill.domain,
+    skill.skillDir,
+    skill.domainConfig.nameStrategy,
+  );
 
   if (!name) {
     addMessage(errors, skill, "frontmatter is missing required field: name");

@@ -39,7 +39,7 @@ The installer skips underscore-prefixed skill directories by default.
 
 ## Frontmatter Names
 
-The `name` in `SKILL.md` must be:
+By default, the `name` in `SKILL.md` must be:
 
 ```text
 <domain>-<skill-directory-name>
@@ -59,6 +59,27 @@ name: ibm-i-rpg-modernization
 name: java-spring-boot-api-review
 ```
 
+## Preserved Skill Names
+
+Some imported skill families already use stable, globally namespaced skill names.
+For those domains, add `skills/<domain>/domain.json`:
+
+```json
+{
+  "nameStrategy": "preserve"
+}
+```
+
+With `preserve`, the `name` in `SKILL.md` must match the skill directory name:
+
+```text
+skills/legacy-spec-factory/legacy-spec-writer/ -> legacy-spec-writer
+```
+
+Use this only for mature imported families whose existing names are already clear
+in a flat OpenCode runtime. New internal domains should use the default
+domain-prefixed strategy.
+
 ## Descriptions
 
 Descriptions should explain trigger conditions, not marketing value.
@@ -74,4 +95,3 @@ Avoid:
 ```yaml
 description: A powerful Java helper skill.
 ```
-
