@@ -33,6 +33,7 @@
       .box-title { fill: #f8fafc; font-size: 12px; font-weight: 700; }
       .box-subtitle { fill: #cbd5e1; font-size: 9px; font-weight: 500; }
       .tiny { fill: #94a3b8; font-size: 9px; font-weight: 500; }
+      .pending { fill: #fbbf24; font-size: 9px; font-weight: 700; }
       .lane { fill: #cbd5e1; font-size: 11px; font-weight: 700; }
       .tag { fill: #e2e8f0; font-size: 10px; font-weight: 700; }
     </style>
@@ -44,8 +45,8 @@
 
   <text x="52" y="66" class="title">IBM i Skill Family</text>
   <text x="52" y="91" class="subtitle">Requirement intake, specs, RPGLE/CLLE, DDS, reviews, unit tests, and batch orchestration.</text>
-  <text x="1300" y="64" class="tag" text-anchor="end">16 skills</text>
-  <text x="1300" y="88" class="tiny" text-anchor="end">migrated from build-agent-skill @ 479a427</text>
+  <text x="1300" y="64" class="tag" text-anchor="end">16 active + 2 pending</text>
+  <text x="1300" y="88" class="tiny" text-anchor="end">pending pilots: Oliver + Kevin</text>
 
   <!-- Regions -->
   <rect x="48" y="128" width="1304" height="166" rx="14" fill="rgba(15, 23, 42, 0.64)" stroke="#22d3ee" stroke-width="1.5" stroke-dasharray="10,5"/>
@@ -76,6 +77,10 @@
     <rect x="280" y="180" width="172" height="64" rx="8" fill="#083344" fill-opacity="0.45" stroke="#22d3ee" stroke-width="1.4"/>
     <text x="366" y="205" class="box-title" text-anchor="middle">Requirement</text>
     <text x="366" y="224" class="box-subtitle" text-anchor="middle">Normalizer</text>
+
+    <rect x="280" y="254" width="172" height="28" rx="6" fill="#0f172a"/>
+    <rect x="280" y="254" width="172" height="28" rx="6" fill="#78350f" fill-opacity="0.24" stroke="#fbbf24" stroke-width="1.2" stroke-dasharray="5,4"/>
+    <text x="366" y="272" class="pending" text-anchor="middle">pending: Intake - Oliver</text>
 
     <rect x="496" y="180" width="172" height="64" rx="8" fill="#0f172a"/>
     <rect x="496" y="180" width="172" height="64" rx="8" fill="#083344" fill-opacity="0.45" stroke="#22d3ee" stroke-width="1.4"/>
@@ -148,6 +153,10 @@
     <text x="1014" y="627" class="box-title" text-anchor="middle">UT Plan</text>
     <text x="1014" y="646" class="box-subtitle" text-anchor="middle">developer cases</text>
 
+    <rect x="928" y="676" width="172" height="28" rx="6" fill="#0f172a"/>
+    <rect x="928" y="676" width="172" height="28" rx="6" fill="#78350f" fill-opacity="0.24" stroke="#fbbf24" stroke-width="1.2" stroke-dasharray="5,4"/>
+    <text x="1014" y="694" class="pending" text-anchor="middle">pending: UT XML - Kevin</text>
+
     <rect x="1144" y="602" width="172" height="64" rx="8" fill="#0f172a"/>
     <rect x="1144" y="602" width="172" height="64" rx="8" fill="#1e40af" fill-opacity="0.32" stroke="#60a5fa" stroke-width="1.4"/>
     <text x="1230" y="627" class="box-title" text-anchor="middle">Test Scaffold</text>
@@ -168,6 +177,7 @@
   <path d="M 668 212 L 712 212" fill="none" stroke="#22d3ee" stroke-width="1.8" marker-end="url(#arrow-cyan)"/>
   <path d="M 884 212 L 928 212" fill="none" stroke="#22d3ee" stroke-width="1.8" marker-end="url(#arrow-cyan)"/>
   <path d="M 1100 212 L 1144 212" fill="none" stroke="#fb7185" stroke-width="1.8" marker-end="url(#arrow-rose)"/>
+  <path d="M 366 254 L 366 244" fill="none" stroke="#fbbf24" stroke-width="1.4" stroke-dasharray="4,4" marker-end="url(#arrow-amber)"/>
 
   <path d="M 236 424 L 280 424" fill="none" stroke="#94a3b8" stroke-width="1.8" marker-end="url(#arrow-slate)"/>
   <path d="M 452 424 L 496 424" fill="none" stroke="#34d399" stroke-width="1.8" marker-end="url(#arrow-emerald)"/>
@@ -178,6 +188,7 @@
   <path d="M 452 634 L 496 634" fill="none" stroke="#a78bfa" stroke-width="1.8" marker-end="url(#arrow-slate)"/>
   <path d="M 668 634 L 712 634" fill="none" stroke="#fb7185" stroke-width="1.8" marker-end="url(#arrow-rose)"/>
   <path d="M 1100 634 L 1144 634" fill="none" stroke="#60a5fa" stroke-width="1.8" marker-end="url(#arrow-slate)"/>
+  <path d="M 1014 666 L 1014 676" fill="none" stroke="#fbbf24" stroke-width="1.4" stroke-dasharray="4,4" marker-end="url(#arrow-amber)"/>
 
   <!-- Cross-lane arrows -->
   <path d="M 1014 244 L 1014 382" fill="none" stroke="#34d399" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#arrow-emerald)"/>
@@ -205,4 +216,6 @@
   <text x="1180" y="776" class="tiny">review gate</text>
   <circle cx="1166" cy="792" r="5" fill="#60a5fa"/>
   <text x="1180" y="796" class="tiny">test support</text>
+  <circle cx="1252" cy="792" r="5" fill="#fbbf24"/>
+  <text x="1266" y="796" class="tiny">pending</text>
 </svg>
