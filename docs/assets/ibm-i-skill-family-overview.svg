@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 860" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 940" role="img" aria-labelledby="title desc">
   <title id="title">IBM i Skill Family overview</title>
-  <desc id="desc">A workflow map showing IBM i skills from raw input through requirements, specifications, program generation, DDS generation, reviews, unit tests, and orchestration.</desc>
+  <desc id="desc">A workflow map showing IBM i skills from requirement intake through requirements, specifications, program generation, DDS generation, reviews, unit test planning, JUICE XML generation, and orchestration. It shows 16 active skills and 2 pending internal pilot skills by Oliver and Kevin.</desc>
   <defs>
     <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
       <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.6"/>
@@ -20,6 +20,9 @@
     <marker id="arrow-rose" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0, 10 3.5, 0 7" fill="#fb7185"/>
     </marker>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#60a5fa"/>
+    </marker>
     <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="140%">
       <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#020617" flood-opacity="0.35"/>
     </filter>
@@ -27,195 +30,206 @@
       text {
         font-family: "SF Mono", "Cascadia Code", "JetBrains Mono", Menlo, Consolas, monospace;
       }
-      .title { fill: #f8fafc; font-size: 30px; font-weight: 700; }
+      .title { fill: #f8fafc; font-size: 32px; font-weight: 700; }
       .subtitle { fill: #94a3b8; font-size: 13px; font-weight: 500; }
       .region-title { font-size: 12px; font-weight: 700; letter-spacing: 0.4px; }
       .box-title { fill: #f8fafc; font-size: 12px; font-weight: 700; }
       .box-subtitle { fill: #cbd5e1; font-size: 9px; font-weight: 500; }
       .tiny { fill: #94a3b8; font-size: 9px; font-weight: 500; }
-      .pending { fill: #fbbf24; font-size: 9px; font-weight: 700; }
+      .pending-title { fill: #fef3c7; font-size: 12px; font-weight: 700; }
+      .pending-subtitle { fill: #fbbf24; font-size: 9px; font-weight: 700; }
       .lane { fill: #cbd5e1; font-size: 11px; font-weight: 700; }
       .tag { fill: #e2e8f0; font-size: 10px; font-weight: 700; }
+      .arrow-label { fill: #94a3b8; font-size: 8px; font-weight: 600; }
     </style>
   </defs>
 
-  <rect width="1400" height="860" fill="#0f172a"/>
-  <rect width="1400" height="860" fill="url(#grid)" opacity="0.72"/>
-  <rect x="24" y="24" width="1352" height="812" rx="18" fill="none" stroke="#334155" stroke-width="1"/>
+  <rect width="1600" height="940" fill="#0f172a"/>
+  <rect width="1600" height="940" fill="url(#grid)" opacity="0.72"/>
+  <rect x="24" y="24" width="1552" height="892" rx="18" fill="none" stroke="#334155" stroke-width="1"/>
 
   <text x="52" y="66" class="title">IBM i Skill Family</text>
-  <text x="52" y="91" class="subtitle">Requirement intake, specs, RPGLE/CLLE, DDS, reviews, unit tests, and batch orchestration.</text>
-  <text x="1300" y="64" class="tag" text-anchor="end">16 active + 2 pending</text>
-  <text x="1300" y="88" class="tiny" text-anchor="end">pending pilots: Oliver + Kevin</text>
+  <text x="52" y="91" class="subtitle">Requirement intake, specs, RPGLE/CLLE, DDS, reviews, unit tests, JUICE XML, and batch orchestration.</text>
+  <text x="1490" y="64" class="tag" text-anchor="end">16 active + 2 pending</text>
+  <text x="1490" y="88" class="tiny" text-anchor="end">pending pilots: Oliver intake + Kevin UT XML</text>
 
   <!-- Regions -->
-  <rect x="48" y="128" width="1304" height="166" rx="14" fill="rgba(15, 23, 42, 0.64)" stroke="#22d3ee" stroke-width="1.5" stroke-dasharray="10,5"/>
+  <rect x="48" y="128" width="1504" height="204" rx="14" fill="#0f172a" fill-opacity="0.64" stroke="#22d3ee" stroke-width="1.5" stroke-dasharray="10,5"/>
   <text x="72" y="154" fill="#22d3ee" class="region-title">INTAKE AND SPECIFICATION CHAIN</text>
 
-  <rect x="48" y="338" width="1304" height="166" rx="14" fill="rgba(15, 23, 42, 0.64)" stroke="#34d399" stroke-width="1.5" stroke-dasharray="10,5"/>
-  <text x="72" y="364" fill="#34d399" class="region-title">PROGRAM CHAIN</text>
+  <rect x="48" y="374" width="1504" height="166" rx="14" fill="#0f172a" fill-opacity="0.64" stroke="#34d399" stroke-width="1.5" stroke-dasharray="10,5"/>
+  <text x="72" y="400" fill="#34d399" class="region-title">PROGRAM CHAIN</text>
 
-  <rect x="48" y="548" width="1304" height="166" rx="14" fill="rgba(15, 23, 42, 0.64)" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="10,5"/>
-  <text x="72" y="574" fill="#a78bfa" class="region-title">FILE AND TEST SUPPORT</text>
-
-  <!-- Helper: source inputs -->
-  <g filter="url(#soft-shadow)">
-    <rect x="76" y="180" width="160" height="64" rx="8" fill="#0f172a"/>
-    <rect x="76" y="180" width="160" height="64" rx="8" fill="#1e293b" fill-opacity="0.58" stroke="#94a3b8" stroke-width="1.3"/>
-    <text x="156" y="205" class="box-title" text-anchor="middle">Raw Input</text>
-    <text x="156" y="224" class="box-subtitle" text-anchor="middle">emails, tickets, notes</text>
-
-    <rect x="76" y="392" width="160" height="64" rx="8" fill="#0f172a"/>
-    <rect x="76" y="392" width="160" height="64" rx="8" fill="#1e293b" fill-opacity="0.58" stroke="#94a3b8" stroke-width="1.3"/>
-    <text x="156" y="417" class="box-title" text-anchor="middle">Existing Source</text>
-    <text x="156" y="436" class="box-subtitle" text-anchor="middle">RPGLE / CLLE + CR</text>
-  </g>
+  <rect x="48" y="584" width="1504" height="236" rx="14" fill="#0f172a" fill-opacity="0.64" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="10,5"/>
+  <text x="72" y="610" fill="#a78bfa" class="region-title">FILE AND TEST SUPPORT</text>
 
   <!-- Intake/spec chain -->
   <g filter="url(#soft-shadow)">
-    <rect x="280" y="180" width="172" height="64" rx="8" fill="#0f172a"/>
-    <rect x="280" y="180" width="172" height="64" rx="8" fill="#083344" fill-opacity="0.45" stroke="#22d3ee" stroke-width="1.4"/>
-    <text x="366" y="205" class="box-title" text-anchor="middle">Requirement</text>
-    <text x="366" y="224" class="box-subtitle" text-anchor="middle">Normalizer</text>
+    <rect x="72" y="184" width="160" height="74" rx="8" fill="#0f172a"/>
+    <rect x="72" y="184" width="160" height="74" rx="8" fill="#78350f" fill-opacity="0.28" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="6,4"/>
+    <text x="152" y="209" class="pending-title" text-anchor="middle">Requirement Intake</text>
+    <text x="152" y="228" class="box-subtitle" text-anchor="middle">CSV request intake</text>
+    <text x="152" y="247" class="pending-subtitle" text-anchor="middle">Oliver pending</text>
 
-    <rect x="280" y="254" width="172" height="28" rx="6" fill="#0f172a"/>
-    <rect x="280" y="254" width="172" height="28" rx="6" fill="#78350f" fill-opacity="0.24" stroke="#fbbf24" stroke-width="1.2" stroke-dasharray="5,4"/>
-    <text x="366" y="272" class="pending" text-anchor="middle">pending: Intake - Oliver</text>
+    <rect x="270" y="189" width="150" height="64" rx="8" fill="#0f172a"/>
+    <rect x="270" y="189" width="150" height="64" rx="8" fill="#1e293b" fill-opacity="0.58" stroke="#94a3b8" stroke-width="1.3"/>
+    <text x="345" y="214" class="box-title" text-anchor="middle">Collected Input</text>
+    <text x="345" y="233" class="box-subtitle" text-anchor="middle">Excel template + notes</text>
 
-    <rect x="496" y="180" width="172" height="64" rx="8" fill="#0f172a"/>
-    <rect x="496" y="180" width="172" height="64" rx="8" fill="#083344" fill-opacity="0.45" stroke="#22d3ee" stroke-width="1.4"/>
-    <text x="582" y="205" class="box-title" text-anchor="middle">Functional Spec</text>
-    <text x="582" y="224" class="box-subtitle" text-anchor="middle">business scope</text>
+    <rect x="456" y="189" width="170" height="64" rx="8" fill="#0f172a"/>
+    <rect x="456" y="189" width="170" height="64" rx="8" fill="#083344" fill-opacity="0.45" stroke="#22d3ee" stroke-width="1.4"/>
+    <text x="541" y="214" class="box-title" text-anchor="middle">Requirement</text>
+    <text x="541" y="233" class="box-subtitle" text-anchor="middle">Normalizer</text>
 
-    <rect x="712" y="180" width="172" height="64" rx="8" fill="#0f172a"/>
-    <rect x="712" y="180" width="172" height="64" rx="8" fill="#083344" fill-opacity="0.45" stroke="#22d3ee" stroke-width="1.4"/>
-    <text x="798" y="205" class="box-title" text-anchor="middle">Technical Design</text>
-    <text x="798" y="224" class="box-subtitle" text-anchor="middle">module allocation</text>
+    <rect x="670" y="189" width="170" height="64" rx="8" fill="#0f172a"/>
+    <rect x="670" y="189" width="170" height="64" rx="8" fill="#083344" fill-opacity="0.45" stroke="#22d3ee" stroke-width="1.4"/>
+    <text x="755" y="214" class="box-title" text-anchor="middle">Functional Spec</text>
+    <text x="755" y="233" class="box-subtitle" text-anchor="middle">business scope</text>
 
-    <rect x="928" y="180" width="172" height="64" rx="8" fill="#0f172a"/>
-    <rect x="928" y="180" width="172" height="64" rx="8" fill="#083344" fill-opacity="0.45" stroke="#22d3ee" stroke-width="1.4"/>
-    <text x="1014" y="205" class="box-title" text-anchor="middle">Program Spec</text>
-    <text x="1014" y="224" class="box-subtitle" text-anchor="middle">implementation handoff</text>
+    <rect x="884" y="189" width="170" height="64" rx="8" fill="#0f172a"/>
+    <rect x="884" y="189" width="170" height="64" rx="8" fill="#083344" fill-opacity="0.45" stroke="#22d3ee" stroke-width="1.4"/>
+    <text x="969" y="214" class="box-title" text-anchor="middle">Technical Design</text>
+    <text x="969" y="233" class="box-subtitle" text-anchor="middle">module allocation</text>
 
-    <rect x="1144" y="180" width="172" height="64" rx="8" fill="#0f172a"/>
-    <rect x="1144" y="180" width="172" height="64" rx="8" fill="#881337" fill-opacity="0.42" stroke="#fb7185" stroke-width="1.4"/>
-    <text x="1230" y="205" class="box-title" text-anchor="middle">Spec Reviewer</text>
-    <text x="1230" y="224" class="box-subtitle" text-anchor="middle">quality gate</text>
+    <rect x="1098" y="189" width="170" height="64" rx="8" fill="#0f172a"/>
+    <rect x="1098" y="189" width="170" height="64" rx="8" fill="#083344" fill-opacity="0.45" stroke="#22d3ee" stroke-width="1.4"/>
+    <text x="1183" y="214" class="box-title" text-anchor="middle">Program Spec</text>
+    <text x="1183" y="233" class="box-subtitle" text-anchor="middle">implementation handoff</text>
+
+    <rect x="1312" y="189" width="190" height="64" rx="8" fill="#0f172a"/>
+    <rect x="1312" y="189" width="190" height="64" rx="8" fill="#881337" fill-opacity="0.42" stroke="#fb7185" stroke-width="1.4"/>
+    <text x="1407" y="214" class="box-title" text-anchor="middle">Spec Reviewer</text>
+    <text x="1407" y="233" class="box-subtitle" text-anchor="middle">quality gate</text>
   </g>
 
   <!-- Program chain -->
   <g filter="url(#soft-shadow)">
-    <rect x="280" y="392" width="172" height="64" rx="8" fill="#0f172a"/>
-    <rect x="280" y="392" width="172" height="64" rx="8" fill="#064e3b" fill-opacity="0.42" stroke="#34d399" stroke-width="1.4"/>
-    <text x="366" y="417" class="box-title" text-anchor="middle">Program Analyzer</text>
-    <text x="366" y="436" class="box-subtitle" text-anchor="middle">understand source</text>
+    <rect x="72" y="428" width="180" height="64" rx="8" fill="#0f172a"/>
+    <rect x="72" y="428" width="180" height="64" rx="8" fill="#1e293b" fill-opacity="0.58" stroke="#94a3b8" stroke-width="1.3"/>
+    <text x="162" y="453" class="box-title" text-anchor="middle">Existing Source</text>
+    <text x="162" y="472" class="box-subtitle" text-anchor="middle">RPGLE / CLLE + CR</text>
 
-    <rect x="496" y="392" width="172" height="64" rx="8" fill="#0f172a"/>
-    <rect x="496" y="392" width="172" height="64" rx="8" fill="#064e3b" fill-opacity="0.42" stroke="#34d399" stroke-width="1.4"/>
-    <text x="582" y="417" class="box-title" text-anchor="middle">Impact Analyzer</text>
-    <text x="582" y="436" class="box-subtitle" text-anchor="middle">change risk + scope</text>
+    <rect x="330" y="428" width="190" height="64" rx="8" fill="#0f172a"/>
+    <rect x="330" y="428" width="190" height="64" rx="8" fill="#064e3b" fill-opacity="0.42" stroke="#34d399" stroke-width="1.4"/>
+    <text x="425" y="453" class="box-title" text-anchor="middle">Program Analyzer</text>
+    <text x="425" y="472" class="box-subtitle" text-anchor="middle">understand source</text>
 
-    <rect x="712" y="392" width="172" height="64" rx="8" fill="#0f172a"/>
-    <rect x="712" y="392" width="172" height="64" rx="8" fill="#064e3b" fill-opacity="0.42" stroke="#34d399" stroke-width="1.4"/>
-    <text x="798" y="417" class="box-title" text-anchor="middle">Code Generator</text>
-    <text x="798" y="436" class="box-subtitle" text-anchor="middle">RPGLE / CLLE</text>
+    <rect x="584" y="428" width="190" height="64" rx="8" fill="#0f172a"/>
+    <rect x="584" y="428" width="190" height="64" rx="8" fill="#064e3b" fill-opacity="0.42" stroke="#34d399" stroke-width="1.4"/>
+    <text x="679" y="453" class="box-title" text-anchor="middle">Impact Analyzer</text>
+    <text x="679" y="472" class="box-subtitle" text-anchor="middle">change risk + scope</text>
 
-    <rect x="928" y="392" width="172" height="64" rx="8" fill="#0f172a"/>
-    <rect x="928" y="392" width="172" height="64" rx="8" fill="#78350f" fill-opacity="0.30" stroke="#fbbf24" stroke-width="1.4"/>
-    <text x="1014" y="417" class="box-title" text-anchor="middle">Compile Precheck</text>
-    <text x="1014" y="436" class="box-subtitle" text-anchor="middle">source safety</text>
+    <rect x="838" y="428" width="190" height="64" rx="8" fill="#0f172a"/>
+    <rect x="838" y="428" width="190" height="64" rx="8" fill="#064e3b" fill-opacity="0.42" stroke="#34d399" stroke-width="1.4"/>
+    <text x="933" y="453" class="box-title" text-anchor="middle">Code Generator</text>
+    <text x="933" y="472" class="box-subtitle" text-anchor="middle">RPGLE / CLLE</text>
 
-    <rect x="1144" y="392" width="172" height="64" rx="8" fill="#0f172a"/>
-    <rect x="1144" y="392" width="172" height="64" rx="8" fill="#881337" fill-opacity="0.42" stroke="#fb7185" stroke-width="1.4"/>
-    <text x="1230" y="417" class="box-title" text-anchor="middle">Code Reviewer</text>
-    <text x="1230" y="436" class="box-subtitle" text-anchor="middle">spec alignment</text>
+    <rect x="1092" y="428" width="190" height="64" rx="8" fill="#0f172a"/>
+    <rect x="1092" y="428" width="190" height="64" rx="8" fill="#78350f" fill-opacity="0.30" stroke="#fbbf24" stroke-width="1.4"/>
+    <text x="1187" y="453" class="box-title" text-anchor="middle">Compile Precheck</text>
+    <text x="1187" y="472" class="box-subtitle" text-anchor="middle">source safety</text>
+
+    <rect x="1346" y="428" width="180" height="64" rx="8" fill="#0f172a"/>
+    <rect x="1346" y="428" width="180" height="64" rx="8" fill="#881337" fill-opacity="0.42" stroke="#fb7185" stroke-width="1.4"/>
+    <text x="1436" y="453" class="box-title" text-anchor="middle">Code Reviewer</text>
+    <text x="1436" y="472" class="box-subtitle" text-anchor="middle">spec alignment</text>
   </g>
 
   <!-- File/test support -->
   <g filter="url(#soft-shadow)">
-    <rect x="280" y="602" width="172" height="64" rx="8" fill="#0f172a"/>
-    <rect x="280" y="602" width="172" height="64" rx="8" fill="#4c1d95" fill-opacity="0.38" stroke="#a78bfa" stroke-width="1.4"/>
-    <text x="366" y="627" class="box-title" text-anchor="middle">File Spec</text>
-    <text x="366" y="646" class="box-subtitle" text-anchor="middle">PF / LF / PRTF / DSPF</text>
+    <rect x="330" y="650" width="170" height="64" rx="8" fill="#0f172a"/>
+    <rect x="330" y="650" width="170" height="64" rx="8" fill="#4c1d95" fill-opacity="0.38" stroke="#a78bfa" stroke-width="1.4"/>
+    <text x="415" y="675" class="box-title" text-anchor="middle">File Spec</text>
+    <text x="415" y="694" class="box-subtitle" text-anchor="middle">PF / LF / PRTF / DSPF</text>
 
-    <rect x="496" y="602" width="172" height="64" rx="8" fill="#0f172a"/>
-    <rect x="496" y="602" width="172" height="64" rx="8" fill="#4c1d95" fill-opacity="0.38" stroke="#a78bfa" stroke-width="1.4"/>
-    <text x="582" y="627" class="box-title" text-anchor="middle">DDS Generator</text>
-    <text x="582" y="646" class="box-subtitle" text-anchor="middle">QDDSSRC output</text>
+    <rect x="544" y="650" width="170" height="64" rx="8" fill="#0f172a"/>
+    <rect x="544" y="650" width="170" height="64" rx="8" fill="#4c1d95" fill-opacity="0.38" stroke="#a78bfa" stroke-width="1.4"/>
+    <text x="629" y="675" class="box-title" text-anchor="middle">DDS Generator</text>
+    <text x="629" y="694" class="box-subtitle" text-anchor="middle">QDDSSRC output</text>
 
-    <rect x="712" y="602" width="172" height="64" rx="8" fill="#0f172a"/>
-    <rect x="712" y="602" width="172" height="64" rx="8" fill="#881337" fill-opacity="0.42" stroke="#fb7185" stroke-width="1.4"/>
-    <text x="798" y="627" class="box-title" text-anchor="middle">DDS Reviewer</text>
-    <text x="798" y="646" class="box-subtitle" text-anchor="middle">file-source gate</text>
+    <rect x="758" y="650" width="170" height="64" rx="8" fill="#0f172a"/>
+    <rect x="758" y="650" width="170" height="64" rx="8" fill="#881337" fill-opacity="0.42" stroke="#fb7185" stroke-width="1.4"/>
+    <text x="843" y="675" class="box-title" text-anchor="middle">DDS Reviewer</text>
+    <text x="843" y="694" class="box-subtitle" text-anchor="middle">file-source gate</text>
 
-    <rect x="928" y="602" width="172" height="64" rx="8" fill="#0f172a"/>
-    <rect x="928" y="602" width="172" height="64" rx="8" fill="#1e40af" fill-opacity="0.32" stroke="#60a5fa" stroke-width="1.4"/>
-    <text x="1014" y="627" class="box-title" text-anchor="middle">UT Plan</text>
-    <text x="1014" y="646" class="box-subtitle" text-anchor="middle">developer cases</text>
+    <rect x="972" y="626" width="170" height="64" rx="8" fill="#0f172a"/>
+    <rect x="972" y="626" width="170" height="64" rx="8" fill="#1e40af" fill-opacity="0.32" stroke="#60a5fa" stroke-width="1.4"/>
+    <text x="1057" y="651" class="box-title" text-anchor="middle">UT Plan</text>
+    <text x="1057" y="670" class="box-subtitle" text-anchor="middle">developer cases</text>
 
-    <rect x="928" y="676" width="172" height="28" rx="6" fill="#0f172a"/>
-    <rect x="928" y="676" width="172" height="28" rx="6" fill="#78350f" fill-opacity="0.24" stroke="#fbbf24" stroke-width="1.2" stroke-dasharray="5,4"/>
-    <text x="1014" y="694" class="pending" text-anchor="middle">pending: UT XML - Kevin</text>
+    <rect x="1186" y="626" width="170" height="64" rx="8" fill="#0f172a"/>
+    <rect x="1186" y="626" width="170" height="64" rx="8" fill="#1e40af" fill-opacity="0.32" stroke="#60a5fa" stroke-width="1.4"/>
+    <text x="1271" y="651" class="box-title" text-anchor="middle">Test Scaffold</text>
+    <text x="1271" y="670" class="box-subtitle" text-anchor="middle">SQL / CL scripts</text>
 
-    <rect x="1144" y="602" width="172" height="64" rx="8" fill="#0f172a"/>
-    <rect x="1144" y="602" width="172" height="64" rx="8" fill="#1e40af" fill-opacity="0.32" stroke="#60a5fa" stroke-width="1.4"/>
-    <text x="1230" y="627" class="box-title" text-anchor="middle">Test Scaffold</text>
-    <text x="1230" y="646" class="box-subtitle" text-anchor="middle">SQL / CL scripts</text>
+    <rect x="972" y="726" width="170" height="64" rx="8" fill="#0f172a"/>
+    <rect x="972" y="726" width="170" height="64" rx="8" fill="#78350f" fill-opacity="0.28" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="6,4"/>
+    <text x="1057" y="751" class="pending-title" text-anchor="middle">UT Plan XML</text>
+    <text x="1057" y="770" class="box-subtitle" text-anchor="middle">UT Plan to XML</text>
+    <text x="1057" y="784" class="pending-subtitle" text-anchor="middle">Kevin pending</text>
+
+    <rect x="1186" y="726" width="170" height="64" rx="8" fill="#0f172a"/>
+    <rect x="1186" y="726" width="170" height="64" rx="8" fill="#1e40af" fill-opacity="0.24" stroke="#60a5fa" stroke-width="1.4"/>
+    <text x="1271" y="751" class="box-title" text-anchor="middle">JUICE Unit Test</text>
+    <text x="1271" y="770" class="box-subtitle" text-anchor="middle">iSeries program tests</text>
   </g>
 
   <!-- Orchestrator -->
   <g filter="url(#soft-shadow)">
-    <rect x="322" y="748" width="756" height="54" rx="10" fill="#0f172a"/>
-    <rect x="322" y="748" width="756" height="54" rx="10" fill="#7c2d12" fill-opacity="0.30" stroke="#fb923c" stroke-width="1.5"/>
-    <text x="700" y="772" class="box-title" text-anchor="middle">Workflow Orchestrator</text>
-    <text x="700" y="790" class="box-subtitle" text-anchor="middle">routes single-step work, emits task.md plans, and executes approved batches</text>
+    <rect x="360" y="848" width="880" height="54" rx="10" fill="#0f172a"/>
+    <rect x="360" y="848" width="880" height="54" rx="10" fill="#7c2d12" fill-opacity="0.30" stroke="#fb923c" stroke-width="1.5"/>
+    <text x="800" y="872" class="box-title" text-anchor="middle">Workflow Orchestrator</text>
+    <text x="800" y="890" class="box-subtitle" text-anchor="middle">routes single-step work, emits task.md plans, and executes approved batches</text>
   </g>
 
   <!-- Main arrows -->
-  <path d="M 236 212 L 280 212" fill="none" stroke="#94a3b8" stroke-width="1.8" marker-end="url(#arrow-slate)"/>
-  <path d="M 452 212 L 496 212" fill="none" stroke="#22d3ee" stroke-width="1.8" marker-end="url(#arrow-cyan)"/>
-  <path d="M 668 212 L 712 212" fill="none" stroke="#22d3ee" stroke-width="1.8" marker-end="url(#arrow-cyan)"/>
-  <path d="M 884 212 L 928 212" fill="none" stroke="#22d3ee" stroke-width="1.8" marker-end="url(#arrow-cyan)"/>
-  <path d="M 1100 212 L 1144 212" fill="none" stroke="#fb7185" stroke-width="1.8" marker-end="url(#arrow-rose)"/>
-  <path d="M 366 254 L 366 244" fill="none" stroke="#fbbf24" stroke-width="1.4" stroke-dasharray="4,4" marker-end="url(#arrow-amber)"/>
+  <path d="M 232 221 L 270 221" fill="none" stroke="#fbbf24" stroke-width="1.8" marker-end="url(#arrow-amber)"/>
+  <text x="251" y="210" class="arrow-label" text-anchor="middle">CSV for Excel</text>
+  <path d="M 420 221 L 456 221" fill="none" stroke="#94a3b8" stroke-width="1.8" marker-end="url(#arrow-slate)"/>
+  <path d="M 626 221 L 670 221" fill="none" stroke="#22d3ee" stroke-width="1.8" marker-end="url(#arrow-cyan)"/>
+  <path d="M 840 221 L 884 221" fill="none" stroke="#22d3ee" stroke-width="1.8" marker-end="url(#arrow-cyan)"/>
+  <path d="M 1054 221 L 1098 221" fill="none" stroke="#22d3ee" stroke-width="1.8" marker-end="url(#arrow-cyan)"/>
+  <path d="M 1268 221 L 1312 221" fill="none" stroke="#fb7185" stroke-width="1.8" marker-end="url(#arrow-rose)"/>
 
-  <path d="M 236 424 L 280 424" fill="none" stroke="#94a3b8" stroke-width="1.8" marker-end="url(#arrow-slate)"/>
-  <path d="M 452 424 L 496 424" fill="none" stroke="#34d399" stroke-width="1.8" marker-end="url(#arrow-emerald)"/>
-  <path d="M 668 424 L 712 424" fill="none" stroke="#34d399" stroke-width="1.8" marker-end="url(#arrow-emerald)"/>
-  <path d="M 884 424 L 928 424" fill="none" stroke="#fbbf24" stroke-width="1.8" marker-end="url(#arrow-amber)"/>
-  <path d="M 1100 424 L 1144 424" fill="none" stroke="#fb7185" stroke-width="1.8" marker-end="url(#arrow-rose)"/>
+  <path d="M 252 460 L 330 460" fill="none" stroke="#94a3b8" stroke-width="1.8" marker-end="url(#arrow-slate)"/>
+  <path d="M 520 460 L 584 460" fill="none" stroke="#34d399" stroke-width="1.8" marker-end="url(#arrow-emerald)"/>
+  <path d="M 774 460 L 838 460" fill="none" stroke="#34d399" stroke-width="1.8" marker-end="url(#arrow-emerald)"/>
+  <path d="M 1028 460 L 1092 460" fill="none" stroke="#fbbf24" stroke-width="1.8" marker-end="url(#arrow-amber)"/>
+  <path d="M 1282 460 L 1346 460" fill="none" stroke="#fb7185" stroke-width="1.8" marker-end="url(#arrow-rose)"/>
 
-  <path d="M 452 634 L 496 634" fill="none" stroke="#a78bfa" stroke-width="1.8" marker-end="url(#arrow-slate)"/>
-  <path d="M 668 634 L 712 634" fill="none" stroke="#fb7185" stroke-width="1.8" marker-end="url(#arrow-rose)"/>
-  <path d="M 1100 634 L 1144 634" fill="none" stroke="#60a5fa" stroke-width="1.8" marker-end="url(#arrow-slate)"/>
-  <path d="M 1014 666 L 1014 676" fill="none" stroke="#fbbf24" stroke-width="1.4" stroke-dasharray="4,4" marker-end="url(#arrow-amber)"/>
+  <path d="M 500 682 L 544 682" fill="none" stroke="#a78bfa" stroke-width="1.8" marker-end="url(#arrow-slate)"/>
+  <path d="M 714 682 L 758 682" fill="none" stroke="#fb7185" stroke-width="1.8" marker-end="url(#arrow-rose)"/>
+  <path d="M 1142 658 L 1186 658" fill="none" stroke="#60a5fa" stroke-width="1.8" marker-end="url(#arrow-blue)"/>
+  <path d="M 1057 690 L 1057 726" fill="none" stroke="#fbbf24" stroke-width="1.6" stroke-dasharray="5,4" marker-end="url(#arrow-amber)"/>
+  <path d="M 1142 758 L 1186 758" fill="none" stroke="#60a5fa" stroke-width="1.8" marker-end="url(#arrow-blue)"/>
+  <text x="1170" y="747" class="arrow-label" text-anchor="middle">XML</text>
 
   <!-- Cross-lane arrows -->
-  <path d="M 1014 244 L 1014 382" fill="none" stroke="#34d399" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#arrow-emerald)"/>
-  <text x="1032" y="320" class="tiny">approved spec</text>
+  <path d="M 1183 253 L 1183 418" fill="none" stroke="#34d399" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#arrow-emerald)"/>
+  <text x="1202" y="340" class="tiny">approved spec</text>
 
-  <path d="M 798 244 L 798 580 L 452 580 L 452 634" fill="none" stroke="#a78bfa" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#arrow-slate)"/>
-  <text x="705" y="574" class="tiny">file objects</text>
+  <path d="M 969 253 L 969 608 L 415 608 L 415 650" fill="none" stroke="#a78bfa" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#arrow-slate)"/>
+  <text x="784" y="602" class="tiny">file objects</text>
 
-  <path d="M 1014 456 L 1014 602" fill="none" stroke="#60a5fa" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#arrow-slate)"/>
-  <path d="M 1230 456 L 1230 602" fill="none" stroke="#60a5fa" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#arrow-slate)"/>
-  <text x="1064" y="530" class="tiny">test targets</text>
+  <path d="M 1187 492 L 1187 588 L 1057 588 L 1057 626" fill="none" stroke="#60a5fa" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#arrow-slate)"/>
+  <path d="M 1436 492 L 1436 588 L 1271 588 L 1271 626" fill="none" stroke="#60a5fa" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#arrow-slate)"/>
+  <text x="1240" y="582" class="tiny">test targets</text>
 
-  <path d="M 582 456 L 582 532 L 928 532 L 928 634" fill="none" stroke="#60a5fa" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#arrow-slate)"/>
-  <text x="704" y="526" class="tiny">CR / impact evidence</text>
+  <path d="M 679 492 L 679 560 L 972 560 L 972 658" fill="none" stroke="#60a5fa" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#arrow-slate)"/>
+  <text x="804" y="554" class="tiny">CR / impact evidence</text>
 
   <!-- Legend -->
-  <rect x="80" y="748" width="178" height="54" rx="10" fill="#020617" fill-opacity="0.36" stroke="#334155" stroke-width="1"/>
-  <circle cx="104" cy="772" r="5" fill="#22d3ee"/>
-  <text x="118" y="776" class="tiny">spec generation</text>
-  <circle cx="104" cy="792" r="5" fill="#34d399"/>
-  <text x="118" y="796" class="tiny">program delivery</text>
+  <rect x="80" y="848" width="214" height="54" rx="10" fill="#020617" fill-opacity="0.36" stroke="#334155" stroke-width="1"/>
+  <circle cx="104" cy="872" r="5" fill="#22d3ee"/>
+  <text x="118" y="876" class="tiny">spec generation</text>
+  <circle cx="104" cy="892" r="5" fill="#34d399"/>
+  <text x="118" y="896" class="tiny">program delivery</text>
 
-  <rect x="1142" y="748" width="178" height="54" rx="10" fill="#020617" fill-opacity="0.36" stroke="#334155" stroke-width="1"/>
-  <circle cx="1166" cy="772" r="5" fill="#fb7185"/>
-  <text x="1180" y="776" class="tiny">review gate</text>
-  <circle cx="1166" cy="792" r="5" fill="#60a5fa"/>
-  <text x="1180" y="796" class="tiny">test support</text>
-  <circle cx="1252" cy="792" r="5" fill="#fbbf24"/>
-  <text x="1266" y="796" class="tiny">pending</text>
+  <rect x="1290" y="848" width="230" height="54" rx="10" fill="#020617" fill-opacity="0.36" stroke="#334155" stroke-width="1"/>
+  <circle cx="1314" cy="872" r="5" fill="#fb7185"/>
+  <text x="1328" y="876" class="tiny">review gate</text>
+  <circle cx="1314" cy="892" r="5" fill="#60a5fa"/>
+  <text x="1328" y="896" class="tiny">test support</text>
+  <circle cx="1410" cy="892" r="5" fill="#fbbf24"/>
+  <text x="1424" y="896" class="tiny">pending pilot</text>
 </svg>

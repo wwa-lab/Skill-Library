@@ -5,7 +5,7 @@
 This family contains the internal IBM i skills migrated from `wwa-lab/build-agent-skill` at source commit `479a427`.
 The original Apache-2.0 license is retained in `skills/ibm-i-skill-family/LICENSE`.
 
-It supports IBM i (AS/400, iSeries) enterprise delivery across requirement intake, RPGLE/CLLE program analysis, specification, DDS, source generation, review, unit test planning, and executable SQL/CL test scaffold generation.
+It supports IBM i (AS/400, iSeries) enterprise delivery across requirement intake, RPGLE/CLLE program analysis, specification, DDS, source generation, review, unit test planning, executable SQL/CL test scaffold generation, and internal JUICE unit-test handoff.
 
 This family is copy-ready for OpenCode: each real skill folder name matches the
 `name` field in `SKILL.md`, so a teammate can copy a folder such as
@@ -14,8 +14,8 @@ This family is copy-ready for OpenCode: each real skill folder name matches the
 ## Chain
 
 ```text
-Raw Input -> Requirement Normalizer -> Functional Spec -> Technical Design
-                                           |                  |
+Requirement Intake -> Collected Input -> Requirement Normalizer -> Functional Spec -> Technical Design
+                                                              |                  |
 Existing Source -> Program Analyzer -> Impact Analyzer        |
                          (+ CR)                              |
                                                               +-> Program Spec -> Code Generator -> Compile Precheck -> Code Reviewer
@@ -23,6 +23,8 @@ Existing Source -> Program Analyzer -> Impact Analyzer        |
                                                               +-> File Spec -> DDS Generator -> DDS Reviewer
 
 Any spec or CR -> UT Plan Generator -> Test Scaffold
+                           |
+                           +-> UT Plan XML -> JUICE unit test handoff
 Any stage      -> Workflow Orchestrator
 ```
 
@@ -53,8 +55,8 @@ These placeholders reserve final paths for internal pilot skills that are not in
 
 | Future Skill | Author | Placeholder Path | Notes |
 |--------------|--------|------------------|-------|
-| `ibm-i-requirement-intake` | Oliver | `ibm-i-requirement-intake/` | Internal legacy name: `as400-requirment-intake`; use corrected spelling and IBM i namespace on import. |
-| `ibm-i-ut-plan-to-xml` | Kevin | `ibm-i-ut-plan-to-xml/` | Converts IBM i UT Plan artifacts into XML once internal pilot content is imported. |
+| `ibm-i-requirement-intake` | Oliver | `ibm-i-requirement-intake/` | First step in the IBM i chain. Generates a CSV request-intake document that users can copy into the Excel request template to collect requirement material. Internal legacy name: `as400-requirment-intake`; use corrected spelling and IBM i namespace on import. |
+| `ibm-i-ut-plan-to-xml` | Kevin | `ibm-i-ut-plan-to-xml/` | Runs after `ibm-i-ut-plan-generator`. Converts IBM i UT Plan artifacts into XML for internal JUICE unit testing of iSeries programs. |
 
 ## Design Principles
 

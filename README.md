@@ -65,8 +65,8 @@ Pending internal pilot skills are reserved but not installed until their `SKILL.
 
 | Future Skill | Author | Status |
 |--------------|--------|--------|
-| `ibm-i-requirement-intake` | Oliver | Placeholder only |
-| `ibm-i-ut-plan-to-xml` | Kevin | Placeholder only |
+| `ibm-i-requirement-intake` | Oliver | Pending pilot; first-step CSV intake for Excel request-template collection |
+| `ibm-i-ut-plan-to-xml` | Kevin | Pending pilot; UT Plan to XML handoff for internal JUICE unit testing |
 
 ### Legacy Spec Factory
 
