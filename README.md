@@ -17,6 +17,8 @@ skills/
   common/       Shared skills that apply across domains
   ibm-i/        IBM i skill family for requirements, specs, DDS, code, review, and tests
   java/         Java, Spring, Maven, Gradle, JVM, and testing skills
+  legacy-spec-factory/
+                Reverse-modernization skill family for legacy evidence-to-spec workflows
 templates/
   skill/        Starter template for new skills
 docs/           Authoring, naming, and installation guidance
@@ -46,6 +48,24 @@ Pending internal pilot skills are reserved but not installed until their `SKILL.
 |--------------|--------|--------|
 | `ibm-i-requirement-intake` | Oliver | Placeholder only |
 | `ibm-i-ut-plan-to-xml` | Kevin | Placeholder only |
+
+### Legacy Spec Factory
+
+The Legacy Spec Factory family was migrated from `wwa-lab/legacy-spec-factory`
+as a public-stable baseline at source commit `8871a6b`. It contains 21
+preserved-name skills for reverse-modernization work:
+
+- Evidence intake, inventory, and IBM i source/runtime analysis.
+- Program, flow, module, screen/report, and data-model understanding.
+- BRD, spec, modernization decision, traceability, and SDD handoff packaging.
+- SME review facilitation, golden master test planning, HTML export, and step governance.
+- Runtime portability checks across Codex, Claude Code, and OpenCode.
+
+This family uses `skills/legacy-spec-factory/domain.json` with
+`"nameStrategy": "preserve"`, so OpenCode installs names such as
+`legacy-ibmi-inventory` and `legacy-spec-writer` without adding another prefix.
+
+See `skills/legacy-spec-factory/README.md` for the full map.
 
 ## Quick Start
 
@@ -79,6 +99,12 @@ Install the IBM i family:
 node scripts/install-opencode-skills.mjs --domain ibm-i
 ```
 
+Install the Legacy Spec Factory family:
+
+```bash
+node scripts/install-opencode-skills.mjs --domain legacy-spec-factory
+```
+
 The default destination is:
 
 ```text
@@ -91,7 +117,8 @@ Use `--dest <path>` to install elsewhere.
 
 1. Copy `templates/skill` into `skills/<domain>/<skill-name>`.
 2. Update `SKILL.md` frontmatter.
-3. Keep the `name` field in the form `<domain>-<skill-name>`.
+3. Keep the `name` field in the form `<domain>-<skill-name>`, unless the
+   domain has an approved preserved-name strategy in `domain.json`.
 4. Put long details in `references/`, deterministic helpers in `scripts/`, reusable files in `assets/`, samples in `examples/`, and fragile behavior checks in `tests/`.
 5. Run `node scripts/validate-skills.mjs`.
 
