@@ -41,14 +41,20 @@ skills/ibm-i-skill-family/ibm-i-code-generator/ -> ~/.config/opencode/skills/ibm
 skills/legacy-spec-factory/legacy-spec-writer/ -> ~/.config/opencode/skills/legacy-spec-writer/
 ```
 
-For detailed manual-copy steps and copy-ready folder examples, read
-[manual-copy-opencode.md](manual-copy-opencode.md).
+For detailed manual-copy steps and copy-ready folder examples, open the local
+browser guide from the repo root:
+
+```bash
+open docs/index.html
+```
+
+The Markdown source is `docs/manual-copy-opencode.md`.
 
 ### Start Using Skills
 
 1. Pick the right starting skill:
 
-   - Not sure which skill to use: read [skill-selection-guide.md](skill-selection-guide.md).
+   - Not sure which skill to use: open `docs/index.html` and use the Choose A Skill section.
    - IBM i forward delivery work: start with `ibm-i-workflow-orchestrator`.
    - Legacy reverse-modernization work: start with `legacy-modernization-orchestrator`.
 

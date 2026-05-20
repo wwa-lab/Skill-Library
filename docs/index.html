@@ -245,15 +245,16 @@
           Factory modernization chains.
         </p>
         <div class="actions">
-          <a class="button primary" href="#choose">Choose A Skill</a>
-          <a class="button" href="getting-started-opencode.md">Markdown Quick Start</a>
-          <a class="button" href="skill-selection-guide.md">Markdown Selector</a>
-          <a class="button" href="manual-copy-opencode.md">Manual Copy</a>
+          <a class="button primary" href="#quick-start">Quick Start</a>
+          <a class="button" href="#choose">Choose A Skill</a>
+          <a class="button" href="#manual-copy">Manual Copy</a>
+          <a class="button" href="#families">Skill Families</a>
         </div>
         <p class="note">
-          If a Markdown link opens as <code>file+.vscode-resource...</code> in
-          Chrome, open this <code>docs/index.html</code> file directly from the
-          repository instead. That URL is an editor-internal preview resource.
+          Open this page directly from the repository with
+          <code>open docs/index.html</code>. Avoid opening Markdown links from VS
+          Code Preview in Chrome; those links can become editor-internal
+          <code>file+.vscode-resource...</code> URLs.
         </p>
       </div>
 
@@ -273,17 +274,23 @@
         </ol>
         <pre><code>node scripts/install-opencode-skills.mjs --dry-run
 node scripts/install-opencode-skills.mjs</code></pre>
-        <h3>Option B: Manual Copy</h3>
+        <h3 id="manual-copy">Option B: Manual Copy</h3>
         <p>
           Copy each skill folder into <code>~/.config/opencode/skills/&lt;skill-name&gt;/</code>.
           The destination folder name must match the <code>name</code> field in
           <code>SKILL.md</code>.
         </p>
+        <ol>
+          <li>Create <code>~/.config/opencode/skills</code> if it does not exist.</li>
+          <li>Pick a source folder that contains <code>SKILL.md</code>.</li>
+          <li>Copy the whole folder into the OpenCode skills folder.</li>
+          <li>Skip placeholder folders that only have <code>README.md</code>.</li>
+        </ol>
         <pre><code>skills/ibm-i-skill-family/ibm-i-code-generator/ -> ~/.config/opencode/skills/ibm-i-code-generator/
 skills/legacy-spec-factory/legacy-spec-writer/ -> ~/.config/opencode/skills/legacy-spec-writer/</code></pre>
         <p>
-          See <a href="manual-copy-opencode.md">manual-copy-opencode.md</a> for
-          the full manual-copy guide.
+          The editable Markdown source for the longer manual-copy guide is
+          <code>docs/manual-copy-opencode.md</code>.
         </p>
       </div>
 
@@ -332,7 +339,7 @@ skills/legacy-spec-factory/legacy-spec-writer/ -> ~/.config/opencode/skills/lega
         </table>
       </div>
 
-      <div class="section">
+      <div id="families" class="section">
         <h2>Skill Families</h2>
         <div class="family-grid">
           <div class="family">
@@ -343,7 +350,7 @@ skills/legacy-spec-factory/legacy-spec-writer/ -> ~/.config/opencode/skills/lega
               request, spec, or implementation task and need to move forward
               through IBM i delivery.
             </p>
-            <p><a href="../skills/ibm-i-skill-family/README.md">Open IBM i family README</a></p>
+            <p>Source map: <code>skills/ibm-i-skill-family/README.md</code></p>
           </div>
 
           <div class="family">
@@ -353,11 +360,7 @@ skills/legacy-spec-factory/legacy-spec-writer/ -> ~/.config/opencode/skills/lega
               Use this family when you need to understand an existing legacy
               system and turn source/runtime evidence into reviewable specs.
             </p>
-            <p>
-              <a href="../skills/legacy-spec-factory/README.md">
-                Open Legacy Spec Factory README
-              </a>
-            </p>
+            <p>Source map: <code>skills/legacy-spec-factory/README.md</code></p>
           </div>
         </div>
       </div>

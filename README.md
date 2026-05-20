@@ -9,16 +9,18 @@ This repository manages reusable OpenCode skills for internal engineering work.
 This repo is for sharing reusable skills so teammates can quickly find the
 right skill and use it in OpenCode.
 
-- New user: start with [docs/getting-started-opencode.md](docs/getting-started-opencode.md).
-- Not sure which skill to use: use [docs/skill-selection-guide.md](docs/skill-selection-guide.md).
-- Browser-friendly local entry: open [docs/index.html](docs/index.html) directly from this repo.
-- No Node install: use [docs/manual-copy-opencode.md](docs/manual-copy-opencode.md).
+- New user, skill selection, or manual copy: open the browser-friendly local guide.
 - IBM i forward delivery: start with `ibm-i-workflow-orchestrator`.
 - Legacy reverse-modernization: start with `legacy-modernization-orchestrator`.
 
-If a Markdown link opens in Chrome as `file+.vscode-resource...`, use
-`docs/index.html` instead. That URL is an editor-internal preview resource, not
-a normal local file URL.
+```bash
+open docs/index.html
+```
+
+Avoid opening Markdown links from VS Code Preview in Chrome. Preview links can
+become `file+.vscode-resource...`, which is an editor-internal URL and not a
+normal local file URL. Markdown source files still live under `docs/` for
+editing and review.
 
 The library is intentionally simple:
 
@@ -110,8 +112,9 @@ Manual copy without Node:
 Copy skill folders into ~/.config/opencode/skills/<skill-name>/
 ```
 
-See [docs/manual-copy-opencode.md](docs/manual-copy-opencode.md) for the exact
-rules and copy-ready folder examples.
+For exact manual-copy rules and copy-ready folder examples, open
+`docs/index.html` and use the Manual Copy section. The Markdown source is
+`docs/manual-copy-opencode.md`.
 
 Install only one domain:
 
@@ -163,11 +166,18 @@ description: Use when modernizing IBM i RPG applications, analyzing RPG code, ex
 
 ## Docs
 
-- [docs/getting-started-opencode.md](docs/getting-started-opencode.md)
-- [docs/skill-selection-guide.md](docs/skill-selection-guide.md)
-- [docs/index.html](docs/index.html)
-- [docs/manual-copy-opencode.md](docs/manual-copy-opencode.md)
-- [docs/skill-authoring.md](docs/skill-authoring.md)
-- [docs/import-existing-skills.md](docs/import-existing-skills.md)
-- [docs/naming-conventions.md](docs/naming-conventions.md)
-- [docs/opencode-installation.md](docs/opencode-installation.md)
+Open the browser-friendly local guide from the repo root:
+
+```bash
+open docs/index.html
+```
+
+Markdown source files for editing and review:
+
+- `docs/getting-started-opencode.md`
+- `docs/skill-selection-guide.md`
+- `docs/manual-copy-opencode.md`
+- `docs/skill-authoring.md`
+- `docs/import-existing-skills.md`
+- `docs/naming-conventions.md`
+- `docs/opencode-installation.md`
