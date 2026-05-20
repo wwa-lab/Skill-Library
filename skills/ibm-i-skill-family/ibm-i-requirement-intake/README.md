@@ -14,6 +14,19 @@ Use the corrected library name when importing it:
 ibm-i-requirement-intake
 ```
 
+## Intended Position
+
+This is the first skill in the IBM i skill family. It prepares the request
+intake material before requirement normalization.
+
+Expected output from the internal pilot:
+
+- A CSV request-intake document.
+- CSV columns aligned so users can copy the data into the Excel request
+  template.
+- A collection aid for users to gather enough requirement material before the
+  main IBM i delivery chain starts.
+
 ## Import Steps
 
 1. Copy the internal pilot skill's `SKILL.md` into this directory.

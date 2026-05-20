@@ -8,6 +8,16 @@ This directory is reserved for the internal pilot skill:
 ibm-i-ut-plan-to-xml
 ```
 
+## Intended Position
+
+This skill runs after `ibm-i-ut-plan-generator` creates the UT Plan.
+
+Expected output from the internal pilot:
+
+- XML generated from the IBM i UT Plan.
+- XML shaped for internal JUICE-based unit testing.
+- A handoff path for testing iSeries programs with the internal JUICE workflow.
+
 ## Import Steps
 
 1. Copy the internal pilot skill's `SKILL.md` into this directory.
