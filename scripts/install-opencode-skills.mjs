@@ -112,6 +112,21 @@ function parseFrontmatter(content) {
       }
 
       data[key] = value === ">" ? blockLines.join(" ").trim() : blockLines.join("\n").trim();
+    } else if (value === "") {
+      const map = {};
+
+      while (index + 1 < lines.length && /^\s+/.test(lines[index + 1])) {
+        index += 1;
+        const nestedLine = lines[index].trim();
+        const nestedMatch = nestedLine.match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
+
+        if (nestedMatch) {
+          const [, nestedKey, nestedRawValue] = nestedMatch;
+          map[nestedKey] = nestedRawValue.replace(/^['"]|['"]$/g, "").trim();
+        }
+      }
+
+      data[key] = map;
     } else {
       data[key] = value.replace(/^['"]|['"]$/g, "").trim();
     }

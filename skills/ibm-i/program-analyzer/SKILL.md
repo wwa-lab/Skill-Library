@@ -10,6 +10,13 @@ description: >
   RPGLE or CLLE source and asks to understand what it does, map its logic, identify dependencies,
   or prepare for enhancement analysis. This is an analysis skill — it does not generate specs,
   code, or reviews.
+license: Apache-2.0
+metadata:
+  author: wwa-lab
+  maintainer: platform-engineering
+  source: https://github.com/wwa-lab/build-agent-skill
+  source_commit: 479a427
+  domain: ibm-i
 ---
 
 # IBM i Program Analyzer (V1.0)

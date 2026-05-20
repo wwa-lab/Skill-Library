@@ -1,6 +1,11 @@
 ---
 name: domain-skill-name
 description: Use when ...
+license: Internal
+metadata:
+  author: team-or-person
+  maintainer: team-or-person
+  domain: domain
 ---
 
 # Skill Name
@@ -18,4 +23,3 @@ Use this skill when ...
 ## References
 
 Read files in `references/` only when the task needs that detail.
-

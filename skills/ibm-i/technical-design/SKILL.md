@@ -14,6 +14,13 @@ description: >
   AS/400, iSeries, or IBM i in a design context and the intent is design-level documentation
   rather than implementation-level program specification. This is a design-generation skill,
   not a program-specification or code-generation skill.
+license: Apache-2.0
+metadata:
+  author: wwa-lab
+  maintainer: platform-engineering
+  source: https://github.com/wwa-lab/build-agent-skill
+  source_commit: 479a427
+  domain: ibm-i
 ---
 
 # IBM i Technical Design Generator (V1.0)

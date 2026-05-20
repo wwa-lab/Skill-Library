@@ -24,8 +24,36 @@ Every skill starts with YAML frontmatter:
 ---
 name: java-spring-boot-api-review
 description: Use when reviewing Java Spring Boot REST APIs for correctness, validation, error handling, observability, and test coverage.
+license: Internal
+metadata:
+  author: platform-engineering
+  maintainer: platform-engineering
+  domain: java
 ---
 ```
+
+OpenCode recognizes only these frontmatter fields:
+
+- `name` (required)
+- `description` (required)
+- `license` (optional)
+- `compatibility` (optional)
+- `metadata` (optional string-to-string map)
+
+Put author and source information inside `metadata`; do not add custom top-level fields such as `author`, because OpenCode ignores unknown frontmatter fields.
+
+Recommended metadata keys:
+
+```yaml
+metadata:
+  author: wwa-lab
+  maintainer: platform-engineering
+  source: https://github.com/wwa-lab/build-agent-skill
+  source_commit: 479a427
+  domain: ibm-i
+```
+
+Use strings for all metadata values. For multiple authors, use a semicolon-separated string such as `author: "leo; alice; platform-team"`.
 
 The body should include only the core workflow:
 
@@ -81,6 +109,7 @@ engineering
 
 - The skill name matches `<domain>-<skill-name>`.
 - The description says when to use the skill.
+- Author, maintainer, source, or provenance fields are stored under `metadata`.
 - The body gives a concrete workflow.
 - Long background material is in `references/`.
 - Scripts are executable or clearly documented.

@@ -13,6 +13,13 @@ description: >
   a File Spec JSON and asks to generate DDS, or asks to "write the DDS", "generate
   PF/LF/PRTF/DSPF source", "create DDS from this spec", or "implement this File Spec".
   This is a code-generation skill — not a specification skill, not a reviewer, not a tutor.
+license: Apache-2.0
+metadata:
+  author: wwa-lab
+  maintainer: platform-engineering
+  source: https://github.com/wwa-lab/build-agent-skill
+  source_commit: 479a427
+  domain: ibm-i
 ---
 
 # IBM i DDS Generator (V2.2)

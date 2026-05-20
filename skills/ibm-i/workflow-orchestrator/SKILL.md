@@ -10,6 +10,13 @@ description: >
   should be used, whether a stage can be skipped, or wants end-to-end orchestration for AS/400,
   iSeries, IBM i, RPGLE, CLLE, or DDS work. This is an orchestration skill — it routes and
   sequences work; it does not replace the generation or review skills themselves.
+license: Apache-2.0
+metadata:
+  author: wwa-lab
+  maintainer: platform-engineering
+  source: https://github.com/wwa-lab/build-agent-skill
+  source_commit: 479a427
+  domain: ibm-i
 ---
 
 # IBM i Workflow Orchestrator (V1.2)

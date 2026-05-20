@@ -10,6 +10,13 @@ description: >
   Also trigger when the user asks to "review the generated RPGLE", "check this CLLE against the
   spec", "validate the implementation", or "audit an IBM i code change" for RPGLE, CLLE, AS/400,
   iSeries, or IBM i. This is a code-review skill — it does not generate, rewrite, or replace code.
+license: Apache-2.0
+metadata:
+  author: wwa-lab
+  maintainer: platform-engineering
+  source: https://github.com/wwa-lab/build-agent-skill
+  source_commit: 479a427
+  domain: ibm-i
 ---
 
 # IBM i Code Reviewer (V1.0)

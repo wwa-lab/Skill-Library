@@ -9,6 +9,13 @@ description: >
   whenever generated or modified RPGLE/CLLE source needs a compile-safety check before being
   sent to the IBM i compiler. This is a pre-compile review skill — it does not generate code,
   review spec alignment, or replace the ibm-i-code-reviewer.
+license: Apache-2.0
+metadata:
+  author: wwa-lab
+  maintainer: platform-engineering
+  source: https://github.com/wwa-lab/build-agent-skill
+  source_commit: 479a427
+  domain: ibm-i
 ---
 
 # IBM i Compile Precheck (V1.0)

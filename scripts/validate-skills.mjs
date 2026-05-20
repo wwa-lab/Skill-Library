@@ -52,6 +52,21 @@ function parseFrontmatter(content) {
       }
 
       data[key] = value === ">" ? blockLines.join(" ").trim() : blockLines.join("\n").trim();
+    } else if (value === "") {
+      const map = {};
+
+      while (index + 1 < lines.length && /^\s+/.test(lines[index + 1])) {
+        index += 1;
+        const nestedLine = lines[index].trim();
+        const nestedMatch = nestedLine.match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
+
+        if (nestedMatch) {
+          const [, nestedKey, nestedRawValue] = nestedMatch;
+          map[nestedKey] = nestedRawValue.replace(/^['"]|['"]$/g, "").trim();
+        }
+      }
+
+      data[key] = map;
     } else {
       data[key] = value.replace(/^['"]|['"]$/g, "").trim();
     }
@@ -131,7 +146,7 @@ async function validateSkill(skill, errors, warnings) {
     return;
   }
 
-  const { name, description } = parsed.data;
+  const { name, description, metadata } = parsed.data;
   const expectedName = expectedSkillName(skill.domain, skill.skillDir);
 
   if (!name) {
@@ -149,6 +164,20 @@ async function validateSkill(skill, errors, warnings) {
 
     if (!/\b(Use when|Use this|Use for|Use to|Use whenever|Also trigger|Trigger on)\b/i.test(description)) {
       addMessage(warnings, skill, "description should include trigger wording such as \"Use when\" or \"Use this skill whenever\"");
+    }
+  }
+
+  if (!metadata || typeof metadata !== "object" || Array.isArray(metadata)) {
+    addMessage(warnings, skill, "frontmatter should include metadata with author, maintainer, and domain");
+  } else {
+    for (const key of ["author", "maintainer", "domain"]) {
+      if (!metadata[key]) {
+        addMessage(warnings, skill, `metadata is missing recommended field: ${key}`);
+      }
+    }
+
+    if (metadata.domain && metadata.domain !== skill.domain) {
+      addMessage(warnings, skill, `metadata.domain should be "${skill.domain}", found "${metadata.domain}"`);
     }
   }
 

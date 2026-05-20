@@ -10,6 +10,13 @@ description: >
   cases even from incomplete inputs. Use this skill when a user asks what to test, needs unit
   test cases, or wants a developer-level UT Plan for IBM i RPGLE, CLLE, DDS, or DB2 for i
   changes. Does not execute tests, generate code, write specs, or produce QA/UAT/SIT plans.
+license: Apache-2.0
+metadata:
+  author: wwa-lab
+  maintainer: platform-engineering
+  source: https://github.com/wwa-lab/build-agent-skill
+  source_commit: 479a427
+  domain: ibm-i
 ---
 
 # IBM i Unit Test Plan Generator (V1.2)

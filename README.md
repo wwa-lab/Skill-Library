@@ -102,5 +102,6 @@ description: Use when modernizing IBM i RPG applications, analyzing RPG code, ex
 ## Docs
 
 - `docs/skill-authoring.md`
+- `docs/import-existing-skills.md`
 - `docs/naming-conventions.md`
 - `docs/opencode-installation.md`

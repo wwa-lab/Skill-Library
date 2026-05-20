@@ -17,6 +17,13 @@ description: >
   "review the generated DDS", "check this PF/LF/PRTF/DSPF source against the spec",
   "validate the DDS", or "audit a DDS change" for IBM i, AS/400, iSeries, or DDS source
   members. This is a review skill — it does not generate, rewrite, or replace DDS source.
+license: Apache-2.0
+metadata:
+  author: wwa-lab
+  maintainer: platform-engineering
+  source: https://github.com/wwa-lab/build-agent-skill
+  source_commit: 479a427
+  domain: ibm-i
 ---
 
 # IBM i DDS Reviewer (V1.2)

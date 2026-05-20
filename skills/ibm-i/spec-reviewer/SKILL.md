@@ -13,6 +13,13 @@ description: >
   when the user asks to "review", "check", "validate", "gate-check", or "QA" a spec, design,
   or normalized requirement package for IBM i, AS/400, iSeries, RPGLE, or CLLE. This is a
   review skill — it does not generate, rewrite, or replace specifications.
+license: Apache-2.0
+metadata:
+  author: wwa-lab
+  maintainer: platform-engineering
+  source: https://github.com/wwa-lab/build-agent-skill
+  source_commit: 479a427
+  domain: ibm-i
 ---
 
 # IBM i Spec Reviewer (V1.1)

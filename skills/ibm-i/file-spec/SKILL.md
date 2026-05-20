@@ -12,6 +12,13 @@ description: >
   Skeleton classification. Use this skill whenever a user asks to define, design, or
   spec out an IBM i file object — PF, LF, PRTF, or DSPF. This is a DDS file specification
   skill, not a DDS source generator, not a program spec, not a database design skill.
+license: Apache-2.0
+metadata:
+  author: wwa-lab
+  maintainer: platform-engineering
+  source: https://github.com/wwa-lab/build-agent-skill
+  source_commit: 479a427
+  domain: ibm-i
 ---
 
 # IBM i File Spec (V2.2)

@@ -14,6 +14,13 @@ description: >
   RPGLE, or CLLE and the intent is functional documentation rather than technical design or
   program specification. This is a functional-specification skill, not a technical-design or
   code-generation skill.
+license: Apache-2.0
+metadata:
+  author: wwa-lab
+  maintainer: platform-engineering
+  source: https://github.com/wwa-lab/build-agent-skill
+  source_commit: 479a427
+  domain: ibm-i
 ---
 
 # IBM i Functional Spec Generator (V1.0)

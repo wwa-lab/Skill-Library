@@ -9,6 +9,13 @@ description: >
   into code. Also trigger when the user asks to "write the RPGLE", "generate the CLLE program",
   "implement this Program Spec", or "scaffold IBM i code" from a defined specification. This is a
   code-generation skill, not a spec-generation or review skill.
+license: Apache-2.0
+metadata:
+  author: wwa-lab
+  maintainer: platform-engineering
+  source: https://github.com/wwa-lab/build-agent-skill
+  source_commit: 479a427
+  domain: ibm-i
 ---
 
 # IBM i Code Generator (V1.0)

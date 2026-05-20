@@ -37,6 +37,7 @@ tests/
 
 - Use lowercase kebab-case for domains and skill directories.
 - The skill frontmatter `name` must match `<domain>-<skill-name>`.
+- Put author, maintainer, source, source commit, and domain provenance under `metadata`; do not add custom top-level author fields.
 - Directories prefixed with `_`, such as `_example`, are internal examples and skipped by the installer unless requested.
 - Keep `SKILL.md` concise. Move long reference material into `references/`.
 - Add scripts only when deterministic execution is better than prose instructions.

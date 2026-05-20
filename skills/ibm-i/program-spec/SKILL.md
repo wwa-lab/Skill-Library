@@ -12,6 +12,13 @@ description: >
   program", or mentions RPG IV, RPGLE, CLLE, iSeries, or AS/400 in the context of program
   design. Even if the user just pastes a business requirement and mentions IBM i or RPG —
   use this skill. This is a specification-generation skill, not a code-generation skill.
+license: Apache-2.0
+metadata:
+  author: wwa-lab
+  maintainer: platform-engineering
+  source: https://github.com/wwa-lab/build-agent-skill
+  source_commit: 479a427
+  domain: ibm-i
 ---
 
 # IBM i Program Spec Generator (V2.6)

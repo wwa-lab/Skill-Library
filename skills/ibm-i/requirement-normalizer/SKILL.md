@@ -13,6 +13,13 @@ description: >
   "structure", or "parse" a requirement, change request, or enhancement description for
   IBM i, AS/400, iSeries, RPGLE, or CLLE. This is a normalization skill — it does not
   produce specifications, designs, or code.
+license: Apache-2.0
+metadata:
+  author: wwa-lab
+  maintainer: platform-engineering
+  source: https://github.com/wwa-lab/build-agent-skill
+  source_commit: 479a427
+  domain: ibm-i
 ---
 
 # IBM i Requirement Normalizer (V1.0)

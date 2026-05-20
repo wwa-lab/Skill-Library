@@ -9,6 +9,13 @@ description: >
   provides existing RPGLE or CLLE source plus a change request and asks what must change, what
   the risk is, or what downstream spec work is needed. This is an analysis skill — it does not
   generate specs, code, or reviews.
+license: Apache-2.0
+metadata:
+  author: wwa-lab
+  maintainer: platform-engineering
+  source: https://github.com/wwa-lab/build-agent-skill
+  source_commit: 479a427
+  domain: ibm-i
 ---
 
 # IBM i Impact Analyzer (V1.2)

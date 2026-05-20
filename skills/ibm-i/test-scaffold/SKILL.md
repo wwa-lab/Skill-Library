@@ -9,6 +9,13 @@ description: >
   can be generated before code exists. Does not execute tests, connect to IBM i, or
   modify UT Plans. Use this skill when a user provides a UT Plan or IBM i test scenarios and
   asks to generate setup, compile, execution, verification, or cleanup scripts.
+license: Apache-2.0
+metadata:
+  author: wwa-lab
+  maintainer: platform-engineering
+  source: https://github.com/wwa-lab/build-agent-skill
+  source_commit: 479a427
+  domain: ibm-i
 ---
 
 # IBM i Test Scaffold Generator (V1.1)
