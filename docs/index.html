@@ -273,10 +273,12 @@
           <li>Pick an orchestrator or direct skill from the guide below.</li>
         </ol>
         <pre><code>node scripts/install-opencode-skills.mjs --dry-run
-node scripts/install-opencode-skills.mjs</code></pre>
+node scripts/install-opencode-skills.mjs
+node /path/to/Skill-Library/scripts/install-opencode-skills.mjs --project /path/to/target-repo</code></pre>
         <h3 id="manual-copy">Option B: Manual Copy</h3>
         <p>
-          Copy each skill folder into <code>~/.config/opencode/skills/&lt;skill-name&gt;/</code>.
+          Copy each skill folder into <code>~/.config/opencode/skills/&lt;skill-name&gt;/</code>
+          or <code>&lt;target-repo&gt;/.opencode/skills/&lt;skill-name&gt;/</code>.
           The destination folder name must match the <code>name</code> field in
           <code>SKILL.md</code>.
         </p>

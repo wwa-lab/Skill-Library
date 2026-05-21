@@ -4,18 +4,22 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import process from "node:process";
+import { fileURLToPath } from "node:url";
 
-const rootDir = process.cwd();
+const scriptDir = path.dirname(fileURLToPath(import.meta.url));
+const rootDir = path.resolve(scriptDir, "..");
 const skillsDir = path.join(rootDir, "skills");
 const markerFileName = ".skill-library-source.json";
 const managedBy = "Skill-Library";
 const defaultDest = path.join(os.homedir(), ".config", "opencode", "skills");
+const opencodeSkillNamePattern = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 
 function printHelp() {
   console.log(`Usage: node scripts/install-opencode-skills.mjs [options]
 
 Options:
   --domain <name>       Install one family/domain. Can be repeated. Aliases such as ibm-i are supported.
+  --project <path>      Install into another repo's .opencode/skills directory.
   --dest <path>         Install destination. Defaults to ~/.config/opencode/skills.
   --include-examples    Include skill directories that start with "_".
   --dry-run             Print planned actions without writing files.
@@ -40,6 +44,8 @@ function parseArgs(argv) {
   const options = {
     domains: [],
     dest: defaultDest,
+    destProvided: false,
+    project: null,
     includeExamples: false,
     dryRun: false,
     force: false,
@@ -56,12 +62,20 @@ function parseArgs(argv) {
       }
       options.domains.push(value);
       index += 1;
+    } else if (arg === "--project") {
+      const value = argv[index + 1];
+      if (!value) {
+        throw new Error("--project requires a value");
+      }
+      options.project = expandHome(value);
+      index += 1;
     } else if (arg === "--dest") {
       const value = argv[index + 1];
       if (!value) {
         throw new Error("--dest requires a value");
       }
       options.dest = expandHome(value);
+      options.destProvided = true;
       index += 1;
     } else if (arg === "--include-examples") {
       options.includeExamples = true;
@@ -74,6 +88,14 @@ function parseArgs(argv) {
     } else {
       throw new Error(`Unknown option: ${arg}`);
     }
+  }
+
+  if (options.project && options.destProvided) {
+    throw new Error("Use either --project or --dest, not both");
+  }
+
+  if (options.project) {
+    options.dest = path.join(options.project, ".opencode", "skills");
   }
 
   return options;
@@ -172,6 +194,7 @@ async function discoverSkills(options) {
   const selectedDomains = new Set(options.domains);
   const domains = await listDirectories(skillsDir);
   const skills = [];
+  const skipped = [];
 
   for (const domain of domains) {
     const domainPath = path.join(skillsDir, domain);
@@ -196,12 +219,24 @@ async function discoverSkills(options) {
       const skillFile = path.join(sourcePath, "SKILL.md");
 
       if (!(await pathExists(skillFile))) {
+        skipped.push({
+          domain,
+          skillDir,
+          sourcePath,
+          reason: "missing SKILL.md",
+        });
         continue;
       }
 
       const frontmatter = parseFrontmatter(await fs.readFile(skillFile, "utf8"));
       if (!frontmatter?.name) {
         throw new Error(`${path.relative(rootDir, skillFile)} is missing frontmatter name`);
+      }
+
+      if (frontmatter.name.length > 64 || !opencodeSkillNamePattern.test(frontmatter.name)) {
+        throw new Error(
+          `${path.relative(rootDir, skillFile)} has invalid OpenCode skill name "${frontmatter.name}"`,
+        );
       }
 
       skills.push({
@@ -214,7 +249,7 @@ async function discoverSkills(options) {
     }
   }
 
-  return skills;
+  return { skills, skipped };
 }
 
 async function readMarker(targetPath) {
@@ -286,10 +321,13 @@ async function main() {
     return;
   }
 
-  const skills = await discoverSkills(options);
+  const { skills, skipped } = await discoverSkills(options);
 
   if (skills.length === 0) {
-    console.log("No skills selected for installation.");
+    console.log("No installable skills selected.");
+    for (const item of skipped) {
+      console.log(`[skip] ${path.relative(rootDir, item.sourcePath)} (${item.reason}; placeholder not installable)`);
+    }
     return;
   }
 
@@ -297,7 +335,24 @@ async function main() {
     await installSkill(skill, options);
   }
 
-  console.log(`${options.dryRun ? "Planned" : "Installed"} ${skills.length} skill${skills.length === 1 ? "" : "s"}.`);
+  for (const item of skipped) {
+    console.log(`[skip] ${path.relative(rootDir, item.sourcePath)} (${item.reason}; placeholder not installable)`);
+  }
+
+  const skippedSuffix =
+    skipped.length > 0
+      ? `; skipped ${skipped.length} placeholder${skipped.length === 1 ? "" : "s"}`
+      : "";
+
+  console.log(
+    `${options.dryRun ? "Planned" : "Installed"} ${skills.length} skill${
+      skills.length === 1 ? "" : "s"
+    }${skippedSuffix}.`,
+  );
+
+  if (!options.dryRun) {
+    console.log("Restart OpenCode or start a new session so skill discovery refreshes.");
+  }
 }
 
 main().catch((error) => {

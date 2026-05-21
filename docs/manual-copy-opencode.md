@@ -2,10 +2,16 @@
 
 Use this guide when you do not want to run the Node installer.
 
-OpenCode reads skills from a flat folder:
+OpenCode reads skills from a flat folder. For a global install:
 
 ```text
 ~/.config/opencode/skills
+```
+
+For a project-local install:
+
+```text
+<target-repo>/.opencode/skills
 ```
 
 Each installed skill folder name must match the `name` field in that skill's
@@ -15,7 +21,7 @@ Each installed skill folder name must match the `name` field in that skill's
 
 1. Create the OpenCode skills folder if it does not exist.
 2. Pick a source skill folder that contains `SKILL.md`.
-3. Copy the whole folder into `~/.config/opencode/skills/<skill-name>/`.
+3. Copy the whole folder into `<opencode-skills-dir>/<skill-name>/`.
 4. Use the `name` field from `SKILL.md` as `<skill-name>`.
 5. Skip placeholder folders that only have `README.md`.
 6. Skip `_example` unless you intentionally want example skills installed.
@@ -24,6 +30,12 @@ Create the destination folder:
 
 ```bash
 mkdir -p ~/.config/opencode/skills
+```
+
+Or for a project-local install:
+
+```bash
+mkdir -p /path/to/target-repo/.opencode/skills
 ```
 
 ## Finder Copy

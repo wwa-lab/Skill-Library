@@ -106,6 +106,28 @@ Install all real skills into the default OpenCode skills directory:
 node scripts/install-opencode-skills.mjs
 ```
 
+Install into another repo without copying the script:
+
+```bash
+node /path/to/Skill-Library/scripts/install-opencode-skills.mjs --project /path/to/target-repo
+```
+
+That writes to `/path/to/target-repo/.opencode/skills`.
+
+Sample for installing only the IBM i family into a business repo:
+
+```bash
+node /Users/leo/wwa-lab/GitHub/Skill-Library/scripts/install-opencode-skills.mjs \
+  --project /Users/leo/wwa-lab/GitHub/my-ibm-i-project \
+  --domain ibm-i
+```
+
+In this sample:
+
+- `/Users/leo/wwa-lab/GitHub/Skill-Library` is this shared skill library repo.
+- `/Users/leo/wwa-lab/GitHub/my-ibm-i-project` is the repo where OpenCode should use the skills.
+- Installed skills land under `/Users/leo/wwa-lab/GitHub/my-ibm-i-project/.opencode/skills`.
+
 Manual copy without Node:
 
 ```text
@@ -140,7 +162,8 @@ The default destination is:
 ~/.config/opencode/skills
 ```
 
-Use `--dest <path>` to install elsewhere.
+Use `--project <repo>` for project-local OpenCode skills, or `--dest <path>`
+for an explicit destination.
 
 ## Creating a Skill
 

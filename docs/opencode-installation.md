@@ -16,6 +16,10 @@ to:
 
 The installed name comes from the `name` field in `SKILL.md`.
 
+The installer can be run from this repo or by absolute path from another repo.
+It locates Skill Library from the script file, not from the current shell
+directory.
+
 ## Validate First
 
 ```bash
@@ -35,6 +39,31 @@ node scripts/install-opencode-skills.mjs
 ```
 
 Directories that start with `_` are skipped by default.
+
+## Install Into Another Repo
+
+Use `--project` when you want a target repo to carry its own OpenCode skills:
+
+```bash
+node /path/to/Skill-Library/scripts/install-opencode-skills.mjs \
+  --project /path/to/target-repo
+```
+
+This installs into:
+
+```text
+/path/to/target-repo/.opencode/skills/
+```
+
+You can combine it with domain selection:
+
+```bash
+node /path/to/Skill-Library/scripts/install-opencode-skills.mjs \
+  --project /path/to/target-repo \
+  --domain ibm-i
+```
+
+You do not need to copy the install script into the target repo.
 
 ## Manual Copy Without Node
 
@@ -83,6 +112,9 @@ node scripts/install-opencode-skills.mjs --domain common --domain ibm-i
 ```bash
 node scripts/install-opencode-skills.mjs --dest /tmp/opencode-skills
 ```
+
+Use `--dest` for an explicit folder. Use `--project` for the common case of
+installing into another repo's `.opencode/skills` folder.
 
 ## Existing Destination Folders
 

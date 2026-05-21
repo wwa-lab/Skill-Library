@@ -23,6 +23,13 @@ Choose one installation path:
    node scripts/install-opencode-skills.mjs
    ```
 
+3. To install into another repo's project-local OpenCode skills folder, run the
+   library script by path:
+
+   ```bash
+   node /path/to/Skill-Library/scripts/install-opencode-skills.mjs --project /path/to/target-repo
+   ```
+
 ### Option B: Manual Copy
 
 OpenCode reads skills from:
@@ -110,6 +117,12 @@ OpenCode receives flat skill folders under:
 
 ```text
 ~/.config/opencode/skills
+```
+
+For project-local installation, OpenCode receives flat skill folders under:
+
+```text
+<target-repo>/.opencode/skills
 ```
 
 Examples:
