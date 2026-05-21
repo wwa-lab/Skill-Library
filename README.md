@@ -114,6 +114,20 @@ node /path/to/Skill-Library/scripts/install-opencode-skills.mjs --project /path/
 
 That writes to `/path/to/target-repo/.opencode/skills`.
 
+Sample for installing only the IBM i family into a business repo:
+
+```bash
+node /Users/leo/wwa-lab/GitHub/Skill-Library/scripts/install-opencode-skills.mjs \
+  --project /Users/leo/wwa-lab/GitHub/my-ibm-i-project \
+  --domain ibm-i
+```
+
+In this sample:
+
+- `/Users/leo/wwa-lab/GitHub/Skill-Library` is this shared skill library repo.
+- `/Users/leo/wwa-lab/GitHub/my-ibm-i-project` is the repo where OpenCode should use the skills.
+- Installed skills land under `/Users/leo/wwa-lab/GitHub/my-ibm-i-project/.opencode/skills`.
+
 Manual copy without Node:
 
 ```text
