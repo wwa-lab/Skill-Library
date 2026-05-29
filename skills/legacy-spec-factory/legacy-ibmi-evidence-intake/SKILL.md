@@ -6,7 +6,7 @@ metadata:
   author: Leo L Zhang
   maintainer: platform-engineering
   source: https://github.com/wwa-lab/legacy-spec-factory
-  source_commit: 8871a6b
+  source_commit: 3b6a16b
   domain: legacy-spec-factory
 ---
 
@@ -111,10 +111,10 @@ Reference templates in:
 
 Follow:
 
-- `../../../docs/legacy-spec-factory/data-collection-and-redaction.md`
-- `../../../docs/legacy-spec-factory/input-readiness-rubric.md`
-- `../../../docs/legacy-spec-factory/id-conventions.md`
-- `../../../docs/legacy-spec-factory/evidence-and-knowledge-taxonomy.md`
+- `../../docs/data-collection-and-redaction.md`
+- `../../docs/input-readiness-rubric.md`
+- `../../docs/id-conventions.md`
+- `../../docs/evidence-and-knowledge-taxonomy.md`
 - `references/evidence-types.md`
 - `references/redaction-checklist.md`
 
@@ -513,7 +513,7 @@ This skill conforms to the Step Contract shape. See
 ## Workflow State Write-Back
 
 At the end of an intake run, update `<project-root>/workflow-state.yaml` per
-[`docs/workflow-state-contract.md`](../../../docs/legacy-spec-factory/workflow-state-contract.md).
+[`docs/workflow-state-contract.md`](../../docs/workflow-state-contract.md).
 Template: [`skills/legacy-modernization-orchestrator/references/state-writeback-snippet.md`](../legacy-modernization-orchestrator/references/state-writeback-snippet.md).
 
 **Stage this skill produces:**
@@ -640,9 +640,9 @@ Once evidence intake is complete and SME-approved:
 - `references/evidence-types.md` — Detailed evidence type definitions
 - `references/redaction-checklist.md` — Master redaction checklist and patterns
 - `references/output-contract.md` — Evidence ID and manifest field definitions
-- `../../../docs/legacy-spec-factory/data-collection-and-redaction.md` — Organization-level policy
-- `../../../docs/legacy-spec-factory/id-conventions.md` — ID format rules
-- `../../../docs/legacy-spec-factory/evidence-and-knowledge-taxonomy.md` — Evidence strength and
+- `../../docs/data-collection-and-redaction.md` — Organization-level policy
+- `../../docs/id-conventions.md` — ID format rules
+- `../../docs/evidence-and-knowledge-taxonomy.md` — Evidence strength and
   knowledge type framework
 
 ## Examples

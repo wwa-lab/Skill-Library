@@ -1,12 +1,12 @@
 ---
 name: legacy-spec-writer
-description: "Use when teams need to produce evidence-backed `spec.yaml` and `spec.md` artifacts from approved module + flow + program analyses. One spec per business capability (CAP-*). Layer 2 (platform-agnostic) skill — sits at the boundary between reverse engineering and forward SDLC, producing the contract that `build-agent-skill` consumes. Implements `schemas/spec.schema.yaml`."
+description: Use when evidence-backed `spec.yaml` and `spec.md` artifacts must be produced from approved module + flow + program analyses plus an approved BRD Package. One spec per business capability (CAP-*). Layer 2 (platform-agnostic) skill — sits after BRD review at the boundary between reverse engineering and forward SDLC, producing the contract that `build-agent-skill` consumes. Implements `schemas/spec.schema.yaml`.
 license: Apache-2.0
 metadata:
   author: Leo L Zhang
   maintainer: platform-engineering
   source: https://github.com/wwa-lab/legacy-spec-factory
-  source_commit: 8871a6b
+  source_commit: 3b6a16b
   domain: legacy-spec-factory
 ---
 
@@ -26,14 +26,16 @@ Retain this notice in substantial copies or derived versions.
 ## Purpose
 
 Synthesize one **business capability spec** from approved upstream
-analyses. The output is a structured, evidence-backed `spec.yaml` (plus a
-human-readable `spec.md`) that the forward SDLC (`build-agent-skill`)
-can consume to generate target-platform code.
+analyses and an approved BRD Package. The output is a structured,
+evidence-backed `spec.yaml` (plus a human-readable `spec.md`) that the
+forward SDLC (`build-agent-skill`) can consume to generate target-platform
+code.
 
 This skill is the **first platform-agnostic layer**. It does not look at
 IBM i source code directly — only at the analyses produced by
 `legacy-ibmi-module-analyzer`, `legacy-ibmi-flow-analyzer`, and
-`legacy-ibmi-program-analyzer`.
+`legacy-ibmi-program-analyzer`, plus the SME-reviewed BRD Package produced by
+`legacy-brd-writer`.
 
 One capability = one `spec.yaml`. A module typically produces multiple
 specs (one per capability identified in the module overview's "Capability
@@ -50,6 +52,13 @@ Accept:
 - **All approved inventory** (`01_inventory/inventory.yaml`)
 - **Capability seed** — one specific `CAP-*` from the module overview;
   the SME has confirmed this is a distinct capability worth specifying
+- **Approved BRD Package** (required in the standard workflow) —
+  `05_brds/<CAPABILITY-SLUG>/brd.md`, `brd-review.md`,
+  `validation-scenarios.md`, `traceability.md`, and approval / review
+  decision evidence. Use it as reviewed business context for SME-required
+  areas such as channels, user touchpoints, system interfaces, process flow,
+  validation rules, error handling, dependencies, and source-document gaps; do
+  not treat it as a substitute for approved module / flow / program evidence.
 - **Target platform hint** (optional) — Java/Spring, Java/Quarkus,
   serverless, etc. Used to inform `target_platform` and `modernization_decisions`
 - **SME availability** — capability owner who will approve `business_rules`,
@@ -76,6 +85,10 @@ Stop and require clarification if:
   route to `legacy-ibmi-module-analyzer`
 - The chosen capability seed has unresolved blocking TBDs in the module
   analysis
+- No approved BRD Package exists for the chosen capability → route to
+  `legacy-brd-writer` / `legacy-sme-review-facilitator`, unless the requester
+  explicitly records a technical-spec-only bypass with approver and risk
+  acceptance
 - No SME owns the capability (without SME, `business_rules` cannot move
   beyond `draft`)
 - Target platform is completely unspecified and decisions cannot be
@@ -95,7 +108,7 @@ Produce a directory `05_specs/<CAPABILITY-SLUG>/`:
 
 Use:
 
-- `../../../schemas/legacy-spec-factory/spec.schema.yaml` as the authoritative format
+- `../../schemas/spec.schema.yaml` as the authoritative format
 - `templates/spec.yaml`, `templates/spec.md`, `templates/spec-review.md`,
   `templates/traceability.md` as starting structure
 - `references/synthesis-rules.md` for how to derive each field
@@ -105,13 +118,13 @@ Use:
 
 Follow:
 
-- `../../../docs/legacy-spec-factory/id-conventions.md` for stable IDs (`CAP-*`, `BR-*`, `BEH-*`,
+- `../../docs/id-conventions.md` for stable IDs (`CAP-*`, `BR-*`, `BEH-*`,
   `DEC-*`, `IN-*`, `OUT-*`, `EX-*`, `STEP-*`, `AC-*`, `TC-*`, `TBD-*`)
-- `../../../docs/legacy-spec-factory/evidence-and-knowledge-taxonomy.md` for the
+- `../../docs/evidence-and-knowledge-taxonomy.md` for the
   knowledge-type / evidence-strength model
-- `../../../docs/legacy-spec-factory/forward-sdlc-contract.md` for the handoff contract to
+- `../../docs/forward-sdlc-contract.md` for the handoff contract to
   `build-agent-skill`
-- `../../../docs/legacy-spec-factory/input-readiness-rubric.md` for input readiness scoring
+- `../../docs/input-readiness-rubric.md` for input readiness scoring
 
 Examples:
 
@@ -133,19 +146,21 @@ field-level rules. The summary below is normative for this skill.
   `flow-<FLOW-SLUG>.md` for every flow the module references; approved
   `program-analysis-<OBJ-ID>.md` for every program in those flows;
   approved `01_inventory/inventory.yaml`; one `CAP-*` capability seed
-  from the module overview; named capability-owner SME.
+  from the module overview; approved BRD Package for that capability;
+  named capability-owner SME.
 - **Optional**: target platform hint (Java/Spring, Java/Quarkus,
   serverless, etc.) — informs `target_platform` and
   `modernization_decisions`.
 - **Input readiness scoring**:
   - `0-5 blocked`: approved module missing, capability seed unresolved,
     blocking TBDs remain, no capability-owner SME, required triggered artifact
-    missing, or evidence authorization unresolved.
+    missing, approved BRD Package missing, or evidence authorization
+    unresolved.
   - `6 minimum_pass`: approved module/upstream analyses, one SME-confirmed
-    `CAP-*`, named SME owner, and required triggered data/screen/report outputs
-    are present.
-  - `7-8 usable`: target platform hint, BAU notes, and related BRD/module
-    context are supplied.
+    `CAP-*`, approved BRD Package, named SME owner, and required triggered
+    data/screen/report outputs are present.
+  - `7-8 usable`: target platform hint, BAU notes, and BRD review decisions /
+    coverage notes are supplied.
   - `9-10 strong`: acceptance examples, negative cases, runtime observations,
     platform constraints, and modernization decision context are also supplied.
   - Missing target platform hint does not block observed-behavior/spec drafting
@@ -155,8 +170,9 @@ field-level rules. The summary below is normative for this skill.
   available to approve `BR-*` and `AC-*`.
 - **Stop conditions**: module status below `approved_with_non_blocking_tbd`
   (route back to `legacy-ibmi-module-analyzer`); selected `CAP-*` has
-  unresolved blocking TBDs in the module; no SME owns the capability;
-  target platform completely unspecified when decisions are required.
+  unresolved blocking TBDs in the module; approved BRD Package is missing or
+  not approved; no SME owns the capability; target platform completely
+  unspecified when decisions are required.
 
 ### Execution
 
@@ -190,7 +206,7 @@ field-level rules. The summary below is normative for this skill.
 - **Required IDs**: mints final `BR-*`, `DEC-*`, `IN-*`, `OUT-*`,
   `STEP-*`, `AC-*`, `TC-*`, `TBD-*`. Reuses `CAP-*`, `OBJ-*`, `EV-*`,
   `BEH-*` from upstream. `spec.yaml` must validate against
-  `../../../schemas/legacy-spec-factory/spec.schema.yaml`.
+  `../../schemas/spec.schema.yaml`.
 - **Handoff status**: `status: draft` → `in_review` → `approved`
   (capability-owner SME sign-off). Forward Handoff Gate consumes
   `approved`; `rejected` or `retired` halt forward SDLC.
@@ -198,7 +214,7 @@ field-level rules. The summary below is normative for this skill.
 ### Validation
 
 - **Mechanical**: `spec.yaml` validates against
-  `../../../schemas/legacy-spec-factory/spec.schema.yaml`; every `BEH-*`, `BR-*`, `DEC-*` links
+  `../../schemas/spec.schema.yaml`; every `BEH-*`, `BR-*`, `DEC-*` links
   to ≥1 `EV-*`; every `BR-*` links to ≥1 `BEH-*`; every `approved`
   `BR-*` has ≥1 `AC-*`; every `AC-*` carries `validates: [BR-*]`; every
   TBD has a category and resolver; no `sensitivity: unknown` in `evidence[]`.
@@ -223,7 +239,7 @@ Emit a Step Validation Report (see
 `../legacy-step-contract/templates/step-validation-report.md`) with
 status `pass`, `pass_with_warnings`, or `blocked` when reporting upward
 to the orchestrator. The Forward Handoff Gate
-(`../../../docs/legacy-spec-factory/forward-sdlc-contract.md`) is the next gate after `pass`.
+(`../../docs/forward-sdlc-contract.md`) is the next gate after `pass`.
 
 ## Workflow
 
@@ -272,12 +288,23 @@ to the orchestrator. The Forward Handoff Gate
    - Capture lifecycle hints (immutable / mutable / append-only)
 
 7. **Define Process Flow, Inputs, Outputs, Exceptions**
-   - `process_flow.steps[]` from the relevant flow analysis Transaction Call Map
-   - `inputs[]` from flow analysis Trigger Context + UI surfaces' input fields
-   - `outputs[]` from flow analysis exit nodes + Cross-Program Data Flow
-     carriers with `external handoff`, `creates`, or `updates` state impact
-   - `exceptions[]` from flow analysis Error Propagation + program analyses'
-     error handling
+   - `process_flow.steps[]` from the relevant flow's business-visible phases
+     and major outcomes, using the Transaction Call Map only as evidence
+   - Use the approved BRD Package's section 6 as the business-readable
+     process-flow framing and cross-check it against module / flow evidence
+   - `inputs[]` from flow analysis Trigger Context, UI surfaces' input fields,
+     and BRD sections 3-5 (channels, user touchpoints, system interfaces)
+   - `outputs[]` from flow analysis exit nodes, Cross-Program Data Flow
+     carriers with `external handoff`, `creates`, or `updates` state impact,
+     and BRD sections 4-5 where a business-visible response, report, message,
+     or interface result is SME-reviewed
+   - `exceptions[]` from flow analysis Error Propagation, program analyses'
+     error handling, and BRD section 8
+   - `open_questions[]` carries any BRD section 1-9 coverage gaps or
+     accepted-with-TBD review decisions that remain unresolved
+   - Do not copy program nodes or call-chain order directly into
+     `process_flow.steps[]`; each step should describe the capability behavior
+     the target system must preserve or implement
 
 8. **Write Acceptance Criteria (AC-*)**
    - For each `approved` BR, produce at least one AC
@@ -307,7 +334,7 @@ to the orchestrator. The Forward Handoff Gate
 
 At the end of a spec-writing run, update
 `<project-root>/workflow-state.yaml` per
-[`docs/workflow-state-contract.md`](../../../docs/legacy-spec-factory/workflow-state-contract.md).
+[`docs/workflow-state-contract.md`](../../docs/workflow-state-contract.md).
 Template: [`skills/legacy-modernization-orchestrator/references/state-writeback-snippet.md`](../legacy-modernization-orchestrator/references/state-writeback-snippet.md).
 
 **Stage this skill produces (mirrors `spec.yaml.status`):**
@@ -343,7 +370,7 @@ Rollback Protocol rather than silently lowering `stage_id`.
 This is the layer where business rules become formal — the temptation to
 "smooth out" gaps is highest. The discipline is the strictest.
 
-**Code is ground truth.** See `../../../docs/legacy-spec-factory/code-as-ground-truth.md`. A BR
+**Code is ground truth.** See `../../docs/code-as-ground-truth.md`. A BR
 can only be `approved` when it is grounded in:
 - **Tier 1** (currently-deployed source code) — for what the system does, or
 - **Tier 2** (named, date-stamped SME confirmation) — for why the system
@@ -412,6 +439,15 @@ Canonical: `skills/legacy-spec-writer/SKILL.md`
 Synced to all four runtime adapters.
 
 ## Version History
+
+- v0.1.2 (2026-05-29): Enforced the BRD-first review gate. Standard spec
+  writing now requires an approved BRD Package for the selected capability;
+  direct module-to-spec generation is only an explicit technical-spec-only
+  bypass with recorded risk acceptance.
+- v0.1.1 (2026-05-28): Added approved BRD Package consumption rules. Spec
+  synthesis may use SME-reviewed BRD sections 3-6, 8, and 9 for
+  inputs/outputs/process/exceptions/open questions, while blocked or
+  evidence-seeking BRD coverage prevents spec approval.
 
 - v0.1.0 (2026-05-14): Initial release
   - 11-step workflow producing spec.yaml + spec.md + spec-review.md + traceability.md

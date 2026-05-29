@@ -6,6 +6,70 @@ missed or miscategorized.
 
 ## Categories
 
+### 0. BRD Functional Analysis Coverage (`BRD-*#section-*`)
+
+**Purpose:** Confirm that a BRD Package covers the SME-required functional
+analysis areas before item-level rule and scenario review.
+
+Use this category only when the artifact under review is
+`05_brds/<CAPABILITY-SLUG>/brd.md`.
+
+**Required Areas:**
+- Section 1 — Function Purpose
+- Section 2 — Business Scenarios / Use Cases
+- Section 3 — Channels
+- Section 4 — User Interface / User Touchpoints
+- Section 5 — System Interfaces
+- Section 6 — Process Flow
+- Section 7 — Validation Rules
+- Section 8 — Error Handling
+- Section 9 — Dependencies
+
+**Review Target IDs:**
+Use a stable BRD-section target rather than minting a new repository ID:
+`BRD-<CAPABILITY-SLUG>-001#section-01` through
+`BRD-<CAPABILITY-SLUG>-001#section-09`.
+
+If a required area is missing or weak, create or reference a `TBD-*` and record
+the section decision as `accepted_with_tbd` or `blocked`.
+
+**Questions to Ask:**
+- "Does this section correctly describe the function from a business
+  perspective?"
+- "Is anything important missing for this required SME review area?"
+- "Can this gap be carried forward as non-blocking, or does it block BRD
+  approval / spec-writing?"
+
+**SME Outcomes:**
+- `accepted`: Section is fit for BRD approval.
+- `accepted_with_tbd`: Section is usable, but the named `TBD-*` must be carried
+  forward.
+- `blocked`: Section is missing, unsupported, or inaccurate enough to block the
+  BRD.
+- `needs_more_evidence`: SME cannot decide until more evidence is collected.
+
+**Recording in Question Pack:**
+```markdown
+### BRD-CREDIT-CHECK-001#section-03: Channels
+
+**Current BRD Coverage:**
+The BRD lists branch, batch, and API entry points for the Credit Check function.
+
+**Evidence Basis:**
+- `EV-CREDIT-012`: Flow trigger context
+- `EV-CREDIT-018`: SME BAU note
+
+**Question for SME:**
+> Are these all channels that can start or consume Credit Check, or is any
+> channel missing?
+
+**SME Answer:**
+
+(Space for response)
+```
+
+---
+
 ### 1. Open TBDs (`TBD-*`)
 
 **Purpose:** Collect SME judgment on unresolved questions or ambiguities.
@@ -32,12 +96,13 @@ missed or miscategorized.
 ### TBD-CREDIT-004: Validation Against Blacklist or Whitelist
 
 **Context:**  
-The CRDJOB program appears to validate customer accounts. We don't know if it
-checks against a blacklist (is this customer blocked?) or a whitelist (is this
-customer on an approved list?).
+Customer-account validation occurs before the request can continue. Evidence
+shows the validation path, but not whether the business policy is a blocked
+customer list or an approved customer list.
 
 **Question for SME:**  
-> Does CRDJOB validate against a blacklist or a whitelist?
+> Is customer-account validation based on a blocked-customer list, an
+> approved-customer list, or another policy?
 
 **SME Answer:**
 
@@ -161,8 +226,8 @@ workaround.
 ### BEH-CREDIT-006: Transaction Blocking When Limit Exceeded
 
 **Claim:**  
-> When a customer's balance exceeds their credit limit, the CREDCHK program
-> blocks any new transactions.
+> When a customer's balance exceeds their credit limit, the system blocks any
+> new transactions.
 
 **Evidence:**
 - `EV-CREDIT-015`: Job log showing "TRANSACTION BLOCKED - LIMIT EXCEEDED"
@@ -218,6 +283,53 @@ system. Batch is simpler but less responsive.
 
 **Question for SME:**  
 > Does this real-time approach align with your business goals? Any concerns?
+
+**SME Answer:**
+
+(Space for response)
+```
+
+---
+
+### 6. Validation Scenario Seeds (`VAL-*`)
+
+**Purpose:** Confirm whether BRD-stage validation scenario seeds are useful,
+accurate, and ready to feed acceptance criteria, golden master planning, or SOW
+scope discussion.
+
+**Characteristics:**
+- Item represents a review scenario, not a formal `TC-*` test case
+- Scenario links to existing `BR-*`, `BEH-*`, and `EV-*`
+- Scenario may be `ready_for_spec`, `needs_sme_review`, or
+  `needs_runtime_evidence`
+
+**Questions to Ask:**
+- "Is this a valid business scenario for reviewing the BRD?"
+- "Should this become an acceptance-criteria candidate, golden-master
+  candidate, SOW scope note, or be deferred?"
+- "What evidence is missing before this can become a formal test case?"
+
+**SME Outcomes:**
+- `confirmed`: Scenario is valid and can feed downstream planning
+- `rejected`: Scenario is not meaningful for this capability
+- `needs_more_evidence`: Scenario is valid but needs runtime/sample evidence
+- `deferred`: Scenario depends on another owner or later scope decision
+- `split_into_follow_ups`: Scenario should be split into smaller cases
+
+**Recording in Question Pack:**
+```markdown
+### VAL-CREDIT-004: Order Amount Equals Credit Limit
+
+**Scenario Summary:**
+> Confirm the inclusive/exclusive boundary for the credit limit comparison.
+
+**Related BR/BEH:** `BR-CREDIT-LIMIT-001`, `BEH-CREDIT-LIMIT-001`
+**Evidence:** `EV-CREDIT-LIMIT-001`
+**AI Suggested Decision:** `needs_sme_review`
+
+**Question for SME:**
+> If order amount equals credit limit, is the order allowed, rejected, or
+> conditionally allowed?
 
 **SME Answer:**
 
@@ -362,10 +474,11 @@ are there any exceptions?"
 **Right:**
 ```
 (First question)
-"Does the system validate against a blacklist or a whitelist?"
+"Is customer validation based on a blocked-customer list, an
+approved-customer list, or another policy?"
 
 (If SME answers "blacklist", follow up with:)
-"Are there any exceptions or edge cases to the blacklist validation?"
+"Are there any exceptions or edge cases to the blocked-customer policy?"
 ```
 
 ### ❌ Asking SME to Code-Read
@@ -377,8 +490,8 @@ are there any exceptions?"
 
 **Right:**
 ```
-"We see validation logic in CRDJOB. What is the system supposed to validate:
-blacklist or whitelist?"
+"The evidence shows a customer-account validation step before the request can
+continue. What business policy is being checked?"
 ```
 
 ### ❌ Collapsing Multiple Artifacts
@@ -414,7 +527,7 @@ in the artifact.
 
 **Example:**
 ```yaml
-question_posed: "Does the system validate against a blacklist or whitelist?"
+question_posed: "Is customer validation based on a blocked-customer list, an approved-customer list, or another policy?"
 sme_answer: |
   Whitelist. But there's also an exception: legacy accounts from before 2010
   are always allowed, blacklist or not.
@@ -454,7 +567,7 @@ suggested_revision: |
 
 **Example:**
 ```yaml
-question_posed: "Does the system enforce the credit limit, and if so, what's the mechanism?"
+question_posed: "Does the system enforce the credit limit, and are there any business exceptions to that enforcement?"
 sme_answer: |
   Yes, it enforces the limit. The CREDCHK program blocks any transaction over
   the limit. As for whether there are any exceptions, I need to check with

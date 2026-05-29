@@ -1,0 +1,73 @@
+schema_version: "0.1"
+
+documents:
+  - doc_id: DOC-CREDIT-CHECK-001
+    title: "Credit Check Process"
+    path: "source-docs/credit-check-process.vsdx"
+    format: vsdx
+    source_type: flow_diagram
+    owner: "Credit Operations"
+    document_date: "2026-04-01"
+    sensitivity: synthetic_non_production
+    authorization_status: approved
+    readable_status: extracted
+    extraction_method: "diagram XML labels and connector text"
+    pages_or_sheets: "Main Process"
+    quality_notes: "All business nodes and connectors had readable labels."
+    used_in:
+      - 01-operation-business-flow.md
+      - 02-system-flow.md
+      - 03-program-flow.md
+  - doc_id: DOC-CREDIT-CHECK-002
+    title: "Credit Check Data Fields"
+    path: "source-docs/credit-check-data.xlsx"
+    format: xlsx
+    source_type: data_dictionary
+    owner: "Data Office"
+    document_date: "2026-04-02"
+    sensitivity: synthetic_non_production
+    authorization_status: approved
+    readable_status: extracted
+    extraction_method: "workbook sheet rows"
+    pages_or_sheets: "Fields"
+    quality_notes: "Field names and update direction visible; retention not documented."
+    used_in:
+      - 04-data-flow.md
+
+fragments:
+  - fragment_id: FRAG-CREDIT-CHECK-001
+    doc_id: DOC-CREDIT-CHECK-001
+    locator: "Main Process shape Submit Application"
+    summary: "Branch starts when branch staff submit a credit application."
+    candidate_view: operation_business_flow
+    evidence_strength: high
+  - fragment_id: FRAG-CREDIT-CHECK-002
+    doc_id: DOC-CREDIT-CHECK-001
+    locator: "Main Process connector Host Credit Check"
+    summary: "Core banking sends the application to host credit checking."
+    candidate_view: system_flow
+    evidence_strength: high
+  - fragment_id: FRAG-CREDIT-CHECK-003
+    doc_id: DOC-CREDIT-CHECK-001
+    locator: "Main Process note CCHK100"
+    summary: "Diagram labels CCHK100 as the host credit check program."
+    candidate_view: program_flow
+    evidence_strength: medium
+  - fragment_id: FRAG-CREDIT-CHECK-004
+    doc_id: DOC-CREDIT-CHECK-002
+    locator: "Fields row 7"
+    summary: "APPLICPF application status file is updated with approve or decline recommendation."
+    candidate_view: data_flow
+    evidence_strength: high
+  - fragment_id: PGM-CREDIT-CHECK-001
+    doc_id: DOC-CREDIT-CHECK-001
+    locator: "Main Process note CCHK100"
+    summary: "CCHK100 is the SME-confirmed IBM i program-analysis focus."
+    candidate_view: program_flow
+    evidence_strength: medium
+  - fragment_id: DATA-CREDIT-CHECK-001
+    doc_id: DOC-CREDIT-CHECK-002
+    locator: "Fields row 7"
+    summary: "APPLICPF is the SME-confirmed IBM i application status file updated by the recommendation result."
+    candidate_view: data_flow
+    evidence_strength: high

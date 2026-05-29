@@ -2,6 +2,36 @@
 
 ## Status: draft → needs_sme_review
 
+## Mermaid Flow Diagram
+
+```mermaid
+flowchart LR
+  subgraph EXT["External Networks"]
+    SYS_CARD_AUTH_01["Visa"]
+    SYS_CARD_AUTH_02["Mastercard"]
+  end
+
+  subgraph INT["Internal Channels"]
+    SYS_CARD_AUTH_03["CSR Workstation (5250 emulator)"]
+    SYS_CARD_AUTH_04["IBM i Job Scheduler"]
+  end
+
+  IF_CARD_AUTH_01["IF-CARD-AUTH-01 ISO 8583 over MQ / mTLS"]
+  IF_CARD_AUTH_02["IF-CARD-AUTH-02 ISO 8583 over MQ / mTLS"]
+  MODULE_CARD_AUTH_001["IBM i CARD-AUTH module"]
+  SYS_CARD_AUTH_10["GL System via GLPOSTPF + SFTP"]
+  SYS_CARD_AUTH_11["Risk Monitoring via RECONDTAQ"]
+  SYS_CARD_AUTH_12["Compliance Reporting via RECONPRT spool"]
+
+  SYS_CARD_AUTH_01 --> IF_CARD_AUTH_01 --> MODULE_CARD_AUTH_001
+  SYS_CARD_AUTH_02 --> IF_CARD_AUTH_02 --> MODULE_CARD_AUTH_001
+  SYS_CARD_AUTH_03 -->|5250 over TLS| MODULE_CARD_AUTH_001
+  SYS_CARD_AUTH_04 -->|22:00 scheduler trigger| MODULE_CARD_AUTH_001
+  MODULE_CARD_AUTH_001 -->|daily by 06:00| SYS_CARD_AUTH_10
+  MODULE_CARD_AUTH_001 -->|async DTAQ| SYS_CARD_AUTH_11
+  MODULE_CARD_AUTH_001 -->|manual spool review| SYS_CARD_AUTH_12
+```
+
 ## Upstream Systems
 | System ID | Name | Type | Integration Pattern | Flow(s) | Evidence |
 | --- | --- | --- | --- | --- | --- |

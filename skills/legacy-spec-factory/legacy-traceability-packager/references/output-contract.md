@@ -33,6 +33,7 @@ The output directory is **always** `06_traceability_packages/<CAPABILITY-SLUG>/`
 | `capability` | yes | `spec.yaml.capability` | copied verbatim — `id`, `name`, `slug`, `owner` |
 | `status` | yes | this skill | one of `pass`, `pass_with_warnings`, `blocked` |
 | `source_artifacts` | yes | upstream | path + ID + status for every artefact consulted |
+| `brd_functional_coverage` | yes if BRD supplied | BRD / review-decision | SME-required BRD sections 1-9 coverage audit |
 | `id_inventory` | yes | this run | counts and full ID lists per prefix |
 | `evidence_coverage` | yes | this run | per-`EV-*` reverse index |
 | `behavior_coverage` | yes | this run | per-`BEH-*` reverse index |
@@ -84,6 +85,37 @@ source_artifacts:
 ```
 
 Every path must be relative to the repository root. Statuses must use each artefact's own enum (`spec.yaml.status`, `inventory.sme_review.decision`, etc.).
+
+### `brd_functional_coverage`
+
+Required when `source_artifacts.brd` is present:
+
+```yaml
+brd_functional_coverage:
+  required_sections_total: 9
+  accepted: 8
+  accepted_with_tbd: 1
+  blocked: 0
+  sections:
+    - target_id: BRD-<SLUG>-001#section-03
+      section_number: 3
+      section_name: Channels
+      coverage_decision: accepted_with_tbd
+      related_tbd_ids: [TBD-<SLUG>-004]
+      referenced_evidence: [EV-<SLUG>-012]
+      reviewed_by: Jane Doe
+      reviewed_at: 2026-05-28
+      findings: []
+```
+
+Rules:
+
+- Sections 1-9 must appear exactly once when the BRD is part of the package.
+- `coverage_decision: blocked` or `needs_more_evidence` raises
+  `BRD-FUNCTIONAL-COVERAGE-BLOCKED`.
+- Missing coverage rows raise `BRD-FUNCTIONAL-COVERAGE-MISSING`.
+- `accepted_with_tbd` is allowed only when every named `TBD-*` resolves in the
+  ID inventory and has a non-blocking or explicit deferred status.
 
 ### `id_inventory`
 
@@ -280,6 +312,8 @@ Every finding row has a `find_id` minted as `FIND-<CAPABILITY-SLUG>-<NNN>` and a
 | `EVIDENCE-SOURCE-NOT-AUTHORIZED` | 4 | manifest marks `redaction_required: false` but `source_path_verified` is not `true` |
 | `EVIDENCE-APPROVED-PATH-MISSING` | 4 | manifest missing `redacted_filename` / approved analysis path |
 | `EVIDENCE-SME-APPROVAL-MISSING` | 4 | manifest marks `sme_required: true` but `sme_approval` is not `true` |
+| `BRD-FUNCTIONAL-COVERAGE-MISSING` | 6 | BRD supplied but one or more required section coverage rows are missing |
+| `BRD-FUNCTIONAL-COVERAGE-BLOCKED` | 6 | BRD required section coverage is blocked or needs more evidence |
 | `BR-NO-EVIDENCE` | 5 | approved `BR-*` with empty `evidence_ids[]` |
 | `BR-NO-BEHAVIOR` | 5 | approved `BR-*` with empty `linked_behaviors[]` |
 | `BR-MISSING-AC` | 5 | approved `BR-*` with no linked `AC-*` |
@@ -296,6 +330,7 @@ Every finding row has a `find_id` minted as `FIND-<CAPABILITY-SLUG>-<NNN>` and a
 | Rule | Step | Description |
 | --- | --- | --- |
 | `ORPHAN-EVIDENCE` | 6 | `EV-*` referenced by nothing; not a closure claim |
+| `BRD-FUNCTIONAL-COVERAGE-TBD` | 6 | BRD required section accepted with a named non-blocking / deferred `TBD-*` |
 | `DEC-NO-RATIONALE` | 3 / 5 | `DEC-*` whose rationale cites no `BR-*`, `BEH-*`, or constraint |
 | `BLOCKING-TBD-DEFERRED` | 7 | blocking TBD with all four deferral fields satisfied + `deferral_recorded_in` pointer |
 | `AC-NOT-APPROVED` (SME-waived) | 5 | warning version when `spec-review.md` records a named waiver |

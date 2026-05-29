@@ -3,7 +3,7 @@
 ![Legacy Spec Factory skill family poster](../../docs/legacy-spec-factory/assets/legacy-spec-factory-skill-family-poster.svg)
 
 This domain captures the public-stable baseline of `wwa-lab/legacy-spec-factory`
-at source commit `8871a6b`.
+at source commit `3b6a16b`.
 
 Legacy Spec Factory is the reverse-modernization companion to the IBM i delivery
 family. It turns IBM i / AS400 legacy evidence into reviewable, evidence-backed
@@ -21,10 +21,12 @@ source skills already have stable flat OpenCode names such as
 ## Chain
 
 ```text
-Raw IBM i / AS400 evidence
-  -> Evidence Intake
-  -> Inventory
-  -> Program / Flow / Module Analysis
+Raw Office / Visio / PDF / image documents
+  -> Document Evidence Intake
+  -> Flow Context Normalization
+  -> Module Context Intake
+  -> Selective IBM i Evidence Intake / Inventory / Source Analysis
+  -> Module Analysis
   -> BRD / Spec Synthesis
   -> SME Review and Decisions
   -> Traceability Package / SDD Handoff
@@ -36,6 +38,9 @@ Raw IBM i / AS400 evidence
 | Skill | Purpose |
 |-------|---------|
 | `legacy-modernization-orchestrator` | Entry-point router for reverse-modernization work and next-step selection. |
+| `legacy-document-evidence-intake` | Normalize raw Office, Visio, PDF, image, and scanned document evidence into reviewable text/manifest packages. |
+| `legacy-flow-context-normalizer` | Convert scattered documents, specs, RAG summaries, and SME notes into draft four-view context for SME review. |
+| `legacy-module-context-intake` | Normalize approved module-first context, RAG output, or accepted sparse flow context before module analysis. |
 | `legacy-ibmi-evidence-intake` | Register, classify, authorize, and govern modernization evidence before analysis. |
 | `legacy-ibmi-inventory` | Build the initial IBM i asset inventory and object map. |
 | `legacy-ibmi-program-analyzer` | Analyze one RPGLE, CLLE, or COBOL program with evidence-backed behavior extraction. |

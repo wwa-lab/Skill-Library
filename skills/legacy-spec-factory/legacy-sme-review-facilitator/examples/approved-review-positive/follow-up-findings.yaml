@@ -35,6 +35,23 @@ findings:
     blocking_status: "blocking"
     routing_destination: "Operations"
 
+  - finding_id: "FIND-CREDIT-CHECK-003"
+    source_item_id: "TBD-CREDIT-CHECK-004"
+    category: "brd_functional_coverage_gap"
+    severity: "medium"
+    description: |
+      BRD section 3 is accepted for approval, but MobileX channel applicability
+      must be confirmed before downstream implementation planning treats it as
+      in scope.
+    sme_context: |
+      SME accepted the BRD channel section with MobileX carried as a
+      non-blocking follow-up.
+    owner: "Digital Channels SME"
+    target_date: "2026-05-23"
+    next_step: "Confirm whether MobileX initiates or consumes the Credit Check capability."
+    blocking_status: "non_blocking"
+    routing_destination: "legacy-brd-writer"
+
 routing:
   - finding_ids:
       - "FIND-CREDIT-CHECK-001"
@@ -48,6 +65,13 @@ routing:
     reason: "Deferred TBD requires operations confirmation."
     target_date: "2026-05-23"
 
+  - finding_ids:
+      - "FIND-CREDIT-CHECK-003"
+    next_skill: "legacy-brd-writer"
+    reason: "Accepted BRD section coverage with named non-blocking follow-up."
+    target_date: "2026-05-23"
+
 summary: |
-  One non-blocking rule revision can proceed to spec refinement. One blocking
-  deferred TBD remains open until Operations confirms validation sequence.
+  One non-blocking rule revision can proceed to spec refinement. One
+  non-blocking BRD channel follow-up remains visible. One blocking deferred TBD
+  remains open until Operations confirms validation sequence.

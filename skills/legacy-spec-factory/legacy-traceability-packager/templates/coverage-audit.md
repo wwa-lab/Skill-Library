@@ -16,6 +16,23 @@
 > / `blocked`) is determined by the rules in
 > `references/output-contract.md`, not by these numbers.
 
+## BRD Functional Coverage
+
+Required when a BRD is supplied. Sections 1-9 must be accepted or accepted with
+a named non-blocking / deferred `TBD-*`.
+
+| BRD Section | Required Area | Coverage Decision | Related TBD | Finding |
+| --- | --- | --- | --- | --- |
+| 1 | Function Purpose | accepted | — | — |
+| 2 | Business Scenarios / Use Cases | accepted | — | — |
+| 3 | Channels | accepted | — | — |
+| 4 | User Interface / User Touchpoints | accepted | — | — |
+| 5 | System Interfaces | accepted | — | — |
+| 6 | Process Flow | accepted | — | — |
+| 7 | Validation Rules | accepted | — | — |
+| 8 | Error Handling | accepted | — | — |
+| 9 | Dependencies | accepted | — | — |
+
 ## Evidence Coverage
 
 | EV ID | Sensitivity | Redaction | Referenced By | Orphan? |

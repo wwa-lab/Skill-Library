@@ -3,7 +3,8 @@ skill: legacy-brd-writer
 scorecard_version: v0.1.1
 static_score: 9.56
 decision: field-pilot ready
-status: current
+status: superseded
+superseded_by: docs/reviews/legacy-brd-writer-v0.1.2-scorecard.md
 last_verified: 2026-05-16
 runtimes_tested:
   codex: { status: passed, model: gpt-5.4-mini, date: 2026-05-16 }

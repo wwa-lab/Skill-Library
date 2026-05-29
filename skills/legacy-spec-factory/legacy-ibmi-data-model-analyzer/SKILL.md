@@ -6,7 +6,7 @@ metadata:
   author: Leo L Zhang
   maintainer: platform-engineering
   source: https://github.com/wwa-lab/legacy-spec-factory
-  source_commit: 8871a6b
+  source_commit: 3b6a16b
   domain: legacy-spec-factory
 ---
 
@@ -85,7 +85,7 @@ Stop and require clarification if:
 - File object is not found in the approved inventory
 - A program writes, updates, or deletes an in-scope file but lacks an approved
   `program-analysis-<OBJ-ID>.md`
-- Source contains raw, unredacted production data (require redaction review per `../../../docs/legacy-spec-factory/data-collection-and-redaction.md`)
+- Source contains raw, unredacted production data (require redaction review per `../../docs/data-collection-and-redaction.md`)
 - Business meaning of fields or relationships is ambiguous (mark as TBD, do not invent)
 - Retention, archival, or purge policies are unknown (mark TBD for SME decision)
 
@@ -109,9 +109,9 @@ Use:
 - `references/output-contract.md` for stable ID minting and field definitions
 - `references/dds-patterns.md` for physical/logical file recognition
 - `references/db2-patterns.md` for DB2 for i metadata interpretation
-- `../../../docs/legacy-spec-factory/id-conventions.md` for stable IDs (reuse OBJ-*, EV-*; mint DATA-*, TBD-*, STEP-*)
-- `../../../docs/legacy-spec-factory/evidence-and-knowledge-taxonomy.md` for evidence strength labels
-- `../../../docs/legacy-spec-factory/input-readiness-rubric.md` for input readiness scoring
+- `../../docs/id-conventions.md` for stable IDs (reuse OBJ-*, EV-*; mint DATA-*, TBD-*, STEP-*)
+- `../../docs/evidence-and-knowledge-taxonomy.md` for evidence strength labels
+- `../../docs/input-readiness-rubric.md` for input readiness scoring
 
 Examples:
 
@@ -313,7 +313,7 @@ mutate `capabilities[].stage_id` or `current_focus`.
 
 After a run, append one `history[]` entry to
 `<project-root>/workflow-state.yaml` per
-[`docs/workflow-state-contract.md`](../../../docs/legacy-spec-factory/workflow-state-contract.md):
+[`docs/workflow-state-contract.md`](../../docs/workflow-state-contract.md):
 
 ```yaml
 history:

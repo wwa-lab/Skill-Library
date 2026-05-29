@@ -1,12 +1,12 @@
 ---
 name: legacy-step-validator
-description: "Use when teams need to validate any Legacy Spec Factory step artifact against the INPUT → EXECUTION → OUTPUT → VALIDATION contract. Use after a step has produced its draft artifact (inventory, program analysis, flow, module, spec, or handoff bundle) and you need a structured `pass` / `pass_with_warnings` / `blocked` review report with mechanical, semantic, and SME-readiness findings. This skill does not produce business artifacts itself and does not replace SME approval — it surfaces what is mechanically valid, what needs semantic review, and what only an SME can decide."
+description: Use when any Legacy Spec Factory step artifact needs validation against the INPUT → EXECUTION → OUTPUT → VALIDATION contract. Use after a step has produced its draft artifact (inventory, program analysis, flow, module, spec, or handoff bundle) and you need a structured `pass` / `pass_with_warnings` / `blocked` review report with mechanical, semantic, and SME-readiness findings. This skill does not produce business artifacts itself and does not replace SME approval — it surfaces what is mechanically valid, what needs semantic review, and what only an SME can decide.
 license: Apache-2.0
 metadata:
   author: Leo L Zhang
   maintainer: platform-engineering
   source: https://github.com/wwa-lab/legacy-spec-factory
-  source_commit: 8871a6b
+  source_commit: 3b6a16b
   domain: legacy-spec-factory
 ---
 
@@ -166,18 +166,18 @@ Use:
 
 Follow:
 
-- `../../../docs/legacy-spec-factory/evidence-and-knowledge-taxonomy.md` — knowledge type and
+- `../../docs/evidence-and-knowledge-taxonomy.md` — knowledge type and
   evidence strength rules.
-- `../../../docs/legacy-spec-factory/data-collection-and-redaction.md` — Evidence Authorization Gate
+- `../../docs/data-collection-and-redaction.md` — Evidence Authorization Gate
   and governed redaction.
-- `../../../docs/legacy-spec-factory/input-readiness-rubric.md` — input readiness scoring.
-- `../../../docs/legacy-spec-factory/id-conventions.md` — ID prefixes and `STEP-*` /
+- `../../docs/input-readiness-rubric.md` — input readiness scoring.
+- `../../docs/id-conventions.md` — ID prefixes and `STEP-*` /
   `TBD-*` minting.
-- `../../../docs/legacy-spec-factory/skill-review-gate.md` — when the validator is reviewing
+- `../../docs/skill-review-gate.md` — when the validator is reviewing
   a skill itself; otherwise the skill review gate is out of scope.
-- `../../../docs/legacy-spec-factory/forward-sdlc-contract.md` — Forward Handoff Gate
+- `../../docs/forward-sdlc-contract.md` — Forward Handoff Gate
   conditions.
-- `../../../templates/legacy-spec-factory/skill-review-scorecard.md` — when the validator is
+- `../../templates/skill-review-scorecard.md` — when the validator is
   also producing a skill-level scorecard (rare; usually a separate
   Codex review run).
 
@@ -244,7 +244,7 @@ Examples:
 
 6. **Check SME Review Readiness (not approval)**
    - Confirm an SME owner is named for every claim that needs SME
-     approval per `../../../docs/legacy-spec-factory/evidence-and-knowledge-taxonomy.md`.
+     approval per `../../docs/evidence-and-knowledge-taxonomy.md`.
    - Confirm the artifact carries a review checklist appropriate to the
      step.
    - Do **not** approve on the SME's behalf. If SME approval is
@@ -364,7 +364,7 @@ See `references/finding-taxonomy.md` for the full model.
 This is a governance / verification skill. It does NOT mutate
 `capabilities[].stage_id` or `current_focus`. After a validation run,
 append one `history[]` entry to `<project-root>/workflow-state.yaml` per
-[`docs/workflow-state-contract.md`](../../../docs/legacy-spec-factory/workflow-state-contract.md).
+[`docs/workflow-state-contract.md`](../../docs/workflow-state-contract.md).
 
 **Report path pattern:** alongside the validated artifact, e.g.
 `02_programs/<MODULE>/<OBJ>/program-analysis.review.md`,

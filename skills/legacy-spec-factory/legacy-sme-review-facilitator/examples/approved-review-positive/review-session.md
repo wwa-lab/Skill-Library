@@ -21,11 +21,15 @@
 **Capability:** `CREDIT-CHECK`
 
 **Review Focus**
+- [x] Review required BRD functional-analysis sections 1-9
 - [x] Confirm observed behaviors (`BEH-*`)
 - [x] Validate inferred business rules (`BR-*` seeds)
 - [x] Resolve open TBDs (`TBD-*`)
 
 **Specific Items in Scope**
+- `BRD-CREDIT-CHECK-001#section-01` through `#section-09`: required BRD
+  functional-analysis coverage
+- `TBD-CREDIT-CHECK-004`: MobileX channel applicability
 - `BEH-CREDIT-CHECK-006`: transaction blocking when limit exceeded
 - `BR-CREDIT-CHECK-003`: interest compounding rule
 - `TBD-CREDIT-CHECK-002`: validation sequence ownership
@@ -46,4 +50,5 @@
 ## Next Steps
 
 Route the confirmed and rejected decisions to `legacy-spec-writer`; route the
-deferred TBD to the Operations owner named in `follow-up-findings.yaml`.
+MobileX channel follow-up to Digital Channels and the validation sequence TBD
+to the Operations owner named in `follow-up-findings.yaml`.

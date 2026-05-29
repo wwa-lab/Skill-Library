@@ -184,12 +184,37 @@ After all four views are built, run these checks:
 | --- | --- |
 | Actor → Code Path | Every ACTOR-* in View 1 must map to at least one entry node in View 3 OR be tagged `manual_actor: yes`. |
 | System → Flow | Every SYS-* in View 2 must appear in View 3 as the source/target of at least one flow. |
-| Rule Seed → Program | Every BR-* in View 1 must reference at least one program from View 3 or one object from View 4. |
+| Rule Seed → Evidence | Every BR-* in View 1 must reference evidence from View 3, View 4, or SME notes; do not frame the rule around program/file names unless the technical object is itself the business term. |
 | Data Object → Flow | Every object row in View 4 must reference at least one flow in View 3. |
 | Flow → Data | Every flow in View 3 should touch at least one object in View 4 (otherwise the flow is pure compute — possible but unusual). |
 
 Mismatches create cross-view TBDs that must be resolved (or explicitly
 waived by SME) before the module is approved.
+
+## BRD Functional Analysis Crosswalk
+
+After the four views pass cross-view consistency, populate
+`module-overview.md` with a BRD Functional Analysis Input Crosswalk. The goal
+is to make `legacy-brd-writer` deterministic: it should copy and synthesize
+from named view rows and evidence links, not infer missing BRD sections from
+program names.
+
+| BRD Area | Module Sources | Gap Handling |
+| --- | --- | --- |
+| Function Purpose | Scope Statement + View 1 Business Scope | If business purpose is only a program label, create `TBD-*`. |
+| Business Scenarios / Use Cases | View 1 Business Events, BAU Rhythm, Manual Intervention Points | Missing scenario owner or outcome becomes `TBD-*`. |
+| Channels | Flow Trigger Context + View 2 Upstream Systems + View 1 Actors | Do not infer channels from object names; mark missing as `TBD-*`. |
+| User Interface / Touchpoints | View 1 manual points + screen/report analyzer outputs + flow UI surfaces | If triggered screen/report analysis is required but absent, block or carry a source TBD per trigger rules. |
+| System Interfaces | View 2 systems, interfaces, integration patterns | Keep interface purpose business-readable; leave protocol details as evidence. |
+| Process Flow | View 1 events + View 3 flow inventory | Convert flows to business phases; do not copy call topology as BRD process. |
+| Validation Rules | View 1 BR seeds + flow branch points + error propagation | Seeds remain review questions; BRD does not promote them to approved rules. |
+| Error Handling | View 1 Exception Lifecycle + flow/program error summaries | Unclear business intent becomes SME `TBD-*`. |
+| Dependencies | View 2 integrations + View 3 cross-flow dependencies + View 4 data dependencies | Do not prescribe mitigations; list business role and risk only. |
+
+Optional BRD sections 10-12 must be marked `not_evidenced` unless real security
+/ authentication evidence, workflow or design notes, or source document mapping
+exists in the input package. Optional coverage is allowed to be absent; do not
+pad it with plausible text.
 
 ---
 
@@ -203,5 +228,6 @@ are found." This has no code path.
 `evidence_strength: confirmed_by_sme` and link to a named SME note.
 Do not try to map it to View 3 (no code). Tag the associated business
 rule seed as "BAU-driven, not enforced by code" — this is critical
-information for spec-writer to decide whether the target system should
-encode this rule programmatically or preserve the manual process.
+information for `legacy-brd-writer` to capture the business choice first, and
+for later spec-writing to decide whether the target system should encode this
+rule programmatically or preserve the manual process.

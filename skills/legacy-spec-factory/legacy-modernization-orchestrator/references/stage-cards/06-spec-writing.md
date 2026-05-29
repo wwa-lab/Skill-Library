@@ -1,8 +1,9 @@
 # Stage 06: Spec Writing (one capability at a time)
 
-**You are here if:** module analysis is approved (4 views + overview) AND
-you want to produce a per-capability `spec.yaml` + `spec.md` that downstream
-forward SDLC can consume.
+**You are here if:** module analysis is approved (4 views + overview), the
+selected `CAP-*` has an approved BRD Package (or an explicit
+technical-spec-only bypass), and you want to produce a per-capability
+`spec.yaml` + `spec.md` that downstream forward SDLC can consume.
 
 You produce **one spec per `CAP-*`** capability seed listed in
 `module-overview.md`. Do not bundle multiple capabilities into one spec.
@@ -10,6 +11,9 @@ You produce **one spec per `CAP-*`** capability seed listed in
 ## Need before starting
 
 - `04_modules/<MODULE-SLUG>/` — overview + all 4 views, all approved
+- `05_brds/<CAPABILITY-SLUG>/` — approved BRD Package with `brd.md`,
+  `brd-review.md`, `validation-scenarios.md`, `traceability.md`, and review /
+  approval evidence; bypass allowed only when explicitly recorded as a risk
 - A single `CAP-*` from `module-overview.md` to scope this spec
 - Linked `BR-*` rules and `evidence_id`s for that capability
 - SME availability for `inferred_business_rule` confirmation and the
@@ -17,7 +21,7 @@ You produce **one spec per `CAP-*`** capability seed listed in
 
 ## Run
 
-- **Skill:** `legacy-spec-writer` (Implemented v0.1.0)
+- **Skill:** `legacy-spec-writer` (Implemented v0.1.2)
 - **Manual fallback:** Use `schemas/spec.schema.yaml` and the templates in
   `skills/legacy-spec-writer/references/`
 
@@ -50,6 +54,8 @@ Optional companions:
 - **Name:** Evidence Approval Gate (during writing) → SME approval
   (transition to `approved`)
 - **Check:**
+  - Approved BRD Package exists for the selected `CAP-*`, or an explicit
+    technical-spec-only bypass is recorded
   - Every rule has at least one linked `evidence_id`
   - No rule with `knowledge_type: inferred_business_rule` has
     `review_status: needs_sme_review`

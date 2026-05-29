@@ -1,6 +1,6 @@
 # Hard Gates Reference
 
-Four non-bypassable gates protect the reverse chain. The orchestrator must
+Five gates protect the reverse chain. The orchestrator must
 check the applicable gate before routing across the corresponding boundary.
 
 ## Gate 1 — Evidence Authorization Gate
@@ -50,7 +50,29 @@ check the applicable gate before routing across the corresponding boundary.
 review note and changing `blocking: pending_sme_judgment` → `no`. Record the
 SME decision in `sme_review.notes`.
 
-## Gate 3 — Evidence Approval Gate
+## Gate 3 — BRD Review Gate
+
+**Boundary:** approved module analysis → `legacy-spec-writer`
+
+**Pass criteria (all required unless an explicit technical-spec-only bypass is
+recorded):**
+
+- `05_brds/<CAPABILITY-SLUG>/brd.md` exists for the selected `CAP-*`
+- BRD sections 1-9 are present and SME-reviewable
+- missing section details are explicit named `TBD-*`, not silent blanks
+- BRD review evidence records SME / business approval, such as
+  `brd-review.md` sign-off or `review-decision.yaml`
+- blocked BRD findings are resolved or explicitly accepted as non-blocking
+
+**Block actions:**
+
+1. Route to `legacy-brd-writer` if the BRD Package is missing or incomplete.
+2. Route to `legacy-sme-review-facilitator` if BRD content exists but review /
+   approval is missing.
+3. Refuse standard spec-writing until the gate passes or the requester records
+   a technical-spec-only bypass with approver and risk acceptance.
+
+## Gate 4 — Evidence Approval Gate
 
 **Boundary:** `business-rules.md` (draft) → `legacy-spec-writer`,
 or any approval transition on rules / behaviors
@@ -80,7 +102,7 @@ canonical taxonomy.
 strength; they need architecture/product approval recorded in
 `review_notes`.
 
-## Gate 4 — Forward Handoff Gate
+## Gate 5 — Forward Handoff Gate
 
 **Boundary:** approved `spec.yaml` → `wwa-lab/build-agent-skill` chain
 
@@ -117,5 +139,5 @@ contract.
 - Every gate failure must produce a specific blocking ID list, not a generic
   "needs work" message.
 - A gate that has previously passed must be re-checked when the underlying
-  artifact changes (inventory updated → re-check Gate 2; rule added →
-  re-check Gate 3).
+  artifact changes (inventory updated -> re-check Gate 2; BRD updated ->
+  re-check Gate 3; rule added -> re-check Gate 4).

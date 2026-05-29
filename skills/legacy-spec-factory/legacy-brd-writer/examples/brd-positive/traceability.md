@@ -11,8 +11,11 @@
 Complete traceability for the Credit Limit Enforcement BRD.
 
 **Coverage:**
+- **Business Scenarios:** 3 documented
+- **Channels / Touchpoints / Interfaces:** 3 channels, 2 user touchpoints, 4 system interfaces
 - **Observed Behaviors:** 4 documented
 - **Inferred Business Rules:** 3 identified (all confirmed by SME)
+- **Validation Scenarios:** 4 drafted (all `VAL-*`; no formal `AC-*` or `TC-*`)
 - **Open Questions (TBDs):** 3 defined (0 blocking, 3 non-blocking)
 - **Evidence Items:** 5 collected
 
@@ -45,7 +48,20 @@ recorded for spec-writer promotion
 
 ---
 
-## 3. Open Questions (TBDs)
+## 3. Validation Scenarios → Rules / Behaviors / Evidence
+
+| VAL ID | Scenario | Type | Related BR/BEH | Evidence | Readiness |
+| --- | --- | --- | --- | --- | --- |
+| `VAL-CREDIT-LIMIT-001` | Order within credit limit | `happy_path` | `BR-CREDIT-LIMIT-001`, `BEH-CREDIT-LIMIT-001` | `EV-CREDIT-LIMIT-001`, `EV-CREDIT-LIMIT-004` | `ready_for_spec` |
+| `VAL-CREDIT-LIMIT-002` | Order exceeds credit limit | `exception` | `BR-CREDIT-LIMIT-001`, `BR-CREDIT-LIMIT-002`, `BEH-CREDIT-LIMIT-001`, `BEH-CREDIT-LIMIT-002` | `EV-CREDIT-LIMIT-001`, `EV-CREDIT-LIMIT-002`, `EV-CREDIT-LIMIT-003` | `ready_for_spec` |
+| `VAL-CREDIT-LIMIT-003` | Customer record not found | `exception` | `BR-CREDIT-LIMIT-003`, `BEH-CREDIT-LIMIT-003` | `EV-CREDIT-LIMIT-004` | `needs_sme_review` |
+| `VAL-CREDIT-LIMIT-004` | Order amount equals credit limit | `boundary` | `BR-CREDIT-LIMIT-001`, `BEH-CREDIT-LIMIT-001` | `EV-CREDIT-LIMIT-001` | `needs_sme_review` |
+
+**Validation:** ✓ All VAL-* items map to existing BR/BEH and EV; no AC-* or TC-* minted
+
+---
+
+## 4. Open Questions (TBDs)
 
 | TBD ID | Question | Category | Resolver | Blocking |
 | --- | --- | --- | --- | --- |
@@ -57,7 +73,7 @@ recorded for spec-writer promotion
 
 ---
 
-## 4. Evidence Items
+## 5. Evidence Items
 
 | EV ID | Type | Source | Sensitivity | Strength | Used By |
 | --- | --- | --- | --- | --- | --- |
@@ -71,48 +87,48 @@ recorded for spec-writer promotion
 
 ---
 
-## 5. Cross-Reference Matrix
+## 6. Cross-Reference Matrix
 
 ### Behaviors
 
 - **`BEH-CREDIT-LIMIT-001`**
-  - Mentioned in: `brd.md`, section 2.1
+  - Mentioned in: `brd.md`, section 7.1
   - Backed by: `EV-CREDIT-LIMIT-001` (confirmed_from_code)
   - Used in rules: `BR-CREDIT-LIMIT-001`, `BR-CREDIT-LIMIT-002`
 
 - **`BEH-CREDIT-LIMIT-002`**
-  - Mentioned in: `brd.md`, section 2.2
+  - Mentioned in: `brd.md`, section 7.1
   - Backed by: `EV-CREDIT-LIMIT-002` (code), `EV-CREDIT-LIMIT-003` (runtime)
   - Used in rules: `BR-CREDIT-LIMIT-002`
 
 - **`BEH-CREDIT-LIMIT-003`**
-  - Mentioned in: `brd.md`, section 2.3
+  - Mentioned in: `brd.md`, section 7.1
   - Backed by: `EV-CREDIT-LIMIT-004` (confirmed_from_code)
   - Used in rules: `BR-CREDIT-LIMIT-001`, `BR-CREDIT-LIMIT-003`
 
 - **`BEH-CREDIT-LIMIT-004`**
-  - Mentioned in: `brd.md`, section 2.4
+  - Mentioned in: `brd.md`, section 7.1
   - Backed by: `EV-CREDIT-LIMIT-005` (confirmed_from_code)
   - Used in rules: `BR-CREDIT-LIMIT-001`
 
 ### Rules
 
 - **`BR-CREDIT-LIMIT-001`** (Review Status: `needs_sme_review`)
-  - Mentioned in: `brd.md`, section 3.1
+  - Mentioned in: `brd.md`, section 7.2
   - Based on: `BEH-CREDIT-LIMIT-001`, `BEH-CREDIT-LIMIT-003`, `BEH-CREDIT-LIMIT-004`
   - Backed by: `EV-CREDIT-LIMIT-001`, `EV-CREDIT-LIMIT-004`, `EV-CREDIT-LIMIT-005`
   - Confidence: `high`
   - SME Decision: `confirmed_for_spec_promotion` — core company policy
 
 - **`BR-CREDIT-LIMIT-002`** (Review Status: `needs_sme_review`)
-  - Mentioned in: `brd.md`, section 3.2
+  - Mentioned in: `brd.md`, section 7.2
   - Based on: `BEH-CREDIT-LIMIT-001`, `BEH-CREDIT-LIMIT-002`
   - Backed by: `EV-CREDIT-LIMIT-001`, `EV-CREDIT-LIMIT-002`
   - Confidence: `high`
   - SME Decision: `confirmed_for_spec_promotion` — real-time feedback required
 
 - **`BR-CREDIT-LIMIT-003`** (Review Status: `needs_sme_review`)
-  - Mentioned in: `brd.md`, section 3.3
+  - Mentioned in: `brd.md`, section 7.2
   - Based on: `BEH-CREDIT-LIMIT-003`
   - Backed by: `EV-CREDIT-LIMIT-004`
   - Confidence: `medium`
@@ -121,33 +137,35 @@ recorded for spec-writer promotion
 ### Questions
 
 - **`TBD-CREDIT-LIMIT-001`**
-  - Mentioned in: `brd.md`, section 4.1; `brd-review.md`, reviewer notes
+  - Mentioned in: `brd.md`, section 13; `brd-review.md`, reviewer notes
   - Resolver: `SME (John Smith)`
   - Blocking: `no` (future policy decision)
   - Action: Preserve per-order legacy behavior; carry aggregate exposure as optional product question
 
 - **`TBD-CREDIT-LIMIT-002`**
-  - Mentioned in: `brd.md`, section 4.2
+  - Mentioned in: `brd.md`, section 13
   - Resolver: `SME / Architecture`
   - Blocking: `no` (deferred to modernized system design)
   - Action: Can be carried as TBD in spec
 
 - **`TBD-CREDIT-LIMIT-003`**
-  - Mentioned in: `brd.md`, section 4.3
+  - Mentioned in: `brd.md`, section 13
   - Resolver: `SME`
   - Blocking: `no` (edge case)
   - Action: Can be noted as edge case; requires edge case test in spec
 
 ---
 
-## 6. Validation Checklist
+## 7. Validation Checklist
 
 - [x] **All BEH-* items have ≥1 supporting EV-***
 - [x] **All BR-* items have ≥1 supporting BEH-* and ≥1 supporting EV-***
+- [x] **All VAL-* items map to existing BR-* or BEH-* and ≥1 EV-***
+- [x] **No VAL-* item mints AC-* or TC-* or invents exact expected output**
 - [x] **No dangling references** (all IDs in brd.md appear here)
 - [x] **All TBD-* items have a category and resolver**
 - [x] **No `sensitivity: unknown` in evidence items**
-- [x] **Traceability table is consistent** with brd.md section 5
+- [x] **Traceability table is consistent** with brd.md section 15
 
 ---
 
@@ -156,8 +174,11 @@ recorded for spec-writer promotion
 **BRD Status:** `approved` (SME sign-off 2026-05-15)
 
 **Readiness for Spec-Writer:**
+- SME-required sections 1-9 are present and traceable
 - All three business rules are confirmed by SME and remain `needs_sme_review`
   until spec-writer promotes them in `spec.yaml`
+- Four validation scenario seeds provide SME-visible coverage for downstream
+  acceptance and golden-master planning
 - Three TBDs identified: zero blocking, three non-blocking / deferred
 - No silent gaps — spec-writer has complete visibility
 

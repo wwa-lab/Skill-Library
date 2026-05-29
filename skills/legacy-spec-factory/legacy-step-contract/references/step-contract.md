@@ -73,6 +73,7 @@ creating a new one.
 | Inventory | `OBJ-*`, `EV-*`, `TBD-*`, `STEP-*` | — |
 | Program analysis | `BEH-*` (program-local), `EX-*` (program-local), `TBD-*`, `STEP-*` | `OBJ-*`, `EV-*` |
 | Flow analysis | `FLOW-*`, `NODE-*`, `EDGE-*`, `DATA-*`, `SEED-*`, `TBD-*` | `OBJ-*`, `EV-*`, program-level `BEH-*` |
+| Module context intake | `TBD-*` | `RAG-*`, `SNP-*`, `RUN-*`, `DD-*`, `EV-*`, `OBJ-*`, `FLOW-*`, `MODULE-*`, `VIEW-*` |
 | Module analysis | `MODULE-*`, `VIEW-*`, `ACTOR-*`, `SYS-*`, `BR-*` (seeds only — promotion happens in spec-writer), `CAP-*` (seeds only), `TBD-*` | `OBJ-*`, `EV-*`, `BEH-*`, `FLOW-*`, `NODE-*`, `EDGE-*`, `DATA-*` |
 | Spec writing | `BR-*` (final), `DEC-*`, `STEP-*`, `IN-*`, `OUT-*`, `AC-*`, `TC-*`, `TBD-*` | `OBJ-*`, `EV-*`, `BEH-*`, `FLOW-*`, `NODE-*`, `EDGE-*`, `DATA-*`, `CAP-*` |
 | Modernization decision writing (optional) | `DEC-*`, `TBD-*`, `STEP-*` | `CAP-*`, `BR-*`, `BEH-*`, `EV-*`, `OBJ-*`, `FLOW-*`, `AC-*`, existing `DEC-*` |
@@ -298,17 +299,55 @@ authoritative procedure.
     program analyses say
   - SME: recommended; required if a cross-program rule emerges
 
+### Flow Context Normalization (`legacy-flow-context-normalizer`)
+
+- INPUT: authorized scattered Visio / Word / Excel / PDF / PowerPoint / RAG /
+  SME-note documents, module identity, draft scope, and source-document
+  authorization metadata
+- EXECUTION: normalize scattered documents into the draft four-view context package
+  shape defined by
+  `skills/legacy-flow-context-normalizer/references/output-contract.md`
+- OUTPUT: `00_context_packages/<MODULE-SLUG>/flow-normalization/` with source
+  document index, four draft view files, evidence map, contradiction log, open
+  questions, and SME review pack
+- VALIDATION:
+  - mechanical: all ten files present; every view evidence ID appears in the
+    evidence map; source-document authorization and readable status are visible
+  - semantic: draft document-derived flow steps remain candidates and are not
+    promoted to approved `BR-*`; contradictions and obsolete-document signals
+    are not hidden
+  - SME: SME or accountable owner confirms context-view correctness before the
+    package can route to `legacy-module-context-intake`
+
+### Module Context Intake (`legacy-module-context-intake`)
+
+- INPUT: external RAG / code-knowledge-graph output, human-confirmed or draft
+  four-view module context, source snippets, dictionary mappings,
+  contradictions, retrieval gaps, and evidence authorization metadata
+- EXECUTION: normalize module-first context into the package shape defined by
+  `skills/legacy-module-context-intake/references/output-contract.md`
+- OUTPUT: `00_context_packages/<MODULE-SLUG>/` with context index, four view
+  context files, evidence map, contradiction log, and open questions
+- VALIDATION:
+  - mechanical: all eight files present; every view evidence ID appears in the
+    evidence map; contradictions and gaps are carried forward
+  - semantic: RAG candidates remain candidates and are not promoted to
+    approved `BR-*`; no hidden contradiction or source-authorization gap
+  - SME: module owner confirms business name and scope before downstream
+    module analysis
+
 ### Module Analysis (`legacy-ibmi-module-analyzer`)
 
 - INPUT: approved flow analyses for every flow in the module, BAU notes,
-  inventory
+  inventory, or a ready `00_context_packages/<MODULE-SLUG>/` package for
+  module-first runs
 - EXECUTION: module-analyzer 4-view synthesis per
   `docs/module-analysis-model.md`
 - OUTPUT: `04_modules/<MODULE-SLUG>/` with the four views plus overview
 - VALIDATION:
   - mechanical: all four views present; capability seeds carry IDs
-  - semantic: cross-flow synthesis matches the flow analyses; no new IBM i
-    facts that did not exist in upstream flows
+  - semantic: cross-flow synthesis matches the flow analyses or supplied
+    context package; no new IBM i facts that did not exist in upstream inputs
   - SME: required for capability seeds and `BR-*` seeds
 
 ### Spec Writing (`legacy-spec-writer`)

@@ -1,0 +1,66 @@
+schema_version: "0.1"
+package_type: flow_context_normalization
+
+module:
+  slug: PAYMENT-RECON
+  module_id: MODULE-PAYMENT-RECON-001
+  business_name: Payment Reconciliation
+  scope_statement: "Draft scope from supplied deck; not SME-confirmed."
+  owner: "Payments Operations SME"
+  source_state: draft_documents
+
+normalization:
+  skill: legacy-flow-context-normalizer
+  version: v0.1.0
+  generated_at: "2026-05-27T00:00:00Z"
+  status: blocked_pending_evidence
+  decision_reason: "Source deck sensitivity is unknown; do not inspect or normalize further."
+  downstream_next_step: legacy-ibmi-evidence-intake
+
+evidence_authorization:
+  status: unknown
+  evidence_manifest: null
+  redaction_notes: "Authorization and redaction status missing."
+
+input_documents:
+  - doc_id: DOC-PAYMENT-RECON-001
+    path: "source-docs/payment-recon-prod-deck.pptx"
+    format: pptx
+    role: process_deck
+    authorization_status: unknown
+    readable_status: not_needed
+
+output_files:
+  flow_context_index: flow-context-index.yaml
+  source_document_index: source-document-index.yaml
+  operation_business_flow: 01-operation-business-flow.md
+  system_flow: 02-system-flow.md
+  program_flow: 03-program-flow.md
+  data_flow: 04-data-flow.md
+  evidence_map: evidence-map.md
+  contradiction_log: contradiction-log.md
+  open_questions: open-questions.md
+  sme_review_pack: sme-review-pack.md
+
+coverage:
+  operation_business_flow: absent
+  system_flow: absent
+  program_flow: absent
+  data_flow: absent
+  evidence_map_complete: true
+  contradictions_carried_forward: true
+  sme_review_questions_prepared: true
+
+gates:
+  evidence_authorization_gate: blocked
+  readable_source_gate: warning
+  module_scope_gate: warning
+  four_view_gate: blocked
+  contradiction_visibility_gate: warning
+  sme_review_gate: blocked
+  rule_promotion_gate: pass
+
+blocking_items:
+  - id: TBD-PAYMENT-RECON-001
+    reason: "Evidence authorization is unknown for the supplied deck."
+    owner: "legacy-ibmi-evidence-intake"

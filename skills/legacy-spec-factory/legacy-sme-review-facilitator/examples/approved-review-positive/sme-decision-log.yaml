@@ -10,6 +10,123 @@ sme_reviewer:
   date: "2026-05-16"
 
 decisions:
+  - item_id: "BRD-CREDIT-CHECK-001#section-01"
+    item_type: "brd_section_coverage"
+    section_number: 1
+    section_name: "Function Purpose"
+    question_posed: "Is BRD section 1 fit for BRD approval?"
+    sme_answer: "Yes. Sections 1-9 are acceptable. Carry MobileX and validation sequence as non-blocking follow-ups."
+    decision_outcome: "accepted"
+    referenced_evidence:
+      - "EV-CREDIT-CHECK-008"
+    sign_off_flag: "JDM 2026-05-16"
+
+  - item_id: "BRD-CREDIT-CHECK-001#section-02"
+    item_type: "brd_section_coverage"
+    section_number: 2
+    section_name: "Business Scenarios / Use Cases"
+    question_posed: "Are the BRD scenarios fit for BRD approval?"
+    sme_answer: "Yes, normal and over-limit scenarios are covered."
+    decision_outcome: "accepted"
+    referenced_evidence:
+      - "EV-CREDIT-CHECK-015"
+    sign_off_flag: "JDM 2026-05-16"
+
+  - item_id: "BRD-CREDIT-CHECK-001#section-03"
+    item_type: "brd_section_coverage"
+    section_number: 3
+    section_name: "Channels"
+    question_posed: "Are the listed channels complete enough for BRD approval?"
+    sme_answer: "Accept with MobileX follow-up; it does not block spec-writing."
+    decision_outcome: "accepted_with_tbd"
+    related_tbd_ids:
+      - "TBD-CREDIT-CHECK-004"
+    referenced_evidence:
+      - "EV-CREDIT-CHECK-015"
+    sign_off_flag: "JDM 2026-05-16"
+
+  - item_id: "BRD-CREDIT-CHECK-001#section-04"
+    item_type: "brd_section_coverage"
+    section_number: 4
+    section_name: "User Interface / User Touchpoints"
+    question_posed: "Are user touchpoints fit for BRD approval?"
+    sme_answer: "Yes, CSR screen and decline message are enough for this BRD."
+    decision_outcome: "accepted"
+    referenced_evidence:
+      - "EV-CREDIT-CHECK-018"
+    sign_off_flag: "JDM 2026-05-16"
+
+  - item_id: "BRD-CREDIT-CHECK-001#section-05"
+    item_type: "brd_section_coverage"
+    section_number: 5
+    section_name: "System Interfaces"
+    question_posed: "Are system interfaces fit for BRD approval?"
+    sme_answer: "Yes, order entry and customer master are the required interfaces."
+    decision_outcome: "accepted"
+    referenced_evidence:
+      - "EV-CREDIT-CHECK-012"
+    sign_off_flag: "JDM 2026-05-16"
+
+  - item_id: "BRD-CREDIT-CHECK-001#section-06"
+    item_type: "brd_section_coverage"
+    section_number: 6
+    section_name: "Process Flow"
+    question_posed: "Is process flow fit for BRD approval?"
+    sme_answer: "Yes, it is business-readable and not just a program chain."
+    decision_outcome: "accepted"
+    referenced_evidence:
+      - "EV-CREDIT-CHECK-015"
+    sign_off_flag: "JDM 2026-05-16"
+
+  - item_id: "BRD-CREDIT-CHECK-001#section-07"
+    item_type: "brd_section_coverage"
+    section_number: 7
+    section_name: "Validation Rules"
+    question_posed: "Are validation rules fit for BRD approval?"
+    sme_answer: "Yes, as long as BR-CREDIT-CHECK-003 is corrected downstream."
+    decision_outcome: "accepted"
+    referenced_evidence:
+      - "EV-CREDIT-CHECK-012"
+    sign_off_flag: "JDM 2026-05-16"
+
+  - item_id: "BRD-CREDIT-CHECK-001#section-08"
+    item_type: "brd_section_coverage"
+    section_number: 8
+    section_name: "Error Handling"
+    question_posed: "Is error handling fit for BRD approval?"
+    sme_answer: "Yes, current error paths are covered."
+    decision_outcome: "accepted"
+    referenced_evidence:
+      - "EV-CREDIT-CHECK-018"
+    sign_off_flag: "JDM 2026-05-16"
+
+  - item_id: "BRD-CREDIT-CHECK-001#section-09"
+    item_type: "brd_section_coverage"
+    section_number: 9
+    section_name: "Dependencies"
+    question_posed: "Are dependencies complete enough for BRD approval?"
+    sme_answer: "Accept with Operations validation-sequence follow-up."
+    decision_outcome: "accepted_with_tbd"
+    related_tbd_ids:
+      - "TBD-CREDIT-CHECK-002"
+    referenced_evidence:
+      - "EV-CREDIT-CHECK-018"
+    sign_off_flag: "JDM 2026-05-16"
+
+  - item_id: "TBD-CREDIT-CHECK-004"
+    item_type: "tbd"
+    question_posed: "Does MobileX initiate or consume the Credit Check capability?"
+    sme_answer: "Accept BRD section 3 with this as a non-blocking channel follow-up. Digital Channels SME must confirm MobileX scope."
+    decision_outcome: "deferred"
+    referenced_evidence:
+      - "EV-CREDIT-CHECK-015"
+    sign_off_flag: ""
+    escalation:
+      reason: "MobileX channel applicability requires Digital Channels confirmation."
+      owner: "Digital Channels SME"
+      target_date: "2026-05-23"
+      next_step: "Confirm whether MobileX initiates or consumes the Credit Check capability."
+
   - item_id: "BEH-CREDIT-CHECK-006"
     item_type: "behavior_claim"
     question_posed: "Is blocking transactions over the credit limit intended business behavior?"
@@ -47,6 +164,12 @@ decisions:
       next_step: "Gather operations notes and update the decision log."
 
 escalations:
+  - item_id: "TBD-CREDIT-CHECK-004"
+    reason: "MobileX channel applicability requires Digital Channels confirmation."
+    owner: "Digital Channels SME"
+    target_date: "2026-05-23"
+    next_step: "Confirm whether MobileX initiates or consumes the Credit Check capability."
+
   - item_id: "TBD-CREDIT-CHECK-002"
     reason: "Operations must confirm the exact validation sequence."
     owner: "Operations Manager"
@@ -56,11 +179,12 @@ escalations:
 signoff_summary: |
   I, Jane D. Miller, confirm that the decisions recorded in this log accurately
   reflect my judgment. I approve the confirmed outcomes for advancement to
-  legacy-spec-writer, with the deferred item routed to Operations.
+  legacy-spec-writer, with the MobileX channel follow-up routed to Digital
+  Channels and the validation-sequence follow-up routed to Operations.
 
   Date: 2026-05-16
   Signature / Initials: JDM
 
 session_notes: |
-  Review completed in one synchronous session. The deferred item is not approved
+  Review completed in one synchronous session. Deferred items are not approved
   and must remain visible in follow-up findings.

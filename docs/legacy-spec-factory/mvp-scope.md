@@ -41,7 +41,7 @@ Entry-point router:
 
 | Skill | Status | Role |
 |---|---|---|
-| `legacy-modernization-orchestrator` | ✅ v0.2.0 | Route the user through the full e2e chain (inventory → program → flow → module → spec) |
+| `legacy-modernization-orchestrator` | ✅ v0.2.3 | Route the user through the full e2e chain, including quality-aware scattered document/spec routing and owner-accepted sparse context before intake |
 
 ## Dependency Order
 
@@ -71,8 +71,9 @@ back to the inventory skill.
   - `legacy-spec-writer` v0.1.0
 - Pre-inventory evidence governance is implemented as
   `legacy-ibmi-evidence-intake` v0.1.0.
-- `legacy-modernization-orchestrator` v0.2.0 routes the full chain
-  (inventory → program → flow → module → spec).
+- `legacy-modernization-orchestrator` v0.2.3 routes the full chain
+  (document/spec triage/flow normalization → risk acceptance when needed →
+  context intake, or inventory → program → flow → module → spec).
 - Runtime smoke status is mixed:
   - `legacy-step-contract` and `legacy-step-validator` passed Codex CLI,
     Claude Code, and OpenCode smoke tests.

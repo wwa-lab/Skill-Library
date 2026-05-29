@@ -6,7 +6,7 @@ metadata:
   author: Leo L Zhang
   maintainer: platform-engineering
   source: https://github.com/wwa-lab/legacy-spec-factory
-  source_commit: 8871a6b
+  source_commit: 3b6a16b
   domain: legacy-spec-factory
 ---
 
@@ -180,12 +180,12 @@ Use the reference files only when needed:
 
 Follow:
 
-- `../../../docs/legacy-spec-factory/id-conventions.md` for stable IDs (`TC-*`, `FIND-*`, `TBD-*`)
-- `../../../docs/legacy-spec-factory/evidence-and-knowledge-taxonomy.md` for evidence strength and
+- `../../docs/id-conventions.md` for stable IDs (`TC-*`, `FIND-*`, `TBD-*`)
+- `../../docs/evidence-and-knowledge-taxonomy.md` for evidence strength and
   knowledge type
-- `../../../docs/legacy-spec-factory/data-collection-and-redaction.md` for sample-data safety
-- `../../../docs/legacy-spec-factory/forward-sdlc-contract.md` for handoff readiness
-- `../../../docs/legacy-spec-factory/input-readiness-rubric.md` for input readiness scoring
+- `../../docs/data-collection-and-redaction.md` for sample-data safety
+- `../../docs/forward-sdlc-contract.md` for handoff readiness
+- `../../docs/input-readiness-rubric.md` for input readiness scoring
 - `../legacy-step-contract/SKILL.md` for the shared Step Contract
 
 Examples:
@@ -357,7 +357,7 @@ SME / human approval:
 
 At the end of a test-planning run, update
 `<project-root>/workflow-state.yaml` per
-[`docs/workflow-state-contract.md`](../../../docs/legacy-spec-factory/workflow-state-contract.md).
+[`docs/workflow-state-contract.md`](../../docs/workflow-state-contract.md).
 Template: [`skills/legacy-modernization-orchestrator/references/state-writeback-snippet.md`](../legacy-modernization-orchestrator/references/state-writeback-snippet.md).
 
 **Stage this skill produces:**

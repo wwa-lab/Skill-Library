@@ -1,12 +1,12 @@
 ---
 name: legacy-brd-to-sdd-handoff
-description: "Use when teams need to validate and package one Atlas-compatible SDD handoff from an approved Legacy BRD and approved Legacy spec (`spec.yaml`/`spec.md`). Bridge / gate / package skill — does not generate code, architecture, design, user stories, or test code. Enforces `docs/forward-sdlc-contract.md`, refuses to bypass `legacy-spec-writer`, and produces machine-readable + human-readable handoff artifacts plus a strict findings report. Layer 2 (platform-agnostic)."
+description: Use when an approved Legacy BRD and approved Legacy spec (`spec.yaml`/`spec.md`) need one Atlas-compatible SDD handoff validated and packaged. Bridge / gate / package skill — does not generate code, architecture, design, user stories, or test code. Enforces `docs/forward-sdlc-contract.md`, refuses to bypass `legacy-spec-writer`, and produces machine-readable + human-readable handoff artifacts plus a strict findings report. Layer 2 (platform-agnostic).
 license: Apache-2.0
 metadata:
   author: Leo L Zhang
   maintainer: platform-engineering
   source: https://github.com/wwa-lab/legacy-spec-factory
-  source_commit: 8871a6b
+  source_commit: 3b6a16b
   domain: legacy-spec-factory
 ---
 
@@ -155,6 +155,7 @@ unless explicitly cleared):
 | --- | --- |
 | spec missing or not `approved` | block; route to `legacy-spec-writer` |
 | BRD missing or not `approved` | block; route to `legacy-brd-writer` |
+| BRD required sections 1-9 missing, placeholder-only, or not SME-reviewed | block; route to `legacy-brd-writer` / `legacy-sme-review-facilitator` |
 | SME sign-off missing on BRD or spec | block; request sign-off |
 | any `TBD-*` with `blocking: true` and unresolved | block; escalate to SME |
 | any approved `BR-*` with no linked `AC-*` | block; route to `legacy-spec-writer` |
@@ -215,6 +216,9 @@ Required structure for `sdd-handoff.yaml`:
 - `capability`: `id`, `name`, `slug`, `owner` (from spec, unchanged)
 - `status`: `approved` | `approved_with_non_blocking_tbd` | `blocked`
 - `gate_checklist`: pass/fail booleans for each gate
+- BRD functional-analysis coverage gate: required sections 1-9 present and
+  SME-reviewed, with any partial area carried as named non-blocking /
+  deferred `TBD-*`
 - `source_artifacts`: BRD + spec paths, status, named approver, ISO date
 - `business_rules[]`, `acceptance_criteria[]`,
   `modernization_decisions[]`, `evidence[]`, `open_questions[]`,
@@ -293,7 +297,7 @@ Step Contract before forwarding to Atlas.
 
 At the end of a handoff packaging run, update
 `<project-root>/workflow-state.yaml` per
-[`docs/workflow-state-contract.md`](../../../docs/legacy-spec-factory/workflow-state-contract.md).
+[`docs/workflow-state-contract.md`](../../docs/workflow-state-contract.md).
 Template: [`skills/legacy-modernization-orchestrator/references/state-writeback-snippet.md`](../legacy-modernization-orchestrator/references/state-writeback-snippet.md).
 
 **Stage this skill produces:**
@@ -407,18 +411,22 @@ written.
 
 ## Maintenance and Versioning
 
-- **Current Version**: 0.1.0
-- **Last Updated**: 2026-05-16
+- **Current Version**: 0.1.1
+- **Last Updated**: 2026-05-28
 - **Author**: Leo L Zhang
 - **Status**: field-pilot ready; three-runtime smoke passed
 
 Version history:
+
+- v0.1.1 (2026-05-28): Added BRD functional-analysis coverage gates. Required
+  BRD sections 1-9 must be present, SME-reviewed, and accepted or carried as
+  named non-blocking / deferred `TBD-*` before SDD handoff may proceed.
 
 - v0.1.0 (2026-05-16): Runtime smoke passed in Codex CLI
   (gpt-5.4-mini), Claude Code (haiku), and OpenCode
   (minimax-m2.5-free). Lifted from 9.0 repo-ready cap to field-pilot ready.
 
 Track scorecards under
-[../../../docs/legacy-spec-factory/reviews/](../../../docs/legacy-spec-factory/reviews/). Use
-[../../../templates/legacy-spec-factory/skill-review-scorecard.md](../../../templates/legacy-spec-factory/skill-review-scorecard.md)
+[../../docs/reviews/](../../docs/reviews/). Use
+[../../templates/skill-review-scorecard.md](../../templates/skill-review-scorecard.md)
 for new review records.

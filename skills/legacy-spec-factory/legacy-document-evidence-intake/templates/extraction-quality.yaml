@@ -1,0 +1,27 @@
+schema_version: "0.1"
+
+module_slug: "<MODULE-SLUG>"
+docset_slug: "<DOCSET-SLUG>"
+
+documents:
+  - doc_id: "DOC-<MODULE-SLUG>-001"
+    extraction_method: "deterministic"   # deterministic | docling | ocr | visual_review
+    coverage: "<e.g. all sheets / 12 of 14 pages / 8 of 8 slides>"
+    ocr_confidence_avg: "n/a"            # 0-100 or n/a when no OCR was used
+    low_confidence_regions: 0
+    macro:
+      present: false
+      executed: false                    # MUST be false
+      static_modules: []                 # statically read VBA module names, if any
+      encrypted: false
+      external_calls_detected: false
+      security_review_required: false
+    warnings: []                         # cross-reference extraction-warnings.md entries
+    document_gate: "blocked"             # ready | ready_with_warnings | blocked
+
+fragments:
+  - fragment_id: "FRAG-<MODULE-SLUG>-001"
+    doc_id: "DOC-<MODULE-SLUG>-001"
+    extraction_method: "deterministic"
+    confidence: "high"                   # high | medium | low
+    promotion: "open"                    # open | blocked

@@ -1,11 +1,13 @@
 # Stage 05: Module Analysis (4-view synthesis)
 
 **You are here if:** every flow in scope for this module has an approved
-`flow-<slug>.md` AND you need to synthesize the module's complete behavior
-into the canonical 4 views before writing a `spec.yaml`.
+`flow-<slug>.md`, or a ready `00_context_packages/<MODULE-SLUG>/` package is
+being used as module-first context, AND you need to synthesize the module's
+complete behavior into the canonical 4 views before BRD writing and review.
 
-This is the **last reverse-engineering step** before spec writing. Business
-rule seeds and capability seeds emerge here.
+This is the **last reverse-engineering step** before BRD writing. Business
+rule seeds and capability seeds emerge here, then the BRD Package becomes the
+business / SME review artifact before any spec is produced.
 
 ## Need before starting
 
@@ -17,7 +19,7 @@ rule seeds and capability seeds emerge here.
 
 ## Run
 
-- **Skill:** `legacy-ibmi-module-analyzer` (Implemented v0.1.0)
+- **Skill:** `legacy-ibmi-module-analyzer` (Implemented v0.1.4)
 - **Manual fallback:** Build the 4 views by hand following
   `docs/module-analysis-model.md` and the templates in
   `skills/legacy-ibmi-module-analyzer/references/`
@@ -26,13 +28,15 @@ rule seeds and capability seeds emerge here.
 
 - **Artifact:** 4 view files + a module overview
   - `module-overview.md` — module identity, in-scope flows, capability seeds (`CAP-*`)
-  - `view-1-operation-flow.md` — user/operator perspective + business rule seeds (`BR-*`)
-  - `view-2-system-flow.md` — system interaction perspective
-  - `view-3-program-flow.md` — program-level sequencing
-  - `view-4-data-flow.md` — data lifecycle perspective
+  - `01-operation-flow.md` — user/operator perspective + business rule seeds (`BR-*`)
+  - `02-system-flow.md` — system interaction perspective
+  - `03-program-flow.md` — program-level sequencing
+  - `04-data-flow.md` — data lifecycle perspective
 - **Save under:** `04_modules/<MODULE-SLUG>/` *(relative to your
   `project.root`, e.g. `docs/XXX260004-demo/04_modules/CREDIT-CHECK/`)*
-- **Consumed by:** `legacy-spec-writer`, `legacy-brd-writer` (optional)
+- **Consumed by:** `legacy-brd-writer` first; `legacy-spec-writer` only after
+  the selected capability has an approved BRD Package or an explicit
+  technical-spec-only bypass.
 
 ## Gate before advancing
 
@@ -55,9 +59,6 @@ rule seeds and capability seeds emerge here.
 
 ## Next card
 
-[`06-spec-writing.md`](06-spec-writing.md) — once the 4 views and overview
-are approved.
-
-Optional sidetrack: if stakeholders want a business-facing BRD before the
-technical spec, run `legacy-brd-writer` first; the BRD and spec share the
-same module-analysis input.
+[`05a-brd-writing.md`](05a-brd-writing.md) — once the 4 views and overview
+are approved, produce the BRD Package for the selected `CAP-*` before moving
+to spec writing.

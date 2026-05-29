@@ -115,6 +115,7 @@ for skill_dir in "${skill_dirs[@]}"; do
         status=1
       elif ! diff -qr \
         -x '.DS_Store' \
+        -x '__pycache__' \
         -x '*.adapter.md' \
         -x 'runtime-overrides' \
         -x '.runtime' \
@@ -128,6 +129,7 @@ for skill_dir in "${skill_dirs[@]}"; do
       mkdir -p "$dest"
       rsync -a --delete \
         --exclude '.DS_Store' \
+        --exclude '__pycache__/' \
         --exclude '*.adapter.md' \
         --exclude 'runtime-overrides/' \
         --exclude '.runtime/' \

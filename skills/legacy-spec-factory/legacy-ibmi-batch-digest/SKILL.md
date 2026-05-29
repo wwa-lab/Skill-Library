@@ -1,12 +1,12 @@
 ---
 name: legacy-ibmi-batch-digest
-description: Use when users need an SME-friendly digest table (`programs-batch-digest.md`) from every per-program analysis under one module, especially when they ask for "give me the SME-facing program review", "我要给 SME 看程序清单", "batch review the programs in this module", or after a batch of new program-analysis.md files lands. Supplemental skill — does not advance the linear stage_id; co-exists with `legacy-ibmi-program-analyzer` and `legacy-sme-review-facilitator`.
+description: Use when every per-program analysis under one module should be aggregated into a single SME-friendly batch digest table (`programs-batch-digest.md`). Reduces SME review friction for medium/large modules — a 50-program module turns from 50 files to one scannable page grouped by criticality (critical / standard / low_risk), with one-line roles, key pending decisions, TBD counts, and links to detail. Trigger when the user says "give me the SME-facing program review", "我要给 SME 看程序清单", "batch review the programs in this module", or after a batch of new program-analysis.md files lands. Supplemental skill — does not advance the linear stage_id; co-exists with `legacy-ibmi-program-analyzer` (which produces the detail) and `legacy-sme-review-facilitator` (which builds the active decision queue).
 license: Apache-2.0
 metadata:
   author: Leo L Zhang
   maintainer: platform-engineering
   source: https://github.com/wwa-lab/legacy-spec-factory
-  source_commit: 8871a6b
+  source_commit: 3b6a16b
   domain: legacy-spec-factory
 ---
 
@@ -192,7 +192,7 @@ with `Resolution` empty.
 - **Optional**: existing digest to regenerate (re-render replaces, never
   edits in place)
 - **Input readiness scoring**: apply
-  `../../../docs/legacy-spec-factory/input-readiness-rubric.md`; `minimum_pass` requires confirmed
+  `../../docs/input-readiness-rubric.md`; `minimum_pass` requires confirmed
   criticality plus analyzable program outputs, while review-capacity notes are
   quality boosters only.
 - **Readiness checks**: inventory's `criticality_confirmed_by_sme` is
@@ -304,7 +304,7 @@ Co-located with the digest's "SME signoff" stub:
 This is a supplemental skill. It does NOT mutate `capabilities[].stage_id`
 or `current_focus`. After a run, append one `history[]` entry to
 `<project.root>/workflow-state.yaml` per
-[`docs/workflow-state-contract.md`](../../../docs/legacy-spec-factory/workflow-state-contract.md).
+[`docs/workflow-state-contract.md`](../../docs/workflow-state-contract.md).
 
 **Last artifact path pattern:**
 `02_programs/<MODULE-SLUG>/programs-batch-digest.md`

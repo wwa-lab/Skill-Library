@@ -1,0 +1,50 @@
+schema_version: "0.1"
+package_type: document_evidence_intake
+
+module_slug: "<MODULE-SLUG>"
+docset_slug: "<DOCSET-SLUG>"
+
+# Package-level quality gate decision.
+# ready | ready_with_warnings | blocked
+gate: "blocked"
+gate_reason: "<Why this gate was chosen>"
+
+tooling:
+  libreoffice: "<available|unavailable>"   # soffice for legacy binary conversion
+  docling: "<available|unavailable>"        # optional non-canonical enhancer
+  ocr_engine: "<name or none>"
+  pdf_renderer: "<name or none>"
+
+documents:
+  - doc_id: "DOC-<MODULE-SLUG>-001"
+    title: "<Document title>"
+    path: "<authorized source path>"
+    family: "<excel|word|powerpoint|visio|pdf|image>"
+    file_type: "<xlsx|xlsm|xls|docx|doc|pptx|ppt|vsdx|vsd|pdf|png|jpg|tif>"
+    size_bytes: 0
+    sha256: "<hash or recorded reason it could not be computed>"
+    owner: "<owner or unknown>"
+    sensitivity: "unknown"          # public | internal | confidential | unknown
+    authorization_status: "pending" # authorized | unauthorized | pending
+    conversion:
+      required: false               # true when a legacy binary needs conversion first
+      tool: "<libreoffice|docling|ocr|none>"
+      from: "<original ext>"
+      to: "<normalized ext(s)>"
+      result: "<succeeded|partial|tool_unavailable|not_required>"
+    security_review_required: false # true for macro-enabled / encrypted content
+    document_gate: "blocked"        # ready | ready_with_warnings | blocked
+    normalized_outputs:
+      - "documents/<DOC-SLUG>/normalized/<file>.md"
+
+# Index of every package-level output file (must match files on disk).
+outputs:
+  - "intake.manifest.yaml"
+  - "conversion-log.md"
+  - "extraction-quality.yaml"
+  - "extraction-warnings.md"
+  - "evidence-coordinates.md"
+
+handoff:
+  next_skill: "legacy-flow-context-normalizer"   # or legacy-ibmi-evidence-intake when blocked on auth/sensitivity
+  notes: "<What downstream must respect: macro promotion blocks, low-confidence OCR, conflicts>"

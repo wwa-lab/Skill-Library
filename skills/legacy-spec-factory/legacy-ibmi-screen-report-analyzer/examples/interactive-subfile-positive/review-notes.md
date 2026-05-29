@@ -159,7 +159,7 @@ Each TBD includes:
 
 ## Conformance to Review Gate
 
-This example demonstrates alignment with [docs/skill-review-gate.md](../../../../../docs/legacy-spec-factory/skill-review-gate.md):
+This example demonstrates alignment with [docs/skill-review-gate.md](../../docs/skill-review-gate.md):
 
 - ✅ **Purpose and trigger clarity**: Clear when to use (screen/report analysis task, approved inventory required)
 - ✅ **Workflow completeness**: 9 ordered steps in SKILL.md; templates and examples provided

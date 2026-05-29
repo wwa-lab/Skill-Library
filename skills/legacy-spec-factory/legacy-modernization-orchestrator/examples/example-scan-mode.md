@@ -29,6 +29,9 @@ Quick artifact probe (per
 01_inventory/inventory.yaml                       → exists, sme_review.decision: approved
 04_modules/CREDIT-CHECK/module-overview.md        → exists, 4 views approved, lists CAP-ORDER-PRICING + CAP-CREDIT-CHECK
 04_modules/AR/module-overview.md                  → exists, View 4 still draft, lists CAP-AR-POSTING
+05_brds/CAP-ORDER-PRICING/brd.md                  → status: approved
+05_brds/CAP-CREDIT-CHECK/brd.md                   → status: approved
+05_brds/CAP-AR-POSTING/                           → missing
 05_specs/CAP-ORDER-PRICING/spec.yaml              → status: approved
 05_specs/CAP-CREDIT-CHECK/spec.yaml               → status: in_review
 05_specs/CAP-AR-POSTING/                          → missing
@@ -111,18 +114,18 @@ Stage derivation for `CAP-AR-POSTING`:
 - **Desired Outcome:** Complete the 4-view module synthesis
 - **Recommended Next Skill:** `legacy-ibmi-module-analyzer` (status: Implemented v0.1.0)
 - **Why:** View 4 (Data Flow) is still draft. Finishing it advances the
-  module to `3f`, which is the prerequisite for spec-writing.
+  module to `3f`, which is the prerequisite for BRD writing / review.
 
 ## Routing Notes
 
 - **Stage skip safe?** No. Skipping to spec-writer would orphan the
   unfinished data view and starve the spec of evidence linkage.
 - **Gate check:** Module synthesis completeness — blocked on View 4.
-- **Minimum input needed next:** the partial `view-4-data-flow.md`, the
+- **Minimum input needed next:** the partial `04-data-flow.md`, the
   approved Views 1–3, and SME contact for the data-lifecycle review.
 - **Route confidence:** High.
 - **Next artifact expected:** approved
-  `04_modules/AR/view-4-data-flow.md` plus an updated
+  `04_modules/AR/04-data-flow.md` plus an updated
   `04_modules/AR/module-overview.md`.
 
 ## Next Step
@@ -130,7 +133,7 @@ Stage derivation for `CAP-AR-POSTING`:
 - **Invoke:** `legacy-ibmi-module-analyzer`
 - **Produce:** completed View 4 + updated `module-overview.md`
 - **Save reminder:** save under `04_modules/AR/`; consumed by
-  `legacy-spec-writer` once all four views are approved.
+  `legacy-brd-writer` once all four views are approved.
 - **SME reminder:** confirm any `inferred_business_rule` in View 1 or any
   new ones surfaced by completing View 4.
 - **Review/export reminder:** Not applicable for this blocked module step. Once
@@ -146,7 +149,7 @@ FOCUS:         CAP-AR-POSTING [continued]
 YOU ARE HERE:  3e Module Analysis In Progress
 JUST SAVED:    nothing yet (this is the resume turn)
 RUN NEXT:      legacy-ibmi-module-analyzer   [implemented]
-WILL PRODUCE:  04_modules/AR/view-4-data-flow.md
+WILL PRODUCE:  04_modules/AR/04-data-flow.md
 GATE CHECK:    BLOCKED: module-completeness — View 4 still draft
 SME ACTION:    required — confirm any new inferred_business_rule surfaced in View 4
 STAGE CARD:    references/stage-cards/05-module-analysis.md
@@ -174,7 +177,7 @@ current_focus:
   module_slug: AR
   stage_id: "3e Module Analysis In Progress"
   next_skill: legacy-ibmi-module-analyzer
-  next_artifact: 04_modules/AR/view-4-data-flow.md
+  next_artifact: 04_modules/AR/04-data-flow.md
   stage_card: references/stage-cards/05-module-analysis.md
   open_gates: ["module_completeness"]
 

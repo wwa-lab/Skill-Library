@@ -3,6 +3,22 @@
 This reference defines how `legacy-ibmi-program-analyzer` handles large IBM i
 programs when the full source cannot safely fit in model context.
 
+For a human-oriented explanation of the same strategy, see
+`../../../docs/large-rpg-analysis-strategy.md`.
+
+## Core Idea
+
+Treat a 20k-30k+ line RPG program as an evidence-driven program-understanding
+problem, not as a large-text summarization problem.
+
+The analyzer must first turn the source into a compact, auditable structure:
+source index, Program Call Map, Data Touch Map, routine cards, deep-read
+windows, and coverage ledger. Only then may it synthesize behavior.
+
+The goal is not to "read every line into context." The goal is to preserve the
+program's call topology, state changes, data movement, evidence, and known gaps
+so downstream flow/module/spec work can decide what is safe to use.
+
 ## When To Use Large-Program Mode
 
 Use large-program mode when any of these are true:

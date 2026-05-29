@@ -605,7 +605,7 @@ Example:
 
 ## Reference
 
-- `../../../../docs/legacy-spec-factory/data-collection-and-redaction.md` — Organization policy
-- `../../../../docs/legacy-spec-factory/id-conventions.md` — ID format rules
+- `../../docs/data-collection-and-redaction.md` — Organization policy
+- `../../docs/id-conventions.md` — ID format rules
 - `evidence-types.md` — Evidence type definitions
 - `redaction-checklist.md` — Redaction patterns

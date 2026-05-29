@@ -7,6 +7,42 @@
 
 ---
 
+## Author/Synthesizer Preflight
+
+- [x] The BRD clearly explains the business boundary, primary actors, trigger
+      event, key states, business outcomes, and major exceptions.
+- [x] Required sections 1-9 are present: Function Purpose, Business Scenarios /
+      Use Cases, Channels, User Interface / User Touchpoints, System
+      Interfaces, Process Flow, Validation Rules, Error Handling, Dependencies.
+- [x] Optional sections are included only where evidence-backed: Supporting
+      Workflow or Design Notes and Source Document Mapping. Security /
+      Authentication Requirements are omitted because no approved input
+      identifies security/auth rules for this capability.
+- [x] Module analysis, program analysis, runtime evidence, and validation
+      scenario seeds map to BRD sections or traceability entries instead of
+      remaining disconnected references.
+- [x] Business owners and SMEs can use the BRD to confirm initial scope and
+      inferred rule direction.
+- [x] `brd.md` contains no generic document-success criteria, formal `AC-*`
+      acceptance criteria, formal `TC-*` test cases, or target-platform
+      decisions.
+
+---
+
+## Required Functional Analysis Coverage
+
+### Do sections 1-9 cover the SME-required functional analysis areas?
+
+- [x] **Yes** — function purpose, business scenarios, channels, user
+      touchpoints, system interfaces, process flow, validation rules, error
+      handling, and dependencies are covered
+
+**Reviewer Notes:**
+The BRD covers the function in the same shape needed for SME review. Optional
+security/auth detail is not included because no current evidence identifies it.
+
+---
+
 ## Observed Behaviors
 
 ### BEH-CREDIT-LIMIT-001: Order Amount Validation

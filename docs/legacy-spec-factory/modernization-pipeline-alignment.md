@@ -117,10 +117,11 @@ Program Flow 逐字段梳理计算取信逻辑错误
 **老板需求**: 已知推未知 → 未知反噯已知，循环验证，每轮发现新问题并回溯
 
 **我们的实现**:
-- `legacy-modernization-orchestrator` v0.2.0:
+- `legacy-modernization-orchestrator` v0.2.3:
   - 询问当前阶段 (scope / intake / inventory / analysis / synthesis / approval / handoff)
   - 识别阻塞条件
   - 推荐下一步 skill
+  - 对散落文档 / Function Spec / Technical Design / Program Spec / File Spec 等输入做质量分层路由：资料强/部分时进入 flow normalization，资料稀疏但授权可读时进入 source-quality triage；如果 owner 确认无法补料并接受风险，则以 warning/TBD 方式进入 context intake
   - 支持返回前一步重新分析
 
 - `legacy-step-validator` → 质量检查，识别blocking/warning/ok

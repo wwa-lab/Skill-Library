@@ -31,6 +31,7 @@
   "gate_checklist": {
     "brd_approved": true,
     "brd_signed_by_sme": true,
+    "brd_functional_coverage_accepted": true,
     "spec_approved": true,
     "spec_signed_by_sme": true,
     "no_blocking_tbd": true,

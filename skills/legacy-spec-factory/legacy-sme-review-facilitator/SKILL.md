@@ -1,12 +1,12 @@
 ---
 name: legacy-sme-review-facilitator
-description: Governance skill for preparing, facilitating, and recording SME review sessions and decision logs across the Legacy Spec Factory pipeline. Organizes review questions, captures SME decisions (confirm behavior, confirm or reject inferred rules, resolve or defer TBDs), records sign-offs, and surfaces follow-up findings. Does not approve rules, invent evidence, or substitute AI judgment for SME authority. Use when an artifact (BRD, spec, or other analysis) needs documented SME validation and decision capture before advancement.
+description: Use when a BRD, spec, module analysis, or other Legacy Spec Factory artifact needs documented SME validation, especially when the SME should answer guided review questions directly in chat and have decisions written back to review artifacts.
 license: Apache-2.0
 metadata:
   author: Leo L Zhang
   maintainer: platform-engineering
   source: https://github.com/wwa-lab/legacy-spec-factory
-  source_commit: 8871a6b
+  source_commit: 3b6a16b
   domain: legacy-spec-factory
 ---
 
@@ -30,10 +30,18 @@ pipeline without substituting AI judgment for human expertise.
 
 This skill is a **facilitator and recorder**, not a decision maker. It:
 
+- **Runs Conversation Review Mode** so the SME can answer guided questions in
+  the chat instead of editing files or sending email
 - **Prepares** review sessions by organizing questions from open items
-  (`TBD-*`, `BR-*` seeds needing confirmation, contradictory evidence)
+  (`TBD-*`, `BR-*` seeds needing confirmation, `VAL-*` scenario seeds,
+  contradictory evidence)
+- **Checks BRD functional-analysis coverage** when the artifact is a BRD
+  Package, so SME-required sections 1-9 are explicitly reviewed instead of
+  being implied by rule / behavior questions alone
 - **Facilitates** SME sessions by collecting structured answers
 - **Records** decisions so they trace back to stable IDs and evidence
+- **Writes back** recorded decisions to the BRD Package when reviewing BRD
+  artifacts
 - **Captures** sign-offs with SME name, role, and date
 - **Surfaces** unresolved items (follow-up findings) for next steps
 
@@ -63,15 +71,18 @@ Trigger on any of these signals:
   intent, not a bug or legacy workaround
 - A **decision log** needs to be created and sealed so downstream teams can
   trace decisions back to SME approval and evidence
+- The user wants to stay in one chat while reviewing a BRD Package, answering
+  confirm / reject / needs evidence / non-blocking choices with optional
+  comments
 
 ## When NOT to Use
 
 Do not trigger when:
 
 - No **named SME owner** is assigned — stop; cannot proceed without SME
-- The **upstream artifact is below `approved_with_non_blocking_tbd` status** —
-  route back to the generating skill (legacy-brd-writer, legacy-spec-writer,
-  etc.)
+- The artifact is an unstable draft without stable IDs or evidence links —
+  route back to the generating skill. For Conversation Review Mode, `in_review`
+  is allowed when the artifact has stable IDs, evidence links, and a named SME.
 - Any linked **evidence has `sensitivity: unknown`** — block; route to
   `legacy-ibmi-evidence-intake` first
 - You are trying to **resolve a TBD by inference or code reading** instead of
@@ -94,8 +105,14 @@ You must:
 
 - prepare review materials (question pack, session structure) without inserting
   opinion or inference
+- prefill `ai_suggested_decision` for review convenience while clearly marking
+  it as an AI suggestion, never as SME approval
+- present questions in small chat batches, usually 3-7 items, prioritized by
+  blocking risk and evidence weakness
 - collect structured answers from the SME, recording name, role, date, and
   answer for each item
+- parse terse chat replies such as `BR-001 confirm` or
+  `VAL-004 allowed, should become an edge case` into structured decisions
 - distinguish SME confirmation (fact) from AI inference (hypothesis) in the
   decision log
 - require explicit SME sign-off before any sign-off artifact can leave
@@ -125,7 +142,9 @@ You must not:
 Accept:
 
 - **One artifact in scope** (BRD, spec, module analysis, or other business
-  analysis) at status `approved` or `approved_with_non_blocking_tbd`
+  analysis) at status `in_review`, `approved`, or
+  `approved_with_non_blocking_tbd`, provided stable IDs and evidence links are
+  present. `in_review` is the normal status for chat-driven BRD review.
 - **A named SME owner** (name, role, organization) with confirmed availability
   for review
 - **Scope statement** (e.g., "review all inferred rules for the Accounts
@@ -133,16 +152,22 @@ Accept:
 - **Review materials** such as:
   - List of open `TBD-*` items with context
   - List of `BR-*` seeds with evidence links and confidence levels
+  - List of `VAL-*` validation scenario seeds with related `BR-*`, `BEH-*`,
+    and `EV-*` links
+  - For BRD Package reviews, the required functional-analysis coverage for
+    sections 1-9: function purpose, business scenarios / use cases, channels,
+    user interface / touchpoints, system interfaces, process flow, validation
+    rules, error handling, and dependencies
   - Contradictions discovered during analysis
   - Behavior claims awaiting SME confirmation
   - Modernization decisions (`DEC-*`) awaiting SME acceptance
 
 Input readiness scoring:
 
-- `0-5 blocked`: no named SME owner, artifact status below allowed level,
+- `0-5 blocked`: no named SME owner, artifact lacks stable review IDs,
   evidence authorization unresolved, review scope too broad, or materials lack
   the IDs the SME is being asked to approve.
-- `6 minimum_pass`: one approved or approved-with-non-blocking-TBD artifact,
+- `6 minimum_pass`: one in-review or approved artifact with stable IDs,
   named SME owner, bounded scope statement, and review materials with IDs are
   present.
 - `7-8 usable`: contradictions, TBD ledgers, BR seeds, behavior claims, and
@@ -156,8 +181,8 @@ Input readiness scoring:
 Stop and require clarification if:
 
 - **No SME owner is named or available** → stop; cannot proceed
-- The artifact **is in `draft` or `in_review` status** → route back to the
-  generating skill to stabilize and link evidence first
+- The artifact **is in `draft` status** or lacks stable IDs/evidence links →
+  route back to the generating skill to stabilize first
 - Any linked evidence **has `sensitivity: unknown` or is unredacted** → block;
   route to `legacy-ibmi-evidence-intake`
 - The **scope is too broad or ambiguous** (e.g., "review the entire system") →
@@ -185,6 +210,13 @@ Emit exactly these artifacts for a **completed review**:
 └── follow-up-findings.yaml     ← unresolved items for next steps
 ```
 
+When reviewing a BRD Package in Conversation Review Mode, also write or update:
+
+```
+05_brds/<CAPABILITY-SLUG>/
+└── review-decision.yaml        ← BRD-package write-back from chat decisions
+```
+
 If review is **blocked** (missing SME, sensitivity issue, etc.), emit only:
 
 ```
@@ -199,6 +231,8 @@ Use:
   `templates/sme-decision-log.yaml`, `templates/sme-signoff.md`,
   `templates/follow-up-findings.yaml`, and `templates/blocked-findings.yaml`
   as starting structures
+- `templates/brd-review-decision.yaml` as the BRD-package write-back structure
+  for Conversation Review Mode
 - `references/review-workflow.md` for session flow
 - `references/question-taxonomy.md` for how to categorize review items
 - `references/decision-log-rules.md` for how to record and validate decisions
@@ -206,22 +240,26 @@ Use:
 
 Follow:
 
-- `../../../docs/legacy-spec-factory/id-conventions.md` for stable IDs (`TBD-*`, `BR-*`, `DEC-*`,
+- `../../docs/id-conventions.md` for stable IDs (`TBD-*`, `BR-*`, `DEC-*`,
   `FIND-*`)
-- `../../../docs/legacy-spec-factory/evidence-and-knowledge-taxonomy.md` for knowledge-type /
+- `../../docs/evidence-and-knowledge-taxonomy.md` for knowledge-type /
   evidence-strength distinction — the question pack must cite evidence strength
   so SME can make informed decisions
-- `../../../docs/legacy-spec-factory/data-collection-and-redaction.md` before linking any evidence
+- `../../docs/data-collection-and-redaction.md` before linking any evidence
 
 Required fields in `sme-decision-log.yaml`:
 
 - `review_id`, `review_date`, `artifact_under_review`, `capability_slug`
 - `sme_reviewer`: `name`, `role`, `organization`, `date`
 - `decisions[]`:
-  - `item_id` (the `TBD-*`, `BR-*`, `DEC-*`, or behavior claim ID)
-  - `item_type` (`tbd`, `inferred_rule`, `behavior_claim`, `modernization_decision`, `contradiction`)
+  - `item_id` (the `TBD-*`, `BR-*`, `BEH-*`, `VAL-*`, `DEC-*`, `FIND-*`, or
+    behavior claim ID)
+  - `item_type` (`tbd`, `inferred_rule`, `behavior_claim`,
+    `validation_scenario`, `modernization_decision`, `contradiction`)
   - `question_posed` (verbatim from question pack)
+  - `ai_suggested_decision` (optional; must be clearly marked as AI-generated)
   - `sme_answer` (verbatim response)
+  - `raw_chat_answer` (when Conversation Review Mode is used)
   - `decision_outcome` (`confirmed`, `rejected`, `deferred`, `marked_non_blocking`, `marked_blocking`, `split_into_follow_ups`, `needs_more_evidence`)
   - `referenced_evidence` (linked `EV-*` IDs the SME considered)
   - `sign_off_flag` (SME initials + date if decision is final; empty if deferred)
@@ -238,7 +276,8 @@ VALIDATION`):
 
 ### INPUT
 
-- One artifact in `approved` or `approved_with_non_blocking_tbd` status
+- One artifact in `in_review`, `approved`, or `approved_with_non_blocking_tbd`
+  status, with stable IDs and evidence links
 - Named SME owner with confirmed availability
 - Scoped list of review items (TBDs, inferred rules, contradictions, etc.)
 - Capability slug exactly as supplied by the upstream artifact or user input
@@ -251,7 +290,7 @@ VALIDATION`):
 Stop conditions:
 
 - No SME owner named → **BLOCK**
-- Artifact below `approved_with_non_blocking_tbd` → **ROUTE BACK**
+- Artifact in `draft` status or without stable IDs/evidence links → **ROUTE BACK**
 - Any evidence with `sensitivity: unknown` → **BLOCK**
 - Any evidence missing explicit `redaction_status` → **BLOCK**; do not assume it
   from context or from a positive review prompt
@@ -267,9 +306,9 @@ Procedure:
 1. **Session setup**: Confirm SME availability, review scope, confirm all
    materials are ready
 2. **Question organization**: Group items by type (TBD, inferred rule,
-   contradiction, behavior confirmation)
-3. **Guided review**: Present each item with evidence, ask for SME decision,
-   record answer verbatim
+   validation scenario, contradiction, behavior confirmation)
+3. **Guided chat review**: Present each item with evidence, ask for SME
+   decision, record answer verbatim; default to batches of 3-7 items
 4. **Decision capture**: For each answer, record outcome
    (`confirmed`/`rejected`/`deferred`/`marked_non_blocking`/`marked_blocking`)
    with SME name + date
@@ -280,7 +319,8 @@ Procedure:
 Tools allowed:
 
 - Read artifact and evidence manifests (redacted only)
-- Interview SME (synchronous or async email/chat with transcript)
+- Interview SME in the current chat; email, meetings, and offline checklists
+  are optional export channels
 - Organize and structure review materials
 - Record decisions and sign-offs
 
@@ -314,6 +354,8 @@ Decision points:
 - `sme-signoff.md`: SME approval statement with name, role, ISO date
 - `follow-up-findings.yaml`: unresolved items, owners, target dates, next-step
   routing
+- `review-decision.yaml`: BRD Package write-back when the reviewed artifact is
+  a BRD Package
 
 (If blocked, emit only `review-session.md` with stop reason and
 `blocked-findings.yaml`.)
@@ -322,9 +364,13 @@ Decision points:
 
 Review checklist before emitting:
 
-- [ ] Every `TBD-*`, `BR-*`, `DEC-*` in scope appears in decision log with
-  outcome
+- [ ] Every `TBD-*`, `BR-*`, `VAL-*`, `DEC-*` in scope appears in decision log
+  with outcome
+- [ ] For BRD Package reviews, every required functional-analysis area in BRD
+  sections 1-9 is either accepted by SME or has a routed `TBD-*` / follow-up
+  finding
 - [ ] Every decision has SME name, role, and ISO date
+- [ ] Every chat-driven decision preserves the raw SME chat answer
 - [ ] Contradictions are recorded verbatim, not paraphrased or resolved without
   SME judgment
 - [ ] All referenced `EV-*` IDs are real and have redaction status recorded
@@ -364,24 +410,33 @@ Fail validation if:
 **Stop conditions:**
 
 - No SME owner → **BLOCK**, emit `blocked-findings.yaml`
-- Artifact below `approved_with_non_blocking_tbd` → **ROUTE BACK** to
-  generating skill
+- Artifact in `draft` status or without stable IDs/evidence links → **ROUTE
+  BACK** to generating skill
 - Any `EV-*` with `sensitivity: unknown` → **BLOCK**, route to
   `legacy-ibmi-evidence-intake`
 
 ### Phase 2: Question Organization
 
 1. **Extract open items** from artifact:
+   - When the artifact is a BRD Package, extract functional-analysis coverage
+     checks for BRD sections 1-9 before item-level questions. Treat missing,
+     empty, unsupported, or SME-disputed required sections as review items;
+     create or reference `TBD-*` items for unresolved content.
    - All `TBD-*` (open questions, unresolved ambiguities)
    - All `BR-*` seeds with `needs_sme_review` status (inferred rules)
+   - All `VAL-*` validation scenario seeds needing SME coverage or boundary
+     confirmation
    - All contradictory evidence (two programs implement different logic, etc.)
    - All behavior claims awaiting SME confirmation (e.g., "system rounds to
      nearest cent")
    - All `DEC-*` (modernization decisions) awaiting SME acceptance
 
 2. **Organize by type** in question pack:
+   - BRD functional-analysis coverage (sections 1-9, BRD reviews only)
    - TBDs (list category, context, blocking status)
    - Inferred rules (list rule, evidence strength, confidence)
+   - Validation scenarios (list scenario type, related BR/BEH, evidence,
+     readiness)
    - Contradictions (list both positions, ask for clarification)
    - Behavior confirmations (list claim, ask if accurate)
    - Decisions (list decision, ask for acceptance)
@@ -395,11 +450,29 @@ Fail validation if:
 4. **Structure as `sme-question-pack.md`** with sections, clear questions, and
    space for SME answers
 
-### Phase 3: SME Interview
+### Phase 3: Chat-Driven SME Interview
 
-1. **Review scope and materials** with SME (sync or async)
-2. **Present each question** in order, asking for verbatim answer
-3. **Record decision outcome** for each item:
+1. **Review scope and materials** with SME in the current chat
+2. **Present questions in batches** of 3-7 items, asking for compact choices
+   and optional comments. Prioritize blocking `TBD-*`, contradictions,
+   low-confidence `BR-*`, high-risk rules, `VAL-*` boundary / exception
+   scenarios, then remaining behavior confirmations.
+3. **Show each item** with target ID, question, evidence IDs, confidence,
+   and `ai_suggested_decision`. Make clear that the suggestion is not SME
+   approval.
+   - Phrase the question in business language first. Keep program names,
+     file names, field names, and node IDs in the evidence context unless
+     the SME is being asked specifically as a technical owner.
+4. **Parse SME replies** such as:
+
+   ```text
+   BR-001 confirm
+   VAL-004 allowed, should become an edge case
+   TBD-002 non-blocking, cache latency is downstream design
+   ```
+
+   If a reply is ambiguous, ask a clarifying question before writing it back.
+5. **Record decision outcome** for each item:
    - **Confirmed**: SME agrees behavior/rule/decision is correct as recorded
    - **Rejected**: SME disagrees; rule does not reflect business intent
    - **Deferred**: SME cannot decide now; needs more evidence, more time, or
@@ -410,14 +483,14 @@ Fail validation if:
    - **Split into follow-ups**: Issue is more complex; break into smaller
      decisions (list follow-up IDs to create)
 
-4. **Escalate if needed**:
+6. **Escalate if needed**:
    - If SME defers: record reason, owner, target date, required next step
    - If contradiction cannot be resolved in session: record SME judgment and
      note for follow-up
    - If evidence is weak: ask SME if more evidence collection is needed before
      final decision
 
-5. **Request SME sign-off**: "Do you approve all decisions recorded in this log?
+7. **Request SME sign-off**: "Do you approve all decisions recorded in this log?
    Any corrections?"
 
 ### Phase 4: Decision Log Creation
@@ -458,7 +531,7 @@ decisions:
 
   - item_id: TBD-CREDIT-004
     item_type: tbd
-    question_posed: "Does CRDJOB validate against a blacklist or whitelist?"
+    question_posed: "When customer-account validation runs, is the business check based on a blocked-customer list or an approved-customer list?"
     sme_answer: "That's from a different era. I need to check with the Operations team. Will update by EOW."
     decision_outcome: deferred
     referenced_evidence: []
@@ -494,6 +567,24 @@ session_notes: |
   SME was familiar with CREDITPGM but needed clarification on REPORTPGM
   derivation. No blocking issues; one deferred item awaiting Ops approval.
 ```
+
+For Conversation Review Mode, also create or update
+`05_brds/<CAPABILITY-SLUG>/review-decision.yaml` using
+`templates/brd-review-decision.yaml`. This file is the BRD Package write-back
+that downstream `legacy-spec-writer` and `legacy-golden-master-test-planner`
+can inspect without reading chat history.
+
+Write-back rules:
+
+- Preserve `ai_suggested_decision` separately from `sme_decision`.
+- Preserve `raw_chat_answer` exactly as the SME wrote it.
+- For BRD Package reviews, write the section 1-9 coverage outcome into
+  `review-decision.yaml.functional_analysis_coverage[]` so handoff and
+  traceability gates can verify SME-required coverage without rereading chat.
+- Update `brd-review.md`, `validation-scenarios.md`, and `traceability.md`
+  only when the decision changes an item status or readiness.
+- Do not convert `VAL-*` directly into `AC-*` or `TC-*`; mark it as an input
+  candidate for downstream skills.
 
 ### Phase 5: Sign-Off
 
@@ -531,7 +622,7 @@ findings:
     source_item_id: TBD-CREDIT-004
     category: deferred_tbd
     severity: critical
-    description: "Blacklist vs. whitelist validation in CRDJOB"
+    description: "Customer-account validation policy is unresolved: blocked-customer list vs. approved-customer list"
     owner: Operations Manager
     target_date: "2026-05-23"
     next_step: "Gather evidence, update decision log, route to spec-writer"
@@ -580,10 +671,12 @@ has a **scoped exception**: it may update
 `capabilities[<CAP-*>].blocking.sme_pending` to reflect SME outcomes.
 
 After a review session, write to `<project-root>/workflow-state.yaml` per
-[`docs/workflow-state-contract.md`](../../../docs/legacy-spec-factory/workflow-state-contract.md).
+[`docs/workflow-state-contract.md`](../../docs/workflow-state-contract.md).
 
 **Artifact path pattern:**
-`08_business-understanding/<CAP-*>/sme-review-<YYYY-MM-DD>.md` (decision log)
+`07_sme_reviews/<CAPABILITY-SLUG>/<REVIEW-SLUG>/sme-decision-log.yaml`
+and, for BRD Conversation Review Mode,
+`05_brds/<CAPABILITY-SLUG>/review-decision.yaml`.
 
 **Per-run writes:**
 
@@ -616,6 +709,8 @@ Before releasing review artifacts:
 ### Decision Log Validation
 
 - Every item in scope has exactly one decision outcome
+- For BRD Package reviews, sections 1-9 have explicit coverage outcomes:
+  `accepted`, `accepted_with_tbd`, or `blocked`
 - Every decision has SME name, role, and ISO date
 - Contradictions are recorded verbatim; SME judgment is explicit, not erased
 - No invented facts or evidence in questions or decisions
@@ -663,7 +758,7 @@ Before releasing review artifacts:
 
 1. No named SME owner is available
 2. Any linked evidence has `sensitivity: unknown` or `redaction_status: unknown`
-3. Artifact is below `approved_with_non_blocking_tbd` status
+3. Artifact is `draft` or lacks stable IDs / evidence links
 4. Scope is unbounded or cannot be narrowed with SME
 5. SME refuses to sign off without additional evidence or stakeholder input
 
@@ -701,8 +796,8 @@ Partition every rule in `capabilities[<CAP-*>].blocking.sme_pending`:
 | **Spot-check sample** | rule is `auto_validated_spot_check_only` AND owning program is `standard` | sample 10-20% of bucket; if all pass, batch-approve the rest |
 | **Batch confirm** | rule is `auto_validated_spot_check_only` AND owning program is `low_risk` | single signoff on the whole bucket |
 
-Render the partition explicitly in the email + checklist so the SME sees
-the workload up front:
+Render the partition explicitly in the chat review batch so the SME sees the
+workload up front:
 
 ```
 You have 47 inferred rules to confirm for CAP-ORDER-PRICING:
@@ -730,56 +825,20 @@ Hard rules:
 
 ## SME Communication Package
 
-For every review session, this skill can emit a **two-file communication
-package** the operator copy-pastes to reach the SME:
+Conversation Review Mode is the default communication package. The facilitator
+presents review batches directly in chat and writes the decisions back into the
+review artifacts.
+
+Optional exports remain available when the user explicitly asks for them:
 
 1. [`templates/sme-review-email.md`](templates/sme-review-email.md) — a
-   short, structured email the operator sends (subject line, time
-   estimate, one decision per item with confirm/reject/defer checkbox).
+   structured email body for async review.
 2. [`templates/sme-review-checklist.md`](templates/sme-review-checklist.md)
-   — a one-page printable / shareable checklist the SME can mark up
-   offline (one item per page section, sign-off block, "what happens
-   next" footer).
+   — a printable / shareable checklist for offline review.
 
-### How to fill them
-
-Both templates use `{{placeholder}}` syntax. The skill populates from:
-
-| Placeholder | Source |
-| --- | --- |
-| `{{project_name}}` | `workflow-state.yaml` → `project.name` |
-| `{{capability_id}}`, `{{module_slug}}` | `current_focus` |
-| `{{current_stage}}` | `current_focus.stage_id` |
-| `{{sme_name}}` | `evidence/redacted/evidence-manifest.yaml` → `bundle.sme_contact.name` |
-| `{{artifact_path}}` | the artifact under review (typically `05_specs/<CAP-*>/spec.yaml`) |
-| `{{items[]}}` | one entry per ID in `capabilities[<CAP-*>].blocking.sme_pending` |
-| `{{items[i].observed / inferred / evidence_ids / impact}}` | extracted from the cited row in the artifact |
-| `{{operator_name}}` | the user running the skill |
-| `{{estimated_minutes}}` | 2 min per item (heuristic), rounded up |
-
-### Output location
-
-Save the populated files under
-`08_business-understanding/<CAP-*>/sme-review-<YYYY-MM-DD>/`:
-
-- `email.md` — the email body (copy-paste to your mail client / Lark / WeCom)
-- `checklist.md` — the checklist to share with the SME
-
-Append a `history[]` entry recording the package generation
-(`note: "SME review package prepared for <CAP-*> — N items"`). Per the
-Workflow State Write-Back section above, this does NOT advance
-`stage_id`; advancement happens after the SME's decisions come back and
-`blocking.sme_pending` is updated.
-
-### Why two artifacts
-
-Different SMEs prefer different channels:
-
-- **Email** — quick async decisions, threadable, searchable
-- **Checklist** — for SMEs who prefer to print, walk away, mark up, and
-  hand back (or share over a shared drive)
-
-Always generate both. Let the operator choose which to send.
+Do not require email, meetings, or checklist markup when the SME is available
+in the current chat. In chat-first runs, store the audit trail in
+`sme-decision-log.yaml` and, for BRD packages, `05_brds/<CAPABILITY-SLUG>/review-decision.yaml`.
 
 ## Examples
 
@@ -813,3 +872,21 @@ This skill is **portable** across Codex, Claude Code, and OpenCode:
   documented SME sign-offs
 - **Governance**: `legacy-step-contract`, `legacy-step-validator` — define and
   validate quality gates
+
+## Version History
+
+- v0.1.3 (2026-05-28): BRD functional-analysis coverage review
+  - Adds explicit SME review handling for BRD sections 1-9
+  - Writes section coverage to `review-decision.yaml`
+  - Routes missing required BRD coverage to `TBD-*` / follow-up findings
+
+- v0.1.1 (2026-05-22): Conversation Review Mode
+  - Makes chat-driven SME review the default interaction model
+  - Adds `VAL-*` validation scenario review handling
+  - Adds BRD Package write-back via `review-decision.yaml`
+  - Keeps email/checklist artifacts as optional export channels
+
+- v0.1.0 (2026-05-16): Initial SME review facilitator
+  - Structured question packs, SME decision logs, sign-off, and follow-up
+    findings
+  - Positive and negative three-runtime smoke passed before v0.1.1 changes

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" version="30.0.2">
+  <diagram id="module-first-brd-factory-ieov" name="Module-First BRD Factory IEOV">
+    <mxGraphModel dx="1800" dy="1120" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="1120" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <mxCell id="2" value="Diagram A - BRD Factory Logic&#xa;MODULE-FIRST BRD FACTORY&#xa;Document intake + module flows + supplemental evidence + IEOV validation -&gt; trusted BRD package" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#06131f;strokeColor=#089fd4;fontColor=#f2f8ff;fontSize=30;fontStyle=1;spacing=16;" vertex="1" parent="1">
+          <mxGeometry x="40" y="24" width="1720" height="104" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="3" value="A1 Module Context&#xa;模块上下文主干" style="swimlane;html=1;whiteSpace=wrap;startSize=44;fillColor=#0b2638;strokeColor=#089fd4;fontColor=#23c8ff;fontStyle=1;fontSize=18;" vertex="1" parent="1">
+          <mxGeometry x="40" y="168" width="330" height="590" as="geometry"/>
+        </mxCell>
+        <mxCell id="31" value="Operation / Business Flow&#xa;actors, events, exception path" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#402914;strokeColor=#f0a43a;fontColor=#f2f8ff;fontSize=13;fontStyle=1;spacing=8;" vertex="1" parent="3">
+          <mxGeometry x="30" y="90" width="260" height="62" as="geometry"/>
+        </mxCell>
+        <mxCell id="32" value="System Flow&#xa;upstream, downstream, jobs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#402914;strokeColor=#f0a43a;fontColor=#f2f8ff;fontSize=13;fontStyle=1;spacing=8;" vertex="1" parent="3">
+          <mxGeometry x="30" y="172" width="260" height="62" as="geometry"/>
+        </mxCell>
+        <mxCell id="33" value="Program Flow&#xa;A -&gt; B -&gt; C, branch, call chain" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#402914;strokeColor=#f0a43a;fontColor=#f2f8ff;fontSize=13;fontStyle=1;spacing=8;" vertex="1" parent="3">
+          <mxGeometry x="30" y="254" width="260" height="62" as="geometry"/>
+        </mxCell>
+        <mxCell id="34" value="Data Flow&#xa;PF/LF CRUD, field semantics" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#402914;strokeColor=#f0a43a;fontColor=#f2f8ff;fontSize=13;fontStyle=1;spacing=8;" vertex="1" parent="3">
+          <mxGeometry x="30" y="336" width="260" height="62" as="geometry"/>
+        </mxCell>
+        <mxCell id="35" value="Document Intake Package&#xa;DOC-* / FRAG-* normalized docs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#402914;strokeColor=#f0a43a;fontColor=#f2f8ff;fontSize=13;fontStyle=1;spacing=8;" vertex="1" parent="3">
+          <mxGeometry x="30" y="418" width="260" height="62" as="geometry"/>
+        </mxCell>
+        <mxCell id="36" value="Module is the understanding boundary" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#081927;strokeColor=#2b5369;fontColor=#9fb3c5;fontSize=12;spacing=8;" vertex="1" parent="3">
+          <mxGeometry x="30" y="522" width="260" height="42" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="4" value="A2 Gap Register&#xa;未知点和冲突登记" style="swimlane;html=1;whiteSpace=wrap;startSize=44;fillColor=#0b2638;strokeColor=#089fd4;fontColor=#23c8ff;fontStyle=1;fontSize=18;" vertex="1" parent="1">
+          <mxGeometry x="410" y="184" width="290" height="278" as="geometry"/>
+        </mxCell>
+        <mxCell id="41" value="unknown business meaning" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#081927;strokeColor=#2b5369;fontColor=#b8c7d5;fontSize=12;spacing=8;" vertex="1" parent="4">
+          <mxGeometry x="28" y="86" width="226" height="34" as="geometry"/>
+        </mxCell>
+        <mxCell id="42" value="missing sub-functions" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#081927;strokeColor=#2b5369;fontColor=#b8c7d5;fontSize=12;spacing=8;" vertex="1" parent="4">
+          <mxGeometry x="28" y="130" width="226" height="34" as="geometry"/>
+        </mxCell>
+        <mxCell id="43" value="weak evidence / conflicts" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#081927;strokeColor=#2b5369;fontColor=#b8c7d5;fontSize=12;spacing=8;" vertex="1" parent="4">
+          <mxGeometry x="28" y="174" width="226" height="34" as="geometry"/>
+        </mxCell>
+        <mxCell id="44" value="open questions / TBD" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#081927;strokeColor=#2b5369;fontColor=#b8c7d5;fontSize=12;spacing=8;" vertex="1" parent="4">
+          <mxGeometry x="28" y="218" width="226" height="34" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="5" value="A2 Evidence Layer&#xa;补充证据层，不是最终裁决" style="swimlane;html=1;whiteSpace=wrap;startSize=44;fillColor=#0b2638;strokeColor=#089fd4;fontColor=#23c8ff;fontStyle=1;fontSize=18;" vertex="1" parent="1">
+          <mxGeometry x="410" y="492" width="290" height="266" as="geometry"/>
+        </mxCell>
+        <mxCell id="51" value="RAG knowledge docs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#11352c;strokeColor=#4bd39c;fontColor=#dff8ee;fontSize=12;spacing=8;" vertex="1" parent="5">
+          <mxGeometry x="28" y="92" width="226" height="34" as="geometry"/>
+        </mxCell>
+        <mxCell id="52" value="Runtime / reports / spool" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#11352c;strokeColor=#4bd39c;fontColor=#dff8ee;fontSize=12;spacing=8;" vertex="1" parent="5">
+          <mxGeometry x="28" y="136" width="226" height="34" as="geometry"/>
+        </mxCell>
+        <mxCell id="53" value="Dictionary / ARCAD impact" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#11352c;strokeColor=#4bd39c;fontColor=#dff8ee;fontSize=12;spacing=8;" vertex="1" parent="5">
+          <mxGeometry x="28" y="180" width="226" height="34" as="geometry"/>
+        </mxCell>
+        <mxCell id="54" value="source snippets, screens, samples" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#11352c;strokeColor=#4bd39c;fontColor=#dff8ee;fontSize=12;spacing=8;" vertex="1" parent="5">
+          <mxGeometry x="28" y="224" width="226" height="28" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="6" value="A3 IEOV Conversion Workbench&#xa;把 flow/program 证据切片转成可审阅 BRD 构件" style="swimlane;html=1;whiteSpace=wrap;startSize=52;fillColor=#0b2638;strokeColor=#089fd4;fontColor=#23c8ff;fontStyle=1;fontSize=18;" vertex="1" parent="1">
+          <mxGeometry x="735" y="168" width="705" height="590" as="geometry"/>
+        </mxCell>
+        <mxCell id="61" value="I - INPUT&#xa;&#xa;Module scope + CAP seed&#xa;document-intake outputs&#xa;4-view module analysis&#xa;Flow / program evidence&#xa;EV / BEH / BR seeds&#xa;RAG and runtime gaps" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#10293a;strokeColor=#1bb7ee;fontColor=#f2f8ff;fontSize=12;fontStyle=1;spacing=12;" vertex="1" parent="6">
+          <mxGeometry x="27" y="100" width="152" height="416" as="geometry"/>
+        </mxCell>
+        <mxCell id="62" value="E - EXECUTION&#xa;&#xa;slice flow into behaviors&#xa;lift BEH-* observed facts&#xa;aggregate BR-* seeds&#xa;draft VAL-* scenarios&#xa;surface TBD / conflict&#xa;&#xa;program-level is evidence, not BRD" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#10293a;strokeColor=#f0a43a;fontColor=#f2f8ff;fontSize=12;fontStyle=1;spacing=12;" vertex="1" parent="6">
+          <mxGeometry x="195" y="100" width="152" height="416" as="geometry"/>
+        </mxCell>
+        <mxCell id="63" value="O - OUTPUT&#xa;&#xa;brd.md&#xa;brd-review.md&#xa;validation-scenarios.md&#xa;traceability.md&#xa;open questions&#xa;&#xa;one capability, one BRD package" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#10293a;strokeColor=#ad95ff;fontColor=#f2f8ff;fontSize=12;fontStyle=1;spacing=12;" vertex="1" parent="6">
+          <mxGeometry x="363" y="100" width="152" height="416" as="geometry"/>
+        </mxCell>
+        <mxCell id="64" value="V - VALIDATION&#xa;&#xa;mechanical ID checks&#xa;evidence traceability&#xa;AI semantic review&#xa;SME decision / sign-off&#xa;pass | warn | blocked&#xa;&#xa;no silent gaps, no unsupported rules" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#10293a;strokeColor=#4bd39c;fontColor=#f2f8ff;fontSize=12;fontStyle=1;spacing=12;" vertex="1" parent="6">
+          <mxGeometry x="531" y="100" width="152" height="416" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="7" value="A4 Trusted BRD Package&#xa;可信 BRD 交付包" style="swimlane;html=1;whiteSpace=wrap;startSize=44;fillColor=#0b2638;strokeColor=#089fd4;fontColor=#23c8ff;fontStyle=1;fontSize=18;" vertex="1" parent="1">
+          <mxGeometry x="1470" y="184" width="288" height="574" as="geometry"/>
+        </mxCell>
+        <mxCell id="71" value="Observed Behavior&#xa;what the IBM i system does" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#221f46;strokeColor=#ad95ff;fontColor=#f2f8ff;fontSize=12;fontStyle=1;spacing=8;" vertex="1" parent="7">
+          <mxGeometry x="28" y="100" width="222" height="58" as="geometry"/>
+        </mxCell>
+        <mxCell id="72" value="Business Rule Seeds&#xa;why / policy, SME-reviewed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#221f46;strokeColor=#ad95ff;fontColor=#f2f8ff;fontSize=12;fontStyle=1;spacing=8;" vertex="1" parent="7">
+          <mxGeometry x="28" y="174" width="222" height="58" as="geometry"/>
+        </mxCell>
+        <mxCell id="73" value="Validation Scenarios&#xa;VAL-* seeds, not formal TC" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#221f46;strokeColor=#ad95ff;fontColor=#f2f8ff;fontSize=12;fontStyle=1;spacing=8;" vertex="1" parent="7">
+          <mxGeometry x="28" y="248" width="222" height="58" as="geometry"/>
+        </mxCell>
+        <mxCell id="74" value="Traceability Matrix&#xa;BRD claim -&gt; BEH / EV / TBD" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#221f46;strokeColor=#ad95ff;fontColor=#f2f8ff;fontSize=12;fontStyle=1;spacing=8;" vertex="1" parent="7">
+          <mxGeometry x="28" y="322" width="222" height="58" as="geometry"/>
+        </mxCell>
+        <mxCell id="75" value="Confidence Gate&#xa;approved&#xa;approved with non-blocking TBD&#xa;blocked pending evidence / SME" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#11352c;strokeColor=#4bd39c;fontColor=#dff8ee;fontSize=12;fontStyle=1;spacing=8;" vertex="1" parent="7">
+          <mxGeometry x="28" y="408" width="222" height="96" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="8" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#091d2d;strokeColor=#14506d;fontColor=#23c8ff;fontSize=18;fontStyle=1;spacing=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="806" width="1720" height="156" as="geometry"/>
+        </mxCell>
+        <mxCell id="81" value="Module&#xa;understanding boundary" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#402914;strokeColor=#f0a43a;fontColor=#f2f8ff;fontSize=13;fontStyle=1;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="358" y="824" width="192" height="86" as="geometry"/>
+        </mxCell>
+        <mxCell id="82" value="Capability&#xa;BRD output unit" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#221f46;strokeColor=#ad95ff;fontColor=#f2f8ff;fontSize=13;fontStyle=1;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="610" y="824" width="192" height="86" as="geometry"/>
+        </mxCell>
+        <mxCell id="83" value="Flow&#xa;transaction slice" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#10293a;strokeColor=#1bb7ee;fontColor=#f2f8ff;fontSize=13;fontStyle=1;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="862" y="824" width="192" height="86" as="geometry"/>
+        </mxCell>
+        <mxCell id="84" value="Program / Object&#xa;evidence granularity" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#10293a;strokeColor=#1bb7ee;fontColor=#f2f8ff;fontSize=13;fontStyle=1;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="1114" y="824" width="192" height="86" as="geometry"/>
+        </mxCell>
+        <mxCell id="85" value="Claim IDs&#xa;EV / BEH / BR / TBD" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#11352c;strokeColor=#4bd39c;fontColor=#dff8ee;fontSize=13;fontStyle=1;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="1366" y="824" width="192" height="86" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="9" value="Key Message&#xa;Raw Office / Visio / PDF / image evidence is normalized first; RAG does not generate the BRD. Reviewed module context defines the backbone; docs/specs/RAG/runtime/reports fill gaps; IEOV + SME review make every BRD claim traceable.&#xa;A1-A4 的执行支撑见 Diagram B：每个阶段都有对应 skills、产物和 gate。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0b2638;strokeColor=#089fd4;fontColor=#f2f8ff;fontSize=14;fontStyle=1;spacing=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="988" width="1720" height="78" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e1" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#f4a83a;strokeWidth=3;" edge="1" parent="1" source="3" target="4">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e2" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#20c8ff;strokeWidth=3;" edge="1" parent="1" source="4" target="6">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e3" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#4bd39c;strokeWidth=2;dashed=1;" edge="1" parent="1" source="5" target="6">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e4" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#20c8ff;strokeWidth=3;" edge="1" parent="1" source="6" target="7">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e5" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#20c8ff;strokeWidth=2;" edge="1" parent="1" source="81" target="82">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e6" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#20c8ff;strokeWidth=2;" edge="1" parent="1" source="82" target="83">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e7" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#20c8ff;strokeWidth=2;" edge="1" parent="1" source="83" target="84">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e8" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#20c8ff;strokeWidth=2;" edge="1" parent="1" source="84" target="85">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

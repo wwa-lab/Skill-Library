@@ -58,16 +58,18 @@ checked? what is the algorithm?) is not extracted.
 
 ### 3. BLOCKER: Geographic Logic Not Evidenced
 
-**Issue:** BRD claims "orders are assigned based on geographic location" but
-only a code comment supports this. No actual geographic lookup logic (ZIP code
-comparison, regional table, etc.) is shown in the program analysis.
+**Issue:** The draft must not claim "orders are assigned based on geographic
+location" because only a code comment supports this. No actual geographic
+lookup logic (ZIP code comparison, regional table, etc.) is shown in the program
+analysis.
 
 **Evidence Gap:** `TBD-ORDER-ROUTING-002`
 
 **Action Required:**
 - [ ] Program analyzer must show the actual geographic lookup logic
 - [ ] Or: SME must clarify whether geographic routing is real or comment error
-- [ ] After clarification, update BRD behavior claim or mark as TBD
+- [ ] After clarification, either add the behavior with evidence or keep it as
+      a TBD
 
 **Resolver:** Program Analyzer or SME  
 **Timeline:** Blocking — cannot claim behavior without code evidence
@@ -95,9 +97,9 @@ or different?
 
 ### 5. BLOCKER: Business Rule Unclear
 
-**Issue:** `BR-ORDER-ROUTING-001` claims routing should "minimize cost AND
-delivery time" but does not specify if optimization targets cost, speed, or
-both equally.
+**Issue:** `BR-ORDER-ROUTING-001` cannot safely state whether routing should
+minimize cost, minimize delivery time, balance both, or use another business
+objective.
 
 **Evidence Gap:** `TBD-ORDER-ROUTING-005`
 

@@ -2,6 +2,6 @@
   "displayName": "Legacy Spec Factory",
   "nameStrategy": "preserve",
   "source": "https://github.com/wwa-lab/legacy-spec-factory",
-  "sourceCommit": "8871a6b",
+  "sourceCommit": "3b6a16b",
   "status": "public-stable-baseline"
 }

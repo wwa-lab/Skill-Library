@@ -179,11 +179,11 @@ boundaries. Every error is fully recoverable by the user.
 
 ## Business Capability Seeds
 
-| Seed ID | Candidate Rule / Capability | Suggested By | SME Question |
-| --- | --- | --- | --- |
-| SEED-CUST-INQUIRY-01 | CSR role must be authorised to view customer transaction history | Menu option 5 visibility depends on CSR group; data shown is sensitive | What governs CSR access — group profile only, or finer-grained authorities? |
-| SEED-CUST-INQUIRY-02 | Unknown subfile options are silently dropped | NODE-CUST-INQUIRY-01 subfile dispatch ignores unrecognised option codes | Is silent drop intentional or should an error be shown? |
-| SEED-CUST-INQUIRY-03 | Transaction history limited to 90 days | NODE-03 hard-coded 90-day window | Is 90 days a regulatory limit, performance choice, or arbitrary? |
+| Seed ID | Candidate Rule / Capability | Business Signal | Evidence Basis | SME Question |
+| --- | --- | --- | --- | --- |
+| SEED-CUST-INQUIRY-01 | CSR role must be authorised to view customer transaction history | Customer transaction history is sensitive and gated by staff role | Menu option 5 visibility depends on CSR group; data shown is sensitive | What governs CSR access — group profile only, or finer-grained authorities? |
+| SEED-CUST-INQUIRY-02 | Unknown inquiry actions may be ignored instead of shown as errors | Unrecognised user actions do not create a visible business response | NODE-CUST-INQUIRY-01 subfile dispatch ignores unrecognised option codes | Is silent drop intentional or should an error be shown? |
+| SEED-CUST-INQUIRY-03 | Transaction history may be limited to 90 days | Inquiry history has an observed age boundary | NODE-03 hard-coded 90-day window | Is 90 days a regulatory limit, performance choice, or arbitrary? |
 
 ---
 

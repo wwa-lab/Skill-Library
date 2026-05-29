@@ -58,6 +58,8 @@
 
 ### Step 6 — Coverage Tables
 
+- [x] BRD functional coverage rows for required sections 1-9 are present
+- [x] No required BRD section is blocked or awaiting evidence
 - [x] EV / BEH / BR / AC / TC / DEC tables built without `COVERAGE-DATA-MISSING`
 
 **Status:** ✅ PASS

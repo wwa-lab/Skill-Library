@@ -2,6 +2,29 @@
 
 ## Status: draft → needs_sme_review
 
+## Mermaid Flow Diagram
+
+```mermaid
+flowchart TD
+  SYS_VISA_MC["Visa/MC MQ inbound"] --> FLOW_ONUS_AUTH_001["FLOW-ONUS-AUTH-001 sync real-time"]
+  SYS_CSR_MENU["CSR menu option 7"] --> FLOW_MANUAL_AUTH_001["FLOW-MANUAL-AUTH-001 interactive"]
+  SYS_SCHEDULER["Scheduler 22:00"] --> FLOW_NIGHTLY_RECON_001["FLOW-NIGHTLY-RECON-001 batch"]
+
+  FLOW_ONUS_AUTH_001 --> PGM_CU101A["CU101A entry"]
+  FLOW_MANUAL_AUTH_001 --> PGM_MANAUTH["MANAUTH entry/exit"]
+  FLOW_NIGHTLY_RECON_001 --> PGM_RECONCL["RECONCL entry"]
+
+  PGM_CU101A --> PGM_CREDITCHK["CREDITCHK shared validation"]
+  PGM_MANAUTH --> PGM_CREDITCHK
+  PGM_CREDITCHK --> PGM_TXNLOGWR["TXNLOGWR audit writer"]
+  PGM_TXNLOGWR --> DATA_TXNLOGPF["TXNLOGPF"]
+
+  PGM_RECONCL --> DATA_TXNLOGPF
+  PGM_RECONCL --> PGM_RECONSQL["RECONSQL exit"]
+  PGM_RECONSQL --> SYS_GL_HANDOFF["GL handoff + DTAQ + spool"]
+  PGM_TXNLOGWR --> SYS_MQ_RESPONSE["MQ response"]
+```
+
 ## Flow Inventory
 
 | Flow ID | Business Event | Trigger Model | Entry Program | Exit Program | Runtime |
@@ -26,22 +49,9 @@
 
 ## Overall Call Topology
 
-```text
-                  [Visa/MC MQ inbound]              [CSR menu opt 7]              [Scheduler 22:00]
-                          │                                │                              │
-                          ▼                                ▼                              ▼
-              FLOW-ONUS-AUTH-001              FLOW-MANUAL-AUTH-001              FLOW-NIGHTLY-RECON-001
-                  (sync, real-time)              (interactive)                       (batch)
-                          │                                │                              │
-                          ▼                                ▼                              │
-                     CREDITCHK ◄────────────── shared ──────────────┐                     │
-                          │                                                                │
-                          ▼                                                                │
-                      TXNLOGWR ───────────── writes TXNLOGPF ◄───── reads ─────────────────┤
-                          │                                                                │
-                          ▼                                                                ▼
-                     [MQ response]                                                    [GL handoff + DTAQ + spool]
-```
+The Mermaid diagram above is the aggregate call topology. Its shared
+`CREDITCHK`, `TXNLOGWR`, and `TXNLOGPF` edges are backed by the approved
+`FLOW-ONUS-AUTH`, `FLOW-MANUAL-AUTH`, and `FLOW-NIGHTLY-RECON` analyses.
 
 ## TBDs
 
