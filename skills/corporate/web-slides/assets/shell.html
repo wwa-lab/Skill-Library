@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' blob:; style-src 'unsafe-inline'; img-src data: blob:; font-src 'none'; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>__TITLE__</title>
+<style id="corporate-style">__CSS__</style>
+</head>
+<body>
+<header id="toolbar" aria-label="演示工具栏">
+<strong id="deck-name"></strong><span id="mode-label">展示模式</span>
+<button id="mode">编辑</button><button id="toc-toggle">目录</button><button id="notes-toggle">讲稿</button>
+<button id="fullscreen">全屏</button><label class="motion"><input id="reduced" type="checkbox">减少动态</label>
+<button id="save">保存 HTML</button><button id="export">导出 PPTX</button>
+<button id="template">导出 POTX</button><button id="help">帮助</button>
+</header>
+<div id="workspace">
+<aside id="toc" hidden aria-label="页面目录">
+<h2>页面目录</h2><ol id="slide-list"></ol>
+<div class="edit-only"><button id="add">增加页面</button><button id="duplicate">复制</button><button id="delete">删除</button><button id="move-up">上移</button><button id="move-down">下移</button></div>
+</aside>
+<main id="viewport" aria-label="幻灯片"><div id="stage"></div></main>
+<aside id="editor" hidden aria-label="版式内编辑器">
+<h2>页面编辑</h2>
+<div class="history"><button id="undo">撤销</button><button id="redo">重做</button></div>
+<label>标题<textarea id="edit-title" rows="2"></textarea></label>
+<label>讲稿<textarea id="edit-notes" rows="4"></textarea></label>
+<label>选择对象<select id="element-select"></select></label>
+<div id="object-fields">
+<label id="text-label">内容<textarea id="edit-text" rows="5"></textarea></label>
+<label>字号档位<select id="font-size"><option value="24">小 24</option><option value="28">标准 28</option><option value="32">正文 32</option><option value="40">大 40</option><option value="58">标题 58</option><option value="82">封面 82</option></select></label>
+<label>强调色<input id="color" type="color"></label>
+<label>对齐<select id="align"><option value="left">左对齐</option><option value="center">居中</option><option value="right">右对齐</option></select></label>
+<div id="image-fields" hidden>
+<label>替换图片（PNG / JPEG）<input id="image-input" type="file" accept="image/png,image/jpeg"></label>
+<label>显示方式<select id="image-fit"><option value="contain">完整显示</option><option value="cover">裁切填充</option></select></label>
+<label>裁切横向位置<input id="image-x" type="range" min="0" max="1" step="0.05"></label>
+<label>裁切纵向位置<input id="image-y" type="range" min="0" max="1" step="0.05"></label>
+</div>
+<div id="data-fields" hidden><label>表格 / 图表数据（JSON）<textarea id="edit-data" rows="7"></textarea></label><button id="apply-data">应用数据</button></div>
+</div>
+<p class="hint">选择页面中的对象微调。表格首行为表头；修改后请保存 HTML。</p>
+</aside>
+</div>
+<footer id="navigation"><button id="prev" aria-label="上一页">←</button><output id="page-number"></output><button id="next" aria-label="下一页">→</button><span id="status" role="status" aria-live="polite">就绪</span><button id="recover" hidden>恢复缓存副本</button></footer>
+<aside id="notes-panel" hidden aria-label="逐页讲稿"><h2>本页讲稿</h2><div id="notes-content"></div></aside>
+<dialog id="message"><h2 id="message-title"></h2><pre id="message-body"></pre><form method="dialog"><button>关闭</button></form></dialog>
+<script type="application/json" id="deck-data">__DECK_JSON__</script>
+<script id="corporate-vendor">__VENDOR__</script>
+<script id="corporate-app">__APP_JS__</script>
+<!-- __LICENSES__ -->
+</body>
+</html>

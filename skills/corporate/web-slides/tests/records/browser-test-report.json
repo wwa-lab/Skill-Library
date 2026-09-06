@@ -1,0 +1,85 @@
+{
+  "environment": {
+    "platform": "darwin",
+    "browser": "152.0.7977.76",
+    "headless": true,
+    "offline": true,
+    "node": "developer test harness only",
+    "windows11": "not verified",
+    "managedBrowser": "not verified",
+    "powerPointUI": "not verified"
+  },
+  "screenshots": [
+    "display-1280x720.png",
+    "display-1366x768.png",
+    "display-1920x1080.png",
+    "projection-1024x768.png",
+    "editing.png"
+  ],
+  "checks": [
+    "six-page model, notes, keyboard navigation, reduced motion, headless fullscreen, 4 viewport sizes",
+    "UI title/body/notes/font/color/alignment/image/crop/table/chart edits",
+    "drag reorder and button reorder",
+    "add/duplicate/delete/undo/redo",
+    "two HTML saves and fresh reopen with exact model preservation",
+    "UI export latest content, notes, order, native text/shapes/table/chart workbook",
+    "independent picture bytes exactly match latest requested crop",
+    "POTX theme and native master/layout placeholder package checks",
+    "offline context and network denial"
+  ],
+  "output": "temporary developer test directory; screenshots retained beside this record",
+  "baselinePptx": {
+    "file": "examples/six-slides.pptx",
+    "slides": 6,
+    "notes": 6,
+    "textShapes": 40,
+    "pictures": 1,
+    "shapes": 47,
+    "tables": 1,
+    "charts": 1,
+    "chartWorkbooks": 1,
+    "layouts": 5,
+    "powerPointUI": "not verified"
+  },
+  "baselinePotx": {
+    "file": "examples/six-slides.potx",
+    "slides": 6,
+    "notes": 6,
+    "textShapes": 40,
+    "pictures": 1,
+    "shapes": 47,
+    "tables": 1,
+    "charts": 1,
+    "chartWorkbooks": 1,
+    "layouts": 5,
+    "powerPointUI": "not verified"
+  },
+  "editedPptx": {
+    "file": "temporary edited acceptance.pptx",
+    "slides": 6,
+    "notes": 6,
+    "textShapes": 40,
+    "pictures": 1,
+    "shapes": 47,
+    "tables": 1,
+    "charts": 1,
+    "chartWorkbooks": 1,
+    "layouts": 5,
+    "powerPointUI": "not verified"
+  },
+  "editedPotx": {
+    "file": "temporary edited acceptance.potx",
+    "slides": 6,
+    "notes": 6,
+    "textShapes": 40,
+    "pictures": 1,
+    "shapes": 47,
+    "tables": 1,
+    "charts": 1,
+    "chartWorkbooks": 1,
+    "layouts": 5,
+    "powerPointUI": "not verified"
+  },
+  "recordedAt": "2026-09-05 Asia/Shanghai",
+  "status": "PASS"
+}
