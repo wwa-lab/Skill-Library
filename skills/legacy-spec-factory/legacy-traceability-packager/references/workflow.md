@@ -150,6 +150,9 @@ For each `DEC-*`:
 
 Assemble the structured coverage tables required by `traceability-package.yaml`:
 
+- `brd_functional_coverage`: when a BRD is supplied, one row for each required
+  BRD section 1-9, copied from `review-decision.yaml.functional_analysis_coverage[]`
+  or `brd-review.md` if the BRD was reviewed before that YAML existed.
 - `evidence_coverage[]`: one row per `EV-*` with `referenced_by[]` and `is_orphan` boolean.
 - `behavior_coverage[]`: one row per `BEH-*` with `supporting_evidence_ids[]` and `backs_rules[]`.
 - `business_rule_coverage[]`: one row per `BR-*` with `evidence_ids[]`, `behavior_ids[]`, `acceptance_criteria_ids[]`, `review_status`, and `closure_status` (`closed | open | retired`).
@@ -158,6 +161,19 @@ Assemble the structured coverage tables required by `traceability-package.yaml`:
 - `decision_coverage[]`: one row per `DEC-*` with `cites_rules[]`, `cites_behaviors[]`, `cites_constraints[]`, and `review_status`.
 
 Every row must be derivable from upstream content. If a row would require a new fact, raise `COVERAGE-DATA-MISSING` (blocking — route to the owning skill).
+
+BRD functional coverage rules:
+
+- If the BRD is supplied, all required sections 1-9 must have coverage rows.
+  Missing rows raise `BRD-FUNCTIONAL-COVERAGE-MISSING` (blocking).
+- A coverage decision of `blocked` or `needs_more_evidence` raises
+  `BRD-FUNCTIONAL-COVERAGE-BLOCKED` (blocking).
+- A coverage decision of `accepted_with_tbd` raises
+  `BRD-FUNCTIONAL-COVERAGE-TBD` (warning) only when every related `TBD-*`
+  resolves in the ID inventory and has non-blocking or explicit deferred
+  status.
+- Optional BRD sections 10-12 are not required; include them only when the BRD
+  supplied evidence-backed coverage.
 
 Aggregate coverage metrics for the human view:
 

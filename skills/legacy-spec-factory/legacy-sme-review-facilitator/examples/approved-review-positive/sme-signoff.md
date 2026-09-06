@@ -2,7 +2,8 @@
 
 **Review ID:** `REVIEW-CREDIT-CHECK-001`
 **Artifact Reviewed:** `05_brds/CREDIT-CHECK/brd.md`
-**Review Scope:** Credit check behaviors, inferred rules, and TBDs
+**Review Scope:** BRD functional-analysis coverage, credit check behaviors,
+inferred rules, and TBDs
 **Review Date:** `2026-05-16`
 
 ## Reviewer Information
@@ -13,11 +14,13 @@
 
 ## Review Summary
 
-**Total Items Reviewed:** 3
+**Total Items Reviewed:** 13
 
+- BRD Coverage Accepted: 7
+- BRD Coverage Accepted with TBD: 2
 - Confirmed: 1
 - Rejected: 1
-- Deferred: 1
+- Deferred: 2
 - Marked Non-Blocking: 0
 - Marked Blocking: 0
 
@@ -28,8 +31,9 @@ Factory facilitator. The recorded decisions accurately reflect my judgment and
 the business intent as I understand it.
 
 The confirmed decisions may advance to `legacy-spec-writer`. The rejected rule
-must be revised as recorded in `sme-decision-log.yaml`; the deferred TBD remains
-open until Operations provides the requested confirmation.
+must be revised as recorded in `sme-decision-log.yaml`. The MobileX channel
+follow-up remains open until Digital Channels confirms scope; the validation
+sequence TBD remains open until Operations provides the requested confirmation.
 
 ## Signature
 
@@ -40,4 +44,5 @@ open until Operations provides the requested confirmation.
 ## Routing
 
 - [x] Route to `legacy-spec-writer` for spec refinement
+- [x] Route to Digital Channels for MobileX channel follow-up
 - [x] Route to Operations for deferred validation-sequence follow-up

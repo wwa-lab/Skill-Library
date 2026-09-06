@@ -6,7 +6,7 @@ metadata:
   author: Leo L Zhang
   maintainer: platform-engineering
   source: https://github.com/wwa-lab/legacy-spec-factory
-  source_commit: 8871a6b
+  source_commit: 3b6a16b
   domain: legacy-spec-factory
 ---
 
@@ -132,8 +132,8 @@ For an all-passed evidence set, the minimum valid answer is:
 
 Follow:
 
-- `../../../docs/legacy-spec-factory/runtime-smoke-tests.md`
-- `../../../docs/legacy-spec-factory/skill-review-gate.md`
+- `../../docs/runtime-smoke-tests.md`
+- `../../docs/skill-review-gate.md`
 - `references/test-execution-protocol.md`
 
 Examples:
@@ -158,7 +158,7 @@ field-level rules.
   `docs/runtime-smoke-tests.md` or the target skill's examples, or if the user
   wants to override); negative-case prompt (if testing adversarial blocking).
 - **Input readiness scoring**: apply
-  `../../../docs/legacy-spec-factory/input-readiness-rubric.md`; canonical prompts satisfy minimum
+  `../../docs/input-readiness-rubric.md`; canonical prompts satisfy minimum
   pass, while negative cases and prior scorecard context raise confidence.
 - **Readiness checks**: Skill exists under `skills/`; skill version is not
   yet marked as `passed` in all target runtimes in `runtime-matrix.md`;
@@ -317,7 +317,7 @@ business capabilities. It does NOT mutate `capabilities[]` or
 
 If the project happens to have a `<project-root>/workflow-state.yaml`,
 append one `history[]` entry per
-[`docs/workflow-state-contract.md`](../../../docs/legacy-spec-factory/workflow-state-contract.md):
+[`docs/workflow-state-contract.md`](../../docs/workflow-state-contract.md):
 
 ```yaml
 history:
@@ -383,7 +383,7 @@ Runtime copies may be synced to:
 .codex/skills/legacy-runtime-matrix-tester/SKILL.md
 ```
 
-Use `../../../scripts/legacy-spec-factory/sync-skills.sh` to create or check runtime copies.
+Use `../../scripts/sync-skills.sh` to create or check runtime copies.
 
 ## Version History
 

@@ -1,0 +1,83 @@
+schema_version: "0.1"
+package_type: "flow_context_normalization"
+
+module:
+  slug: "<MODULE-SLUG>"
+  module_id: "MODULE-<MODULE-SLUG>-001"
+  business_name: "<Business module name>"
+  scope_statement: "<Draft or SME-confirmed scope statement>"
+  owner: "<Module owner / SME role>"
+  source_state: "draft_documents" # draft_documents | mixed | sme_confirmed
+
+normalization:
+  skill: "legacy-flow-context-normalizer"
+  version: "v0.1.6"
+  generated_at: "<YYYY-MM-DDTHH:MM:SSZ>"
+  status: "draft_needs_sme_review" # draft_needs_sme_review | triage_needs_source_enrichment | ready_for_context_intake | ready_with_warnings | blocked_pending_evidence | blocked_pending_scope | blocked_pending_readable_source | blocked_pending_contradiction_review
+  quality_level: "L2 partial" # L3 strong | L2 partial | L1 sparse | L0 blocked
+  decision_reason: "<Why this status was selected>"
+  downstream_next_step: "legacy-sme-review-facilitator" # legacy-module-context-intake when ready
+
+evidence_authorization:
+  status: "unknown" # approved | synthetic_non_production | public | blocked | unknown
+  evidence_manifest: null
+  redaction_notes: "<authorization / redaction note>"
+
+input_documents: []
+
+output_files:
+  flow_context_index: "flow-context-index.yaml"
+  source_document_index: "source-document-index.yaml"
+  operation_business_flow: "01-operation-business-flow.md"
+  system_flow: "02-system-flow.md"
+  program_flow: "03-program-flow.md"
+  data_flow: "04-data-flow.md"
+  evidence_map: "evidence-map.md"
+  contradiction_log: "contradiction-log.md"
+  open_questions: "open-questions.md"
+  sme_review_pack: "sme-review-pack.md"
+
+coverage:
+  operation_business_flow: "absent" # absent | partial | usable | strong
+  system_flow: "absent"
+  program_flow: "absent"
+  data_flow: "absent"
+  brd_functional_analysis_hints:
+    function_purpose: "absent"
+    business_scenarios: "absent"
+    channels: "absent"
+    user_touchpoints: "absent"
+    system_interfaces: "absent"
+    process_flow: "absent"
+    validation_rules: "absent"
+    error_handling: "absent"
+    dependencies: "absent"
+    optional_security_auth: "absent"
+    optional_workflow_design_notes: "absent"
+    optional_source_document_mapping: "absent"
+  evidence_map_complete: false
+  contradictions_carried_forward: false
+  sme_review_questions_prepared: false
+
+gates:
+  evidence_authorization_gate: "blocked" # pass | warning | blocked
+  readable_source_gate: "blocked"
+  module_scope_gate: "blocked"
+  four_view_gate: "warning" # warning when one or more views are absent but represented as TBD placeholders
+  contradiction_visibility_gate: "blocked"
+  sme_review_gate: "blocked"
+  rule_promotion_gate: "blocked"
+
+risk_acceptance:
+  status: "none" # none | requested | accepted | rejected
+  accepted_by: null
+  accepted_at: null
+  rationale: null
+  downstream_restrictions:
+    - "No approved BR-* or BRD claim may be generated from sparse context alone."
+    - "All missing views remain carry-forward TBDs until corroborated."
+
+blocking_items:
+  - id: "TBD-<MODULE-SLUG>-001"
+    reason: "<Why this item blocks handoff, or why it is carried as a non-blocking warning>"
+    owner: "<Skill or role responsible for resolution>"

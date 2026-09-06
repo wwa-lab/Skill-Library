@@ -71,6 +71,94 @@ source_artifacts:
     path: "06_sdd_handoffs/CREDIT-CHECK/sdd-handoff.yaml"
     status: "approved"
 
+brd_functional_coverage:
+  required_sections_total: 9
+  accepted: 9
+  accepted_with_tbd: 0
+  blocked: 0
+  sections:
+    - target_id: "BRD-CREDIT-CHECK-001#section-01"
+      section_number: 1
+      section_name: "Function Purpose"
+      coverage_decision: "accepted"
+      related_tbd_ids: []
+      referenced_evidence: ["EV-CREDIT-CHECK-001"]
+      reviewed_by: "John Smith"
+      reviewed_at: "2026-05-14"
+      findings: []
+    - target_id: "BRD-CREDIT-CHECK-001#section-02"
+      section_number: 2
+      section_name: "Business Scenarios / Use Cases"
+      coverage_decision: "accepted"
+      related_tbd_ids: []
+      referenced_evidence: ["EV-CREDIT-CHECK-002"]
+      reviewed_by: "John Smith"
+      reviewed_at: "2026-05-14"
+      findings: []
+    - target_id: "BRD-CREDIT-CHECK-001#section-03"
+      section_number: 3
+      section_name: "Channels"
+      coverage_decision: "accepted"
+      related_tbd_ids: []
+      referenced_evidence: ["EV-CREDIT-CHECK-002"]
+      reviewed_by: "John Smith"
+      reviewed_at: "2026-05-14"
+      findings: []
+    - target_id: "BRD-CREDIT-CHECK-001#section-04"
+      section_number: 4
+      section_name: "User Interface / User Touchpoints"
+      coverage_decision: "accepted"
+      related_tbd_ids: []
+      referenced_evidence: ["EV-CREDIT-CHECK-003"]
+      reviewed_by: "John Smith"
+      reviewed_at: "2026-05-14"
+      findings: []
+    - target_id: "BRD-CREDIT-CHECK-001#section-05"
+      section_number: 5
+      section_name: "System Interfaces"
+      coverage_decision: "accepted"
+      related_tbd_ids: []
+      referenced_evidence: ["EV-CREDIT-CHECK-003"]
+      reviewed_by: "John Smith"
+      reviewed_at: "2026-05-14"
+      findings: []
+    - target_id: "BRD-CREDIT-CHECK-001#section-06"
+      section_number: 6
+      section_name: "Process Flow"
+      coverage_decision: "accepted"
+      related_tbd_ids: []
+      referenced_evidence: ["EV-CREDIT-CHECK-003"]
+      reviewed_by: "John Smith"
+      reviewed_at: "2026-05-14"
+      findings: []
+    - target_id: "BRD-CREDIT-CHECK-001#section-07"
+      section_number: 7
+      section_name: "Validation Rules"
+      coverage_decision: "accepted"
+      related_tbd_ids: []
+      referenced_evidence: ["EV-CREDIT-CHECK-001"]
+      reviewed_by: "John Smith"
+      reviewed_at: "2026-05-14"
+      findings: []
+    - target_id: "BRD-CREDIT-CHECK-001#section-08"
+      section_number: 8
+      section_name: "Error Handling"
+      coverage_decision: "accepted"
+      related_tbd_ids: []
+      referenced_evidence: ["EV-CREDIT-CHECK-004"]
+      reviewed_by: "John Smith"
+      reviewed_at: "2026-05-14"
+      findings: []
+    - target_id: "BRD-CREDIT-CHECK-001#section-09"
+      section_number: 9
+      section_name: "Dependencies"
+      coverage_decision: "accepted"
+      related_tbd_ids: []
+      referenced_evidence: ["EV-CREDIT-CHECK-004"]
+      reviewed_by: "John Smith"
+      reviewed_at: "2026-05-14"
+      findings: []
+
 id_inventory:
   totals:
     CAP: 1

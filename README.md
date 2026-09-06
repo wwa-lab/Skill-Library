@@ -71,9 +71,10 @@ Pending internal pilot skills are reserved but not installed until their `SKILL.
 ### Legacy Spec Factory
 
 The Legacy Spec Factory family was migrated from `wwa-lab/legacy-spec-factory`
-as a public-stable baseline at source commit `8871a6b`. It contains 21
+as a public-stable baseline at source commit `3b6a16b`. It contains 24
 preserved-name skills for reverse-modernization work:
 
+- Document evidence intake, flow context normalization, and module context intake.
 - Evidence intake, inventory, and IBM i source/runtime analysis.
 - Program, flow, module, screen/report, and data-model understanding.
 - BRD, spec, modernization decision, traceability, and SDD handoff packaging.

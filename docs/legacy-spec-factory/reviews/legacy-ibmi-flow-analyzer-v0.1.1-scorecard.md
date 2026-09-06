@@ -4,7 +4,7 @@ scorecard_version: v0.1.1
 static_score: 9.61
 decision: repo-ready
 decision_note: "Scorecard body rates as provisional field-pilot; runtime cap still applies until Codex and OpenCode smoke pass. See runtimes_tested below."
-status: current
+status: superseded_by_v0.1.2
 last_verified: 2026-05-14
 runtimes_tested:
   codex: { status: synced, model: gpt-5.4-mini, date: null }

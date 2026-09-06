@@ -100,6 +100,7 @@ Step 0.b resolves the project root before this table is consulted.
 | --- | --- | --- |
 | `05_specs/CAP-*/spec.yaml` | `capability_id` + `spec.yaml.status` | `8a` / `8b` / `8c` |
 | `04_modules/<MODULE>/module-overview.md` | `module_slug` + `CAP-*` seeds + view count | `3e` / `3f` |
+| `00_context_packages/<MODULE>/context-index.yaml` | `module_slug` + intake status + RAG run IDs | `0m` / `0n` |
 | `03_flows/<MODULE>/flow-*.md` | `module_slug` + flow count + `status` | `3c` / `3d` |
 | `02_programs/<MODULE>/<OBJ>/program-analysis.md` | `module_slug` + per-program coverage | `3a` / `3b` |
 | `01_inventory/inventory.yaml` | `module_slug` + `sme_review.decision` + `coverage_gaps[]` | `2a` / `2b` / `2c` |
@@ -192,7 +193,8 @@ plug in?" Quick lookup:
 | `inventory.yaml` (approved), nothing else | `new` per-module | `legacy-ibmi-program-analyzer` |
 | `program-analysis.md` for some programs | `continued` if in `capabilities[]`; else `scan` then `continued` | continue program analysis or move to `legacy-ibmi-flow-analyzer` |
 | `flow-*.md` for some flows | same | continue flows or move to `legacy-ibmi-module-analyzer` |
-| `module-overview.md` + 4 views approved | `continued` (one CAP-* per spec) | `legacy-spec-writer` |
+| `module-overview.md` + 4 views approved, no approved BRD Package | `continued` (one CAP-* per BRD) | `legacy-brd-writer` |
+| `module-overview.md` + 4 views approved + approved BRD Package | `continued` (one CAP-* per spec) | `legacy-spec-writer` |
 | `spec.yaml` (`status: draft`) | `continued` | finish spec, then SME review |
 | `spec.yaml` (`status: approved`) but no equivalence pack | `continued` | `legacy-golden-master-test-planner` |
 | Approved spec + equivalence pack, no handoff | `continued` | `legacy-brd-to-sdd-handoff` |

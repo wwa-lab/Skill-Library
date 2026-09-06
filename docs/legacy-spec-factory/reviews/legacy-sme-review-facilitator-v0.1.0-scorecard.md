@@ -3,7 +3,8 @@ skill: legacy-sme-review-facilitator
 scorecard_version: v0.1.0
 static_score: 9.55
 decision: field-pilot ready
-status: current
+status: superseded
+superseded_by: docs/reviews/legacy-sme-review-facilitator-v0.1.1-scorecard.md
 last_verified: 2026-05-16
 runtimes_tested:
   codex: { status: passed, model: gpt-5.4-mini, date: 2026-05-16 }

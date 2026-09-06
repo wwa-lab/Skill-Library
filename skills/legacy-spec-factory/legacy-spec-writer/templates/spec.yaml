@@ -93,6 +93,9 @@ process_flow:
       evidence_ids:
         - EV-<CAP-SLUG>-001
 
+# Standard workflow requires an approved BRD Package; cross-check
+# inputs/outputs/exceptions against BRD sections 3-5 and 8 plus review
+# decision / section coverage evidence.
 inputs:
   - id: IN-<CAP-SLUG>-001
     name: "<input name>"

@@ -2,6 +2,31 @@
 
 ## Status: draft | needs_sme_review | approved | approved_with_non_blocking_tbd | blocked_pending_source | blocked_pending_sme | rejected
 
+## Mermaid Flow Diagram
+
+```mermaid
+flowchart TD
+  VIEW_<SLUG>_001["<View-specific flow node or TBD placeholder>"]
+```
+
+Diagram rules:
+- Use `flowchart TD` unless the reviewed source flow is explicitly
+  left-to-right.
+- Place this section before evidence, inventory, or traceability tables.
+- View 1 should use business-readable actor, event, manual intervention,
+  exception, and rule-seed labels.
+- View 2 should show upstream systems, interfaces, the IBM i module boundary,
+  downstream systems, and security boundaries.
+- View 3 should show flow entry points, entry programs, shared programs, exit
+  programs, and external response or batch outcomes.
+- View 4 should show data movement across flows and objects, with edge labels
+  such as `creates`, `updates`, `reads`, `hands off`, `archives`, or `purges`.
+- Use stable node IDs that mirror `ACTOR-*`, `EVENT-*`, `SYS-*`, `IF-*`,
+  `FLOW-*`, `PGM-*`, `DATA-*`, `OBJ-*`, `BR-*`, or `TBD-*`, replacing hyphens
+  with underscores.
+- Do not add diagram nodes or edges unless they are backed by the evidence /
+  traceability sections below or by a named `TBD-*`.
+
 ## [View-specific sections, per `references/output-contract.md`]
 
 For View 1 (Operation Flow): Business Scope / Actors / Events / BAU Rhythm /

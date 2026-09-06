@@ -2,6 +2,26 @@
 
 ## Status: draft → needs_sme_review
 
+## Mermaid Flow Diagram
+
+```mermaid
+flowchart LR
+  FLOW_ONUS_AUTH["FLOW-ONUS-AUTH"] -->|reads| DATA_CUSTMSTR["CUSTMSTR"]
+  FLOW_ONUS_AUTH -->|reads via CREDITCHK| DATA_CREDFILE["CREDFILE"]
+  FLOW_MANUAL_AUTH["FLOW-MANUAL-AUTH"] -->|reads| DATA_CUSTMSTR
+  FLOW_MANUAL_AUTH -->|reads via CREDITCHK| DATA_CREDFILE
+  FLOW_ONUS_AUTH -->|creates auth row| DATA_TXNLOGPF["TXNLOGPF"]
+  FLOW_MANUAL_AUTH -->|creates manual auth row| DATA_TXNLOGPF
+  DATA_TXNLOGPF -->|read by nightly run| FLOW_NIGHTLY_RECON["FLOW-NIGHTLY-RECON"]
+  FLOW_NIGHTLY_RECON -->|creates| DATA_GLPOSTPF["GLPOSTPF"]
+  FLOW_NIGHTLY_RECON -->|updates checkpoint| DATA_HSSDTAR002["HSSDTAR002"]
+  FLOW_NIGHTLY_RECON -->|sends async| DATA_RECONDTAQ["RECONDTAQ"]
+  FLOW_NIGHTLY_RECON -->|prints| DATA_RECONPRT["RECONPRT"]
+  DATA_GLPOSTPF -->|SFTP handoff| SYS_GL_SYSTEM["GL System"]
+  DATA_RECONDTAQ -->|consumed by| SYS_RISK_MONITORING["Risk Monitoring"]
+  DATA_RECONPRT -->|manual review| ACTOR_FINANCE_ANALYST["Finance Analyst"]
+```
+
 ## Data Objects in Scope
 
 | Object | Type | Inventory ID | Producer Flows | Consumer Flows | Coupling Score | Evidence |
@@ -35,20 +55,17 @@
 
 **Authorization → Audit → Reconciliation → GL trail:**
 
-```
-[Visa MQ inbound]
-    │
-    ▼ (FLOW-ONUS-AUTH NODE-04)
-TXNLOGPF (one row per transaction with status='APPROVED'/'DECLINED'/'EXCEPTION')
-    │
-    ▼ (FLOW-NIGHTLY-RECON NODE-02 reads rows for run date)
-GLPOSTPF (aggregated GL postings per account)
-    │
-    ▼ (Nightly SFTP)
-[GL system]
-    │
-    ▼ (Once per month)
-[Archive] (monthly job, external)
+```mermaid
+flowchart TD
+  TRAIL_VISA["Visa MQ inbound"]
+  TRAIL_AUTH["FLOW-ONUS-AUTH NODE-04"]
+  TRAIL_TXNLOGPF["TXNLOGPF one row per transaction"]
+  TRAIL_RECON["FLOW-NIGHTLY-RECON NODE-02 reads run-date rows"]
+  TRAIL_GLPOSTPF["GLPOSTPF aggregated GL postings"]
+  TRAIL_GL["GL system via nightly SFTP"]
+  TRAIL_ARCHIVE["Archive monthly job (external)"]
+
+  TRAIL_VISA --> TRAIL_AUTH --> TRAIL_TXNLOGPF --> TRAIL_RECON --> TRAIL_GLPOSTPF --> TRAIL_GL --> TRAIL_ARCHIVE
 ```
 
 ## DB Table Relationships

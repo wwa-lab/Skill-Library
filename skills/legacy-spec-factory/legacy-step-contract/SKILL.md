@@ -6,7 +6,7 @@ metadata:
   author: Leo L Zhang
   maintainer: platform-engineering
   source: https://github.com/wwa-lab/legacy-spec-factory
-  source_commit: 8871a6b
+  source_commit: 3b6a16b
   domain: legacy-spec-factory
 ---
 
@@ -293,7 +293,7 @@ values change. That is the point — one contract shape, every step.
 
 1. Confirm every INPUT field has a concrete value.
 2. Score input readiness using
-   [`docs/input-readiness-rubric.md`](../../../docs/legacy-spec-factory/input-readiness-rubric.md):
+   [`docs/input-readiness-rubric.md`](../../docs/input-readiness-rubric.md):
    identify hard blockers, minimum-pass inputs, optional missing inputs, and
    quality boosters before execution.
 3. Confirm prerequisite gates are passing (do not assume).
@@ -342,7 +342,7 @@ does NOT mutate `capabilities[].stage_id` or `current_focus`.
 
 After a run, append one `history[]` entry to
 `<project-root>/workflow-state.yaml` per
-[`docs/workflow-state-contract.md`](../../../docs/legacy-spec-factory/workflow-state-contract.md):
+[`docs/workflow-state-contract.md`](../../docs/workflow-state-contract.md):
 
 ```yaml
 history:
@@ -438,6 +438,10 @@ No runtime-specific assumptions are baked into this canonical source.
 
 ## Version History
 
+- v0.1.2 (2026-05-29): Renamed flow-context-normalizer Step Contract wording
+  from "draft four-flow package" to "draft four-view context package" so
+  upstream context views are not confused with canonical module-analysis
+  flow artifacts.
 - v0.1.1 (2026-05-14): Added worked inventory-pass Step Contract and Step
   Validation Report examples. Reconciled compact validation result fields
   (`downstream_next_step`, `remediation_step`) and clarified that

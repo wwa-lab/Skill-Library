@@ -27,6 +27,26 @@ Return the marked-up checklist (or just the decisions) to {{operator_name}}.
 
 ---
 
+## BRD functional-analysis coverage (BRD reviews only)
+
+If the artifact under review is a BRD Package, confirm that required sections
+1-9 are present, useful, and evidence-backed. Mark any weak section as revise,
+carry-forward TBD, or block.
+
+| Section | Required area | Decision | Notes / TBD |
+| --- | --- | --- | --- |
+| 1 | Function Purpose | ☐ accept ☐ revise ☐ block |  |
+| 2 | Business Scenarios / Use Cases | ☐ accept ☐ revise ☐ block |  |
+| 3 | Channels | ☐ accept ☐ revise ☐ block |  |
+| 4 | User Interface / User Touchpoints | ☐ accept ☐ revise ☐ block |  |
+| 5 | System Interfaces | ☐ accept ☐ revise ☐ block |  |
+| 6 | Process Flow | ☐ accept ☐ revise ☐ block |  |
+| 7 | Validation Rules | ☐ accept ☐ revise ☐ block |  |
+| 8 | Error Handling | ☐ accept ☐ revise ☐ block |  |
+| 9 | Dependencies | ☐ accept ☐ revise ☐ block |  |
+
+---
+
 ## Items to decide ({{n_items}} total)
 
 {{#each items}}

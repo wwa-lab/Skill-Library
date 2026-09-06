@@ -1,12 +1,12 @@
 ---
 name: legacy-traceability-packager
-description: "Use when teams need to package, validate, and audit one capability's end-to-end traceability across the Legacy Spec Factory reverse chain — evidence manifest, inventory, program/flow/module analyses, optional BRD, approved `spec.yaml`/`spec.md`/`traceability.md`, and optional SDD handoff. Audit / packager / gate skill — does not mint business rules, behaviors, acceptance criteria, modernization decisions, evidence, test cases, or SDD handoffs, and does not promote review status. Emits a sealed traceability package or a strict blocked-findings report. Layer 2 (platform-agnostic)."
+description: Use when one capability's end-to-end traceability across the Legacy Spec Factory reverse chain needs packaging, validation, or audit — evidence manifest, inventory, program/flow/module analyses, optional BRD, approved `spec.yaml`/`spec.md`/`traceability.md`, and optional SDD handoff. Audit / packager / gate skill — does not mint business rules, behaviors, acceptance criteria, modernization decisions, evidence, test cases, or SDD handoffs, and does not promote review status. Emits a sealed traceability package or a strict blocked-findings report. Layer 2 (platform-agnostic).
 license: Apache-2.0
 metadata:
   author: Leo L Zhang
   maintainer: platform-engineering
   source: https://github.com/wwa-lab/legacy-spec-factory
-  source_commit: 8871a6b
+  source_commit: 3b6a16b
   domain: legacy-spec-factory
 ---
 
@@ -167,12 +167,15 @@ Distinction with neighbours:
 The full field-level schema lives in [references/output-contract.md](references/output-contract.md). The required top-level keys are:
 
 - `schema_version`
-- `package_id` (`PKG-<CAPABILITY-SLUG>-<NNN>`, per `../../../docs/legacy-spec-factory/id-conventions.md`)
+- `package_id` (`PKG-<CAPABILITY-SLUG>-<NNN>`, per `../../docs/id-conventions.md`)
 - `package_date` (ISO 8601, UTC)
 - `packager` (e.g. `legacy-traceability-packager v0.1.1`)
 - `capability` (`id`, `name`, `slug`, `owner` — copied unchanged from the spec)
 - `status` — `pass | pass_with_warnings | blocked`
 - `source_artifacts` — paths, IDs, and statuses for spec, BRD (optional), module, flows, programs, inventory, evidence manifest, and any pre-existing SDD handoff package
+- `brd_functional_coverage` — when a BRD is supplied, section 1-9 coverage
+  copied from BRD review decisions and audited for blocked / missing required
+  areas
 - `id_inventory` — counts and ID lists per prefix (`EV`, `BEH`, `BR`, `AC`, `DEC`, `TC`, `TBD`, `IN`, `OUT`, `EX`, `STEP`, `DATA`, `OBJ`, `FLOW`, `MODULE`, `CAP`)
 - `evidence_coverage` — for every `EV-*`, the IDs that reference it and whether it is orphan
 - `behavior_coverage` — for every `BEH-*`, supporting `EV-*` and the `BR-*` it backs
@@ -228,7 +231,7 @@ Use `legacy-step-validator` to validate the produced package against this Step C
 This is a governance / packager skill. It does NOT mutate
 `capabilities[].stage_id` or `current_focus`. After a packaging run,
 append one `history[]` entry to `<project-root>/workflow-state.yaml` per
-[`docs/workflow-state-contract.md`](../../../docs/legacy-spec-factory/workflow-state-contract.md).
+[`docs/workflow-state-contract.md`](../../docs/workflow-state-contract.md).
 
 **Package path pattern:**
 `09_forward-sdlc/<CAP-*>/traceability-package/` (sealed bundle)
@@ -313,12 +316,16 @@ Canonical source: `skills/legacy-traceability-packager/`. Runtime adapters under
 
 ## Maintenance and Versioning
 
-- **Current Version**: 0.1.1
-- **Last Updated**: 2026-05-16
+- **Current Version**: 0.1.2
+- **Last Updated**: 2026-05-28
 - **Author**: Leo L Zhang
 - **Status**: field-pilot ready; three-runtime smoke passed in Codex, Claude Code, and OpenCode
 
 Version history:
+
+- v0.1.2 (2026-05-28): Added `brd_functional_coverage` audit output when a
+  BRD is supplied. Required BRD sections 1-9 must appear exactly once, with
+  blocked or missing section coverage raised as traceability findings.
 
 - v0.1.1 (2026-05-16): Tightened status semantics so clean `pass` has no findings, aligned package IDs with shared ID conventions, corrected the positive example to remove open TBDs, clarified AC validation and blocked-run continuation rules, and passed three-runtime smoke in Codex CLI (`gpt-5.4-mini`), Claude Code (`haiku`), and OpenCode (`minimax-m2.5-free`).
 - v0.1.0 (2026-05-16): Initial release. Eight-step audit workflow producing `traceability-package.yaml` + `traceability-package.md` + `coverage-audit.md` + `traceability-review.md`. Strict block-by-default discipline. Reuses upstream IDs; mints only `FIND-*` and `PKG-*`. Three adversarial examples (positive, dangling-id blocked, deferred-TBD warning).

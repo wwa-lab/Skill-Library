@@ -1,0 +1,69 @@
+schema_version: "0.1"
+package_type: module_context_intake
+
+module:
+  slug: "PAYMENT-MATCH"
+  module_id: "MODULE-PAYMENT-MATCH-001"
+  business_name: "Payment Matching"
+  scope_statement: "Match incoming payment transactions to open invoices and update account receivable balance."
+  owner: "AR Operations SME"
+  source_state: "draft"
+
+intake:
+  skill: "legacy-module-context-intake"
+  version: "v0.1.1"
+  generated_at: "2026-05-21T10:00:00+08:00"
+  status: "blocked_pending_contradiction_review"
+  decision_reason: "RAG-CONFLICT-PAYMENT-MATCH-001 is blocking: SME states daily EOD matching, runtime job log shows weekly batch. Cannot approve system flow or program flow until contradiction is resolved."
+  downstream_next_step: "legacy-ibmi-evidence-intake"
+
+evidence_authorization:
+  status: "synthetic_non_production"
+  evidence_manifest: null
+  redaction_notes: "Synthetic fixture only; no production payment or invoice data."
+
+rag_runs:
+  - run_id: "RAG-20260521-002"
+    source_path: "rag_runs/PAYMENT-MATCH/RAG-20260521-002/rag-run-index.yaml"
+    source_snapshot: "synthetic-rpgle-payment-match-2026-05-21"
+    dictionary_version: "synthetic-dict-v1"
+    arcad_ref_snapshot: "not_available_synthetic_fixture"
+    sensitivity: "synthetic_non_production"
+
+input_files:
+  - role: "flow_hydration_summary"
+    path: "rag_runs/PAYMENT-MATCH/RAG-20260521-002/flow-hydration-summary.md"
+    required: true
+    status: "present"
+  - role: "contradictions"
+    path: "rag_runs/PAYMENT-MATCH/RAG-20260521-002/contradictions.md"
+    required: true
+    status: "present"
+
+output_files:
+  operation_business_flow: "01-operation-business-flow.md"
+  system_flow: "02-system-flow.md"
+  program_flow: "03-program-flow.md"
+  data_flow: "04-data-flow.md"
+  rag_evidence_map: "rag-evidence-map.md"
+  contradiction_log: "contradiction-log.md"
+  open_questions: "open-questions.md"
+
+coverage:
+  four_views_present: true
+  source_snippets_mapped: true
+  dictionary_context_mapped: true
+  contradictions_carried_forward: true
+  open_questions_carried_forward: true
+
+gates:
+  evidence_authorization_gate: "pass"
+  module_scope_gate: "pass"
+  four_view_gate: "warning"
+  contradiction_visibility_gate: "blocked"
+  rule_promotion_gate: "pass"
+
+blocking_items:
+  - id: "TBD-PAYMENT-MATCH-001"
+    reason: "RAG-CONFLICT-PAYMENT-MATCH-001 is unresolved: matching frequency (daily vs weekly) determines system flow and batch program design. Cannot proceed without SME ruling."
+    owner: "AR Operations SME"

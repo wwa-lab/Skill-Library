@@ -23,7 +23,8 @@ findings:
     source_item_id: "TBD-<CAPABILITY>-<NNN>"
     category: "deferred_tbd"
     # Categories: deferred_tbd, rule_revision_needed, behavior_clarification,
-    #             new_contradiction, evidence_gap, documentation_note, escalation
+    #             brd_functional_coverage_gap, new_contradiction,
+    #             evidence_gap, documentation_note, escalation
     severity: "critical"
     # One of: critical (blocks SDD or next phase), high (must be resolved soon),
     #         medium (tracked follow-up), low (documentation or hygiene)
@@ -48,6 +49,35 @@ findings:
 
     routing_destination: "legacy-ibmi-evidence-intake"
     # Where this finding should be routed next (skill name or team)
+
+  # ========================================================================
+  # BRD FUNCTIONAL COVERAGE GAP
+  # ========================================================================
+
+  - finding_id: "FIND-<CAPABILITY>-<NNN>"
+    source_item_id: "BRD-<CAPABILITY>-001#section-03"
+    category: "brd_functional_coverage_gap"
+    severity: "high"
+
+    description: |
+      <Required BRD section is missing, weak, unsupported, or disputed by SME.>
+
+    sme_context: |
+      <SME explanation of what is missing or incorrect.>
+
+    related_tbd_ids:
+      - "TBD-<CAPABILITY>-<NNN>"
+
+    owner: "legacy-brd-writer"
+    target_date: "YYYY-MM-DD"
+
+    next_step: |
+      Revise the BRD required section or carry the named non-blocking `TBD-*`
+      into `brd.md`, `brd-review.md`, and `review-decision.yaml`.
+
+    blocking_status: "blocking"
+
+    routing_destination: "legacy-brd-writer"
 
   # ========================================================================
   # RULE REVISION NEEDED

@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1050" width="1600" height="1050" role="img" aria-labelledby="title desc">
   <title id="title">Legacy Spec Factory Skill System</title>
-  <desc id="desc">A hand-drawn whiteboard style poster showing the 19 current canonical Legacy Spec Factory skills, grouped by pipeline stage and readiness status.</desc>
+  <desc id="desc">A hand-drawn whiteboard style poster showing the 23 current canonical Legacy Spec Factory skills, grouped by pipeline stage and readiness status.</desc>
   <defs>
     <style>
       .bg { fill: #fffdf4; }
@@ -55,7 +55,7 @@
   <path d="M337 82 C520 90 760 76 1010 82 S1270 86 1360 78" class="redLine"/>
   <path d="M337 92 C560 98 790 88 1020 94 S1260 100 1360 90" class="redLine"/>
   <text x="360" y="130" class="subtitle ink">From IBM i evidence to trusted BRD, then to SDD Handoff</text>
-  <text x="360" y="156" class="body muted">Current status: 19 canonical skills · 10 field-pilot ready · 9 repo-ready</text>
+  <text x="360" y="156" class="body muted">Current status: 23 canonical skills · 10 field-pilot ready · 13 repo-ready</text>
 
   <path d="M1280 34h74l28 26v94h-102z" fill="#fffefa" stroke="#111827" stroke-width="2.5"/>
   <path d="M1354 34v29h28" class="line"/>
@@ -277,7 +277,8 @@
   <!-- Workflow row -->
   <g>
     <rect x="30" y="790" width="164" height="48" class="card"/>
-    <text x="74" y="821" class="h3 ink">Evidence</text>
+    <text x="67" y="811" class="small ink">Doc Intake</text>
+    <text x="64" y="829" class="small ink">+ Evidence</text>
     <path d="M205 814h30" class="blueLine" marker-end="url(#blueArrow)"/>
     <rect x="246" y="790" width="164" height="48" class="card"/>
     <text x="284" y="821" class="h3 ink">Analysis</text>

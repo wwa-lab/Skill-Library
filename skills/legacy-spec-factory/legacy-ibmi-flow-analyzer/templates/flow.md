@@ -162,9 +162,12 @@ map but must remain in this table and in the edge table.
 
 ## Business Capability Seeds
 
-| Seed ID | Candidate Rule / Capability | Suggested By | SME Question |
-| --- | --- | --- | --- |
-| SEED-[SLUG]-01 | [candidate] | [pointer to nodes / fields suggesting it] | [SME question] |
+| Seed ID | Candidate Rule / Capability | Business Signal | Evidence Basis | SME Question |
+| --- | --- | --- | --- | --- |
+| SEED-[SLUG]-01 | [business-language candidate] | [business event / outcome / control suggested by the flow] | [NODE-* / EDGE-* / DATA-* / field / object pointers] | [business-language question for SME] |
+
+Keep candidate statements and SME questions business-readable. Technical node,
+program, field, and object references belong in `Evidence Basis`.
 
 ---
 

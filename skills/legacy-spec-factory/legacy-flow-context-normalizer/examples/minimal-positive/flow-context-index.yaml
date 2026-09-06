@@ -1,0 +1,73 @@
+schema_version: "0.1"
+package_type: flow_context_normalization
+
+module:
+  slug: CREDIT-CHECK
+  module_id: MODULE-CREDIT-CHECK-001
+  business_name: Credit Check
+  scope_statement: "Credit application eligibility check from application intake through approve or decline recommendation."
+  owner: "Credit Operations SME"
+  source_state: sme_confirmed
+
+normalization:
+  skill: legacy-flow-context-normalizer
+  version: v0.1.9
+  generated_at: "2026-05-27T00:00:00Z"
+  status: ready_for_context_intake
+  decision_reason: "SME confirmed the draft context views and accepted non-blocking data retention question for carry-forward."
+  downstream_next_step: legacy-module-context-intake
+
+evidence_authorization:
+  status: approved
+  evidence_manifest: "evidence/redacted/evidence-manifest.yaml"
+  redaction_notes: "Synthetic pilot documents approved for agent review."
+
+input_documents:
+  - doc_id: DOC-CREDIT-CHECK-001
+    path: "source-docs/credit-check-process.vsdx"
+    format: vsdx
+    role: flow_diagram
+    authorization_status: approved
+    readable_status: extracted
+  - doc_id: DOC-CREDIT-CHECK-002
+    path: "source-docs/credit-check-data.xlsx"
+    format: xlsx
+    role: data_dictionary
+    authorization_status: approved
+    readable_status: extracted
+
+output_files:
+  flow_context_index: flow-context-index.yaml
+  source_document_index: source-document-index.yaml
+  operation_business_flow: 01-operation-business-flow.md
+  system_flow: 02-system-flow.md
+  program_flow: 03-program-flow.md
+  data_flow: 04-data-flow.md
+  evidence_map: evidence-map.md
+  contradiction_log: contradiction-log.md
+  open_questions: open-questions.md
+  sme_review_pack: sme-review-pack.md
+
+coverage:
+  operation_business_flow: usable
+  system_flow: usable
+  program_flow: partial
+  data_flow: usable
+  technical_anchor_coverage:
+    program_anchors: usable
+    data_anchors: usable
+    supplement_required: false
+  evidence_map_complete: true
+  contradictions_carried_forward: true
+  sme_review_questions_prepared: true
+
+gates:
+  evidence_authorization_gate: pass
+  readable_source_gate: pass
+  module_scope_gate: pass
+  four_view_gate: warning
+  contradiction_visibility_gate: pass
+  sme_review_gate: pass
+  rule_promotion_gate: pass
+
+blocking_items: []

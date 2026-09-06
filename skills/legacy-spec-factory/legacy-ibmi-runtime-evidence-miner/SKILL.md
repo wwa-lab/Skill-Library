@@ -1,12 +1,12 @@
 ---
 name: legacy-ibmi-runtime-evidence-miner
-description: "Use when teams need to extract structured `observed_in_runtime` evidence from approved IBM i job logs and spool/report files into `runtime-evidence.jsonl`. Use after `legacy-ibmi-evidence-intake` has approved the evidence manifest and `legacy-ibmi-inventory` can map runtime artifacts to `OBJ-*` IDs. Blocks on missing approval, unredacted confidential evidence, or missing inventory mappings; never infers business rules or modernization decisions from runtime logs."
+description: "Use when approved IBM i job logs and spool/report files need structured `observed_in_runtime` evidence extracted into `runtime-evidence.jsonl`. Use after `legacy-ibmi-evidence-intake` has approved the evidence manifest and `legacy-ibmi-inventory` can map runtime artifacts to `OBJ-*` IDs. Blocks on missing approval, unredacted confidential evidence, or missing inventory mappings; never infers business rules or modernization decisions from runtime logs."
 license: Apache-2.0
 metadata:
   author: Leo L Zhang
   maintainer: platform-engineering
   source: https://github.com/wwa-lab/legacy-spec-factory
-  source_commit: 8871a6b
+  source_commit: 3b6a16b
   domain: legacy-spec-factory
 ---
 
@@ -379,7 +379,7 @@ confirm) — see that skill's SME Communication Package section.
 ## Workflow State Write-Back
 
 At the end of a mining run, update `<project-root>/workflow-state.yaml`
-per [`docs/workflow-state-contract.md`](../../../docs/legacy-spec-factory/workflow-state-contract.md).
+per [`docs/workflow-state-contract.md`](../../docs/workflow-state-contract.md).
 Template: [`skills/legacy-modernization-orchestrator/references/state-writeback-snippet.md`](../legacy-modernization-orchestrator/references/state-writeback-snippet.md).
 
 **Stage this skill produces:**

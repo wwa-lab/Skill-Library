@@ -1,0 +1,25 @@
+schema_version: "0.1"
+
+documents:
+  - doc_id: "DOC-<MODULE-SLUG>-001"
+    title: "<Document title>"
+    path: "<source path>"
+    format: "<vsdx|docx|xlsx|csv|pdf|pptx|md|txt|image|rag|sme_note>"
+    source_type: "<flow_diagram|function_spec|technical_design|program_spec|file_spec|interface_spec|data_dictionary|mixed_spec_workbook|procedure|runbook|inventory|process_deck|rag_summary|sme_note>"
+    owner: "<Document owner or unknown>"
+    document_date: "<YYYY-MM-DD or unknown>"
+    sensitivity: "unknown" # public | internal | confidential | restricted | synthetic_non_production | unknown
+    authorization_status: "unknown" # approved | synthetic_non_production | public | blocked | unknown
+    readable_status: "manual_export_required" # extracted | manual_export_required | unreadable | not_needed
+    extraction_method: "<method or requested export>"
+    pages_or_sheets: "<pages, sheets, slides, diagram pages, or sections>"
+    quality_notes: "<OCR / connector / table quality notes>"
+    used_in: []
+
+fragments:
+  - fragment_id: "FRAG-<MODULE-SLUG>-001"
+    doc_id: "DOC-<MODULE-SLUG>-001"
+    locator: "<page / slide / sheet row / diagram shape / section>"
+    summary: "<Extracted flow-relevant detail>"
+    candidate_view: "<operation_business_flow|system_flow|program_flow|data_flow|cross_view>"
+    evidence_strength: "low" # high | medium | low | blocked

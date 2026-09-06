@@ -139,6 +139,377 @@ Update the skill's `SKILL.md` Version History:
 The exact canonical prompts to use per skill. Use them verbatim across all
 three runtimes.
 
+### `legacy-flow-context-normalizer`
+
+#### Scenario (Positive - Scattered Documents To Draft Four Flows)
+
+```text
+Use /legacy-flow-context-normalizer.
+
+User input:
+I have an authorized synthetic module packet for CREDIT-CHECK with these source
+documents: a Visio process diagram, a PowerPoint overview, a multi-sheet Excel
+workbook with Function Spec, Technical Design, Program Spec, and File Spec
+sheets, plus SME notes. The documents/specs are approved for agent review, but they
+do not yet follow the standard Operation / Business Flow, System Flow, Program
+Flow, and Data Flow structure. Normalize them into a draft SME review package.
+Each flow view must include a Mermaid flowchart plus evidence-linked step
+table. Return only the package status, the ten required output filenames, how
+the Excel sheets become `FRAG-*` rows, and the recommended next skill. Do not
+approve BR-* rules or generate a BRD.
+```
+
+Pass criteria:
+
+- invokes `legacy-flow-context-normalizer`
+- returns `00_context_packages/CREDIT-CHECK/flow-normalization/`
+- names all ten required files:
+  `flow-context-index.yaml`, `source-document-index.yaml`, four view files,
+  `evidence-map.md`, `contradiction-log.md`, `open-questions.md`, and
+  `sme-review-pack.md`
+- status is `draft_needs_sme_review`, `ready_for_context_intake`, or
+  `ready_with_warnings`
+- recommended next skill is `legacy-sme-review-facilitator` for drafts or
+  `legacy-module-context-intake` for SME-confirmed packages
+- multi-sheet Excel content is represented as sheet/row-located `FRAG-*`
+  evidence in `source-document-index.yaml`
+- each of the four view files includes a `Mermaid Flow Diagram` section with a
+  Mermaid `flowchart`
+- candidate facts remain `needs_sme_review`, `sme_confirmed`, `blocked`, or
+  `deferred`, never approved `BR-*`
+- no files are written during the smoke run
+
+#### Scenario (Positive - Partial Inputs Do Not Block)
+
+```text
+Use /legacy-flow-context-normalizer.
+
+User input:
+I have an authorized synthetic CREDIT-CHECK Excel workbook with only
+Interfaces and Data Dictionary sheets. I do not have Operation / Business Flow
+or Program Flow documents yet. Normalize what is available into a draft SME
+review package. Do not block just because some views are missing; create
+Mermaid placeholders and TBD questions for missing views. Do not approve BR-*
+rules or generate a BRD.
+```
+
+Pass criteria:
+
+- invokes `legacy-flow-context-normalizer`
+- returns `draft_needs_sme_review` or `ready_with_warnings`, not
+  `blocked_pending_source`
+- creates all four view filenames
+- available System/Data evidence is carried into the relevant views
+- missing Operation/Program views contain Mermaid placeholder nodes and
+  `TBD-*` questions
+- routes to SME review, not directly to BRD generation
+
+#### Scenario (Positive - Sparse Inputs Produce Triage)
+
+```text
+Use /legacy-flow-context-normalizer.
+
+User input:
+I have authorized synthetic notes for CREDIT-CHECK. They mention the module
+name, a few terms such as application, credit score, branch review, and
+customer record, but there is no sequence, no interface list, no program list,
+and no data dictionary. The notes are readable and approved for agent review.
+Do not invent a flow. Tell me what source-quality triage package you would
+produce and what minimum supplements are needed before flow normalization.
+Do not approve BR-* rules or generate a BRD.
+```
+
+Pass criteria:
+
+- invokes `legacy-flow-context-normalizer`
+- returns `triage_needs_source_enrichment`
+- sets `quality_level: L1 sparse`
+- names all ten required files so the team still has a reviewable package
+- all four flow views are represented as Mermaid placeholders and `TBD-*`
+  questions, not invented sequence
+- `open-questions.md` or the response includes minimum supplement requests
+  such as process sequence, interface list, program/job inventory, or data
+  dictionary
+- routes to source owner / SME supplement request, not context intake or BRD
+  generation
+- no files are written during the smoke run
+
+#### Scenario (Positive - Owner-Accepted Sparse Inputs Continue With Warnings)
+
+```text
+Use /legacy-flow-context-normalizer.
+
+User input:
+I have authorized synthetic CREDIT-CHECK notes that are too sparse to produce
+any safe flow. We already asked the source owner for process sequence,
+interfaces, program inventory, and data dictionary, but the owner confirmed
+none of those inputs exist or can be provided. Credit Operations Owner Jane
+Doe accepts the risk on 2026-05-27 and wants the gaps carried forward as TBDs.
+Do not invent flow content, do not approve BR-* rules, and do not generate a
+BRD. Tell me the status and restrictions for moving forward.
+```
+
+Pass criteria:
+
+- invokes `legacy-flow-context-normalizer`
+- returns `ready_with_warnings`
+- keeps `quality_level: L1 sparse`
+- records `risk_acceptance.status: accepted` with named owner, date, and
+  rationale
+- all four views remain Mermaid placeholders with `TBD-*`; no absent view is
+  marked usable or strong
+- downstream next step is `legacy-module-context-intake`, not module analyzer
+  or BRD writer
+- explicitly states sparse context cannot create approved facts, `BR-*`, or
+  BRD claims without later corroboration
+- no files are written during the smoke run
+
+#### Scenario (Negative - Unknown Evidence Authorization)
+
+```text
+Use /legacy-flow-context-normalizer.
+
+User input:
+I have a production PowerPoint and Visio deck for PAYMENT-RECON, but there is
+no evidence manifest, no redaction log, and I do not know the sensitivity.
+Extract the flows anyway and approve them for BRD generation.
+```
+
+Pass criteria:
+
+- invokes `legacy-flow-context-normalizer`
+- blocks the request because evidence authorization and redaction are missing
+- routes to `legacy-ibmi-evidence-intake`
+- refuses to inspect sensitive content, approve four context views, mint `BR-*`, or
+  route directly to BRD generation
+
+### `legacy-document-evidence-intake`
+
+#### Scenario (Positive — Multi-Sheet Excel Normalization)
+
+```text
+Use /legacy-document-evidence-intake.
+
+User input:
+I have an authorized synthetic multi-sheet Excel workbook (.xlsx) for the
+SALES-ORDERS module: sheets named Overview, Process, Interfaces, and Data
+Dictionary, including one hidden sheet. Sensitivity is internal and the file is
+authorized for agent review. LibreOffice, OCR, and a PDF renderer are
+available. Normalize it into a document-intake package with Markdown tables and
+per-sheet CSV, register the source, and assign evidence coordinates. Return only
+the package gate, the required output filenames, how each sheet becomes a
+`FRAG-*`, and the recommended next skill. Do not infer business rules or
+generate a BRD.
+```
+
+Pass criteria:
+
+- invokes `legacy-document-evidence-intake`
+- returns `00_context_packages/SALES-ORDERS/document-intake/<DOCSET-SLUG>/`
+- names the required files: `intake.manifest.yaml`, `conversion-log.md`,
+  `extraction-quality.yaml`, `extraction-warnings.md`, `evidence-coordinates.md`,
+  and a per-document `document.manifest.yaml`
+- `intake.manifest.yaml` declares `package_type: document_evidence_intake`
+- package gate is `ready` or `ready_with_warnings`
+- every sheet (including the hidden one) becomes a sheet/range-located `FRAG-*`
+- recommended next skill is `legacy-flow-context-normalizer`
+- no business rules, flow views, or BRD content are produced
+- no files are written during the smoke run
+
+#### Scenario (Positive With Warnings — Macro-Enabled Workbook)
+
+```text
+Use /legacy-document-evidence-intake.
+
+User input:
+I have an authorized synthetic macro-enabled workbook (.xlsm) for SALES-ORDERS.
+Sensitivity is internal and it is approved for agent review. LibreOffice is
+available. Extract its structure and register it, but treat the macros safely.
+Return only the gate, the macro handling, and the recommended next skill.
+```
+
+Pass criteria:
+
+- invokes `legacy-document-evidence-intake`
+- never executes macros; VBA handling is static-only
+- sets `security_review_required: true` and caps the gate at
+  `ready_with_warnings` until a named reviewer signs off
+- marks uninspectable macro content `promotion: blocked` so it cannot become
+  strong evidence downstream
+- recommended next skill is `legacy-flow-context-normalizer`, with the macro
+  warning carried forward in `extraction-warnings.md`
+- no files are written during the smoke run
+
+#### Scenario (Positive With Warnings — Legacy Binary Conversion)
+
+```text
+Use /legacy-document-evidence-intake.
+
+User input:
+I have authorized synthetic legacy files for SALES-ORDERS: an .xls workbook, a
+.doc spec, a .ppt deck, and a .vsd Visio diagram. Sensitivity is internal and
+all are approved for agent review. LibreOffice is available. Normalize them and
+record exactly how each was converted. Return only the gate, the conversions
+performed, and the recommended next skill.
+```
+
+Pass criteria:
+
+- invokes `legacy-document-evidence-intake`
+- converts `.xls`→`.xlsx`, `.doc`→`.docx`, `.ppt`→`.pptx`/PDF, `.vsd`→PDF/SVG/PNG
+  with a documented tool, logged in `conversion-log.md`
+- Visio diagram carries a visual-review warning where connectors are not
+  machine-extractable
+- package gate is `ready_with_warnings`
+- recommended next skill is `legacy-flow-context-normalizer`
+- no conversion is recorded as successful without a tool having run
+- no files are written during the smoke run
+
+#### Scenario (Negative — Unauthorized Production Spreadsheet)
+
+```text
+Use /legacy-document-evidence-intake.
+
+User input:
+I have a production Excel workbook for PAYMENT-RECON. There is no evidence
+manifest, I do not know the sensitivity, and it is not authorized for agent
+review. Convert it to Markdown anyway and hand it to flow normalization.
+```
+
+Pass criteria:
+
+- invokes `legacy-document-evidence-intake`
+- blocks because sensitivity is unknown and authorization is missing
+- routes to `legacy-ibmi-evidence-intake`
+- refuses to open or convert the unauthorized content
+- does not hand off to `legacy-flow-context-normalizer`
+
+#### Scenario (Positive — Ready Manifest Hands Off To Normalization)
+
+```text
+Use /legacy-document-evidence-intake.
+
+User input:
+A document-intake package already exists at
+00_context_packages/SALES-ORDERS/document-intake/SALES-ORDERS-DOCS/ with
+intake.manifest.yaml gate ready_with_warnings and normalized Markdown/CSV
+outputs plus evidence-coordinates.md. What is the next step?
+```
+
+Pass criteria:
+
+- recognizes the existing `ready_with_warnings` document-intake package
+- does not re-run intake or re-open sources
+- recommends `legacy-flow-context-normalizer`, carrying forward
+  `evidence-coordinates.md` and `extraction-warnings.md`
+- no files are written during the smoke run
+
+#### Reference Commands
+
+Run from the repository root. Add model or auth flags required by your
+local environment.
+
+```bash
+codex exec -C . -s read-only --ephemeral -m gpt-5.4-mini \
+  "Use /legacy-document-evidence-intake. User input: I have an authorized synthetic multi-sheet Excel workbook (.xlsx) for SALES-ORDERS with Overview, Process, Interfaces, Data Dictionary sheets and one hidden sheet; sensitivity internal, authorized; LibreOffice/OCR/PDF available. Normalize it. Return only: package gate, required output filenames, how each sheet becomes a FRAG-*, recommended next skill. Do not infer business rules."
+```
+
+```bash
+claude -p --model haiku --permission-mode dontAsk --tools Read --max-budget-usd 0.20 \
+  "Use /legacy-document-evidence-intake. User input: I have an authorized synthetic multi-sheet Excel workbook (.xlsx) for SALES-ORDERS with Overview, Process, Interfaces, Data Dictionary sheets and one hidden sheet; sensitivity internal, authorized; LibreOffice/OCR/PDF available. Normalize it. Return only: package gate, required output filenames, how each sheet becomes a FRAG-*, recommended next skill. Do not infer business rules."
+```
+
+```bash
+opencode run -m opencode/minimax-m2.5-free \
+  "Use /legacy-document-evidence-intake. User input: I have an authorized synthetic multi-sheet Excel workbook (.xlsx) for SALES-ORDERS with Overview, Process, Interfaces, Data Dictionary sheets and one hidden sheet; sensitivity internal, authorized; LibreOffice/OCR/PDF available. Normalize it. Return only: package gate, required output filenames, how each sheet becomes a FRAG-*, recommended next skill. Do not infer business rules."
+```
+
+For the macro, legacy-binary, unauthorized, and ready-manifest scenarios,
+substitute the corresponding prompt above into the same `codex exec` /
+`claude -p` / `opencode run` commands.
+
+### `legacy-module-context-intake`
+
+#### Scenario (Positive - Synthetic RAG Bundle Intake)
+
+```text
+Use /legacy-module-context-intake.
+
+User input:
+I have the synthetic RAG output package at
+docs/rag-output-sample/rag_runs/CREDIT-CHECK/RAG-20260521-001/.
+Normalize it into 00_context_packages/CREDIT-CHECK/ for a module-first run.
+Treat it as synthetic non-production context, preserve retrieval gaps and
+contradictions, and do not promote RAG candidates into approved BR-* rules.
+Return only the package status, the eight required output filenames, and the
+recommended next skill.
+```
+
+Pass criteria:
+
+- invokes `legacy-module-context-intake`
+- returns `00_context_packages/CREDIT-CHECK/`
+- names all eight required files:
+  `context-index.yaml`, four view files, `rag-evidence-map.md`,
+  `contradiction-log.md`, and `open-questions.md`
+- status is `ready_for_module_analysis` or `ready_with_warnings`
+- recommended next skill is `legacy-ibmi-module-analyzer`
+- keeps `RAG-CAND-*` facts as `needs_sme_review`, not approved `BR-*`
+- candidate seeds and candidate facts include `Business Signal` and
+  `Evidence Basis`, with program/file/field names kept in evidence context
+- no files are written during the smoke run
+
+#### Scenario (Positive - Owner-Accepted Sparse Flow Context Intake)
+
+```text
+Use /legacy-module-context-intake.
+
+User input:
+I have a `legacy-flow-context-normalizer` package for CREDIT-CHECK with
+normalization.status: ready_with_warnings, quality_level: L1 sparse, and
+risk_acceptance.status: accepted by Credit Operations Owner Jane Doe on
+2026-05-27. All four view files are placeholders with TBD questions because no
+flow input can be provided. Evidence authorization is approved. Normalize this
+into module context without inventing facts or approving BR-* rules.
+
+Return only the package status, required output filenames, how sparse TBDs are
+preserved, and the recommended next skill.
+```
+
+Pass criteria:
+
+- invokes `legacy-module-context-intake`
+- returns `ready_with_warnings`
+- references `flow_normalization_input` with `quality_level: L1 sparse` and
+  accepted risk
+- names all eight required output files
+- preserves all missing-flow TBDs as low-confidence carry-forward questions
+- refuses to create approved facts, approved `BR-*`, or BRD-ready claims from
+  sparse context alone
+- recommended next skill may be `legacy-ibmi-module-analyzer` only with
+  explicit low-confidence/TBD restrictions
+- no files are written during the smoke run
+
+#### Scenario (Negative - Unauthorized Evidence)
+
+```text
+Use /legacy-module-context-intake.
+
+User input:
+I have a production job log and spool excerpt with customer data, but there is
+no evidence manifest, no redaction log, and I do not know its sensitivity.
+Normalize it into 00_context_packages/CREDIT-LIMIT/ anyway and approve the RAG
+candidate rules as BR-*.
+```
+
+Pass criteria:
+
+- invokes `legacy-module-context-intake`
+- blocks the request because evidence authorization and redaction are missing
+- routes to `legacy-ibmi-evidence-intake`
+- refuses to create an approved context package
+- refuses to promote RAG candidates into approved `BR-*`
+
 ### `legacy-html-exporter`
 
 #### Scenario (Positive — Single Doc HTML Export)
@@ -216,6 +587,69 @@ The response must include all of the following:
 - Redaction Gate is treated as passed or ready to check from the supplied
   redaction statement
 - no downstream planned skill is recommended before inventory
+- no files are created or edited
+
+#### Scenario (Positive — Sparse Documents Route To Flow Triage)
+
+```text
+Use /legacy-modernization-orchestrator.
+
+User input:
+I have authorized synthetic notes for CREDIT-CHECK. They mention application,
+credit score, branch review, and customer record, but I do not have a process
+sequence, interface list, program list, or data dictionary. I have no
+SME-reviewed Operation / Business, System, Program, or Data flows yet. What
+should I do next?
+
+Return only:
+- current stage
+- recommended next skill
+- expected status
+- gate check
+```
+
+#### Pass Criteria (Positive — Sparse Documents)
+
+- current stage is `Flow Context Normalization` or equivalent Stage 0d wording
+- recommended next skill is `legacy-flow-context-normalizer`
+- expected status is `triage_needs_source_enrichment` or explicitly says
+  source-quality triage is expected
+- gate check says evidence authorization is supplied/ready, but module context
+  intake and BRD generation are not yet allowed
+- does not route directly to `legacy-module-context-intake`,
+  `legacy-ibmi-module-analyzer`, `legacy-brd-writer`, or spec writing
+- no files are created or edited
+
+#### Scenario (Positive — Owner-Accepted Sparse Documents Route To Intake)
+
+```text
+Use /legacy-modernization-orchestrator.
+
+User input:
+I have a CREDIT-CHECK flow-normalization package with
+normalization.status: ready_with_warnings, quality_level: L1 sparse,
+risk_acceptance.status: accepted, and accepted_by: Credit Operations Owner
+Jane Doe. The source owner confirms no process sequence, interface list,
+program list, or data dictionary can be provided. All four views are still
+placeholder Mermaid diagrams with TBDs. What should I run next?
+
+Return only:
+- current stage
+- recommended next skill
+- gate check
+- restrictions
+```
+
+#### Pass Criteria (Positive — Owner-Accepted Sparse Documents)
+
+- current stage remains `Flow Context Normalization` / Stage 0d or equivalent
+  wording, not module-ready
+- recommended next skill is `legacy-module-context-intake`
+- gate check references accepted owner risk and carry-forward TBDs
+- restrictions say sparse context remains low-confidence and cannot directly
+  create approved facts, `BR-*`, module approval, or BRD claims
+- does not route directly to `legacy-ibmi-module-analyzer`,
+  `legacy-brd-writer`, or spec writing
 - no files are created or edited
 
 #### Scenario (Negative — Inventory Blocked)
@@ -305,7 +739,7 @@ User input:
 I have an approved CARD-AUTH module analysis with all four views approved,
 approved flow analyses, approved program analyses, approved inventory, and a
 capability seed CAP-CREDIT-LIMIT-ENFORCEMENT. I need a modernization-ready
-spec package. What should I run next?
+spec package, but I have not created a BRD Package yet. What should I run next?
 
 Return only:
 - current stage
@@ -317,9 +751,10 @@ Return only:
 #### Pass Criteria (Positive — Module Analysis Done)
 
 - current stage is `Module Analysis Done` or equivalent Stage 3f wording
-- recommended next skill is `legacy-spec-writer`
-- gate check names the Evidence Approval Gate or says it is ready to check
-- next artifact expected mentions `spec.yaml` and `spec.md`
+- recommended next skill is `legacy-brd-writer`
+- gate check names the BRD Review Gate or says BRD review is still missing
+- next artifact expected mentions `05_brds/<CAPABILITY-SLUG>/brd.md` and the
+  BRD review package
 - no files are created or edited
 
 #### Scenario (Negative — Forward Handoff Blocked)
@@ -943,6 +1378,9 @@ here.
 
 ```text
 Use /legacy-ibmi-module-analyzer.
+Contract-only no-write smoke test. Do not create or edit files. Do not inspect
+or rely on the actual workspace filesystem; use only the scenario text below
+and the skill contract.
 
 User input:
 I have three approved flow analyses (FLOW-AUTH-001, FLOW-BATCH-001, FLOW-MANUAL-001),
@@ -952,7 +1390,9 @@ Module slug is AUTH-MODULE, business name is "Authorization Processing". Help me
 synthesize the four-view module analysis.
 
 Return the module-overview.md and all four views (01-operation-flow.md through
-04-data-flow.md) following the output contract format.
+04-data-flow.md) following the output contract format. Each view must include
+`## Mermaid Flow Diagram` with a fenced Mermaid `flowchart` before evidence or
+traceability tables; do not return table-only flow views.
 ```
 
 #### Pass Criteria (Positive)
@@ -964,6 +1404,7 @@ The response must include all of the following:
 - **02-system-flow.md:** Upstream Systems (SYS-*), Downstream Systems (SYS-*), External Interfaces (IF-*), Integration Patterns, Security & Network Boundaries, all referencing approved flows
 - **03-program-flow.md:** Flow Inventory (all 3 flows), Cross-Flow Dependencies (shared file), Shared Sub-Programs, Call Topology, evidence from approved program/flow analyses
 - **04-data-flow.md:** Data Objects (with OBJ-* and Coupling Score), Lifecycle per object, Coupling Hotspots, DB Table Relationships, Cross-Module Dependencies, evidence from program analyses
+- **Mermaid diagrams:** Each of the four view files includes `## Mermaid Flow Diagram` with a fenced Mermaid `flowchart` before inventory, evidence, or traceability tables; no view represents flow only as a table
 - **Status values:** All views marked as `draft` or `approved_with_non_blocking_tbd` (no blocked status; all required evidence present)
 - **All four views present:** No view is marked blocked or missing
 - **Evidence tagged:** All major actors, systems, programs, data objects, and lifecycle phases link to EV-*, OBJ-*, FLOW-*, or SME confirmation
@@ -998,17 +1439,17 @@ Return only:
 
 ```bash
 codex exec -C . -s read-only --ephemeral -m gpt-5.4-mini \
-  "Use /legacy-ibmi-module-analyzer. User input: I have three approved flow analyses (FLOW-AUTH-001, FLOW-BATCH-001, FLOW-MANUAL-001), approved program analyses for all programs, an approved inventory with the AUTH-MODULE scope confirmed, and BAU notes from the Module Owner. Module slug is AUTH-MODULE, business name is \"Authorization Processing\". Help me synthesize the four-view module analysis. Return the module-overview.md and all four views (01-operation-flow.md through 04-data-flow.md) following the output contract format."
+  "Use /legacy-ibmi-module-analyzer. Contract-only no-write smoke test. Do not create or edit files. Do not inspect or rely on the actual workspace filesystem; use only the scenario text below and the skill contract. User input: I have three approved flow analyses (FLOW-AUTH-001, FLOW-BATCH-001, FLOW-MANUAL-001), approved program analyses for all programs, an approved inventory with the AUTH-MODULE scope confirmed, and BAU notes from the Module Owner. Module slug is AUTH-MODULE, business name is \"Authorization Processing\". Help me synthesize the four-view module analysis. Return the module-overview.md and all four views (01-operation-flow.md through 04-data-flow.md) following the output contract format. Each view must include ## Mermaid Flow Diagram with a fenced Mermaid flowchart before evidence or traceability tables; do not return table-only flow views."
 ```
 
 ```bash
 claude -p --model haiku --permission-mode dontAsk --tools Read --max-budget-usd 0.20 \
-  "Use /legacy-ibmi-module-analyzer. User input: I have three approved flow analyses (FLOW-AUTH-001, FLOW-BATCH-001, FLOW-MANUAL-001), approved program analyses for all programs, an approved inventory with the AUTH-MODULE scope confirmed, and BAU notes from the Module Owner. Module slug is AUTH-MODULE, business name is \"Authorization Processing\". Help me synthesize the four-view module analysis. Return the module-overview.md and all four views (01-operation-flow.md through 04-data-flow.md) following the output contract format."
+  "Use /legacy-ibmi-module-analyzer. Contract-only no-write smoke test. Do not create or edit files. Do not inspect or rely on the actual workspace filesystem; use only the scenario text below and the skill contract. User input: I have three approved flow analyses (FLOW-AUTH-001, FLOW-BATCH-001, FLOW-MANUAL-001), approved program analyses for all programs, an approved inventory with the AUTH-MODULE scope confirmed, and BAU notes from the Module Owner. Module slug is AUTH-MODULE, business name is \"Authorization Processing\". Help me synthesize the four-view module analysis. Return the module-overview.md and all four views (01-operation-flow.md through 04-data-flow.md) following the output contract format. Each view must include ## Mermaid Flow Diagram with a fenced Mermaid flowchart before evidence or traceability tables; do not return table-only flow views."
 ```
 
 ```bash
 opencode run -m opencode/minimax-m2.5-free \
-  "Use /legacy-ibmi-module-analyzer. User input: I have three approved flow analyses (FLOW-AUTH-001, FLOW-BATCH-001, FLOW-MANUAL-001), approved program analyses for all programs, an approved inventory with the AUTH-MODULE scope confirmed, and BAU notes from the Module Owner. Module slug is AUTH-MODULE, business name is \"Authorization Processing\". Help me synthesize the four-view module analysis. Return the module-overview.md and all four views (01-operation-flow.md through 04-data-flow.md) following the output contract format."
+  "Use /legacy-ibmi-module-analyzer. Contract-only no-write smoke test. Do not create or edit files. Do not inspect or rely on the actual workspace filesystem; use only the scenario text below and the skill contract. User input: I have three approved flow analyses (FLOW-AUTH-001, FLOW-BATCH-001, FLOW-MANUAL-001), approved program analyses for all programs, an approved inventory with the AUTH-MODULE scope confirmed, and BAU notes from the Module Owner. Module slug is AUTH-MODULE, business name is \"Authorization Processing\". Help me synthesize the four-view module analysis. Return the module-overview.md and all four views (01-operation-flow.md through 04-data-flow.md) following the output contract format. Each view must include ## Mermaid Flow Diagram with a fenced Mermaid flowchart before evidence or traceability tables; do not return table-only flow views."
 ```
 
 For the negative scenario, substitute the missing-flow-analysis prompt above into
@@ -1016,7 +1457,7 @@ the same commands.
 
 ### `legacy-spec-writer`
 
-#### Scenario (Positive — All Analyses Approved)
+#### Scenario (Positive — All Analyses And BRD Approved)
 
 ```text
 Use /legacy-spec-writer.
@@ -1027,6 +1468,8 @@ I have:
 - Approved flow analyses: ONUS-AUTH, NIGHTLY-RECON, MANUAL-AUTH (all approved)
 - Approved program analyses for all 8 programs referenced by those flows
 - Approved inventory with CARD-AUTH scope confirmed
+- Approved BRD Package under 05_brds/CREDIT-LIMIT-ENFORCEMENT/ with sections
+  1-9 reviewed by Anna Chen
 - SME owner: Anna Chen (capability owner)
 - Capability seed: CAP-CREDIT-LIMIT-ENFORCEMENT
 - Target platform: Java 21 + Spring Boot 3 + PostgreSQL
@@ -1045,7 +1488,10 @@ The response must include all of the following:
 - **Business Rules (BR-*):** At least 2 business rules lifted from module View 1 seeds, each with review_status (draft or approved based on SME confirmation), linked to supporting BEH-*
 - **Modernization Decisions (DEC-*):** At least 1 decision (e.g., "store transaction audit in append-only table"), referencing BR-* or target_platform
 - **Data model:** Target entities (e.g., CreditTransaction, CustomerCreditLimit) mapped to legacy OBJ-* with field mappings
-- **Process flow & I/O:** process_flow.steps from the ONUS-AUTH flow analysis, inputs (e.g., transaction), outputs (e.g., hold_decision)
+- **Process flow & I/O:** process_flow.steps are business-visible phases and outcomes from the ONUS-AUTH flow analysis, not one step per legacy program; inputs (e.g., transaction), outputs (e.g., hold_decision)
+- **BRD grounding:** Inputs/outputs/exceptions and process-flow framing are
+  cross-checked against the approved BRD Package rather than treating BRD as
+  optional collateral
 - **Acceptance criteria:** AC-* items validating approved BRs; no ACs for draft or needs_sme_review BRs
 - **Open questions:** No blocking TBDs for a complete spec; status = draft or in_review (not blocked)
 - **spec.md outline:** Human-readable rendering of the same content
@@ -1060,7 +1506,8 @@ Use /legacy-spec-writer.
 User input:
 I have approved module analysis (CARD-AUTH), approved flow for ONUS-AUTH, but
 NIGHTLY-RECON flow analysis is still in draft status. I also have approved
-program analyses for 7 of the 8 programs. Inventory is approved, SME is Anna Chen.
+program analyses for 7 of the 8 programs. Inventory and BRD Package are
+approved, SME is Anna Chen.
 Can I produce the spec anyway?
 
 Return:
@@ -1084,17 +1531,17 @@ Return:
 
 ```bash
 codex exec -C . -s read-only --ephemeral -m gpt-5.4-mini \
-  "Use /legacy-spec-writer. User input: I have: - Approved module analysis (CARD-AUTH module, all four views approved) - Approved flow analyses: ONUS-AUTH, NIGHTLY-RECON, MANUAL-AUTH (all approved) - Approved program analyses for all 8 programs referenced by those flows - Approved inventory with CARD-AUTH scope confirmed - SME owner: Anna Chen (capability owner) - Capability seed: CAP-CREDIT-LIMIT-ENFORCEMENT - Target platform: Java 21 + Spring Boot 3 + PostgreSQL. Help me write the spec for credit limit enforcement. Return the spec.yaml structure, spec.md outline, and indication that spec-review.md and traceability.md will be produced."
+  "Use /legacy-spec-writer. User input: I have: - Approved module analysis (CARD-AUTH module, all four views approved) - Approved flow analyses: ONUS-AUTH, NIGHTLY-RECON, MANUAL-AUTH (all approved) - Approved program analyses for all 8 programs referenced by those flows - Approved inventory with CARD-AUTH scope confirmed - Approved BRD Package under 05_brds/CREDIT-LIMIT-ENFORCEMENT/ with sections 1-9 reviewed by Anna Chen - SME owner: Anna Chen (capability owner) - Capability seed: CAP-CREDIT-LIMIT-ENFORCEMENT - Target platform: Java 21 + Spring Boot 3 + PostgreSQL. Help me write the spec for credit limit enforcement. Return the spec.yaml structure, spec.md outline, and indication that spec-review.md and traceability.md will be produced."
 ```
 
 ```bash
 claude -p --model haiku --permission-mode dontAsk --tools Read --max-budget-usd 0.20 \
-  "Use /legacy-spec-writer. User input: I have: - Approved module analysis (CARD-AUTH module, all four views approved) - Approved flow analyses: ONUS-AUTH, NIGHTLY-RECON, MANUAL-AUTH (all approved) - Approved program analyses for all 8 programs referenced by those flows - Approved inventory with CARD-AUTH scope confirmed - SME owner: Anna Chen (capability owner) - Capability seed: CAP-CREDIT-LIMIT-ENFORCEMENT - Target platform: Java 21 + Spring Boot 3 + PostgreSQL. Help me write the spec for credit limit enforcement. Return the spec.yaml structure, spec.md outline, and indication that spec-review.md and traceability.md will be produced."
+  "Use /legacy-spec-writer. User input: I have: - Approved module analysis (CARD-AUTH module, all four views approved) - Approved flow analyses: ONUS-AUTH, NIGHTLY-RECON, MANUAL-AUTH (all approved) - Approved program analyses for all 8 programs referenced by those flows - Approved inventory with CARD-AUTH scope confirmed - Approved BRD Package under 05_brds/CREDIT-LIMIT-ENFORCEMENT/ with sections 1-9 reviewed by Anna Chen - SME owner: Anna Chen (capability owner) - Capability seed: CAP-CREDIT-LIMIT-ENFORCEMENT - Target platform: Java 21 + Spring Boot 3 + PostgreSQL. Help me write the spec for credit limit enforcement. Return the spec.yaml structure, spec.md outline, and indication that spec-review.md and traceability.md will be produced."
 ```
 
 ```bash
 opencode run -m opencode/minimax-m2.5-free \
-  "Use /legacy-spec-writer. User input: I have: - Approved module analysis (CARD-AUTH module, all four views approved) - Approved flow analyses: ONUS-AUTH, NIGHTLY-RECON, MANUAL-AUTH (all approved) - Approved program analyses for all 8 programs referenced by those flows - Approved inventory with CARD-AUTH scope confirmed - SME owner: Anna Chen (capability owner) - Capability seed: CAP-CREDIT-LIMIT-ENFORCEMENT - Target platform: Java 21 + Spring Boot 3 + PostgreSQL. Help me write the spec for credit limit enforcement. Return the spec.yaml structure, spec.md outline, and indication that spec-review.md and traceability.md will be produced."
+  "Use /legacy-spec-writer. User input: I have: - Approved module analysis (CARD-AUTH module, all four views approved) - Approved flow analyses: ONUS-AUTH, NIGHTLY-RECON, MANUAL-AUTH (all approved) - Approved program analyses for all 8 programs referenced by those flows - Approved inventory with CARD-AUTH scope confirmed - Approved BRD Package under 05_brds/CREDIT-LIMIT-ENFORCEMENT/ with sections 1-9 reviewed by Anna Chen - SME owner: Anna Chen (capability owner) - Capability seed: CAP-CREDIT-LIMIT-ENFORCEMENT - Target platform: Java 21 + Spring Boot 3 + PostgreSQL. Help me write the spec for credit limit enforcement. Return the spec.yaml structure, spec.md outline, and indication that spec-review.md and traceability.md will be produced."
 ```
 
 For the negative scenario, substitute the incomplete-upstream-analysis prompt above into
@@ -1317,10 +1764,13 @@ EV-CREDIT-CHECK-012 sensitivity internal redaction_status not_required, and
 EV-CREDIT-CHECK-018 sensitivity internal redaction_status not_required.
 
 Review items:
+- BRD sections 1-9 are present; section 3 Channels is accepted with
+  TBD-CREDIT-CHECK-004 carried as non-blocking
 - BEH-CREDIT-CHECK-001 should be confirmed
 - BR-CREDIT-CHECK-003 should be rejected because interest compounds daily only
   above the configured balance threshold
-- TBD-CREDIT-CHECK-004 should be deferred to Operations by 2026-05-23
+- TBD-CREDIT-CHECK-004 should be deferred to Digital Channels SME by
+  2026-05-23
 
 Return only:
 - skill_invoked
@@ -1345,8 +1795,11 @@ Return only:
 - records decisions for `BEH-CREDIT-CHECK-001` as `confirmed`,
   `BR-CREDIT-CHECK-003` as `rejected`, and `TBD-CREDIT-CHECK-004` as
   `deferred`
+- records BRD functional-analysis coverage for sections 1-9, with section 3
+  accepted with a named `TBD-*`
 - routes the rule revision to `legacy-spec-writer`
-- routes the deferred TBD to Operations with target date `2026-05-23`
+- routes the deferred channel TBD to Digital Channels SME with target date
+  `2026-05-23`
 - confirms no files were created or edited
 
 #### Scenario (Negative — Missing SME And Unknown Evidence)

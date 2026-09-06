@@ -58,6 +58,10 @@ Legacy sources: OBJ-..., OBJ-...
 
 ## Process Flow
 
+Business-visible steps the target capability must support. Do not copy the
+legacy program call chain here; cite legacy program / flow evidence through
+`EV-*` references in `spec.yaml` and `traceability.md`.
+
 1. STEP-001 — ...
 2. STEP-002 — ...
 

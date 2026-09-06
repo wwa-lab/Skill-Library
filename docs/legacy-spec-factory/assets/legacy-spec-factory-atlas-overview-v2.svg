@@ -1,0 +1,317 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1672" height="941" viewBox="0 0 1672 941" role="img" aria-labelledby="title desc">
+  <title id="title">Legacy Spec Factory x Atlas Engineering Delivery Hub v2</title>
+  <desc id="desc">A dark sci-fi dashboard infographic showing enterprise RAG and module-first Legacy Spec Factory feeding an approved capability package and Atlas engineering delivery.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#061624"/>
+      <stop offset="0.45" stop-color="#071b2b"/>
+      <stop offset="1" stop-color="#020813"/>
+    </linearGradient>
+    <radialGradient id="radial" cx="50%" cy="28%" r="72%">
+      <stop offset="0" stop-color="#10344d" stop-opacity="0.78"/>
+      <stop offset="0.45" stop-color="#082034" stop-opacity="0.42"/>
+      <stop offset="1" stop-color="#020813" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d2b3e" stop-opacity="0.96"/>
+      <stop offset="1" stop-color="#06111d" stop-opacity="0.96"/>
+    </linearGradient>
+    <linearGradient id="tile" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#10324a" stop-opacity="0.98"/>
+      <stop offset="1" stop-color="#071725" stop-opacity="0.98"/>
+    </linearGradient>
+    <linearGradient id="goldTile" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2b1d10" stop-opacity="0.98"/>
+      <stop offset="1" stop-color="#0c1219" stop-opacity="0.98"/>
+    </linearGradient>
+    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#102d42"/>
+      <stop offset="1" stop-color="#071420"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#000" flood-opacity="0.42"/>
+    </filter>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2.8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <marker id="arrowCyan" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M1 1 L11 6 L1 11 Z" fill="#23c8ff"/>
+    </marker>
+    <marker id="arrowGold" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M1 1 L11 6 L1 11 Z" fill="#f2a545"/>
+    </marker>
+    <style>
+      .title{font-family:Arial,Helvetica,sans-serif;font-size:48px;font-weight:900;fill:#eef7ff;letter-spacing:1px}
+      .blue{fill:#15bff5}
+      .kicker{font-family:Arial,Helvetica,sans-serif;font-size:24px;font-weight:800;fill:#f2a545}
+      .sub{font-family:Arial,Helvetica,sans-serif;font-size:15px;font-weight:700;fill:#a7c3d5;letter-spacing:2px}
+      .h1{font-family:Arial,Helvetica,sans-serif;font-size:22px;font-weight:900;fill:#20c9ff}
+      .h2{font-family:Arial,Helvetica,sans-serif;font-size:17px;font-weight:800;fill:#eff8ff}
+      .h3{font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:800;fill:#eff8ff}
+      .cn{font-family:Arial,'PingFang SC','Microsoft YaHei',sans-serif;font-size:14px;font-weight:800;fill:#dcefff}
+      .small{font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:700;fill:#a8c1d2}
+      .tiny{font-family:Arial,Helvetica,sans-serif;font-size:9.5px;font-weight:700;fill:#8fafc2}
+      .panel{fill:url(#panel);stroke:#0782b2;stroke-width:1.5}
+      .tile{fill:url(#tile);stroke:#0ba4d7;stroke-width:1.35}
+      .goldTile{fill:url(#goldTile);stroke:#d88d31;stroke-width:1.55}
+      .paper{fill:url(#paper);stroke:#3aa6cf;stroke-width:1.2}
+      .line{stroke:#23c8ff;stroke-width:2;fill:none;marker-end:url(#arrowCyan)}
+      .goldLine{stroke:#f2a545;stroke-width:2;fill:none;marker-end:url(#arrowGold)}
+      .dash{stroke:#0ba5d7;stroke-width:1.15;stroke-dasharray:4 7;fill:none;opacity:.72}
+      .thin{stroke:#0e6d91;stroke-width:1;fill:none}
+    </style>
+  </defs>
+
+  <rect width="1672" height="941" fill="url(#bg)"/>
+  <rect width="1672" height="941" fill="url(#radial)"/>
+
+  <g opacity="0.42">
+    <path d="M18 12 H1660 L1650 22 V74 L1605 74 L1582 52 H1340 L1320 72 H1010 L990 52 H666 L646 72 H355 L335 52 H148 L78 92 H18 Z" fill="none" stroke="#0b6085"/>
+    <path d="M24 915 H1648" stroke="#0b6085"/>
+    <path d="M24 143 H1648" stroke="#0b6085" stroke-dasharray="3 9"/>
+    <path d="M24 810 H1648" stroke="#0b6085" stroke-dasharray="3 9"/>
+  </g>
+  <g opacity="0.85">
+    <g transform="translate(30 26)">
+      <circle cx="0" cy="0" r="2" fill="#14b9ec"/><circle cx="16" cy="0" r="2" fill="#14b9ec"/><circle cx="32" cy="0" r="2" fill="#14b9ec"/><circle cx="48" cy="0" r="2" fill="#14b9ec"/><circle cx="64" cy="0" r="2" fill="#14b9ec"/>
+      <circle cx="0" cy="16" r="2" fill="#14b9ec"/><circle cx="16" cy="16" r="2" fill="#14b9ec"/><circle cx="32" cy="16" r="2" fill="#14b9ec"/><circle cx="48" cy="16" r="2" fill="#14b9ec"/><circle cx="64" cy="16" r="2" fill="#14b9ec"/>
+      <circle cx="0" cy="32" r="2" fill="#14b9ec"/><circle cx="16" cy="32" r="2" fill="#14b9ec"/><circle cx="32" cy="32" r="2" fill="#14b9ec"/><circle cx="48" cy="32" r="2" fill="#14b9ec"/><circle cx="64" cy="32" r="2" fill="#14b9ec"/>
+    </g>
+    <g transform="translate(1570 26)">
+      <circle cx="0" cy="0" r="2" fill="#14b9ec"/><circle cx="16" cy="0" r="2" fill="#14b9ec"/><circle cx="32" cy="0" r="2" fill="#14b9ec"/><circle cx="48" cy="0" r="2" fill="#14b9ec"/><circle cx="64" cy="0" r="2" fill="#14b9ec"/>
+      <circle cx="0" cy="16" r="2" fill="#14b9ec"/><circle cx="16" cy="16" r="2" fill="#14b9ec"/><circle cx="32" cy="16" r="2" fill="#14b9ec"/><circle cx="48" cy="16" r="2" fill="#14b9ec"/><circle cx="64" cy="16" r="2" fill="#14b9ec"/>
+      <circle cx="0" cy="32" r="2" fill="#14b9ec"/><circle cx="16" cy="32" r="2" fill="#14b9ec"/><circle cx="32" cy="32" r="2" fill="#14b9ec"/><circle cx="48" cy="32" r="2" fill="#14b9ec"/><circle cx="64" cy="32" r="2" fill="#14b9ec"/>
+    </g>
+  </g>
+
+  <path d="M548 0 H1124 L1108 55 H564 Z" fill="#07131d" stroke="#0f7da7" stroke-width="1.6"/>
+  <text x="836" y="35" text-anchor="middle" class="kicker">No Output, No Pass.   No Pass, No Next.</text>
+  <text x="836" y="100" text-anchor="middle" class="title">LEGACY SPEC FACTORY <tspan class="blue">x ATLAS ENGINEERING</tspan> DELIVERY HUB</text>
+  <text x="836" y="130" text-anchor="middle" class="sub">RAG-GROUNDED MODULE FLOWS TO APPROVED CAPABILITY PACKAGE TO CLOUD-NATIVE DELIVERY</text>
+
+  <g filter="url(#shadow)">
+    <path d="M24 148 H540 L558 166 V650 L540 668 H24 Z" class="panel"/>
+    <path d="M34 205 H528" class="thin"/>
+    <text x="84" y="178" class="h1">LEGACY SPEC FACTORY / 旧系统理解工厂</text>
+    <text x="116" y="202" class="cn" opacity="0.82">RAG 证据层 + 模块四视图，形成证据驱动的 BRD</text>
+
+    <rect x="36" y="218" width="218" height="424" class="tile"/>
+    <text x="58" y="243" class="h3">ENTERPRISE RAG / 企业知识图谱</text>
+    <text x="58" y="262" class="tiny">Source, ARCAD REF, Data Dictionary</text>
+
+    <g transform="translate(50 282)">
+      <rect width="188" height="48" class="paper"/>
+      <rect x="14" y="12" width="38" height="24" fill="#06111d" stroke="#23c8ff"/>
+      <path d="M20 18 h26 M20 24 h18 M20 30 h24" stroke="#23c8ff"/>
+      <text x="68" y="20" class="h3">Full Source</text>
+      <text x="68" y="38" class="small">RPGLE / CLLE / DDS</text>
+    </g>
+    <g transform="translate(50 344)">
+      <rect width="188" height="48" class="paper"/>
+      <circle cx="34" cy="24" r="15" fill="none" stroke="#23c8ff" stroke-width="2"/>
+      <path d="M34 9 v30 M19 24 h30" stroke="#23c8ff" stroke-width="2"/>
+      <text x="68" y="20" class="h3">ARCAD REF</text>
+      <text x="68" y="38" class="small">Impact / dependency seeds</text>
+    </g>
+    <g transform="translate(50 406)">
+      <rect width="188" height="48" class="paper"/>
+      <rect x="18" y="12" width="32" height="28" fill="none" stroke="#23c8ff" stroke-width="2"/>
+      <path d="M24 20 h18 M24 28 h18 M24 36 h12" stroke="#23c8ff" stroke-width="2"/>
+      <text x="68" y="20" class="h3">Data Dictionary</text>
+      <text x="68" y="38" class="small">Business field identity</text>
+    </g>
+    <g transform="translate(50 468)">
+      <rect width="188" height="48" class="paper"/>
+      <ellipse cx="34" cy="18" rx="18" ry="8" fill="none" stroke="#23c8ff" stroke-width="2"/>
+      <path d="M16 18 v18 c0 5 36 5 36 0 V18" fill="none" stroke="#23c8ff" stroke-width="2"/>
+      <text x="68" y="20" class="h3">Tables / Files</text>
+      <text x="68" y="38" class="small">DB2, PF/LF, table metadata</text>
+    </g>
+    <g transform="translate(50 530)">
+      <rect width="188" height="48" class="paper"/>
+      <path d="M20 12 h32 v28 H20 Z M26 20 h18 M26 28 h18 M26 36 h12" fill="none" stroke="#23c8ff" stroke-width="2"/>
+      <text x="68" y="20" class="h3">Runtime / Reports</text>
+      <text x="68" y="38" class="small">Logs, spool, screens</text>
+    </g>
+
+    <rect x="274" y="218" width="138" height="424" class="tile"/>
+    <text x="294" y="243" class="h3">RAG OUTPUT</text>
+    <g transform="translate(294 275)">
+      <rect width="98" height="38" class="paper"/>
+      <text x="12" y="16" class="small">Program flow</text><text x="12" y="31" class="tiny">draft + snippets</text>
+    </g>
+    <g transform="translate(294 327)">
+      <rect width="98" height="38" class="paper"/>
+      <text x="12" y="16" class="small">Impact scope</text><text x="12" y="31" class="tiny">field / table</text>
+    </g>
+    <g transform="translate(294 379)">
+      <rect width="98" height="38" class="paper"/>
+      <text x="12" y="16" class="small">Dictionary map</text><text x="12" y="31" class="tiny">aliases / owner</text>
+    </g>
+    <g transform="translate(294 431)">
+      <rect width="98" height="38" class="paper"/>
+      <text x="12" y="16" class="small">Source lines</text><text x="12" y="31" class="tiny">code snippets</text>
+    </g>
+    <g transform="translate(294 483)">
+      <rect width="98" height="38" class="paper"/>
+      <text x="12" y="16" class="small">Gaps / conflict</text><text x="12" y="31" class="tiny">needs review</text>
+    </g>
+
+    <rect x="426" y="218" width="106" height="424" class="tile"/>
+    <text x="448" y="243" class="h3">BRD 输入</text>
+    <g transform="translate(452 286)"><path d="M0 0 h32 v42 H0 Z M8 10 h16 M8 20 h16 M8 30 h10" fill="none" stroke="#dcefff" stroke-width="2"/><text x="16" y="62" text-anchor="middle" class="small">flow.md</text></g>
+    <g transform="translate(452 382)"><path d="M0 0 h32 v42 H0 Z M8 10 h16 M8 20 h16 M8 30 h10" fill="none" stroke="#dcefff" stroke-width="2"/><text x="16" y="62" text-anchor="middle" class="small">rag-map.md</text></g>
+    <g transform="translate(452 478)"><circle cx="16" cy="16" r="15" fill="none" stroke="#f2a545" stroke-width="2"/><text x="16" y="22" text-anchor="middle" class="h2">?</text><text x="16" y="62" text-anchor="middle" class="small">open Qs</text></g>
+
+    <path d="M254 430 H274" class="line"/>
+    <path d="M412 430 H426" class="line"/>
+  </g>
+
+  <g filter="url(#shadow)">
+    <path d="M550 148 H1084 L1102 166 V650 L1084 668 H550 Z" class="panel"/>
+    <text x="646" y="178" class="h1">MODULE-FIRST BRD FACTORY</text>
+    <text x="664" y="202" class="cn" opacity="0.82">以模块场景和四条 Flow 为骨架，Program / Flow 可作为分析起点</text>
+
+    <g transform="translate(568 224)">
+      <rect width="205" height="62" class="goldTile"/>
+      <text x="22" y="25" class="h3">1 Operation / Business Flow</text>
+      <text x="22" y="45" class="small">Actors, events, exception path</text>
+    </g>
+    <g transform="translate(568 302)">
+      <rect width="205" height="62" class="goldTile"/>
+      <text x="22" y="25" class="h3">2 System Flow</text>
+      <text x="22" y="45" class="small">Upstream, downstream, jobs</text>
+    </g>
+    <g transform="translate(568 380)">
+      <rect width="205" height="62" class="goldTile"/>
+      <text x="22" y="25" class="h3">3 Program Flow</text>
+      <text x="22" y="45" class="small">Call chain, branch, snippets</text>
+    </g>
+    <g transform="translate(568 458)">
+      <rect width="205" height="62" class="goldTile"/>
+      <text x="22" y="25" class="h3">4 Data Flow</text>
+      <text x="22" y="45" class="small">Table CRUD, field semantics</text>
+    </g>
+
+    <g transform="translate(812 224)">
+      <rect width="224" height="62" class="tile"/>
+      <text x="24" y="25" class="h3">Context Package</text>
+      <text x="24" y="45" class="small">00_context_packages / YAML index</text>
+    </g>
+    <g transform="translate(812 302)">
+      <rect width="224" height="62" class="tile"/>
+      <text x="24" y="25" class="h3">Module Synthesis</text>
+      <text x="24" y="45" class="small">4-view module model</text>
+    </g>
+    <g transform="translate(812 380)">
+      <rect width="224" height="62" class="tile"/>
+      <text x="24" y="25" class="h3">Selective Verification</text>
+      <text x="24" y="45" class="small">Program / flow checks as needed</text>
+    </g>
+    <g transform="translate(812 458)">
+      <rect width="224" height="62" class="tile"/>
+      <text x="24" y="25" class="h3">BRD Writer</text>
+      <text x="24" y="45" class="small">Observed, inferred, decided, TBD</text>
+    </g>
+
+    <path d="M773 255 H802" class="goldLine"/><path d="M773 333 H802" class="goldLine"/>
+    <path d="M773 411 H802" class="goldLine"/><path d="M773 489 H802" class="goldLine"/>
+    <path d="M924 286 V294" class="line"/><path d="M924 364 V372" class="line"/><path d="M924 442 V450" class="line"/>
+
+    <rect x="618" y="554" width="394" height="76" class="tile"/>
+    <text x="658" y="584" class="h2">APPROVED CAPABILITY PACKAGE</text>
+    <text x="658" y="607" class="small">BRD / spec.yaml / traceability / SDD handoff / open questions</text>
+    <path d="M636 584 h16 v24 h-16 z M642 590 h8 M642 598 h8" stroke="#dcefff" fill="none"/>
+    <path d="M924 520 C924 548 852 548 815 554" class="line"/>
+
+    <g opacity="0.9">
+      <path d="M550 430 C522 390 522 318 550 278" class="dash"/>
+      <path d="M550 494 C516 454 516 390 550 350" class="dash"/>
+      <path d="M1102 430 C1130 390 1130 318 1102 278" class="dash"/>
+      <path d="M1102 494 C1136 454 1136 390 1102 350" class="dash"/>
+    </g>
+  </g>
+
+  <g filter="url(#shadow)">
+    <path d="M1088 148 H1648 L1664 166 V650 L1648 668 H1088 Z" class="panel"/>
+    <text x="1114" y="178" class="h1">ATLAS ENGINEERING DELIVERY HUB</text>
+    <text x="1188" y="202" class="cn" opacity="0.82">Seven Mountains SDLC x Seven Gates，ATLAS 工程交付中枢</text>
+
+    <g transform="translate(1108 218)">
+      <rect width="74" height="112" class="tile"/><text x="37" y="27" text-anchor="middle" class="h2">G1</text><text x="37" y="58" text-anchor="middle" class="tiny">End-to-End</text><text x="37" y="74" text-anchor="middle" class="tiny">Visibility</text>
+      <rect x="80" width="74" height="112" class="tile"/><text x="117" y="27" text-anchor="middle" class="h2">G2</text><text x="117" y="58" text-anchor="middle" class="tiny">Process</text><text x="117" y="74" text-anchor="middle" class="tiny">Control</text>
+      <rect x="160" width="74" height="112" class="tile"/><text x="197" y="27" text-anchor="middle" class="h2">G3</text><text x="197" y="58" text-anchor="middle" class="tiny">Quality</text><text x="197" y="74" text-anchor="middle" class="tiny">Validation</text>
+      <rect x="240" width="74" height="112" class="tile"/><text x="277" y="27" text-anchor="middle" class="h2">G4</text><text x="277" y="58" text-anchor="middle" class="tiny">Traceable</text><text x="277" y="74" text-anchor="middle" class="tiny">Links</text>
+      <rect x="320" width="74" height="112" class="tile"/><text x="357" y="27" text-anchor="middle" class="h2">G5</text><text x="357" y="58" text-anchor="middle" class="tiny">Measurable</text><text x="357" y="74" text-anchor="middle" class="tiny">Quality</text>
+      <rect x="400" width="74" height="112" class="tile"/><text x="437" y="27" text-anchor="middle" class="h2">G6</text><text x="437" y="58" text-anchor="middle" class="tiny">Controlled</text><text x="437" y="74" text-anchor="middle" class="tiny">Delivery</text>
+      <rect x="480" width="74" height="112" class="tile"/><text x="517" y="27" text-anchor="middle" class="h2">G7</text><text x="517" y="58" text-anchor="middle" class="tiny">Always</text><text x="517" y="74" text-anchor="middle" class="tiny">On</text>
+    </g>
+
+    <g transform="translate(1114 366)">
+      <rect width="62" height="180" class="tile"/><text x="31" y="24" text-anchor="middle" class="h2">01</text><text x="31" y="55" text-anchor="middle" class="small">Reqs</text><text x="31" y="150" text-anchor="middle" class="tiny">reqs.md</text>
+      <rect x="76" width="62" height="180" class="tile"/><text x="107" y="24" text-anchor="middle" class="h2">02</text><text x="107" y="55" text-anchor="middle" class="small">Stories</text><text x="107" y="150" text-anchor="middle" class="tiny">stories.md</text>
+      <rect x="152" width="62" height="180" class="tile"/><text x="183" y="24" text-anchor="middle" class="h2">03</text><text x="183" y="55" text-anchor="middle" class="small">Spec</text><text x="183" y="150" text-anchor="middle" class="tiny">spec.yaml</text>
+      <rect x="228" width="62" height="180" class="tile"/><text x="259" y="24" text-anchor="middle" class="h2">04</text><text x="259" y="55" text-anchor="middle" class="small">Arch</text><text x="259" y="150" text-anchor="middle" class="tiny">arch.md</text>
+      <rect x="304" width="62" height="180" class="tile"/><text x="335" y="24" text-anchor="middle" class="h2">05</text><text x="335" y="55" text-anchor="middle" class="small">Design</text><text x="335" y="150" text-anchor="middle" class="tiny">design.md</text>
+      <rect x="380" width="62" height="180" class="tile"/><text x="411" y="24" text-anchor="middle" class="h2">06</text><text x="411" y="55" text-anchor="middle" class="small">Tasks</text><text x="411" y="150" text-anchor="middle" class="tiny">tasks.md</text>
+      <rect x="456" width="76" height="180" class="tile"/><text x="494" y="24" text-anchor="middle" class="h2">07</text><text x="494" y="55" text-anchor="middle" class="small">Code</text><text x="494" y="74" text-anchor="middle" class="small">Test</text><text x="494" y="93" text-anchor="middle" class="small">Deploy</text><text x="494" y="150" text-anchor="middle" class="tiny">Java / CI</text>
+      <path d="M62 90 H68" class="line"/><path d="M138 90 H144" class="line"/><path d="M214 90 H220" class="line"/><path d="M290 90 H296" class="line"/><path d="M366 90 H372" class="line"/><path d="M442 90 H448" class="line"/>
+    </g>
+    <path d="M1644 612 H1108" class="thin"/>
+    <text x="1138" y="636" class="small">全链路可视</text><text x="1258" y="636" class="small">过程受管控</text><text x="1390" y="636" class="small">质量可验证</text><text x="1530" y="636" class="small">7x24 运营</text>
+  </g>
+
+  <path d="M1012 592 C1046 592 1052 592 1088 592" class="line"/>
+
+  <g filter="url(#shadow)">
+    <path d="M24 690 H1648 V774 H24 Z" class="panel"/>
+    <text x="42" y="724" class="h2">全链路可追溯</text>
+    <text x="42" y="748" class="small">Traceability Thread</text>
+    <g transform="translate(208 704)">
+      <text x="0" y="24" class="h2">EV</text><text x="0" y="43" class="tiny">Evidence</text>
+      <path d="M60 22 H128" class="goldLine"/>
+      <text x="150" y="24" class="h2">FLOW</text><text x="150" y="43" class="tiny">4-View Module</text>
+      <path d="M250 22 H318" class="goldLine"/>
+      <text x="340" y="24" class="h2">BEH</text><text x="340" y="43" class="tiny">Behavior</text>
+      <path d="M420 22 H488" class="goldLine"/>
+      <text x="510" y="24" class="h2">BR</text><text x="510" y="43" class="tiny">Business Rule</text>
+      <path d="M595 22 H663" class="goldLine"/>
+      <text x="685" y="24" class="h2">BRD</text><text x="685" y="43" class="tiny">Requirements</text>
+      <path d="M770 22 H838" class="goldLine"/>
+      <text x="860" y="24" class="h2">SPEC</text><text x="860" y="43" class="tiny">Specification</text>
+      <path d="M965 22 H1033" class="goldLine"/>
+      <text x="1055" y="24" class="h2">TEST</text><text x="1055" y="43" class="tiny">Test Case</text>
+      <path d="M1150 22 H1218" class="goldLine"/>
+      <text x="1240" y="24" class="h2">CODE</text><text x="1240" y="43" class="tiny">Delivery</text>
+    </g>
+    <path d="M218 758 H1515" stroke="#17bff3" stroke-width="2" stroke-dasharray="4 12"/>
+  </g>
+
+  <g filter="url(#shadow)">
+    <path d="M30 802 H1642 V904 H30 Z" class="panel"/>
+    <g transform="translate(58 824)">
+      <circle cx="32" cy="30" r="22" fill="none" stroke="#23c8ff" stroke-width="3"/><path d="M32 30 L50 12" stroke="#23c8ff" stroke-width="3"/>
+      <text x="88" y="18" class="cn">把旧系统变成可理解的知识</text><text x="88" y="40" class="small">Make Legacy Understandable</text><text x="88" y="60" class="tiny">Turn complex legacy systems into clear artifacts</text>
+    </g>
+    <g transform="translate(370 824)">
+      <rect x="12" y="8" width="42" height="50" fill="none" stroke="#dcefff" stroke-width="2"/><path d="M22 22 h22 M22 34 h22 M22 46 h14" stroke="#dcefff" stroke-width="2"/>
+      <text x="88" y="18" class="cn">让 RAG 证据可行动</text><text x="88" y="40" class="small">Make RAG Evidence Actionable</text><text x="88" y="60" class="tiny">Hydrate flows with snippets and field meaning</text>
+    </g>
+    <g transform="translate(700 824)">
+      <circle cx="32" cy="18" r="9" fill="none" stroke="#dcefff" stroke-width="2"/><circle cx="16" cy="48" r="9" fill="none" stroke="#dcefff" stroke-width="2"/><circle cx="48" cy="48" r="9" fill="none" stroke="#dcefff" stroke-width="2"/><path d="M28 25 L20 40 M36 25 L44 40 M25 48 H39" stroke="#dcefff" stroke-width="2"/>
+      <text x="88" y="18" class="cn">从 BRD 平滑接入 Atlas SDD</text><text x="88" y="40" class="small">Seamless Handoff to Atlas SDD</text><text x="88" y="60" class="tiny">Approved BRD to structured SDD without guesswork</text>
+    </g>
+    <g transform="translate(1040 824)">
+      <path d="M32 5 L58 16 V36 C58 52 44 62 32 68 C20 62 6 52 6 36 V16 Z" fill="none" stroke="#dcefff" stroke-width="2.4"/><path d="M20 35 l8 8 l18 -22" fill="none" stroke="#f2a545" stroke-width="3"/>
+      <text x="88" y="18" class="cn">用七道门保障高质量交付</text><text x="88" y="40" class="small">Seven Gates Ensure Quality</text><text x="88" y="60" class="tiny">Controls, validation, and traceability at every step</text>
+    </g>
+    <g transform="translate(1360 824)">
+      <path d="M18 52 h54 c10 0 18 -8 18 -18 s-8 -18 -18 -18 c-4 0 -8 1 -11 3 C56 9 47 4 36 4 C20 4 8 17 8 32 c-9 1 -16 9 -16 19 c0 1 0 1 0 1 h26" fill="none" stroke="#dcefff" stroke-width="2.6"/>
+      <text x="104" y="18" class="cn">交付可持续价值</text><text x="104" y="40" class="small">Sustainable Value</text><text x="104" y="60" class="tiny">Continuous quality and operations</text>
+    </g>
+  </g>
+</svg>

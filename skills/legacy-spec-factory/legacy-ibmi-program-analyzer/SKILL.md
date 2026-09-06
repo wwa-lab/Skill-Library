@@ -6,7 +6,7 @@ metadata:
   author: Leo L Zhang
   maintainer: platform-engineering
   source: https://github.com/wwa-lab/legacy-spec-factory
-  source_commit: 8871a6b
+  source_commit: 3b6a16b
   domain: legacy-spec-factory
 ---
 
@@ -47,7 +47,7 @@ Stop and require clarification if:
   artifact or TBD routing note instead of guessing)
 - Program is marked `blocked` in the inventory
 - Program ID (OBJ-*) cannot be located in inventory
-- Source contains raw, unredacted production data (require redaction review per `../../../docs/legacy-spec-factory/data-collection-and-redaction.md`)
+- Source contains raw, unredacted production data (require redaction review per `../../docs/data-collection-and-redaction.md`)
 
 ## Output Contract
 
@@ -67,9 +67,9 @@ Use:
 
 Follow:
 
-- `../../../docs/legacy-spec-factory/id-conventions.md` for stable IDs (OBJ-*, EV-*, TBD-*)
-- `../../../docs/legacy-spec-factory/evidence-and-knowledge-taxonomy.md` for evidence strength labels
-- `../../../docs/legacy-spec-factory/input-readiness-rubric.md` for input readiness scoring
+- `../../docs/id-conventions.md` for stable IDs (OBJ-*, EV-*, TBD-*)
+- `../../docs/evidence-and-knowledge-taxonomy.md` for evidence strength labels
+- `../../docs/input-readiness-rubric.md` for input readiness scoring
 
 Examples:
 
@@ -225,7 +225,7 @@ to the orchestrator.
      |    |-- SR110           Currency conversion
      |    |    |-- SR111      Convert transaction amount
      ```
-     If present, capture it verbatim — it is the program author's documented intent (tier 3 evidence per `../../../docs/legacy-spec-factory/code-as-ground-truth.md`). Useful as a navigation aid, **not authoritative** when it disagrees with actual EXSR/CALL statements.
+     If present, capture it verbatim — it is the program author's documented intent (tier 3 evidence per `../../docs/code-as-ground-truth.md`). Useful as a navigation aid, **not authoritative** when it disagrees with actual EXSR/CALL statements.
    - **Independently derive a program call map from code** by scanning
      for EXSR / CALLP / CALL / PERFORM / CALLPRC statements and
      BEGSR-ENDSR / BEGPR-ENDPR / paragraph definitions.
@@ -327,7 +327,7 @@ to the orchestrator.
 
 At the end of a program-analysis run, update
 `<project-root>/workflow-state.yaml` per
-[`docs/workflow-state-contract.md`](../../../docs/legacy-spec-factory/workflow-state-contract.md).
+[`docs/workflow-state-contract.md`](../../docs/workflow-state-contract.md).
 Template: [`skills/legacy-modernization-orchestrator/references/state-writeback-snippet.md`](../legacy-modernization-orchestrator/references/state-writeback-snippet.md).
 
 **Stage this skill produces:**
@@ -356,7 +356,7 @@ would lower `stage_id` requires the orchestrator's Rollback Protocol.
 
 ## Anti-Hallucination Rules
 
-**Code is ground truth.** See `../../../docs/legacy-spec-factory/code-as-ground-truth.md` for
+**Code is ground truth.** See `../../docs/code-as-ground-truth.md` for
 the full principle. When source code disagrees with comments,
 source-level flow headers, shop tool outputs, or SME recollection,
 **the code wins** for behavioral claims. The disagreement itself

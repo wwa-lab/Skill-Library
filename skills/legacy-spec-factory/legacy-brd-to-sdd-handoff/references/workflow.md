@@ -24,6 +24,14 @@ packages are not written.
    - `sme_owner` (non-empty)
    - `sme_role` (non-empty)
    - `approved_date` (ISO 8601, non-empty)
+4. Confirm `brd.md` contains required functional-analysis sections 1-9:
+   Function Purpose, Business Scenarios / Use Cases, Channels, User Interface /
+   User Touchpoints, System Interfaces, Process Flow, Validation Rules, Error
+   Handling, and Dependencies.
+5. Confirm `brd-review.md` or `05_brds/<CAPABILITY-SLUG>/review-decision.yaml`
+   records SME acceptance of those required sections. A required section may be
+   accepted with a named non-blocking / deferred `TBD-*`; it may not be missing,
+   placeholder-only, blocked, or awaiting evidence.
 
 Findings:
 
@@ -31,6 +39,10 @@ Findings:
 | --- | --- | --- | --- |
 | any field missing or empty | `BRD-SIGN-OFF-INCOMPLETE` | blocking | route to `legacy-brd-writer` |
 | BRD status below `approved` | `BRD-NOT-APPROVED` | blocking | route to `legacy-brd-writer` |
+| any required BRD section 1-9 missing or placeholder-only | `BRD-REQUIRED-SECTION-MISSING` | blocking | route to `legacy-brd-writer` |
+| SME functional coverage acceptance missing | `BRD-FUNCTIONAL-COVERAGE-NOT-REVIEWED` | blocking | route to `legacy-sme-review-facilitator` |
+| required section coverage is blocked or needs_more_evidence | `BRD-FUNCTIONAL-COVERAGE-BLOCKED` | blocking | route to `legacy-brd-writer` and SME review |
+| required section accepted with named non-blocking / deferred `TBD-*` | `BRD-FUNCTIONAL-COVERAGE-TBD` | warning | carry forward verbatim |
 | BRD owner ≠ spec owner | `SME-OWNERSHIP-MISMATCH` | info | record only |
 
 ---

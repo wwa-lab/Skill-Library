@@ -6,7 +6,7 @@ metadata:
   author: Leo L Zhang
   maintainer: platform-engineering
   source: https://github.com/wwa-lab/legacy-spec-factory
-  source_commit: 8871a6b
+  source_commit: 3b6a16b
   domain: legacy-spec-factory
 ---
 
@@ -62,9 +62,9 @@ Use the templates in:
 
 Follow:
 
-- `../../../docs/legacy-spec-factory/id-conventions.md`
-- `../../../docs/legacy-spec-factory/evidence-and-knowledge-taxonomy.md`
-- `../../../docs/legacy-spec-factory/input-readiness-rubric.md`
+- `../../docs/id-conventions.md`
+- `../../docs/evidence-and-knowledge-taxonomy.md`
+- `../../docs/input-readiness-rubric.md`
 - `references/output-contract.md`
 
 Examples:
@@ -320,7 +320,7 @@ is also produced and approved. The trigger turns optional skills into
 ## Workflow State Write-Back
 
 At the end of an inventory run, update `<project-root>/workflow-state.yaml`
-per [`docs/workflow-state-contract.md`](../../../docs/legacy-spec-factory/workflow-state-contract.md).
+per [`docs/workflow-state-contract.md`](../../docs/workflow-state-contract.md).
 Template: [`skills/legacy-modernization-orchestrator/references/state-writeback-snippet.md`](../legacy-modernization-orchestrator/references/state-writeback-snippet.md).
 
 **Stage this skill produces:**
@@ -351,7 +351,7 @@ to run the Rollback Protocol.
 
 ## Anti-Hallucination Rules
 
-**Code is ground truth.** See `../../../docs/legacy-spec-factory/code-as-ground-truth.md`. The
+**Code is ground truth.** See `../../docs/code-as-ground-truth.md`. The
 inventory enumerates objects that actually exist in the production
 library — confirmed via current `WRKOBJ` / `DSPOBJD` / source-member
 listings (tier 1). Prior inventory spreadsheets, shop catalogs, wikis,
@@ -393,7 +393,7 @@ Runtime copies may be synced to:
 .codex/skills/legacy-ibmi-inventory/SKILL.md
 ```
 
-Use `../../../scripts/legacy-spec-factory/sync-skills.sh` to create or check runtime copies.
+Use `../../scripts/sync-skills.sh` to create or check runtime copies.
 
 ## Version History
 

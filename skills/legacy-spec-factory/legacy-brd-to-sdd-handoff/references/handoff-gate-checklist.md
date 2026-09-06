@@ -22,9 +22,36 @@ This document details the validation rules for each gate in the SDD handoff proc
 - [ ] Sign-off fields are present and non-empty
 - [ ] Sign-off date is recent (within the last 30 days; warn if older)
 
+### Functional-Analysis Coverage Validation
+- [ ] `brd.md` contains required sections 1-9:
+  - [ ] 1. Function Purpose
+  - [ ] 2. Business Scenarios / Use Cases
+  - [ ] 3. Channels
+  - [ ] 4. User Interface / User Touchpoints
+  - [ ] 5. System Interfaces
+  - [ ] 6. Process Flow
+  - [ ] 7. Validation Rules
+  - [ ] 8. Error Handling
+  - [ ] 9. Dependencies
+- [ ] `brd-review.md` or `review-decision.yaml` records SME acceptance of the
+      required functional-analysis coverage.
+- [ ] If any required area is partial, the carried `TBD-*` is named, reviewed
+      by SME, and marked non-blocking or explicitly deferred with owner/date.
+- [ ] No required section is blank, placeholder-only, or marked blocked /
+      needs_more_evidence.
+
 ### Finding Rules
 - **Pass**: All fields present and non-empty, status is approved
 - **Fail**: Any field missing → **Finding: BRD-SIGN-OFF-INCOMPLETE (blocking)**
+- **Fail**: Any required section 1-9 missing or placeholder-only →
+  **Finding: BRD-REQUIRED-SECTION-MISSING (blocking)**
+- **Fail**: SME required coverage not recorded →
+  **Finding: BRD-FUNCTIONAL-COVERAGE-NOT-REVIEWED (blocking)**
+- **Fail**: Any required section coverage is `blocked` or `needs_more_evidence`
+  → **Finding: BRD-FUNCTIONAL-COVERAGE-BLOCKED (blocking)**
+- **Warn**: A required section is accepted with a named non-blocking or
+  deferred `TBD-*` → **Finding: BRD-FUNCTIONAL-COVERAGE-TBD (warning)** and
+  carry it forward
 - **Warn**: Sign-off date is > 30 days old → **Finding: BRD-STALE-APPROVAL (info)**
 
 ---

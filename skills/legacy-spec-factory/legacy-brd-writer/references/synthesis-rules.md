@@ -6,6 +6,151 @@ module analysis.
 
 ---
 
+## 0. Business-First Translation Gate
+
+Before drafting the BRD body, convert technical evidence into business-process
+language. The BRD may be evidence-backed by program / flow analysis, but it
+must be reviewable by people who do not know IBM i program names.
+
+### Required Translation
+
+For each capability, identify:
+
+- **Function purpose:** why this business function exists
+- **Business scenario / use case:** which real-world case the function supports
+- **Business trigger:** what event starts the work
+- **Business object:** what customer, account, order, claim, payment, card,
+  case, or record is affected
+- **Channels:** which entry points, channels, or consumers participate
+- **User touchpoints:** screens, notifications, reports, messages, queues, or
+  manual review surfaces visible to business users
+- **System interfaces:** upstream and downstream systems, APIs, file handoffs,
+  external processors, or reporting consumers
+- **Business state change:** what becomes pending, approved, rejected,
+  fulfilled, reconciled, reported, or exceptioned
+- **Business participants:** customer, operations user, partner, processor,
+  downstream consumer, or control function
+- **Business outcome:** what success / failure means outside the code
+- **Control point:** approval, validation, reconciliation, audit, reporting, or
+  exception handling point
+- **Dependencies:** data, policy, system, operational, or reporting
+  dependencies that materially affect the function
+
+When the upstream `module-overview.md` includes a BRD Functional Analysis Input
+Crosswalk, use it as the first source map for the SME-required BRD sections.
+Do not ignore crosswalk gaps: a required area marked `partial` or `missing`
+must become a visible `TBD-*` or a BRD review question.
+
+### Program Chain Anti-Pattern
+
+Do not use the direct runtime chain as the as-is summary.
+
+**Wrong:**
+
+1. `@PGMA` selects records from `FILEA` and calls `@PGMB`.
+2. `@PGMB` updates `FILEB`.
+3. `@PGMC` copies `FILEC` to an interface library.
+
+**Right:**
+
+1. The capability identifies pending customer requests that are eligible for
+   processing.
+2. Eligible requests are applied to the customer/account record and staged for
+   external validation.
+3. External responses are received, normalized, reconciled, and routed into
+   normal or exception reporting.
+
+Program names may remain in evidence notes, traceability, or a short appendix
+when necessary for auditability. They should not carry the main BRD narrative.
+
+### Problem Statement Anti-Pattern
+
+Do not create a standalone `Problem Statement` section that turns analysis
+friction into the business problem. Source-document fragmentation, technical
+coupling, unclear program chains, or downstream rework risk are evidence and
+delivery concerns, not the capability's business problem.
+
+**Wrong:**
+
+- "Current Card Replacement rules are scattered across functional
+  specifications, flow diagrams, and technical design documents."
+- "If scope, actors, triggers, and rule boundaries are not clarified first,
+  downstream inventory and synthesis work will be prone to repeated rework."
+
+**Right:**
+
+- Put business scope ambiguity in `Scope Clarification Need`, phrased as a
+  decision the SME can answer.
+- Put unresolved boundary questions in `TBD-*` items with `category:
+  sme_questions`.
+- Keep evidence-source fragmentation in the evidence index, traceability notes,
+  or review-session notes instead of the BRD's business narrative.
+
+### Document Success Criteria Anti-Pattern
+
+Do not add generic `Success Criteria`, `Success Criiteria`, `Document Success
+Criteria`, or similar sections to `brd.md`. Statements such as "the BRD clearly
+explains the first-phase boundary" or "SMEs can use this BRD to confirm scope"
+evaluate the document, not the business capability.
+
+**Wrong:**
+
+- "The BRD clearly explains the business boundary, actors, triggers, key
+  states, and major exceptions."
+- "Business owners and SMEs can use this BRD to confirm scope and rule
+  direction."
+
+**Right:**
+
+- Put artifact-readiness checks in `brd-review.md` under the
+  author/synthesizer preflight or handoff readiness sections.
+- Put input-package mapping checks in `traceability.md`.
+- If the statement is actually a business acceptance criterion, defer it to
+  `legacy-spec-writer` as `AC-*`; do not mint it in the BRD.
+
+### Optional Section Invention Anti-Pattern
+
+SME-requested sections 10-12 are useful only when grounded in available
+evidence. Do not invent security/authentication rules, sequence diagrams,
+workflow descriptions, system design notes, or source document names to make
+the BRD look complete.
+
+**Wrong:**
+
+- "Mobile users must use MFA" when no channel/auth evidence says so.
+- "Sequence diagram: customer -> API -> core system -> notification service"
+  when the source package does not contain that sequence.
+- "Source document: legacy-auth-design.docx" when the document was not in the
+  input package.
+
+**Right:**
+
+- Include section 10 only when security, authentication, authorization, role,
+  audit, or access-control evidence exists.
+- Include section 11 only when actual workflow diagrams, sequence diagrams, or
+  design notes exist and help explain business behavior.
+- Include section 12 only for real source document names, sections, pages, or
+  paths in the evidence bundle.
+- If optional information is expected but missing, create a `TBD-*` with the
+  right resolver instead of filling the gap with plausible text.
+
+### If Business Meaning Is Unknown
+
+If evidence only shows that one program calls another, but does not reveal why
+the business cares, create a `TBD-*` instead of padding the BRD with technical
+detail:
+
+```yaml
+id: TBD-<CAPABILITY-SLUG>-001
+category: sme_questions
+statement: "What business decision or control is represented by this handoff?"
+evidence: "Flow analysis shows the handoff; business purpose is not confirmed."
+resolver: SME
+blocking: yes
+```
+
+---
+
 ## 1. Extracting Observed Behaviors (BEH-*)
 
 An **observed behavior** is a factual statement about what the legacy system
@@ -32,15 +177,17 @@ raw IBM i source directly.
 
 ### Extraction Steps
 
-1. **Review the module analysis's View 3 (Program Flow)** — this aggregates all
-   program logic into one view
-2. **For each major branch or decision point**, ask: "What does the system do
-   here?"
-3. **Extract as a declarative statement** without interpretation:
+1. **Review the module analysis's business / operation view first** — identify
+   the business trigger, parties, state changes, outcomes, and controls
+2. **Review the module analysis's View 3 (Program Flow)** only as supporting
+   evidence for what the system does
+3. **For each major branch or decision point**, ask: "What business-visible
+   effect does the system create here?"
+4. **Extract as a declarative statement** without interpretation:
    - WRONG: "The system intelligently handles credit limits" (interpretation)
    - RIGHT: "If credit amount exceeds limit, the system rejects the transaction
      and writes error code 42 to the response"
-4. **Link to upstream evidence**:
+5. **Link to upstream evidence**:
    - If from program analysis: cite line number in `program-analysis-<OBJ-ID>.md`
    - If from flow: cite section in `flow-<FLOW-SLUG>.md`
    - If from runtime: cite evidence ID `EV-...-N`
@@ -231,12 +378,25 @@ These situations call for TBDs instead of confident claims:
 
 See `templates/brd.md` for the structure. Fill in:
 
-1. **Capability Overview** (from module boundary definition)
-2. **Observed Behaviors** (BEH-* with evidence links)
-3. **Inferred Business Rules** (BR-* seeds with evidence links; all
-   `needs_sme_review`)
-4. **Open Questions** (TBD-* with categories and resolvers)
-5. **Evidence Index** (summary table)
+1. **Function Purpose** (including business value and scope boundary)
+2. **Business Scenarios / Use Cases**
+3. **Channels**
+4. **User Interface / User Touchpoints**
+5. **System Interfaces**
+6. **Process Flow** (business trigger, phases, states, outcomes, controls)
+7. **Validation Rules** (observed `BEH-*` plus inferred `BR-*`, all
+   evidence-backed)
+8. **Error Handling**
+9. **Dependencies**
+10. **Security / Authentication Requirements** (optional; evidence-backed only)
+11. **Supporting Workflow or Design Notes** (optional; evidence-backed only)
+12. **Source Document Mapping** (optional; evidence-backed only)
+13. **Open Questions & Gaps** (TBD-* with categories and resolvers)
+14. **Validation Scenario Summary**
+15. **Traceability Summary**
+
+Do not add a `Success Criteria` section to `brd.md`; keep document-readiness
+criteria in `brd-review.md`.
 
 All cross-references must resolve to valid IDs in `docs/id-conventions.md`.
 
@@ -245,6 +405,15 @@ All cross-references must resolve to valid IDs in `docs/id-conventions.md`.
 ## 7. Checklist Before SME Review
 
 - [ ] Every BEH-* statement is factual (no interpretation)
+- [ ] Section 6 Process Flow is business-first and not a direct program call chain
+- [ ] No standalone `Problem Statement` mixes business scope, evidence gaps,
+      and delivery/rework risk
+- [ ] No generic `Success Criteria` or document-quality/readiness section
+      appears in `brd.md`
+- [ ] Required SME sections 1-9 are present and evidence-backed or explicitly
+      marked with `TBD-*` where evidence/SME confirmation is missing
+- [ ] Optional sections 10-12 are omitted unless evidence-backed or explicitly
+      SME-confirmed
 - [ ] Every BEH-* links to ≥1 EV-*
 - [ ] Every BR-* abstracts ≥1 BEH-* (not invented)
 - [ ] Every BR-* links to ≥1 EV-*

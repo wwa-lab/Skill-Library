@@ -1,0 +1,61 @@
+schema_version: "0.1"
+
+doc_id: "DOC-<MODULE-SLUG>-001"
+title: "<Document title>"
+path: "<authorized source path>"
+family: "<excel|word|powerpoint|visio|pdf|image>"
+file_type: "<xlsx|xlsm|xls|docx|doc|pptx|ppt|vsdx|vsd|pdf|png|jpg|tif>"
+size_bytes: 0
+sha256: "<hash or recorded reason>"
+owner: "<owner or unknown>"
+sensitivity: "unknown"          # public | internal | confidential | unknown
+authorization_status: "pending" # authorized | unauthorized | pending
+
+conversion:
+  required: false
+  tool: "<libreoffice|docling|ocr|none>"
+  from: "<original ext>"
+  to: "<normalized ext(s)>"
+  result: "<succeeded|partial|tool_unavailable|not_required>"
+  log_ref: "conversion-log.md#DOC-<MODULE-SLUG>-001"
+
+macro_findings:
+  present: false
+  executed: false                 # MUST stay false — macros are never run
+  extraction: "<static_module_names|encrypted|unavailable|not_applicable>"
+  external_calls_detected: false
+  security_review_required: false
+
+# Structural inventory — fill the block matching this document's family.
+structure:
+  # Excel
+  sheets:
+    - name: "<Sheet1>"
+      hidden: false
+      used_range: "<A1:H42>"
+      tables: 0
+      formulas_present: false
+  # Word
+  sections: []
+  # PowerPoint
+  slides: []
+  # Visio
+  pages: []
+  # PDF / image
+  page_count: 0
+
+# One coordinate per extracted fragment.
+fragments:
+  - fragment_id: "FRAG-<MODULE-SLUG>-001"
+    coordinate: "<workbook/sheet/row/col | section/heading/para | slide/shape | page/region | page/ocr-region>"
+    extraction_method: "<deterministic|docling|ocr|visual_review>"
+    ocr_confidence: "<0-100 or n/a>"
+    summary: "<What this fragment contains, verbatim-scoped>"
+    confidence: "high"            # high | medium | low
+    promotion: "open"             # open | blocked  (blocked = do not promote as strong evidence)
+
+normalized_outputs:
+  - "normalized/<file>.md"
+
+document_gate: "blocked"          # ready | ready_with_warnings | blocked
+warnings: []

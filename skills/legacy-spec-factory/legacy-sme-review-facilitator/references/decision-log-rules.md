@@ -266,7 +266,7 @@ suggested_revision: |
 ```yaml
 - item_id: "TBD-CREDIT-004"
   item_type: "tbd"
-  question_posed: "Does the system validate against a blacklist or a whitelist?"
+  question_posed: "Is customer validation based on a blocked-customer list, an approved-customer list, or another policy?"
   sme_answer: "I need to check with the Operations team. The business rules were defined before my time, and I want to make sure I give you the right answer."
   decision_outcome: "deferred"
   referenced_evidence: []

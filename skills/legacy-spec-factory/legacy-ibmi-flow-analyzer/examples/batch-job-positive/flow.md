@@ -188,12 +188,12 @@ NODE-04 (SQL cross-check + DTAQ send + DTAARA update) ← Boundary 3: completion
 
 ## Business Capability Seeds
 
-| Seed ID | Candidate Rule / Capability | Suggested By | SME Question |
-| --- | --- | --- | --- |
-| SEED-NIGHTLY-RECON-01 | All on-us card transactions for a given day must be reconciled before downstream GL consolidation | Flow runs daily; cut-off enforced by scheduler; NODE-04 updates completion flag | Is this a hard regulatory requirement or operational SLA? |
-| SEED-NIGHTLY-RECON-02 | Exception threshold gates GL posting | NODE-02 returns RC=-2 if exceptions > threshold | What is the threshold value and who maintains it? |
-| SEED-NIGHTLY-RECON-03 | Exception report must be human-reviewed | NODE-03 produces spool; SME confirmed Finance reviews morning | Is review required (compliance) or best-effort? |
-| SEED-NIGHTLY-RECON-04 | Partial restart is a recognised recovery mode | SME-confirmed procedure to rerun NODE-04 only | Should the restart logic move into code, or remain operational procedure? |
+| Seed ID | Candidate Rule / Capability | Business Signal | Evidence Basis | SME Question |
+| --- | --- | --- | --- | --- |
+| SEED-NIGHTLY-RECON-01 | All on-us card transactions for a given day must be reconciled before downstream GL consolidation | Daily reconciliation completion gates downstream GL readiness | Flow runs daily; cut-off enforced by scheduler; NODE-04 updates completion flag | Is this a hard regulatory requirement or operational SLA? |
+| SEED-NIGHTLY-RECON-02 | Exception threshold gates GL posting | Exception volume can stop or defer downstream posting | NODE-02 returns RC=-2 if exceptions > threshold | What is the threshold value and who maintains it? |
+| SEED-NIGHTLY-RECON-03 | Exception report must be human-reviewed | Finance reviews reconciliation exceptions before operational follow-up | NODE-03 produces spool; SME confirmed Finance reviews morning | Is review required (compliance) or best-effort? |
+| SEED-NIGHTLY-RECON-04 | Partial restart is a recognised recovery mode | Operations may resume a failed reconciliation from a controlled point | SME-confirmed procedure to rerun NODE-04 only | Should the restart logic move into code, or remain operational procedure? |
 
 ---
 

@@ -4,6 +4,7 @@
 
 **Artifact Under Review:** `<path/to/artifact.md or .yaml>`  
 **Artifact Status:** `draft` / `in_review` / `approved_with_non_blocking_tbd` / `approved`
+**Review Mode:** `conversation` / `meeting` / `email` / `checklist`
 
 ## Participants
 
@@ -27,6 +28,7 @@
 - [ ] Validate inferred business rules (`BR-*` seeds)
 - [ ] Clarify contradictory evidence
 - [ ] Resolve open TBDs (`TBD-*`)
+- [ ] Validate BRD-stage validation scenario seeds (`VAL-*`)
 - [ ] Record SME acceptance or rejection of modernization decisions (`DEC-*`)
 - [ ] Validate evidence strength assessments
 - [ ] Record SME sign-off conditions for downstream advancement
@@ -49,7 +51,8 @@
    - Check that all materials are available
 
 2. **Question Review** (30-60 min, depends on scope)
-   - Present each question (TBD, inferred rule, contradiction, etc.)
+   - Present each question in chat batches (TBD, inferred rule, VAL,
+     contradiction, etc.)
    - Record SME answer verbatim
    - Capture decision outcome
 
@@ -68,6 +71,7 @@
 - [ ] Evidence manifest (redaction status for all linked items)
 - [ ] Related artifacts (BRD, spec, module analysis, etc.)
 - [ ] Scope boundaries (what is / is not being reviewed)
+- [ ] BRD Package write-back target (`review-decision.yaml`) if applicable
 
 ## Session Status
 

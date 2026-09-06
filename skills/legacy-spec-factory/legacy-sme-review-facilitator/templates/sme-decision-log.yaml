@@ -8,6 +8,8 @@ review_id: "REVIEW-<CAPABILITY-SLUG>-<NNN>"
 review_date: "YYYY-MM-DD"
 artifact_under_review: "<path/to/artifact.md or .yaml>"
 capability_slug: "<CAPABILITY-SLUG>"
+review_mode: "conversation"
+# One of: conversation, meeting, email, checklist
 
 sme_reviewer:
   name: "<SME full name>"
@@ -28,13 +30,21 @@ decisions:
 
   - item_id: "TBD-<CAPABILITY>-<NNN>"
     item_type: "tbd"
-    # Type: one of [tbd, inferred_rule, behavior_claim, modernization_decision, contradiction]
+    # Type: one of [brd_section_coverage, tbd, inferred_rule,
+    #               validation_scenario, behavior_claim,
+    #               modernization_decision, contradiction]
 
     question_posed: |
       <The exact question asked of the SME, verbatim from question-pack>
 
+    ai_suggested_decision: "confirmed"
+    # Optional. AI suggestion only; never SME approval.
+
     sme_answer: |
       <The SME's exact response, verbatim>
+
+    raw_chat_answer: |
+      <The SME's raw chat answer if Conversation Review Mode is used>
 
     decision_outcome: "confirmed"
     # One of: confirmed, rejected, deferred, marked_non_blocking, marked_blocking,
@@ -60,6 +70,42 @@ decisions:
       (Optional context or clarification)
 
   # ========================================================================
+  # BRD FUNCTIONAL-ANALYSIS COVERAGE
+  # ========================================================================
+
+  - item_id: "BRD-<CAPABILITY>-001#section-03"
+    item_type: "brd_section_coverage"
+
+    section_number: 3
+    section_name: "Channels"
+
+    question_posed: |
+      Does BRD section 3 identify all channels or entry points that start,
+      continue, or consume this business function?
+
+    ai_suggested_decision: "accepted_with_tbd"
+
+    sme_answer: |
+      <SME confirmation, correction, or blocker>
+
+    raw_chat_answer: |
+      <Raw chat answer, e.g., "Section 3 accept with TBD-CREDIT-007 for MobileX">
+
+    decision_outcome: "accepted_with_tbd"
+    # One of: accepted, accepted_with_tbd, blocked, needs_more_evidence
+
+    related_tbd_ids:
+      - "TBD-<CAPABILITY>-<NNN>"
+
+    referenced_evidence:
+      - "EV-<CAPABILITY>-<NNN>"
+
+    sign_off_flag: "SME-initials YYYY-MM-DD"
+
+    notes: |
+      (Optional context)
+
+  # ========================================================================
   # INFERRED BUSINESS RULE
   # ========================================================================
 
@@ -83,6 +129,40 @@ decisions:
     # If rejected because the rule is close but needs changes:
     suggested_revision: |
       <SME's proposed correction to the rule>
+
+    referenced_evidence:
+      - "EV-<CAPABILITY>-<NNN>"
+
+    notes: |
+      (Optional context)
+
+  # ========================================================================
+  # VALIDATION SCENARIO
+  # ========================================================================
+
+  - item_id: "VAL-<CAPABILITY>-<NNN>"
+    item_type: "validation_scenario"
+
+    question_posed: |
+      We drafted this BRD-stage validation scenario: "[scenario summary]"
+      Should this scenario be confirmed, revised, deferred, or marked as needing more evidence?
+
+    ai_suggested_decision: "confirmed"
+
+    sme_answer: |
+      <SME confirmation, correction, or deferral>
+
+    raw_chat_answer: |
+      <Raw chat answer, e.g., "VAL-004 allowed, make it an edge case">
+
+    decision_outcome: "confirmed"
+    # One of: confirmed, rejected, deferred, marked_non_blocking,
+    #         marked_blocking, split_into_follow_ups, needs_more_evidence
+
+    downstream_candidate: "acceptance_criteria"
+    # One of: acceptance_criteria, golden_master_case, sow_scope, deferred
+
+    sign_off_flag: "SME-initials YYYY-MM-DD"
 
     referenced_evidence:
       - "EV-<CAPABILITY>-<NNN>"

@@ -1,0 +1,88 @@
+rag_run:
+  module_slug: CREDIT-CHECK
+  run_id: RAG-20260521-001
+  run_type: hydrate_flows
+  generated_at: "2026-05-21T09:00:00+08:00"
+  source_snapshot: synthetic-sqlrpgle-credit-check-happy-2026-05-21
+  dictionary_version: synthetic-dict-v1
+  arcad_ref_snapshot: not_available_synthetic_fixture
+  input_flow_source: human_confirmed_four_flows
+  corpus_root: docs/synthetic-corpus/sqlrpgle-credit-check-happy
+  sensitivity: synthetic_non_production
+
+inputs:
+  source_artifacts:
+    - artifact_id: SRC-CREDIT-CHECK-CREDITCHK-001
+      artifact_type: sqlrpgle_source
+      object_name: CREDITCHK
+      source_path: docs/synthetic-corpus/sqlrpgle-credit-check-happy/source/CREDITCHK.SQLRPGLE
+      line_start: 1
+      line_end: 74
+    - artifact_id: SRC-CREDIT-CHECK-CRDTCMD-001
+      artifact_type: clle_source
+      object_name: CRDTCMD
+      source_path: docs/synthetic-corpus/sqlrpgle-credit-check-happy/source/CRDTCMD.CLLE
+      line_start: 1
+      line_end: 14
+    - artifact_id: DDS-CREDIT-CHECK-CUSTMAST-001
+      artifact_type: dds_pf
+      object_name: CUSTMAST
+      source_path: docs/synthetic-corpus/sqlrpgle-credit-check-happy/dds/CUSTMAST.PF
+      line_start: 1
+      line_end: 6
+    - artifact_id: DDS-CREDIT-CHECK-CREDITVW-001
+      artifact_type: dds_lf
+      object_name: CREDITVW
+      source_path: docs/synthetic-corpus/sqlrpgle-credit-check-happy/dds/CREDITVW.LF
+      line_start: 1
+      line_end: 5
+  runtime_artifacts:
+    - artifact_id: RUN-CREDIT-CHECK-JOBLOG-001
+      artifact_type: job_log
+      source_path: docs/synthetic-corpus/sqlrpgle-credit-check-happy/runtime/sample-joblog.txt
+      line_start: 1
+      line_end: 9
+    - artifact_id: RUN-CREDIT-CHECK-SPOOL-001
+      artifact_type: spool_report
+      source_path: docs/synthetic-corpus/sqlrpgle-credit-check-happy/runtime/sample-spool.txt
+      line_start: 1
+      line_end: 9
+  sme_artifacts:
+    - artifact_id: SME-CREDIT-CHECK-001
+      artifact_type: sme_note
+      source_path: docs/synthetic-corpus/sqlrpgle-credit-check-happy/sme/sme-notes.md
+
+coverage:
+  programs_found: 2
+  programs_missing: 0
+  tables_found: 2
+  standard_fields_mapped: 8
+  legacy_references_mapped: 16
+  legacy_references_unmapped: 1
+  snippets_returned: 6
+  runtime_samples_returned: 2
+  contradictions_found: 0
+  retrieval_gaps_found: 5
+
+outputs:
+  flow_hydration_summary: flow-hydration-summary.md
+  source_snippets: source-snippets.md
+  field_dictionary_context: field-dictionary-context.md
+  impact_scope: impact-scope.md
+  contradictions: contradictions.md
+  retrieval_gaps: retrieval-gaps.md
+
+handoff:
+  target_repo_path: 00_context_packages/CREDIT-CHECK/
+  next_step: legacy-module-context-intake
+  recommended_brd_mode: module_first_rag_hydrated
+  required_downstream_review:
+    - confirm_flow_against_sme
+    - resolve_retrieval_gaps
+    - promote_candidate_rules_only_after_review
+
+provenance_policy:
+  retrieval_output_is_final_truth: false
+  source_code_is_observed_behavior: true
+  dictionary_is_approved_business_meaning: true
+  sme_approval_required_for_rule_promotion: true

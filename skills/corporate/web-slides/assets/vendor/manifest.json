@@ -1,0 +1,107 @@
+{
+  "file": "pptxgenjs-4.0.1.bundle.js",
+  "sha256": "4fb9eac5cfefb213e2d8743c2b7151025f31bfb3f834c73c12062916daa0f3f8",
+  "bytes": 460889,
+  "packages": [
+    {
+      "package": "pptxgenjs",
+      "version": "4.0.1",
+      "source": "https://registry.npmjs.org/pptxgenjs/-/pptxgenjs-4.0.1.tgz",
+      "archiveSha256": "305e8870cc03c4402efb99d4a62cb73f611af64998b8988915d6c65b7fe7a5f0",
+      "role": "browser presentation exporter"
+    },
+    {
+      "package": "jszip",
+      "version": "3.10.1",
+      "source": "https://registry.npmjs.org/jszip/-/jszip-3.10.1.tgz",
+      "archiveSha256": "5117f4a2a645aeb307bf3b829c575ad58135cc97e75291e594532ab5b5b21b23",
+      "role": "bundled browser dependency"
+    },
+    {
+      "package": "pako",
+      "version": "1.0.11",
+      "source": "https://registry.npmjs.org/pako/-/pako-1.0.11.tgz",
+      "archiveSha256": "0d4028dc0352a740c30cbfd772917f2744986d42bfa0b06ec7642bffe7ad3941",
+      "role": "bundled browser dependency"
+    },
+    {
+      "package": "lie",
+      "version": "3.3.0",
+      "source": "https://registry.npmjs.org/lie/-/lie-3.3.0.tgz",
+      "archiveSha256": "2db8461cd4a10e2fc3588c8c55da34d33465ff81cc19c72416bbcaec7ee6a36e",
+      "role": "bundled browser dependency"
+    },
+    {
+      "package": "immediate",
+      "version": "3.0.6",
+      "source": "https://registry.npmjs.org/immediate/-/immediate-3.0.6.tgz",
+      "archiveSha256": "98c792f39650b00818c05dcc407902034dc4092f368596b37658d44f28739d11",
+      "role": "bundled browser dependency"
+    },
+    {
+      "package": "setimmediate",
+      "version": "1.0.5",
+      "source": "https://registry.npmjs.org/setimmediate/-/setimmediate-1.0.5.tgz",
+      "archiveSha256": "5cb9fc22698364ed42c02d6aa3dc50ffeafa68452ae84699672e3dfd74922c9e",
+      "role": "bundled browser dependency"
+    },
+    {
+      "package": "@babel/polyfill",
+      "version": "7.8.7",
+      "source": "https://registry.npmjs.org/@babel/polyfill/-/polyfill-7.8.7.tgz",
+      "archiveSha256": "f80d1b3e2e0aa872b05a64c5780b1de986767c8e8556a15722561656534f9b0a",
+      "role": "license reference for embedded legacy browser polyfill; core-js version is present in code, babel/regenerator exact embedded version unlabelled"
+    },
+    {
+      "package": "core-js",
+      "version": "2.6.11",
+      "source": "https://registry.npmjs.org/core-js/-/core-js-2.6.11.tgz",
+      "archiveSha256": "3e5ae5eee1d4e357235c57fc60a2a0ed3538d5408f56948edfdfbfbf482581c6",
+      "role": "license reference for embedded legacy browser polyfill; core-js version is present in code, babel/regenerator exact embedded version unlabelled"
+    },
+    {
+      "package": "regenerator-runtime",
+      "version": "0.13.3",
+      "source": "https://registry.npmjs.org/regenerator-runtime/-/regenerator-runtime-0.13.3.tgz",
+      "archiveSha256": "1814cad2f542218c6e8977bbe19ea0fbf869e79da5754c0c245e7587a9c8d26e",
+      "role": "license reference for embedded legacy browser polyfill; core-js version is present in code, babel/regenerator exact embedded version unlabelled"
+    }
+  ],
+  "note": "Unmodified npm PptxGenJS 4.0.1 browser bundle exposes PptxGenJS and JSZip 3.10.1. Bundle is the authoritative pinned runtime; dependency entries record upstream license reference packages, not a reconstructed npm dependency lock. Includes legacy Babel/core-js/regenerator polyfills. No runtime package installation.",
+  "upstreamBundleInputs": "https://github.com/gitbrent/PptxGenJS/tree/v4.0.1/libs",
+  "additionalNotices": [
+    {
+      "file": "pako-zlib-LICENSE.txt",
+      "source": "https://registry.npmjs.org/pako/-/pako-1.0.11.tgz",
+      "archiveSha256": "0d4028dc0352a740c30cbfd772917f2744986d42bfa0b06ec7642bffe7ad3941",
+      "license": "Zlib",
+      "role": "zlib-derived implementation within bundled Pako, source notice retained in addition to Pako MIT license"
+    }
+  ],
+  "dependencyAudit": {
+    "date": "2026-09-05",
+    "jszipBrowserDist": {
+      "source": "https://registry.npmjs.org/jszip/-/jszip-3.10.1.tgz",
+      "path": "package/dist/jszip.min.js",
+      "sha256": "acc7e41455a80765b5fd9c7ee1b8078a6d160bbbca455aeae854de65c947d59e",
+      "upstreamInput": "https://raw.githubusercontent.com/gitbrent/PptxGenJS/v4.0.1/libs/jszip.min.js",
+      "inputByteIdentical": true
+    },
+    "moduleInventory": "Official JSZip dist has 54 Browserify modules: JSZip 1-35, Immediate 36, Lie 37, Pako 38-53, setImmediate 54.",
+    "excludedNodeDependencies": {
+      "packages": [
+        "readable-stream",
+        "buffer",
+        "safe-buffer",
+        "string_decoder",
+        "inherits",
+        "core-util-is",
+        "util-deprecate",
+        "process",
+        "isarray"
+      ],
+      "evidence": "JSZip browser package maps readable-stream to its own lib/readable-stream-browser.js (module16), which exports require(stream); browser bundle map is {stream:undefined}. There is no readable-stream implementation or its buffer/stream transitive modules in the 54-module browser dist. Full PptxGenJS bundle preserves module16 as t.exports=e(\"stream\") with {stream:void 0}. Node stream paths are not used by browser export."
+    },
+    "additionalNotice": "Pako lib/zlib sources contain a separate Zlib license notice (Gailly/Adler/Puzrin/Tupitsin); now preserved in pako-zlib-LICENSE.txt alongside Pako MIT."
+  }
+}

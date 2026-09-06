@@ -25,10 +25,13 @@ AC-CREDIT-CHECK-002
 | --- | --- | --- |
 | `CAP` | Business capability | `CAP-CREDIT-CHECK-001` |
 | `BRD` | Business Requirements Document | `BRD-CREDIT-CHECK-001` |
+| `VAL` | BRD-stage validation scenario seed | `VAL-CREDIT-CHECK-001` |
 | `SPEC` | Capability specification package | `SPEC-CREDIT-CHECK-001` |
 | `PKG` | Governance or traceability package | `PKG-CREDIT-CHECK-001` |
 | `OBJ` | Legacy object, file, program, job, screen, or report | `OBJ-CREDIT-CHECK-003` |
 | `EV` | Evidence item | `EV-CREDIT-CHECK-012` |
+| `DOC` | Source document in a flow-normalization package | `DOC-CREDIT-CHECK-001` |
+| `FRAG` | Extracted document fragment in a flow-normalization package | `FRAG-CREDIT-CHECK-001` |
 | `BEH` | Observed behavior | `BEH-CREDIT-CHECK-006` |
 | `BR` | Business rule | `BR-CREDIT-CHECK-004` |
 | `DEC` | Modernization decision | `DEC-CREDIT-CHECK-002` |
@@ -40,6 +43,7 @@ AC-CREDIT-CHECK-002
 | `EDGE` | Call, dispatch, or handoff between flow nodes | `EDGE-CREDIT-CHECK-001` |
 | `DATA` | Cross-program or cross-step data exchange | `DATA-CREDIT-CHECK-001` |
 | `SEED` | Candidate rule or capability question awaiting SME review | `SEED-CREDIT-CHECK-001` |
+| `CAND` | Draft candidate extracted from non-standard source context | `CAND-CREDIT-CHECK-001` |
 | `MODULE` | Business module synthesized from related flows | `MODULE-CREDIT-CHECK-001` |
 | `VIEW` | Module analysis view | `VIEW-CREDIT-CHECK-001` |
 | `ACTOR` | Human or organizational actor in a module view | `ACTOR-CREDIT-CHECK-001` |
@@ -51,6 +55,20 @@ AC-CREDIT-CHECK-002
 | `AC` | Acceptance criterion | `AC-CREDIT-CHECK-003` |
 | `TC` | Test case, including golden master cases | `TC-CREDIT-CHECK-007` |
 | `FIND` | Validation or review finding | `FIND-CREDIT-CHECK-001` |
+
+## External / RAG Context Prefixes
+
+The following prefixes may appear in `legacy-module-context-intake` packages
+when they come from an external RAG or code-knowledge-graph bundle. Preserve
+them as upstream IDs; do not renumber them into Legacy Spec Factory IDs unless
+the owning downstream skill explicitly promotes the item.
+
+| Prefix | Artifact | Example |
+| --- | --- | --- |
+| `RAG` | RAG run, candidate, contradiction, gap, or assumption | `RAG-CAND-CREDIT-CHECK-001` |
+| `SNP` | Source snippet from a RAG bundle | `SNP-CREDIT-CHECK-004` |
+| `RUN` | Runtime observation from a RAG bundle | `RUN-CREDIT-CHECK-SPOOL-001` |
+| `DD` | Enterprise data dictionary term or field | `DD-CREDIT-AVAILABLE-AMOUNT` |
 
 ## Capability Slug
 

@@ -6,7 +6,7 @@ metadata:
   author: Leo L Zhang
   maintainer: platform-engineering
   source: https://github.com/wwa-lab/legacy-spec-factory
-  source_commit: 8871a6b
+  source_commit: 3b6a16b
   domain: legacy-spec-factory
 ---
 
@@ -98,9 +98,9 @@ Use:
 
 Follow:
 
-- `../../../docs/legacy-spec-factory/id-conventions.md` for stable IDs (`FLOW-*`, `NODE-*`, `EDGE-*`, `DATA-*`)
-- `../../../docs/legacy-spec-factory/evidence-and-knowledge-taxonomy.md` for evidence strength tagging
-- `../../../docs/legacy-spec-factory/input-readiness-rubric.md` for input readiness scoring
+- `../../docs/id-conventions.md` for stable IDs (`FLOW-*`, `NODE-*`, `EDGE-*`, `DATA-*`)
+- `../../docs/evidence-and-knowledge-taxonomy.md` for evidence strength tagging
+- `../../docs/input-readiness-rubric.md` for input readiness scoring
 
 Examples:
 
@@ -355,8 +355,11 @@ to the orchestrator.
    - Extract `SEED-*` candidates (business rule seeds) that this flow
      plausibly enforces — **without inventing rules**.
    - Each seed is a *question* for SME review (e.g., "Does the rule
-     'credit limit must not be exceeded' live in this flow?"), with
-     pointers to the program(s) and field(s) that suggest it.
+     'credit limit must not be exceeded' live in this flow?").
+   - Phrase the candidate and SME question in business terms first:
+     business event, business object, decision, outcome, control, or
+     exception. Put program names, node IDs, field names, and file names in
+     `Evidence Basis`, not in the candidate statement.
    - The spec-writer skill will resolve seeds into approved rules; the
      flow analyzer never approves rules itself.
    - **Note:** flow analysis does not mint `BR-*` IDs. Branch points are
@@ -387,7 +390,7 @@ to the orchestrator.
 
 At the end of a flow-analysis run, update
 `<project-root>/workflow-state.yaml` per
-[`docs/workflow-state-contract.md`](../../../docs/legacy-spec-factory/workflow-state-contract.md).
+[`docs/workflow-state-contract.md`](../../docs/workflow-state-contract.md).
 Template: [`skills/legacy-modernization-orchestrator/references/state-writeback-snippet.md`](../legacy-modernization-orchestrator/references/state-writeback-snippet.md).
 
 **Stage this skill produces:**
@@ -416,7 +419,7 @@ would lower `stage_id` requires the orchestrator's Rollback Protocol.
 
 ## Anti-Hallucination Rules
 
-**Code is ground truth.** See `../../../docs/legacy-spec-factory/code-as-ground-truth.md`. Every
+**Code is ground truth.** See `../../docs/code-as-ground-truth.md`. Every
 edge in this flow must trace to **evidence** from authoritative sources
 (see `references/output-contract.md` Evidence Taxonomy). Authoritative
 evidence includes:

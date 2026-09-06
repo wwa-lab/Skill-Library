@@ -79,7 +79,7 @@
 ## Evidence Quality & Redaction
 
 - [ ] No raw production data (customer names, account numbers, SSNs, transaction details) is visible
-- [ ] Spool samples, screenshots, and job logs are redacted per `../../../../docs/legacy-spec-factory/data-collection-and-redaction.md`
+- [ ] Spool samples, screenshots, and job logs are redacted per `../../docs/data-collection-and-redaction.md`
 - [ ] Evidence sensitivity is marked (redacted/safe) for each item
 - [ ] DDS source code is not sensitive (contains no embedded credentials, API keys, or hardcoded data)
 

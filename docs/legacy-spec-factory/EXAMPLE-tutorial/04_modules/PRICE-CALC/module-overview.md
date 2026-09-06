@@ -16,7 +16,7 @@
 
 | View | File | Status |
 | --- | --- | --- |
-| 1. Operation Flow | [`view-1-operation-flow.md`](view-1-operation-flow.md) | approved |
+| 1. Operation Flow | [`01-operation-flow.md`](01-operation-flow.md) | approved |
 | 2. System Flow | (stub for example — see view-1 for full detail) | approved |
 | 3. Program Flow | (stub for example — see `02_programs/.../program-analysis.md`) | approved |
 | 4. Data Flow | (stub for example — see PRICEFL fields in inventory) | approved |

@@ -6,7 +6,7 @@ metadata:
   author: Leo L Zhang
   maintainer: platform-engineering
   source: https://github.com/wwa-lab/legacy-spec-factory
-  source_commit: 8871a6b
+  source_commit: 3b6a16b
   domain: legacy-spec-factory
 ---
 
@@ -56,7 +56,7 @@ Accept any combination of:
   spacing, and formatting)
 - *MENU definitions or menu command exports
 - screen captures or terminal screenshots
-- spool files or report samples (redacted per `../../../docs/legacy-spec-factory/data-collection-and-redaction.md`)
+- spool files or report samples (redacted per `../../docs/data-collection-and-redaction.md`)
 - job logs related to report generation
 - RPGLE/CLLE/COBOL snippets only when needed to understand indicator usage,
   EXFMT, WRITE, READ, O-specs, or report-control logic
@@ -69,7 +69,7 @@ Accept any combination of:
 - inventory is missing or not approved
 - OBJ-* cannot be located in inventory
 - raw production data (customer accounts, SSNs, transaction details) is unredacted
-- screen/report sample contains sensitive data without redaction review per `../../../docs/legacy-spec-factory/data-collection-and-redaction.md`
+- screen/report sample contains sensitive data without redaction review per `../../docs/data-collection-and-redaction.md`
 - only screenshots exist and they cannot be tied to an inventory object,
   current DDS/source, controlled job log, or SME-reviewed runtime capture
 - field meaning, function-key action, or report calculation requires business
@@ -92,10 +92,10 @@ Use:
 
 Follow:
 
-- `../../../docs/legacy-spec-factory/id-conventions.md` for stable IDs (OBJ-*, EV-*, BEH-*,
+- `../../docs/id-conventions.md` for stable IDs (OBJ-*, EV-*, BEH-*,
   IN-*, OUT-*, DATA-*, SEED-*, TBD-*)
-- `../../../docs/legacy-spec-factory/evidence-and-knowledge-taxonomy.md` for evidence strength labels
-- `../../../docs/legacy-spec-factory/input-readiness-rubric.md` for input readiness scoring
+- `../../docs/evidence-and-knowledge-taxonomy.md` for evidence strength labels
+- `../../docs/input-readiness-rubric.md` for input readiness scoring
 
 Examples:
 
@@ -253,7 +253,7 @@ mutate `capabilities[].stage_id` or `current_focus`.
 
 After a run, append one `history[]` entry to
 `<project-root>/workflow-state.yaml` per
-[`docs/workflow-state-contract.md`](../../../docs/legacy-spec-factory/workflow-state-contract.md):
+[`docs/workflow-state-contract.md`](../../docs/workflow-state-contract.md):
 
 ```yaml
 history:

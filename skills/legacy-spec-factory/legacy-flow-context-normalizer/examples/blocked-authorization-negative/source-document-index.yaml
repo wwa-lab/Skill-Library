@@ -1,0 +1,25 @@
+schema_version: "0.1"
+
+documents:
+  - doc_id: DOC-PAYMENT-RECON-001
+    title: "Payment Reconciliation Production Process"
+    path: "source-docs/payment-recon-prod-deck.pptx"
+    format: pptx
+    source_type: deck
+    owner: "unknown"
+    document_date: "unknown"
+    sensitivity: unknown
+    authorization_status: unknown
+    readable_status: not_needed
+    extraction_method: "not inspected because authorization is missing"
+    pages_or_sheets: "not inspected"
+    quality_notes: "Block before content extraction."
+    used_in: []
+
+fragments:
+  - fragment_id: FRAG-PAYMENT-RECON-001
+    doc_id: DOC-PAYMENT-RECON-001
+    locator: "not inspected"
+    summary: "No content extracted due to authorization block."
+    candidate_view: cross_view
+    evidence_strength: blocked

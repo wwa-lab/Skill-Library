@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" version="30.0.2">
+  <diagram id="brd-generation-process" name="BRD Generation Process">
+    <mxGraphModel dx="1760" dy="980" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1760" pageHeight="980" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="2" value="Legacy Spec Factory: BRD Generation Process&#xa;Module-first generation from document intake, RAG, reviewed flows, docs/specs, and chat-based SME review" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#102033;strokeColor=#1f6f9f;fontColor=#ffffff;fontSize=24;fontStyle=1;spacing=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="1680" height="82" as="geometry" />
+        </mxCell>
+
+        <mxCell id="3" value="Normal Path / 主流程" style="swimlane;html=1;whiteSpace=wrap;startSize=34;fillColor=#f7fbff;strokeColor=#1f6f9f;fontColor=#0b3c5d;fontStyle=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="125" width="1680" height="450" as="geometry" />
+        </mxCell>
+
+        <mxCell id="10" value="1&#xa;Input Bundle&#xa;输入包" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1f6f9f;fontColor=#0b3c5d;fontStyle=1;fontSize=17;spacing=10;" vertex="1" parent="3">
+          <mxGeometry x="30" y="72" width="240" height="58" as="geometry" />
+        </mxCell>
+        <mxCell id="11" value="AI Retrieval / RAG Context&#xa;source snippets, dictionary, ARCAD REF, impact scope" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eef6ff;strokeColor=#6c8ebf;fontColor=#17365d;fontSize=12;spacing=8;" vertex="1" parent="3">
+          <mxGeometry x="48" y="145" width="204" height="68" as="geometry" />
+        </mxCell>
+        <mxCell id="12" value="Reviewed Flows&#xa;Operation / Business, System, Program, Data when available" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#5f4700;fontSize=12;spacing=8;" vertex="1" parent="3">
+          <mxGeometry x="48" y="225" width="204" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="13" value="Raw / Historical Docs &amp; Specs&#xa;Office, Visio, PDF, scans; Function, Technical, Program, File, Interface, Data Dictionary, SME notes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#274e13;fontSize=12;spacing=8;" vertex="1" parent="3">
+          <mxGeometry x="48" y="309" width="204" height="92" as="geometry" />
+        </mxCell>
+        <mxCell id="14" value="Raw docs first become document-intake package; four flows are the normalization target." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontColor=#333333;fontSize=11;fontStyle=2;spacing=8;" vertex="1" parent="3">
+          <mxGeometry x="48" y="413" width="204" height="32" as="geometry" />
+        </mxCell>
+
+        <mxCell id="20" value="2&#xa;Flow + Context Package&#xa;Flow / 上下文包" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1f5fe;strokeColor=#1f6f9f;fontColor=#0b3c5d;fontStyle=1;fontSize=17;spacing=10;" vertex="1" parent="3">
+          <mxGeometry x="320" y="72" width="230" height="58" as="geometry" />
+        </mxCell>
+        <mxCell id="21" value="00_context_packages/&lt;MODULE&gt;&#xa;document-intake/ when raw docs need conversion&#xa;flow-normalization/ when needed&#xa;context-index.yaml&#xa;evidence-map / gaps" style="shape=folder;tabWidth=44;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;fillColor=#e1f5fe;strokeColor=#1f6f9f;fontColor=#0b3c5d;fontSize=12;spacing=8;" vertex="1" parent="3">
+          <mxGeometry x="320" y="165" width="230" height="134" as="geometry" />
+        </mxCell>
+        <mxCell id="22" value="document-evidence-intake for binary/scanned docs&#xa;flow-context-normalizer for normalized docs/specs&#xa;module-context-intake for reviewed or risk-accepted context" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#1f6f9f;fontColor=#0b3c5d;fontSize=12;spacing=8;" vertex="1" parent="3">
+          <mxGeometry x="320" y="322" width="230" height="64" as="geometry" />
+        </mxCell>
+
+        <mxCell id="30" value="3&#xa;Module Analysis&#xa;模块分析" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#274e13;fontStyle=1;fontSize=17;spacing=10;" vertex="1" parent="3">
+          <mxGeometry x="610" y="72" width="240" height="58" as="geometry" />
+        </mxCell>
+        <mxCell id="31" value="legacy-ibmi-module-analyzer&#xa;synthesizes four views into one module understanding" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#82b366;fontColor=#274e13;fontSize=12;spacing=8;" vertex="1" parent="3">
+          <mxGeometry x="610" y="160" width="240" height="76" as="geometry" />
+        </mxCell>
+        <mxCell id="32" value="Operation / Business Flow" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f8e9;strokeColor=#82b366;fontColor=#274e13;fontSize=11;" vertex="1" parent="3">
+          <mxGeometry x="625" y="260" width="100" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="33" value="System Flow" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f8e9;strokeColor=#82b366;fontColor=#274e13;fontSize=11;" vertex="1" parent="3">
+          <mxGeometry x="735" y="260" width="100" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="34" value="Program Flow" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f8e9;strokeColor=#82b366;fontColor=#274e13;fontSize=11;" vertex="1" parent="3">
+          <mxGeometry x="625" y="315" width="100" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="35" value="Data Flow" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f8e9;strokeColor=#82b366;fontColor=#274e13;fontSize=11;" vertex="1" parent="3">
+          <mxGeometry x="735" y="315" width="100" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="36" value="04_modules/&lt;MODULE&gt;" style="shape=folder;tabWidth=38;tabHeight=12;tabPosition=left;html=1;whiteSpace=wrap;fillColor=#e8f5e9;strokeColor=#82b366;fontColor=#274e13;fontSize=12;spacing=8;" vertex="1" parent="3">
+          <mxGeometry x="642" y="380" width="176" height="48" as="geometry" />
+        </mxCell>
+
+        <mxCell id="40" value="4&#xa;BRD Draft&#xa;BRD 草稿" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontColor=#5f1a17;fontStyle=1;fontSize=17;spacing=10;" vertex="1" parent="3">
+          <mxGeometry x="910" y="72" width="230" height="58" as="geometry" />
+        </mxCell>
+        <mxCell id="41" value="legacy-brd-writer&#xa;creates the first reviewable BRD package from module evidence" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fde9e7;strokeColor=#b85450;fontColor=#5f1a17;fontSize=12;spacing=8;" vertex="1" parent="3">
+          <mxGeometry x="910" y="165" width="230" height="82" as="geometry" />
+        </mxCell>
+        <mxCell id="42" value="Draft artifacts&#xa;brd.md&#xa;brd-review.md&#xa;validation-scenarios.md&#xa;traceability.md" style="shape=folder;tabWidth=42;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;fillColor=#fde9e7;strokeColor=#b85450;fontColor=#5f1a17;fontSize=12;spacing=8;" vertex="1" parent="3">
+          <mxGeometry x="925" y="278" width="200" height="124" as="geometry" />
+        </mxCell>
+
+        <mxCell id="50" value="5&#xa;Single Chat SME Review&#xa;一个聊天框完成确认" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d79b00;fontColor=#7a4a00;fontStyle=1;fontSize=17;spacing=10;" vertex="1" parent="3">
+          <mxGeometry x="1195" y="62" width="300" height="68" as="geometry" />
+        </mxCell>
+        <mxCell id="51" value="Review session" style="swimlane;html=1;whiteSpace=wrap;startSize=28;fillColor=#fff7ed;strokeColor=#d79b00;fontColor=#7a4a00;fontStyle=1;fontSize=12;" vertex="1" parent="3">
+          <mxGeometry x="1185" y="150" width="320" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="52" value="AI pre-fills&#xa;suggested answer&#xa;evidence IDs&#xa;confidence&#xa;why asking" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#5f4700;fontSize=12;spacing=8;" vertex="1" parent="51">
+          <mxGeometry x="18" y="46" width="132" height="116" as="geometry" />
+        </mxCell>
+        <mxCell id="53" value="SME answers in chat&#xa;confirm&#xa;reject&#xa;needs evidence&#xa;non-blocking&#xa;+ comment" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#274e13;fontSize=12;spacing=8;" vertex="1" parent="51">
+          <mxGeometry x="170" y="46" width="132" height="116" as="geometry" />
+        </mxCell>
+        <mxCell id="54" value="Conversation is the review surface: no separate email loop required." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontColor=#7a4a00;fontSize=12;fontStyle=2;spacing=8;" vertex="1" parent="51">
+          <mxGeometry x="18" y="178" width="284" height="44" as="geometry" />
+        </mxCell>
+
+        <mxCell id="60" value="6&#xa;BRD Package&#xa;最终交付包" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#4b2c5e;fontStyle=1;fontSize=17;spacing=10;" vertex="1" parent="3">
+          <mxGeometry x="1515" y="72" width="150" height="58" as="geometry" />
+        </mxCell>
+        <mxCell id="61" value="Approved Capability Package&#xa;BRD&#xa;review decision&#xa;validation scenarios&#xa;traceability&#xa;open questions" style="shape=folder;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#4b2c5e;fontSize=12;spacing=8;" vertex="1" parent="3">
+          <mxGeometry x="1515" y="165" width="150" height="164" as="geometry" />
+        </mxCell>
+        <mxCell id="62" value="Ready for review / spec-writer / validation planning / Atlas SDD handoff" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#9673a6;fontColor=#4b2c5e;fontSize=12;spacing=8;" vertex="1" parent="3">
+          <mxGeometry x="1515" y="350" width="150" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="70" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#1f6f9f;strokeWidth=3;" edge="1" parent="3" source="10" target="20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="71" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#82b366;strokeWidth=3;" edge="1" parent="3" source="20" target="30">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="72" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#b85450;strokeWidth=3;" edge="1" parent="3" source="30" target="40">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="73" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#d79b00;strokeWidth=3;fontColor=#7a4a00;" edge="1" parent="3" source="40" target="50">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="74" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#9673a6;strokeWidth=3;fontColor=#4b2c5e;" edge="1" parent="3" source="50" target="60">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="75" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#9673a6;strokeWidth=2;" edge="1" parent="3" source="61" target="62">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="80" value="Selective Verification Loop / 选择性补证据" style="swimlane;html=1;whiteSpace=wrap;startSize=34;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;fontStyle=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="230" y="635" width="1300" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="81" value="Trigger&#xa;gap / conflict / high risk / SME asks for proof" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#5f4700;fontSize=13;spacing=8;" vertex="1" parent="80">
+          <mxGeometry x="45" y="70" width="250" height="82" as="geometry" />
+        </mxCell>
+        <mxCell id="82" value="Targeted analyzers&#xa;program / flow / data model / screen-report / runtime evidence" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eeeeee;strokeColor=#666666;fontColor=#333333;fontSize=13;spacing=8;" vertex="1" parent="80">
+          <mxGeometry x="365" y="70" width="280" height="82" as="geometry" />
+        </mxCell>
+        <mxCell id="83" value="Evidence repair&#xa;new snippets, resolved contradiction, clarified impact scope" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eeeeee;strokeColor=#666666;fontColor=#333333;fontSize=13;spacing=8;" vertex="1" parent="80">
+          <mxGeometry x="715" y="70" width="250" height="82" as="geometry" />
+        </mxCell>
+        <mxCell id="84" value="Write back&#xa;context package + review decision + BRD package updates" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#274e13;fontSize=13;spacing=8;" vertex="1" parent="80">
+          <mxGeometry x="1035" y="70" width="220" height="82" as="geometry" />
+        </mxCell>
+        <mxCell id="85" value="Not the default path: source-first analysis is only used when evidence quality requires it." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontColor=#333333;fontSize=12;fontStyle=2;spacing=8;" vertex="1" parent="80">
+          <mxGeometry x="45" y="170" width="1210" height="36" as="geometry" />
+        </mxCell>
+
+        <mxCell id="90" value="" style="endArrow=block;html=1;rounded=0;dashed=1;strokeColor=#666666;strokeWidth=2;" edge="1" parent="80" source="81" target="82">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="91" value="" style="endArrow=block;html=1;rounded=0;dashed=1;strokeColor=#666666;strokeWidth=2;" edge="1" parent="80" source="82" target="83">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="92" value="" style="endArrow=block;html=1;rounded=0;dashed=1;strokeColor=#666666;strokeWidth=2;" edge="1" parent="80" source="83" target="84">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="93" value="" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;html=1;rounded=0;dashed=1;strokeColor=#666666;strokeWidth=2;fontColor=#333333;entryX=0.5;entryY=0;exitX=0.5;exitY=1;" edge="1" parent="1" source="51" target="81">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1385" y="620" />
+              <mxPoint x="400" y="620" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="94" value="" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;html=1;rounded=0;dashed=1;strokeColor=#82b366;strokeWidth=2;fontColor=#274e13;entryX=0.5;entryY=1;exitX=0.5;exitY=0;" edge="1" parent="1" source="84" target="21">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1375" y="590" />
+              <mxPoint x="435" y="590" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

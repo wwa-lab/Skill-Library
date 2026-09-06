@@ -373,8 +373,8 @@ confirm idempotency strategy.
 
 ## Business Capability Seeds Section
 
-Each seed is a **question for SME**, with pointers — *never* an asserted
-rule.
+Each seed is a **business-language question for SME**, with technical pointers
+kept in evidence — *never* an asserted rule.
 
 ```markdown
 ### Business Capability Seeds
@@ -383,11 +383,11 @@ These seeds are candidate business rules and capabilities suggested by
 the flow structure. SME and `legacy-spec-writer` resolve them; the
 flow analyzer does not declare rules.
 
-| Seed ID | Candidate Rule / Capability | Suggested By | SME Question |
-| --- | --- | --- | --- |
-| SEED-ONUS-AUTH-01 | Credit limit must be respected on every authorization | NODE-02 CU110A always calls credit check before approval | Is the rule "no auth above credit limit" enforced here, or partially? |
-| SEED-ONUS-AUTH-02 | CVV/CVC verification required for ATMP transactions | NODE-05 conditional on transaction-type field | Is CVV verification required for all transactions or only ATMP? |
-| SEED-ONUS-AUTH-03 | Transaction must be logged before response | NODE-04 writes TXNLOGPF before NODE-06 builds response | Is logging a hard requirement (audit), or is best-effort acceptable? |
+| Seed ID | Candidate Rule / Capability | Business Signal | Evidence Basis | SME Question |
+| --- | --- | --- | --- | --- |
+| SEED-ONUS-AUTH-01 | Credit limit must be respected on every authorization | Authorization decision is made before approval is returned | NODE-02 CU110A always calls credit check before approval | Is "no authorization above credit limit" a required business rule for this flow, or only one implementation path? |
+| SEED-ONUS-AUTH-02 | CVV/CVC verification may be required for ATM/POS transactions | Transaction type changes the validation path | NODE-05 conditional on transaction-type field | Which transaction types require CVV/CVC verification? |
+| SEED-ONUS-AUTH-03 | Authorization decisions may require durable audit before response | The flow records the decision before responding | NODE-04 writes TXNLOGPF before NODE-06 builds response | Is decision logging a hard audit requirement, or best-effort operational logging? |
 ```
 
 ---

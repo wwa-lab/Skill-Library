@@ -28,7 +28,7 @@ claiming evidence exists when it does not.
 | --- | --- |
 | "The code clearly shows enforcement" (as a facilitator observation) | "EV-CREDIT-008: CREDCHK source showing enforcement logic" (cite actual evidence) |
 | "Based on job logs, it's obvious the limit is enforced" (without showing the logs) | "EV-CREDIT-015: Job log excerpt showing blocked transaction" (cite real log) |
-| "The system must be validating against a blacklist" (facilitator's inference) | "SME to confirm: Is the validation a blacklist or whitelist?" (ask SME) |
+| "The system must be validating against a blacklist" (facilitator's inference) | "SME to confirm: Is customer validation based on a blocked-customer list, an approved-customer list, or another policy?" (ask SME) |
 | "We found a reference to a legacy table in three places" (facilitator claim) | List the three actual references: files, lines, dates from evidence manifest |
 
 **Catch:** If the facilitator uses phrases like "the code shows...", "the evidence
@@ -83,7 +83,7 @@ correct without SME judgment.
 | ❌ Wrong | ✅ Right |
 | --- | --- |
 | "CREDITPGM rounds, REPORTPGM truncates → CREDITPGM is newer, so it's correct" (facilitator's logic) | Ask SME: "Which is the intended behavior: rounding or truncating?" |
-| "Two programs implement interest differently → the one with more references must be right" (facilitator reasoning) | Ask SME: "Which program has the correct interest logic?" |
+| "Two programs implement interest differently → the one with more references must be right" (facilitator reasoning) | Ask SME: "Which interest calculation is the intended business behavior, and when does each apply?" |
 | "The control table says $10k, but the code says $5k → the table is authoritative" (facilitator decision) | Ask SME: "The threshold appears in two places with different values. Which is correct?" |
 
 **Catch:** If the facilitator resolves a contradiction by logic or frequency, it
@@ -256,7 +256,7 @@ must be explicitly made or confirmed by the SME, not inferred by the facilitator
 ```yaml
 # Decision log (WRONG)
 - item_id: TBD-CREDIT-004
-  question_posed: "Does the system validate against a blacklist or whitelist?"
+  question_posed: "Is customer validation based on a blocked-customer list, an approved-customer list, or another policy?"
   sme_answer: <empty>
   decision_outcome: confirmed
   facilitator_note: "Code analysis shows blacklist logic in VALJOB"
@@ -274,7 +274,7 @@ must be explicitly made or confirmed by the SME, not inferred by the facilitator
 ```yaml
 # Decision log (RIGHT)
 - item_id: TBD-CREDIT-004
-  question_posed: "Does the system validate against a blacklist or whitelist?"
+  question_posed: "Is customer validation based on a blocked-customer list, an approved-customer list, or another policy?"
   sme_answer: |
     It's a blacklist. We maintain a list of customer accounts we don't want to do
     business with. The VALJOB checks each transaction against that list.
@@ -317,10 +317,10 @@ When preparing the question pack, avoid:
 
 ### ❌ Multiple Questions in One
 
-"Does the system validate against a blacklist, and if so, is it real-time or batch?"
+"Is customer validation based on a blocked-customer list, and if so, is that check real-time or batch?"
 
-**Fix:** (Question 1) "Is validation a blacklist or whitelist?"
-(Follow-up) "Is validation real-time or batch?"
+**Fix:** (Question 1) "Is customer validation based on a blocked-customer list, an approved-customer list, or another policy?"
+(Follow-up) "Is that validation real-time or batch?"
 
 ---
 
@@ -338,4 +338,3 @@ When preparing the question pack, avoid:
 - [ ] No facilitator opinions or "should" statements in decision log
 
 **If any of these fail, do not release the decision log. Return to SME for clarification.**
-

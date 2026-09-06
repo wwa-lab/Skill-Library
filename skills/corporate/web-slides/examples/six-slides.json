@@ -1,0 +1,456 @@
+{
+  "version": 1,
+  "id": "corporate-six-slide-demo",
+  "title": "团队知识分享 · 六页样例",
+  "brand": {
+    "name": "CORPORATE / 内部分享",
+    "accent": "C8102E",
+    "background": "FFFFFF",
+    "foreground": "171717",
+    "muted": "666666",
+    "fontFace": "Microsoft YaHei",
+    "titleFontFace": "Microsoft YaHei",
+    "logo": null
+  },
+  "slides": [
+    {
+      "id": "cover",
+      "title": "让知识成为团队的共同能力",
+      "layout": "cover",
+      "notes": "开场提问：上一次解决问题后，哪些经验留在了个人脑中？本次介绍如何把经验整理成团队可以复用的内容。此演示为六页功能验证样例，所有数字均为演示数据。",
+      "elements": [
+        {
+          "id": "cover-kicker",
+          "type": "text",
+          "text": "团队知识分享",
+          "x": 105,
+          "y": 300,
+          "w": 1200,
+          "h": 80,
+          "fontSize": 44,
+          "color": "C8102E",
+          "bold": true
+        },
+        {
+          "id": "cover-sub",
+          "type": "text",
+          "text": "把一次解决问题的经验，\n变成下一位同事的起点。",
+          "x": 100,
+          "y": 423,
+          "w": 1300,
+          "h": 180,
+          "fontSize": 54,
+          "color": "171717",
+          "bold": false
+        },
+        {
+          "id": "cover-meta",
+          "type": "text",
+          "text": "内部分享 · 20 分钟",
+          "x": 105,
+          "y": 718,
+          "w": 1000,
+          "h": 55,
+          "fontSize": 28,
+          "color": "666666",
+          "bold": false
+        }
+      ]
+    },
+    {
+      "id": "text",
+      "title": "一次分享，回答一个具体问题",
+      "layout": "content",
+      "notes": "本页讲稿：先讲清楚问题发生在什么情境，再介绍关键判断和实际结果。正文不必抄满讲稿，细节由讲述者补充。可以用自己的案例替换这三点。",
+      "elements": [
+        {
+          "id": "text-number",
+          "type": "text",
+          "text": "01",
+          "x": 100,
+          "y": 283,
+          "w": 180,
+          "h": 115,
+          "fontSize": 80,
+          "color": "C8102E",
+          "bold": true
+        },
+        {
+          "id": "text-heading",
+          "type": "text",
+          "text": "从真实问题出发",
+          "x": 330,
+          "y": 285,
+          "w": 1050,
+          "h": 80,
+          "fontSize": 52,
+          "color": "171717",
+          "bold": true
+        },
+        {
+          "id": "text-body",
+          "type": "text",
+          "text": "说明使用场景和已有约束\n解释你做出的关键判断\n留下下一次可以复用的方法",
+          "x": 330,
+          "y": 415,
+          "w": 1100,
+          "h": 270,
+          "fontSize": 42,
+          "color": "171717",
+          "bold": false
+        },
+        {
+          "id": "text-foot",
+          "type": "text",
+          "text": "少放结论清单，多保留做出判断的依据。",
+          "x": 330,
+          "y": 733,
+          "w": 1150,
+          "h": 60,
+          "fontSize": 28,
+          "color": "666666",
+          "bold": false
+        }
+      ]
+    },
+    {
+      "id": "image",
+      "title": "交流空间，让经验更容易被看见",
+      "layout": "content",
+      "notes": "图片仅作为版式和裁切验证素材，不代表真实公司办公室。素材源：Unsplash，https://images.unsplash.com/photo-1497366811353-6870744d04b2 。许可：https://unsplash.com/license 。现场可替换为已获授权的公司图片。",
+      "elements": [
+        {
+          "id": "office-image",
+          "type": "image",
+          "src": "../assets/office.jpg",
+          "alt": "共享办公交流空间，演示素材",
+          "x": 640,
+          "y": 275,
+          "w": 860,
+          "h": 500,
+          "fit": "cover",
+          "positionX": 0.5,
+          "positionY": 0.5
+        },
+        {
+          "id": "image-quote",
+          "type": "text",
+          "text": "分享从一个\n具体场景开始",
+          "x": 100,
+          "y": 300,
+          "w": 485,
+          "h": 180,
+          "fontSize": 56,
+          "color": "171717",
+          "bold": true
+        },
+        {
+          "id": "image-body",
+          "type": "text",
+          "text": "让听众看见问题发生的环境，\n再解释你采取的行动。",
+          "x": 100,
+          "y": 550,
+          "w": 485,
+          "h": 140,
+          "fontSize": 32,
+          "color": "171717",
+          "bold": false
+        },
+        {
+          "id": "image-credit",
+          "type": "text",
+          "text": "图片：Unsplash / 示例素材",
+          "x": 100,
+          "y": 741,
+          "w": 490,
+          "h": 45,
+          "fontSize": 22,
+          "color": "666666",
+          "bold": false
+        }
+      ]
+    },
+    {
+      "id": "flow",
+      "title": "团队经验的复用流程",
+      "layout": "content",
+      "notes": "流程图由原生色块、文字和箭头组成。讲解顺序：记录背景、提炼方法、共同评审、再次应用。网页进入动画在 PPTX 中转换为全对象可见的静态终态；需要分步讲解时可复制页面形成关键步骤页。",
+      "elements": [
+        {
+          "id": "step1",
+          "type": "shape",
+          "shape": "rect",
+          "x": 100,
+          "y": 356,
+          "w": 280,
+          "h": 160,
+          "fill": "C8102E",
+          "text": "记录背景",
+          "color": "FFFFFF",
+          "fontSize": 32
+        },
+        {
+          "id": "arrow1",
+          "type": "shape",
+          "shape": "arrow",
+          "x": 407,
+          "y": 404,
+          "w": 65,
+          "h": 64,
+          "fill": "999999",
+          "text": "",
+          "color": "FFFFFF",
+          "fontSize": 32
+        },
+        {
+          "id": "step2",
+          "type": "shape",
+          "shape": "rect",
+          "x": 500,
+          "y": 356,
+          "w": 280,
+          "h": 160,
+          "fill": "171717",
+          "text": "提炼方法",
+          "color": "FFFFFF",
+          "fontSize": 32
+        },
+        {
+          "id": "arrow2",
+          "type": "shape",
+          "shape": "arrow",
+          "x": 807,
+          "y": 404,
+          "w": 65,
+          "h": 64,
+          "fill": "999999",
+          "text": "",
+          "color": "FFFFFF",
+          "fontSize": 32
+        },
+        {
+          "id": "step3",
+          "type": "shape",
+          "shape": "rect",
+          "x": 900,
+          "y": 356,
+          "w": 280,
+          "h": 160,
+          "fill": "171717",
+          "text": "共同评审",
+          "color": "FFFFFF",
+          "fontSize": 32
+        },
+        {
+          "id": "arrow3",
+          "type": "shape",
+          "shape": "arrow",
+          "x": 1207,
+          "y": 404,
+          "w": 65,
+          "h": 64,
+          "fill": "999999",
+          "text": "",
+          "color": "FFFFFF",
+          "fontSize": 32
+        },
+        {
+          "id": "step4",
+          "type": "shape",
+          "shape": "rect",
+          "x": 1300,
+          "y": 356,
+          "w": 200,
+          "h": 160,
+          "fill": "171717",
+          "text": "再次应用",
+          "color": "FFFFFF",
+          "fontSize": 32
+        },
+        {
+          "id": "flow-detail",
+          "type": "text",
+          "text": "记录约束",
+          "x": 100,
+          "y": 566,
+          "w": 280,
+          "h": 55,
+          "fontSize": 30,
+          "color": "666666",
+          "bold": false
+        },
+        {
+          "id": "flow-detail2",
+          "type": "text",
+          "text": "提取可重复步骤",
+          "x": 500,
+          "y": 566,
+          "w": 330,
+          "h": 55,
+          "fontSize": 30,
+          "color": "666666",
+          "bold": false
+        },
+        {
+          "id": "flow-detail3",
+          "type": "text",
+          "text": "发现适用边界",
+          "x": 900,
+          "y": 566,
+          "w": 300,
+          "h": 55,
+          "fontSize": 30,
+          "color": "666666",
+          "bold": false
+        },
+        {
+          "id": "flow-detail4",
+          "type": "text",
+          "text": "反馈与更新",
+          "x": 1300,
+          "y": 566,
+          "w": 250,
+          "h": 55,
+          "fontSize": 30,
+          "color": "666666",
+          "bold": false
+        }
+      ]
+    },
+    {
+      "id": "table",
+      "title": "根据使用场景选择分享形式",
+      "layout": "data",
+      "notes": "表格保留原生可编辑单元格。请重点比较“现场分享”和“异步阅读”对内容密度的不同要求。本页为通用建议，不是公司的强制流程。",
+      "elements": [
+        {
+          "id": "formats",
+          "type": "table",
+          "x": 100,
+          "y": 285,
+          "w": 1400,
+          "h": 390,
+          "fontSize": 32,
+          "rows": [
+            [
+              "场景",
+              "内容重点",
+              "推荐形式"
+            ],
+            [
+              "内部分享",
+              "一个问题与关键判断",
+              "少量正文 + 完整讲稿"
+            ],
+            [
+              "团队培训",
+              "步骤、练习与适用边界",
+              "流程图 + 示例"
+            ],
+            [
+              "项目路演",
+              "现状、证据与行动",
+              "数据图表 + 结论"
+            ]
+          ]
+        },
+        {
+          "id": "table-foot",
+          "type": "text",
+          "text": "先确定听众需要做出的判断，再决定页面内容。",
+          "x": 100,
+          "y": 735,
+          "w": 1400,
+          "h": 55,
+          "fontSize": 30,
+          "color": "666666",
+          "bold": false
+        }
+      ]
+    },
+    {
+      "id": "chart",
+      "title": "观察复用，而不只统计发布",
+      "layout": "data",
+      "notes": "图表数据为虚构的验证样例，不代表公司实际业务。第一到第四季度的内容发布数分别为 12、18、24、28，复用记录数分别为 5、13、21、32。导出 PPTX 后可打开“编辑数据”修改内嵌工作簿。",
+      "elements": [
+        {
+          "id": "reuse-chart",
+          "type": "chart",
+          "chartType": "bar",
+          "x": 100,
+          "y": 290,
+          "w": 960,
+          "h": 465,
+          "labels": [
+            "第一季度",
+            "第二季度",
+            "第三季度",
+            "第四季度"
+          ],
+          "series": [
+            {
+              "name": "发布内容",
+              "values": [
+                12,
+                18,
+                24,
+                28
+              ]
+            },
+            {
+              "name": "复用记录",
+              "values": [
+                5,
+                13,
+                21,
+                32
+              ]
+            }
+          ],
+          "colors": [
+            "171717",
+            "C8102E"
+          ]
+        },
+        {
+          "id": "chart-number",
+          "type": "text",
+          "text": "32",
+          "x": 1150,
+          "y": 322,
+          "w": 350,
+          "h": 155,
+          "fontSize": 112,
+          "color": "C8102E",
+          "bold": true
+        },
+        {
+          "id": "chart-callout",
+          "type": "text",
+          "text": "第四季度复用记录",
+          "x": 1150,
+          "y": 480,
+          "w": 350,
+          "h": 110,
+          "fontSize": 36,
+          "color": "171717",
+          "bold": true
+        },
+        {
+          "id": "chart-caveat",
+          "type": "text",
+          "text": "演示数据，非业务统计",
+          "x": 1150,
+          "y": 675,
+          "w": 360,
+          "h": 80,
+          "fontSize": 25,
+          "color": "666666",
+          "bold": false
+        }
+      ]
+    }
+  ],
+  "warnings": []
+}

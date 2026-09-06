@@ -9,7 +9,7 @@ The orchestrator should attach the card matching the user's current stage
 (from `references/stage-identification.md`) at the end of every routing
 decision via the **Quick Card** block in `SKILL.md → Output Structure`.
 
-## Linear Path (8 cards covering the happy path)
+## Linear Path (9 cards covering the happy path)
 
 | Card | Stage IDs | Title | You arrive here when... |
 | --- | --- | --- | --- |
@@ -19,7 +19,8 @@ decision via the **Quick Card** block in `SKILL.md → Output Structure`.
 | [03-program-analysis](03-program-analysis.md) | 3a–3b | Program Analysis | Inventory approved; analyzing one program at a time |
 | [04-flow-analysis](04-flow-analysis.md) | 3c–3d | Flow Analysis | Multiple programs analyzed; tracing one business transaction end-to-end |
 | [05-module-analysis](05-module-analysis.md) | 3e–3f | Module Analysis | Several flows belong to the same module; need 4-view synthesis |
-| [06-spec-writing](06-spec-writing.md) | 8a–8c | Spec Writing | Module approved; producing `spec.yaml` + `spec.md` per capability |
+| [05a-brd-writing](05a-brd-writing.md) | 3f + BRD gate | BRD Writing And Review | Module approved; producing the BRD Package for SME / business review |
+| [06-spec-writing](06-spec-writing.md) | 8a–8c | Spec Writing | Module and BRD approved; producing `spec.yaml` + `spec.md` per capability |
 | [07-forward-handoff](07-forward-handoff.md) | 10 | Forward SDLC Handoff | Spec approved + equivalence pack ready; crossing to `build-agent-skill` |
 
 ## Optional / Parallel Cards
@@ -29,10 +30,13 @@ orchestrator points to them when applicable.
 
 | Skill | When to add | Card |
 | --- | --- | --- |
+| `legacy-document-evidence-intake` | Documents are still in raw Office / Visio / PDF / image form (`.xlsx`/`.xlsm`/`.xls`, `.docx`/`.doc`, `.pptx`/`.ppt`, `.vsdx`/`.vsd`, `.pdf`, scanned/screenshot) and not yet normalized to Markdown/CSV/PDF/PNG/SVG; run before `legacy-flow-context-normalizer` (no dedicated card — pre-normalization format step) | See SKILL.md |
+| `legacy-flow-context-normalizer` | Scattered Visio / Word / Excel / PDF / PowerPoint / Function Spec / Technical Design / Program Spec / File Spec / interface / data dictionary / SME-note docs exist, but standard context views are not yet normalized or SME-reviewed; sparse authorized inputs still need source-quality triage instead of invented flows | See SKILL.md |
+| `legacy-module-context-intake` | External RAG bundle or human-confirmed four-view module context is supplied before module analysis | See SKILL.md |
 | `legacy-ibmi-runtime-evidence-miner` | Job logs / spool / reports available alongside source | See SKILL.md (no dedicated card yet) |
 | `legacy-ibmi-screen-report-analyzer` | DSPF / PRTF / subfile / menu samples available | See SKILL.md |
 | `legacy-ibmi-data-model-analyzer` | Domain data model needed before spec-writing | See SKILL.md |
-| `legacy-brd-writer` | Stakeholders want a business-facing BRD before spec | See SKILL.md |
+| `legacy-brd-writer` | Standard business review gate after module analysis and before spec-writing | [05a-brd-writing](05a-brd-writing.md) |
 | `legacy-modernization-decision-writer` | A modernization decision is large/risky enough to warrant a DEC-* package | See SKILL.md |
 
 ## Path Convention

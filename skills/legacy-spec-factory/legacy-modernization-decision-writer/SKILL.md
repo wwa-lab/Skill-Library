@@ -1,12 +1,12 @@
 ---
 name: legacy-modernization-decision-writer
-description: "Use when teams need to produce, expand, review, and validate modernization decision records (DEC-*) when decisions become too large or risky to keep only inside spec-writer. Optional Governance / BRD skill for structured decision packages. Bridges between approved BRD/spec and target-platform authority approval. Does not recreate Atlas SDD architecture/design artifacts."
+description: Use when modernization decision records (DEC-*) need to be produced, expanded, reviewed, or validated because decisions are too large or risky to keep only inside spec-writer. Optional Governance / BRD skill for structured decision packages. Bridges between approved BRD/spec and target-platform authority approval. Does not recreate Atlas SDD architecture/design artifacts.
 license: Apache-2.0
 metadata:
   author: Leo L Zhang
   maintainer: platform-engineering
   source: https://github.com/wwa-lab/legacy-spec-factory
-  source_commit: 8871a6b
+  source_commit: 3b6a16b
   domain: legacy-spec-factory
 ---
 
@@ -185,10 +185,10 @@ Use:
 
 Follow:
 
-- `../../../docs/legacy-spec-factory/id-conventions.md` for stable IDs
-- `../../../docs/legacy-spec-factory/evidence-and-knowledge-taxonomy.md` for knowledge types and
+- `../../docs/id-conventions.md` for stable IDs
+- `../../docs/evidence-and-knowledge-taxonomy.md` for knowledge types and
   evidence strength
-- `../../../docs/legacy-spec-factory/forward-sdlc-contract.md` for handoff compatibility
+- `../../docs/forward-sdlc-contract.md` for handoff compatibility
 
 ## Position In Chain
 
@@ -242,7 +242,7 @@ rules.
 - **Optional**: approved BRD, approved module/flow/program analyses, target
   platform constraints, existing `05_decisions/<CAPABILITY-SLUG>/` package.
 - **Input readiness scoring**: apply
-  `../../../docs/legacy-spec-factory/input-readiness-rubric.md`; platform context and existing DEC
+  `../../docs/input-readiness-rubric.md`; platform context and existing DEC
   drafts are quality boosters unless a target-system choice is being approved.
 - **Readiness checks**: no `sensitivity: unknown` evidence; referenced IDs resolve;
   every decision candidate has at least one linked BR or BEH and at least one
@@ -279,13 +279,13 @@ rules.
   task breakdown, code, test cases, or acceptance criteria.
 - **Reconciliation**: approved decisions must be copied back into
   `spec.yaml.modernization_decisions[]` using fields allowed by
-  `../../../schemas/legacy-spec-factory/spec.schema.yaml`; detailed alternatives and approvals remain
+  `../../schemas/spec.schema.yaml`; detailed alternatives and approvals remain
   in the decision package.
 
 ### Validation
 
 - **Mechanical**: required files exist; every ID follows
-  `../../../docs/legacy-spec-factory/id-conventions.md`; no `DECPKG-*` or unregistered status values;
+  `../../docs/id-conventions.md`; no `DECPKG-*` or unregistered status values;
   no dangling references; no linked evidence has `sensitivity: unknown`; no AC,
   TC, implementation task, or code artifact is minted.
 - **AI semantic**: DEC records are clearly separated from observed behavior and
@@ -392,7 +392,7 @@ BRD onward) and does NOT mutate `current_focus`.
 
 After a run, append one `history[]` entry to
 `<project-root>/workflow-state.yaml` per
-[`docs/workflow-state-contract.md`](../../../docs/legacy-spec-factory/workflow-state-contract.md):
+[`docs/workflow-state-contract.md`](../../docs/workflow-state-contract.md):
 
 ```yaml
 history:
@@ -447,10 +447,10 @@ See `references/anti-hallucination.md` for the exhaustive list. Core rules:
 
 - `references/decision-rules.md` — synthesis guidance per decision category
 - `references/anti-hallucination.md` — invention boundaries specific to decisions
-- `../../../docs/legacy-spec-factory/id-conventions.md` — stable ID format and uniqueness rules
-- `../../../docs/legacy-spec-factory/evidence-and-knowledge-taxonomy.md` — knowledge types and evidence
+- `../../docs/id-conventions.md` — stable ID format and uniqueness rules
+- `../../docs/evidence-and-knowledge-taxonomy.md` — knowledge types and evidence
   strength scoring
-- `../../../docs/legacy-spec-factory/forward-sdlc-contract.md` — handoff expectations
+- `../../docs/forward-sdlc-contract.md` — handoff expectations
 - `../../AGENTS.md` — skill portability and authorship
 
 ## Version History

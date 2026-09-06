@@ -113,7 +113,7 @@ view.
 **Manual workflow:**
 
 1. Run the spec through the gate criteria in
-   [references/gates.md](gates.md), Gate 3 + Gate 4 criteria
+   [references/gates.md](gates.md), Gate 4 + Gate 5 criteria
 2. Produce `review-report.md` listing pass / blocking findings per criterion
 3. Update `spec.yaml.status: in_review` and add review_notes
 
