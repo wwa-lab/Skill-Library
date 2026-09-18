@@ -4,6 +4,8 @@
   const SCALE = 120;
   const DEFAULT_BRAND = { name: 'Corporate', accent: 'C8102E', background: 'FFFFFF', foreground: '171717', muted: '666666', fontFace: 'Microsoft YaHei', titleFontFace: 'Microsoft YaHei' };
   const LAYOUTS = ['cover', 'content', 'data', 'imported'];
+  const allLayouts = ()=>root.CorporateTheme?.layouts.map(l=>l.id)||LAYOUTS;
+  const masterName=(layout,brand)=>((brand.theme&&brand.id?brand.id:'corporate')+'_'+layout).toUpperCase().replace(/-/g,'_');
   const PPTX_MIME = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
   const POTX_MIME = 'application/vnd.openxmlformats-officedocument.presentationml.template';
   const fail = message => { throw new Error('PPTX 导出：' + message); };
@@ -19,7 +21,7 @@
     deck.slides.forEach((slide, index) => {
       if (ids.has(slide.id)) fail('页面 id 重复。');
       ids.add(slide.id);
-      if (!LAYOUTS.includes(slide.layout) || typeof slide.title !== 'string' || !Array.isArray(slide.elements)) fail(`第 ${index + 1} 页格式不正确。`);
+      if (!allLayouts().includes(slide.layout) || typeof slide.title !== 'string' || !Array.isArray(slide.elements)) fail(`第 ${index + 1} 页格式不正确。`);
       if (slide.title.length > 52) fail(`第 ${index + 1} 页标题超过 52 字，请缩短。`);
       slide.elements.forEach(el => {
         if (!['text', 'image', 'shape', 'table', 'chart'].includes(el.type)) fail(`不支持对象类型 ${el.type}，已停止以避免内容丢失。`);
@@ -38,6 +40,21 @@
     if (!el.series.every(s => Array.isArray(s.values) && s.values.length === el.labels.length && s.values.every(v => Number.isFinite(v) && (el.chartType === 'line' || v >= 0)))) fail('图表标签、数值不匹配或含无效数值。');
   }
 
+  function link(el,deck){
+    if(!el.hyperlink)return undefined;
+    const value=el.hyperlink;
+    if(root.CorporateModel)root.CorporateModel.validateLink(value,deck.slides.map(s=>s.id));
+    else if(typeof value!=='string'||/[\x00-\x20<>"\\]/.test(value)||!(/^(https:\/\/|mailto:)/i.test(value)||value.startsWith('#')&&deck.slides.some(s=>s.id===value.slice(1))))fail('Invalid hyperlink');
+    return value.startsWith('#')?{slide:deck.slides.findIndex(s=>s.id===value.slice(1))+1}:{url:value};
+  }
+  function richRuns(el,deck){
+    if(!el.paragraphs)return el.text||'';
+    let sequence=0;
+    return el.paragraphs.flatMap((p,pi)=>{
+      sequence=p.list==='number'?sequence+1:0;
+      return p.runs.map((r,ri)=>({text:r.text||' ',options:{bold:r.bold??el.bold,italic:r.italic||false,fontSize:pt(r.fontSize||el.fontSize),color:r.color||el.color,align:p.align||el.align||'left',indentLevel:p.indent||0,bullet:p.list==='number'?{type:'number',startAt:sequence}:p.list==='bullet'?{indent:pt(28)}:false,breakLine:ri===p.runs.length-1&&pi<el.paragraphs.length-1,hyperlink:r.hyperlink?link(r,deck):undefined}}));
+    });
+  }
   function textOptions(el, brand, extra = {}) {
     return { ...box(el), fontFace: brand.fontFace, fontSize: pt(el.fontSize), color: hex(el.color, brand.foreground), bold: Boolean(el.bold), align: el.align || 'left', valign: 'top', margin: 0, breakLine: false, paraSpaceAfterPt: 0, lineSpacingMultiple: 1.28, lang: 'zh-CN', ...extra };
   }
@@ -45,8 +62,8 @@
   function imageLoad(src) {
     return new Promise((resolve, reject) => {
       const image = new Image();
-      image.onload = () => resolve(image);
-      image.onerror = () => reject(new Error('图片无法解码，请换用有效的 PNG/JPEG。'));
+      image.addEventListener('load', () => resolve(image));
+      image.addEventListener('error', () => reject(new Error('图片无法解码，请换用有效的 PNG/JPEG。')));
       image.src = src;
     });
   }
@@ -58,7 +75,7 @@
     const factor = (el.fit === 'cover' ? Math.max : Math.min)(el.w / image.naturalWidth, el.h / image.naturalHeight);
     const width = image.naturalWidth * factor;
     const height = image.naturalHeight * factor;
-    if (el.fit !== 'cover') return { data: el.src, x: (el.x + (el.w - width) * px) / SCALE, y: (el.y + (el.h - height) * py) / SCALE, w: width / SCALE, h: height / SCALE, altText: el.alt || '' };
+    if (el.fit !== 'cover') return { data: el.src, x: (el.x + (el.w - width) * px) / SCALE, y: (el.y + (el.h - height) * py) / SCALE, w: width / SCALE, h: height / SCALE, altText: el.altText || el.alt || '' };
     // Bake only the requested image crop; the picture remains a separate editable object.
     const canvas = document.createElement('canvas');
     const quality = Math.min(2, 4096 / Math.max(el.w, el.h));
@@ -67,46 +84,53 @@
     const context = canvas.getContext('2d');
     if (!context) fail('浏览器不支持图片裁切。');
     context.drawImage(image, (image.naturalWidth - el.w / factor) * px, (image.naturalHeight - el.h / factor) * py, el.w / factor, el.h / factor, 0, 0, canvas.width, canvas.height);
-    return { data: canvas.toDataURL('image/png'), ...box(el), altText: el.alt || '' };
+    return { data: canvas.toDataURL('image/png'), ...box(el), altText: el.altText || el.alt || '' };
   }
 
   async function defineMasters(pptx, brand) {
-    const logo = brand.logo ? await imageOptions({ src: brand.logo, x: 1340, y: 28, w: 160, h: 48, fit: 'contain' }) : null;
-    LAYOUTS.forEach(layout => {
-      const titleFontSize = layout === 'cover' ? 82 : 58;
+    const logo = brand.logo ? await imageOptions({ src: brand.logo, x: 1340, y: 28, w: 160, h: 48, ...brand.logoBox, fit: 'contain' }) : null;
+    (brand.theme?allLayouts():LAYOUTS).forEach(layout => {
+      const titleFontSize = root.CorporateTheme?root.CorporateTheme.title({layout},brand).fontSize:(layout === 'cover' ? 82 : 58);
+      const semantic=root.CorporateTheme?.layouts.find(l=>l.id===layout);
+      const slots=brand.theme?semantic.slots:[{x:100,y:260,w:1400,h:540}];
       const objects = layout === 'imported' ? [] : [
         { rect: { x: 0, y: 0, w: 13.333333, h: 0.1, fill: { color: brand.accent }, line: { color: brand.accent, transparency: 100 } } },
-        { text: { text: brand.name, options: { x: 100 / SCALE, y: 838 / SCALE, w: 9, h: 0.22, margin: 0, fontFace: brand.fontFace, fontSize: 12, color: brand.muted } } },
+        { text: { text: brand.footer || brand.name, options: { x: 100 / SCALE, y: 838 / SCALE, w: 9, h: 0.22, margin: 0, fontFace: brand.fontFace, fontSize: 12, color: brand.muted } } },
         { placeholder: { options: { name: 'title', type: 'title', x: 100 / SCALE, y: 92 / SCALE, w: 1400 / SCALE, h: 125 / SCALE, fontFace: brand.titleFontFace, fontSize: pt(titleFontSize), color: brand.foreground, bold: true, margin: 0, valign: 'top' }, text: '单击此处添加标题' } },
-        { placeholder: { options: { name: 'body', type: 'body', x: 100 / SCALE, y: 260 / SCALE, w: 1400 / SCALE, h: 540 / SCALE, fontFace: brand.fontFace, fontSize: pt(32), color: brand.foreground, margin: 0, valign: 'top' }, text: '' } }
+        ...slots.map((slot,i)=>({placeholder:{options:{name:i?'body'+(i+1):'body',type:'body',...box(slot),fontFace:brand.fontFace,fontSize:pt(brand.theme?.typography.body.size||32),color:brand.foreground,margin:0,valign:'top'},text:''}}))
       ];
+      if(brand.theme&&layout!=='imported'){
+        if(brand.theme.titleDecoration==='none')objects.shift();
+        else if(brand.theme.titleDecoration==='bar')Object.assign(objects[0].rect,{x:.5,y:92/SCALE,w:.1,h:125/SCALE});
+        const footer=objects.find(o=>o.text);if(footer){if(brand.theme.footerStyle==='hidden')objects.splice(objects.indexOf(footer),1);else if(brand.theme.footerStyle==='accent')footer.text.options.color=brand.accent;}
+      }
       if (logo && layout !== 'imported') objects.push({ image: logo });
-      pptx.defineSlideMaster({ title: 'CORPORATE_' + layout.toUpperCase(), background: { color: brand.background }, objects, ...(layout !== 'imported' ? { slideNumber: { x: 11.7, y: 836 / SCALE, w: 0.8, h: 0.3, fontFace: brand.fontFace, fontSize: 14.4, color: brand.foreground, margin: 0, align: 'right' } } : {}) });
+      pptx.defineSlideMaster({ title: masterName(layout,brand), background: { color: brand.background }, objects, ...(layout !== 'imported' && brand.theme?.footerStyle!=='hidden' ? { slideNumber: { x: 11.7, y: 836 / SCALE, w: 0.8, h: 0.3, fontFace: brand.fontFace, fontSize: 14.4, color: brand.foreground, margin: 0, align: 'right' } } : {}) });
     });
   }
 
-  function addShape(pptx, slide, el, brand) {
+  function addShape(pptx, slide, el, brand, hyperlink) {
     const type = el.shape === 'arrow' ? pptx.ShapeType.rightArrow : pptx.ShapeType[el.shape];
-    slide.addShape(type, { ...box(el), ...(el.shape === 'line' ? { h: 0 } : {}), fill: { color: hex(el.fill, brand.accent), transparency: el.shape === 'line' ? 100 : 0 }, line: { color: hex(el.fill, brand.accent), width: el.shape === 'line' ? 2 : 0 }, radius: el.shape === 'roundRect' ? 0.12 : undefined, objectName: el.id });
+    slide.addShape(type, { ...box(el), ...(el.shape === 'line' ? { h: 0 } : {}), fill: { color: hex(el.fill, brand.accent), transparency: el.shape === 'line' ? 100 : 0 }, line: { color: hex(el.fill, brand.accent), width: el.shape === 'line' ? 2 : 0 }, hyperlink, radius: el.shape === 'roundRect' ? 0.12 : undefined, objectName: el.id });
     if (el.text) slide.addText(el.text, textOptions(el, brand, { align: el.align || 'center', valign: 'mid', color: hex(el.color, brand.foreground), margin: 5 }));
   }
 
   function addTable(slide, el, brand) {
     const rgb = brand.background.match(/../g).map(channel => parseInt(channel, 16));
     const dark = 0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2] < 128;
-    const stripe = dark ? '252525' : 'F4F4F4';
-    const rows = el.rows.map((row, index) => row.map(value => ({ text: value, options: { bold: index === 0, color: index === 0 ? 'FFFFFF' : hex(el.color, brand.foreground), fill: { color: index === 0 ? hex(el.accent, brand.accent) : (index % 2 ? stripe : brand.background) } } })));
-    slide.addTable(rows, { ...box(el), colW: Array(el.rows[0].length).fill(el.w / SCALE / el.rows[0].length), rowH: el.h / SCALE / el.rows.length, autoPage: false, fontFace: brand.fontFace, fontSize: pt(el.fontSize, 28), margin: [4.8, 8.4, 4.8, 8.4], border: { type: 'solid', color: 'DDDDDD', pt: 0.5 }, valign: 'mid', align: el.align || 'left', objectName: el.id });
+    const stripe = brand.theme?.table.stripe || (dark ? '252525' : 'F4F4F4');
+    const rows = el.rows.map((row, index) => row.map(value => ({ text: value, options: { bold: index === 0, color: index === 0 ? (brand.theme?.table.headerText || 'FFFFFF') : hex(el.color, brand.foreground), fill: { color: index === 0 ? hex(el.accent, brand.theme?.table.header || brand.accent) : (index % 2 ? stripe : brand.background) } } })));
+    slide.addTable(rows, { ...box(el), colW: Array(el.rows[0].length).fill(el.w / SCALE / el.rows[0].length), rowH: el.h / SCALE / el.rows.length, autoPage: false, fontFace: brand.fontFace, fontSize: pt(el.fontSize, 28), margin: [4.8, 8.4, 4.8, 8.4], border: { type: 'solid', color: brand.theme?.table.border || 'DDDDDD', pt: 0.5 }, valign: 'mid', align: el.align || 'left', objectName: el.id });
   }
 
   function addChart(pptx, slide, el, brand) {
     slide.addChart(pptx.ChartType[el.chartType], el.series.map(series => ({ name: series.name, labels: [...el.labels], values: [...series.values] })), {
       ...box(el), catAxisLabelFontFace: brand.fontFace, valAxisLabelFontFace: brand.fontFace,
       catAxisLabelFontSize: pt(el.fontSize, 24), valAxisLabelFontSize: pt(el.fontSize, 24), legendFontFace: brand.fontFace, legendFontSize: pt(el.fontSize, 24),
-      chartColors: (el.colors || [brand.accent, '171717', '999999', 'E6ABB6']).map(c => hex(c, brand.accent)),
+      chartColors: (el.colors || brand.chartPalette || [brand.accent, '171717', '999999', 'E6ABB6']).map(c => hex(c, brand.accent)),
       showLegend: el.series.length > 1 || el.chartType === 'pie', legendPos: 'b', showTitle: false,
       showValue: false, showBorder: false, showMarker: el.chartType === 'line', showLine: true,
-      showSerName: false, catAxisLineColor: 'AAAAAA', valAxisLineColor: 'AAAAAA',
+      showSerName: false, catAxisLineColor: brand.theme?.colors.border||'AAAAAA', valAxisLineColor: brand.theme?.colors.border||'AAAAAA', catAxisLabelColor:brand.foreground,valAxisLabelColor:brand.foreground,legendColor:brand.foreground,
       showPercent: el.chartType === 'pie', showCatName: el.chartType === 'pie',
       ...(el.chartType === 'bar' ? { catAxisLabelRotate: 0, barDir: 'col' } : {})
     });
@@ -117,7 +141,7 @@
     if (root.CorporateModel) root.CorporateModel.validate(deck);
     validate(deck);
     const snapshot = JSON.parse(JSON.stringify(deck));
-    const brand = { ...DEFAULT_BRAND, ...snapshot.brand };
+    const brand = { ...DEFAULT_BRAND, ...(root.CorporateTheme?root.CorporateTheme.resolve(snapshot):snapshot.brand) };
     ['accent', 'background', 'foreground', 'muted'].forEach(key => { brand[key] = hex(brand[key], DEFAULT_BRAND[key]); });
     const pptx = new (root.PptxGenJS || root.pptxgen)();
     pptx.defineLayout({ name: 'CORPORATE_WIDE', width: 13.333333, height: 7.5 });
@@ -130,14 +154,16 @@
     pptx.theme = { headFontFace: brand.titleFontFace, bodyFontFace: brand.fontFace };
     await defineMasters(pptx, brand);
     for (const page of snapshot.slides) {
-      const slide = pptx.addSlide({ masterName: 'CORPORATE_' + page.layout.toUpperCase() });
+      const slide = pptx.addSlide({ masterName: masterName(page.layout,brand) });
       slide.background = { color: hex(page.background, brand.background) };
-      if (page.layout !== 'imported') slide.addText(page.title, { placeholder: 'title', fontFace: brand.titleFontFace, fontSize: pt(page.titleStyle?.fontSize, page.layout === 'cover' ? 82 : 58), color: hex(page.titleStyle?.color, brand.foreground), align: page.titleStyle?.align || 'left', bold: true, margin: 0, valign: 'top', lineSpacingMultiple: 1.2, charSpacing: -0.84 });
-      else if (page.title) slide.addText(page.title, textOptions({ x: 100, y: 92, w: 1400, h: 125, fontSize: 58, ...page.titleStyle }, brand, { bold: true, fontFace: brand.titleFontFace, lineSpacingMultiple: 1.2, charSpacing: -0.84 }));
-      for (const el of page.elements) {
-        if (el.type === 'text') slide.addText(el.text || '', textOptions(el, brand, { objectName: el.id }));
-        else if (el.type === 'image') slide.addImage({ ...await imageOptions(el), objectName: el.id });
-        else if (el.type === 'shape') addShape(pptx, slide, el, brand);
+      const titleStyle=root.CorporateTheme?root.CorporateTheme.title(page,brand):{fontSize:page.layout==='cover'?82:58,...page.titleStyle};
+      if (page.layout !== 'imported') slide.addText(page.title, { placeholder: 'title', ...(page.titleBox?box(page.titleBox):{}), fontFace: brand.titleFontFace, fontSize: pt(titleStyle.fontSize), color: hex(page.titleStyle?.color, brand.foreground), align: page.titleStyle?.align || 'left', bold: true, margin: 0, valign: 'top', lineSpacingMultiple: 1.2, charSpacing: -0.84 });
+      else if (page.title) slide.addText(page.title, textOptions({ x: 100, y: 92, w: 1400, h: 125, ...page.titleBox, fontSize: 58, ...page.titleStyle }, brand, { bold: true, fontFace: brand.titleFontFace, lineSpacingMultiple: 1.2, charSpacing: -0.84 }));
+      for (const raw of page.elements) {
+        const el=root.CorporateTheme?root.CorporateTheme.element(raw,brand):raw;
+        if (el.type === 'text') slide.addText(richRuns(el,snapshot), textOptions(el, brand, { objectName: el.id, hyperlink:link(el,snapshot) }));
+        else if (el.type === 'image') slide.addImage({ ...await imageOptions(el), objectName: el.id, hyperlink:link(el,snapshot) });
+        else if (el.type === 'shape') addShape(pptx, slide, el, brand,link(el,snapshot));
         else if (el.type === 'table') addTable(slide, el, brand);
         else if (el.type === 'chart') addChart(pptx, slide, el, brand);
       }
@@ -155,6 +181,7 @@
 
   async function normalizeTheme(zip, brand) {
     const palette = { dk1: brand.foreground, lt1: brand.background, dk2: '444444', lt2: 'F4F4F4', accent1: brand.accent, accent2: brand.foreground, accent3: '999999', accent4: 'E8A2AF', accent5: '666666', accent6: 'DDDDDD', hlink: brand.accent, folHlink: '8D0B20' };
+    if(brand.chartPalette)brand.chartPalette.slice(0,6).forEach((color,i)=>palette['accent'+(i+1)]=color);
     const scheme = '<a:clrScheme name="Corporate">' + Object.entries(palette).map(([key, color]) => `<a:${key}><a:srgbClr val="${color}"/></a:${key}>`).join('') + '</a:clrScheme>';
     for (const name of Object.keys(zip.files).filter(n => /^ppt\/theme\/theme\d+\.xml$/.test(n))) {
       let xml = await zip.file(name).async('string');

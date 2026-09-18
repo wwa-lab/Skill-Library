@@ -1,0 +1,225 @@
+{
+  "version": 1,
+  "urls": [
+    {
+      "value": "http://purl.org/dc/dcmitype/",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://purl.org/dc/elements/1.1/",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://purl.org/dc/terms/",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.microsoft.com/office/2007/relationships/image",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.microsoft.com/office/2007/relationships/media",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.microsoft.com/office/drawing/2012/chart",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.microsoft.com/office/drawing/2014/chart",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.microsoft.com/office/drawing/2016/SVG/main",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.microsoft.com/office/drawing/2018/hyperlinkcolor",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.microsoft.com/office/mac/drawingml/2011/main",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.microsoft.com/office/powerpoint/2010/main",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.microsoft.com/office/powerpoint/2012/main",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.microsoft.com/office/spreadsheetml/2010/11/main",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.microsoft.com/office/thememl/2012/main",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.openxmlformats.org/drawingml/2006/chart",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.openxmlformats.org/drawingml/2006/main",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.openxmlformats.org/drawingml/2006/table",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.openxmlformats.org/markup-compatibility/2006",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/extended-properties",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/audio",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/chart",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/image",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/notesMaster",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/notesSlide",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/package",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/presProps",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/slide",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideLayout",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideMaster",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/table",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/tableStyles",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/video",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/viewProps",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.openxmlformats.org/package/2006/content-types",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.openxmlformats.org/package/2006/metadata/core-properties",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.openxmlformats.org/package/2006/relationships",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.openxmlformats.org/presentationml/2006/main",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://schemas.openxmlformats.org/spreadsheetml/2006/main",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://www.w3.org/2000/svg",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "http://www.w3.org/2001/XMLSchema-instance",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "https://gitbrent.github.io/PptxGenJS/docs/api-tables.html",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "https://gitbrent.github.io/PptxGenJS/docs/masters.html",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "https://github.com",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    },
+    {
+      "value": "https://stuk.github.io/jszip/documentation/howto/read_zip.html",
+      "reason": "OOXML/SVG namespace or inert upstream documentation string; never fetched"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "browser": "153.0.8010.50",
+  "platform": "darwin",
+  "checks": [
+    "theme UI geometry preservation",
+    "section editor/list",
+    "presenter current/next/notes/timer/pause/reset/clock",
+    "black screen and keyboard",
+    "internal hyperlink UI",
+    "QA dialog",
+    "native external and internal hyperlinks",
+    "no requests"
+  ]
+}

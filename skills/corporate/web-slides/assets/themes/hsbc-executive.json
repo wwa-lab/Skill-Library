@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "id": "hsbc-executive",
+  "brand": "hsbc",
+  "colors": {
+    "canvas": "FFFFFF",
+    "surface": "F4F4F4",
+    "text": "000000",
+    "textMuted": "5C5C5C",
+    "accent": "DB0011",
+    "border": "D7D7D7"
+  },
+  "typography": {
+    "coverTitle": {
+      "size": 72,
+      "weight": 700
+    },
+    "slideTitle": {
+      "size": 52,
+      "weight": 700
+    },
+    "body": {
+      "size": 32,
+      "weight": 400
+    },
+    "subtitle": {
+      "size": 44,
+      "weight": 400
+    },
+    "caption": {
+      "size": 24,
+      "weight": 400
+    },
+    "kpi": {
+      "size": 80,
+      "weight": 700
+    },
+    "label": {
+      "size": 28,
+      "weight": 400
+    }
+  },
+  "fonts": {
+    "body": "Microsoft YaHei",
+    "title": "Microsoft YaHei"
+  },
+  "spacing": {
+    "margin": 100,
+    "gap": 40
+  },
+  "cards": {
+    "radius": 8,
+    "fill": "F4F4F4",
+    "text": "000000"
+  },
+  "table": {
+    "header": "DB0011",
+    "headerText": "FFFFFF",
+    "stripe": "F4F4F4",
+    "border": "D7D7D7"
+  },
+  "chartPalette": [
+    "DB0011",
+    "000000",
+    "999999",
+    "A3000D",
+    "B6B6B6",
+    "E6E6E6"
+  ],
+  "titleDecoration": "bar",
+  "footerStyle": "accent"
+}

@@ -1,0 +1,33 @@
+{
+  "status": "PASS",
+  "browser": "153.0.8010.50",
+  "platform": "darwin",
+  "offline": true,
+  "network": [],
+  "checks": [
+    "canvas pointer drag with bounds",
+    "multi-object resize",
+    "arrow-key nudge",
+    "shift multi-select and center alignment",
+    "structured paragraphs, numbering, bullets, paragraph alignment and styled native runs",
+    "safe hyperlink validation",
+    "drag reorder",
+    "HTML download and fresh offline reopen exact equality",
+    "latest model native PPTX with notes, picture, table, chart, and text objects"
+  ],
+  "officeUI": "NOT VERIFIED",
+  "pptx": {
+    "file": "/Users/leo/wwa-lab/GitHub/Skill-Library/skills/corporate/web-slides/tests/records/v1.1/gate-c/富文本与画布编辑后.pptx",
+    "slides": 6,
+    "notes": 6,
+    "textShapes": 40,
+    "pictures": 1,
+    "shapes": 47,
+    "tables": 1,
+    "charts": 1,
+    "chartWorkbooks": 1,
+    "layouts": 5,
+    "powerPointUI": "not verified"
+  },
+  "pptxBytes": 2535706
+}

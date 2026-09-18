@@ -1,7 +1,7 @@
 {
   "file": "pptxgenjs-4.0.1.bundle.js",
-  "sha256": "4fb9eac5cfefb213e2d8743c2b7151025f31bfb3f834c73c12062916daa0f3f8",
-  "bytes": 460889,
+  "sha256": "7cfb2494dda144becbd86b31d8423f3c477afba472ca43fff184129745855062",
+  "bytes": 361796,
   "packages": [
     {
       "package": "pptxgenjs",
@@ -67,7 +67,7 @@
       "role": "license reference for embedded legacy browser polyfill; core-js version is present in code, babel/regenerator exact embedded version unlabelled"
     }
   ],
-  "note": "Unmodified npm PptxGenJS 4.0.1 browser bundle exposes PptxGenJS and JSZip 3.10.1. Bundle is the authoritative pinned runtime; dependency entries record upstream license reference packages, not a reconstructed npm dependency lock. Includes legacy Babel/core-js/regenerator polyfills. No runtime package installation.",
+  "note": "The pinned runtime is a reproducible browser-only derivative of the unmodified npm PptxGenJS 4.0.1 browser bundle. It exposes PptxGenJS and JSZip 3.10.1 and removes legacy Babel/core-js/regenerator polyfills and non-browser media/file paths. Dependency entries record upstream license reference packages, not a reconstructed npm dependency lock. No runtime package installation.",
   "upstreamBundleInputs": "https://github.com/gitbrent/PptxGenJS/tree/v4.0.1/libs",
   "additionalNotices": [
     {
@@ -103,5 +103,17 @@
       "evidence": "JSZip browser package maps readable-stream to its own lib/readable-stream-browser.js (module16), which exports require(stream); browser bundle map is {stream:undefined}. There is no readable-stream implementation or its buffer/stream transitive modules in the 54-module browser dist. Full PptxGenJS bundle preserves module16 as t.exports=e(\"stream\") with {stream:void 0}. Node stream paths are not used by browser export."
     },
     "additionalNotice": "Pako lib/zlib sources contain a separate Zlib license notice (Gailly/Adler/Puzrin/Tupitsin); now preserved in pako-zlib-LICENSE.txt alongside Pako MIT."
+  },
+  "derivative": {
+    "source": "references/vendor/pptxgenjs-4.0.1.upstream.txt",
+    "upstreamSha256": "4fb9eac5cfefb213e2d8743c2b7151025f31bfb3f834c73c12062916daa0f3f8",
+    "recipe": "scripts/vendor_offline.py",
+    "target": "modern Chrome/Edge browsers",
+    "changes": [
+      "remove legacy Babel polyfills",
+      "replace legacy scheduler fallbacks with native microtasks/timers",
+      "reject all path/remote/SVG media loading",
+      "disable Node file export"
+    ]
   }
 }

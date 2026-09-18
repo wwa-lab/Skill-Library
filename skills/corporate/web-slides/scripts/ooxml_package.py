@@ -1,6 +1,6 @@
 """Bounded, read-only OOXML package access; Python 3.9+, standard library."""
 import base64
-from pathlib import PurePosixPath
+from pathlib import PurePosixPath, Path
 import posixpath
 import re
 from urllib.parse import unquote, urlsplit
@@ -11,6 +11,10 @@ NS = {'p': 'http://schemas.openxmlformats.org/presentationml/2006/main',
       'a': 'http://schemas.openxmlformats.org/drawingml/2006/main',
       'r': 'http://schemas.openxmlformats.org/officeDocument/2006/relationships',
       'c': 'http://schemas.openxmlformats.org/drawingml/2006/chart'}
+MAX_SOURCE = 64 * 1024 * 1024
+MAX_XML = 8 * 1024 * 1024
+MAX_RATIO = 250
+MAX_ENTRIES = 4096
 MAX_MEMBER = 32 * 1024 * 1024
 MAX_TOTAL = 128 * 1024 * 1024
 
@@ -28,11 +32,12 @@ def text_content(node):
 
 class Package:
     def __init__(self, path):
+        if Path(path).stat().st_size > MAX_SOURCE: raise ValueError('OOXML source exceeds 64 MiB limit')
         self.archive = zipfile.ZipFile(path)
         self.names = set()
         try:
             items = self.archive.infolist()
-            if len(items) > 4096 or sum(i.file_size for i in items) > MAX_TOTAL:
+            if len(items) > MAX_ENTRIES or sum(i.file_size for i in items) > MAX_TOTAL:
                 raise ValueError('OOXML archive exceeds 4096 files / 128 MiB limit')
             for item in items:
                 parts = PurePosixPath(item.filename).parts
@@ -41,6 +46,8 @@ class Package:
                     raise ValueError('Unsafe or duplicate OOXML package path')
                 if item.file_size > MAX_MEMBER or item.flag_bits & 1:
                     raise ValueError('Encrypted or oversized OOXML member')
+                if item.file_size > max(1,item.compress_size)*MAX_RATIO: raise ValueError('OOXML compression ratio exceeds limit')
+                if item.filename.lower().endswith(('.xml','.rels')) and item.file_size>MAX_XML: raise ValueError('OOXML XML exceeds 8 MiB limit')
                 self.names.add(item.filename)
         except Exception:
             self.archive.close()
@@ -74,7 +81,7 @@ class Package:
         result = {}
         for rel in self.xml(relpath):
             target = unquote(rel.get('Target', ''))
-            external = rel.get('TargetMode') == 'External' or bool(urlsplit(target).scheme)
+            external = rel.get('TargetMode') == 'External' or bool(urlsplit(target).scheme) or target.startswith(('//', '\\\\'))
             resolved = posixpath.normpath(posixpath.join(posixpath.dirname(name), target.lstrip('/'))) if not target.startswith('/') else posixpath.normpath(target.lstrip('/'))
             if not external and (resolved.startswith('../') or '\\' in target or ':' in target):
                 raise ValueError('Unsafe relationship target in ' + name)

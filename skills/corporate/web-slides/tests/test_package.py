@@ -20,6 +20,8 @@ class PackageTests(unittest.TestCase):
             (root / 'SKILL.md').write_text('中文 Skill', encoding='utf-8')
             (root / 'assets').mkdir()
             (root / 'assets/离线 内容.txt').write_text('完整内容', encoding='utf-8')
+            # Repackaging an unpacked distribution must replace, not duplicate, the generated manifest.
+            (root / 'PACKAGE-MANIFEST.json').write_text('{\"stale\": true}\n', encoding='utf-8')
             (root / '__pycache__').mkdir()
             (root / '__pycache__/local.pyc').write_bytes(b'cache')
             out = Path(directory) / '可分发 Skill.zip'
@@ -28,6 +30,7 @@ class PackageTests(unittest.TestCase):
             with zipfile.ZipFile(out) as archive:
                 self.assertTrue(all(name.startswith('corporate-web-slides/') for name in archive.namelist()))
                 self.assertFalse(any('__pycache__' in name for name in archive.namelist()))
+                self.assertEqual(archive.namelist().count('corporate-web-slides/PACKAGE-MANIFEST.json'), 1)
                 embedded = json.loads(archive.read('corporate-web-slides/PACKAGE-MANIFEST.json'))
                 self.assertEqual(embedded, manifest)
                 for item in embedded['files']:

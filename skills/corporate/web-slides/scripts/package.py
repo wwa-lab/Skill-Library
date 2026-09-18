@@ -22,6 +22,8 @@ def package_skill(root, output):
             continue
         if path.is_symlink():
             raise ValueError('Do not distribute symbolic links: ' + str(relative))
+        if relative.as_posix() == 'PACKAGE-MANIFEST.json':
+            continue
         if path.is_file() and path.resolve() != output:
             files.append((relative.as_posix(), path.read_bytes()))
     manifest = {'format': 1, 'skill': 'corporate-web-slides', 'files': [{'path': name, 'bytes': len(data), 'sha256': hashlib.sha256(data).hexdigest()} for name, data in files]}

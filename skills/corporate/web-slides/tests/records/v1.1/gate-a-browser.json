@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "browser": "153.0.8010.50",
+  "platform": "darwin",
+  "themes": [
+    {
+      "theme": "hsbc-dark",
+      "layouts": 15,
+      "notes": 7
+    },
+    {
+      "theme": "hsbc-executive",
+      "layouts": 15,
+      "notes": 7
+    },
+    {
+      "theme": "hsbc-light",
+      "layouts": 15,
+      "notes": 7
+    }
+  ],
+  "checks": [
+    "literal malicious title",
+    "closed schemas",
+    "shared HTML/PPTX themes",
+    "native layout placeholders",
+    "new-slide notes",
+    "hash CSP",
+    "fresh saved HTML reopen",
+    "offline no requests"
+  ],
+  "office": "NOT VERIFIED",
+  "baseline": "00b9b9264a3bc011fa087f4337b2a7c52cf8e919",
+  "recordedAt": "2026-09-17T23:17:48.802291+00:00"
+}

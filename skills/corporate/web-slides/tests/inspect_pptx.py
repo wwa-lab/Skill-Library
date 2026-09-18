@@ -39,6 +39,14 @@ def relationships(archive, part):
     return result
 
 
+def all_relationships(archive, part):
+    directory, filename = posixpath.split(part)
+    relpath = directory + "/_rels/" + filename + ".rels"
+    if relpath not in archive.namelist():
+        return {}
+    return {node.get("Id"): node for node in ET.fromstring(archive.read(relpath)).findall(REL)}
+
+
 def inspect(path, model=None, crops=None):
     with ZipFile(path) as archive:
         names = archive.namelist()
@@ -73,7 +81,10 @@ def inspect(path, model=None, crops=None):
             for obj in expected["elements"]:
                 kind = obj["type"]
                 if kind in ("text", "shape"):
-                    for line in obj.get("text", "").splitlines():
+                    expected_text = [run["text"] for paragraph in obj["paragraphs"] for run in paragraph["runs"]] if kind == "text" and obj.get("paragraphs") else obj.get("text", "").splitlines()
+                    for line in expected_text:
+                        if not line:
+                            continue
                         require(line in all_text, "Missing native text: " + line)
                 if kind == "text" and obj.get("text"):
                     native = next((node for node in slide.findall(".//p:sp", NS) if node.find("p:nvSpPr/p:cNvPr", NS) is not None and node.find("p:nvSpPr/p:cNvPr", NS).get("name") == obj["id"]), None)
@@ -85,6 +96,42 @@ def inspect(path, model=None, crops=None):
                         require(any(n.get("val", "").upper() == obj["color"].upper() for n in native.findall(".//a:rPr/a:solidFill/a:srgbClr", NS)), "Native text color differs")
                     if "align" in obj:
                         require(any(n.get("algn") == {"left": "l", "center": "ctr", "right": "r"}[obj["align"]] for n in native.findall(".//a:pPr", NS)), "Native text alignment differs")
+                    if obj.get("paragraphs"):
+                        native_paragraphs = native.findall("p:txBody/a:p", NS)
+                        require(len(native_paragraphs) >= len(obj["paragraphs"]), "Native rich-text paragraphs missing")
+                        part_rels = all_relationships(archive, part)
+                        for paragraph_index, expected_paragraph in enumerate(obj["paragraphs"]):
+                            actual_paragraph = native_paragraphs[paragraph_index]
+                            ppr = actual_paragraph.find("a:pPr", NS)
+                            if expected_paragraph.get("align"):
+                                require(ppr is not None and ppr.get("algn") == {"left": "l", "center": "ctr", "right": "r"}[expected_paragraph["align"]], "Native rich-text paragraph alignment differs")
+                            if expected_paragraph.get("indent", 0):
+                                require(ppr is not None and ppr.get("lvl") == str(expected_paragraph["indent"]), "Native rich-text indentation differs")
+                            if expected_paragraph.get("list") == "bullet":
+                                require(ppr is not None and ppr.find("a:buChar", NS) is not None, "Native bullet paragraph missing")
+                            elif expected_paragraph.get("list") == "number":
+                                require(ppr is not None and ppr.find("a:buAutoNum", NS) is not None, "Native numbered paragraph missing")
+                            elif ppr is not None:
+                                require(ppr.find("a:buNone", NS) is not None, "Plain rich-text paragraph has an unexpected list marker")
+                            for expected_run in expected_paragraph["runs"]:
+                                if not expected_run["text"]:
+                                    continue
+                                actual_run = next((run for run in actual_paragraph.findall("a:r", NS) if (run.findtext("a:t", default="", namespaces=NS)) == expected_run["text"]), None)
+                                require(actual_run is not None, "Native rich-text run missing: " + expected_run["text"])
+                                rpr = actual_run.find("a:rPr", NS)
+                                if expected_run.get("bold") is True:
+                                    require(rpr is not None and rpr.get("b") == "1", "Native bold run missing")
+                                if expected_run.get("italic") is True:
+                                    require(rpr is not None and rpr.get("i") == "1", "Native italic run missing")
+                                if "fontSize" in expected_run:
+                                    require(rpr is not None and abs(float(rpr.get("sz", "0")) - expected_run["fontSize"] * 60) < 1, "Native rich-text font size differs")
+                                if "color" in expected_run:
+                                    require(rpr is not None and any(node.get("val", "").upper() == expected_run["color"].upper() for node in rpr.findall("a:solidFill/a:srgbClr", NS)), "Native rich-text color differs")
+                                if "hyperlink" in expected_run:
+                                    link = rpr.find("a:hlinkClick", NS) if rpr is not None else None
+                                    require(link is not None, "Native rich-text hyperlink missing")
+                                    relation = part_rels.get(link.get("{" + NS["r"] + "}id"))
+                                    require(relation is not None and relation.get("Target") == expected_run["hyperlink"], "Native rich-text hyperlink target differs")
                 if kind == "shape":
                     shape = "rightArrow" if obj["shape"] == "arrow" else obj["shape"]
                     require(any(n.get("prst") == shape for n in slide.findall(".//a:prstGeom", NS)), "Native shape missing: " + shape)

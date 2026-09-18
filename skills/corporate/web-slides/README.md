@@ -7,9 +7,9 @@
 直接用 Edge / Chrome 打开 `examples/six-slides.html`。样例六页包含文字、图片、流程、表格、图表和讲稿；所有统计数字均为演示数据。无需 Node.js、Python、联网或模型即可展示、编辑、保存和导出。
 
 1. 点击“编辑”，选择正文或左侧目录页面。输入后移出输入框即生效。
-2. 在面板修改标题/讲稿，选择独立对象修改正文、字号、颜色、对齐；图片可替换、切换完整显示/裁切填充、调整横纵裁切位置。数据对象有 JSON 编辑框及“应用数据”。
+2. 在面板修改标题/讲稿，选择独立对象修改正文、字号、颜色、对齐；文字对象可拆分段落并设置项目符号、编号、缩进、字重、斜体、局部字号/颜色和安全链接。画布上拖动对象可移动，拖动选框角点可缩放；按住 Shift 多选，可对齐/等距，方向键微调（Shift+方向键每次 10 单位）。图片可替换、切换完整显示/裁切填充、调整横纵裁切位置。数据对象有 JSON 编辑框及“应用数据”。
 3. 增加、复制、删除页面；拖动目录排序或用上移/下移按钮。最多撤销 30 次；删除可撤销，至少保留一页。
-4. 点击“保存 HTML”，保留下载的完整文件。重开该文件可继续编辑。不要仅保留浏览器缓存。
+4. 点击“保存 HTML”，保留下载的完整文件。重开该文件可继续编辑。模型、富文本、图片和页面顺序会嵌入完整文件；不要仅保留浏览器缓存。
 5. 点击“导出 PPTX”；需要复用主题时点击“导出 POTX”。在 PowerPoint 中继续编辑文字、图片、表格、图表或形状。PowerPoint 修改不会自动同步回 HTML。
 
 展示快捷键：左右箭头、空格、PageUp/PageDown 翻页；Home/End 跳转；E 编辑；N 讲稿；F 全屏。编辑面板聚焦时不截获普通翻页键。Ctrl/Cmd+S 保存；面板外 Ctrl/Cmd+Z 撤销，Ctrl/Cmd+Shift+Z / Ctrl+Y 重做。“减少动态”与系统减少动态设置均受支持。浏览器下载受公司策略限制时，不能以缓存替代保存。
@@ -63,7 +63,7 @@ py -3 scripts/preview.py "输出" --port 8765
 | `references/` | 输入与品牌、支持边界、依赖、验收记录 |
 | `tests/` | Python、模型及可选浏览器集成测试 |
 
-第一版采用固定版式内微调，不是自由画布。支持最多 200 页、每页 100 个对象；表格最多 12 行×8 列、无合并；柱状/折线/饼图最多 12 类别、4 系列（饼图 1 系列）。超出范围请拆分或由 Agent重新组织，不得静默丢内容。
+采用固定版式内微调，不是自由画布。支持最多 200 页、每页 100 个对象；文本最多 50 段、每段 100 个文本片段；表格最多 12 行×8 列、无合并；柱状/折线/饼图最多 12 类别、4 系列（饼图 1 系列）。超出范围请拆分或由 Agent重新组织，不得静默丢内容。
 
 网页动画导出为静态终态。复杂 SmartArt、分组、视频、OLE、复杂图表等会报告限制，不用整页截图代替可编辑页面。独立图片裁切可能烘焙像素；字体不嵌入，换设备须检查替代字体。原生 Office 图表由 PowerPoint 绘制，轴线、图例等细节与网页不保证逐像素一致。
 
@@ -77,7 +77,15 @@ py -3 scripts/preview.py "输出" --port 8765
 py -3 -m unittest discover -s tests -p "test_*.py" -v
 ```
 
-已有 Node.js、Playwright 和本地测试浏览器的开发者可运行独立模型测试及完整浏览器链路，具体命令见测试记录。测试不自动安装依赖。分发给 Windows 的环境验收仍需在公司 Edge/Chrome 和 PowerPoint 实机完成；当前记录明确区分已验证与未验证。
+已有 Node.js、Playwright 和本地测试浏览器的开发者可运行独立模型测试及完整浏览器链路，具体命令见测试记录。测试不自动安装依赖。当前 macOS + Chrome 已有完整浏览器链路实测记录；macOS Safari、PowerPoint for Mac、Windows 11 的 Edge/Chrome 与 PowerPoint 仍需目标环境实机验收。macOS 与 Windows 的 Office 结果分别记录，不能互相替代；详见 [测试记录](references/test-record.md) 和 [验收清单](references/quality-checks.md)。
+
+Gate C 浏览器复测示例（传入已有 Playwright 模块和 Chrome 可执行文件，不安装依赖）：
+
+```sh
+CORPORATE_TEST_BROWSER='/path/to/chrome' node tests/test_gate_c_browser.mjs /absolute/path/to/playwright/index.mjs /temporary/gate-c-check
+```
+
+该验证会用中文/空格目录写出 HTML 和 PPTX；独立解包检查 OOXML 原生富文本。它不等同于 PowerPoint UI 验收。
 
 ## 重新打包
 

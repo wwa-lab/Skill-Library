@@ -201,9 +201,16 @@ def main(argv=None):
         args.out.mkdir(parents=True, exist_ok=True)
         with Package(args.input) as package:
             importer = Importer(package, args.out)
+            external_relationships=[]
+            for name in sorted(n for n in package.names if n.endswith('.rels')):
+                for rel in package.xml(name):
+                    target=rel.get('Target','')
+                    if rel.get('TargetMode')=='External' or target.startswith(('http:', 'https:', 'file:', '//', '\\\\')):
+                        external_relationships.append({'part':name,'target':target,'type':rel.get('Type','')})
+                        importer.warn(name,'external relationship recorded; never accessed: '+target)
             brand = importer.analyze_brand(args.input)
             deck = None if args.brand_only else importer.deck(args.input)
-            outputs = {'brand.json': brand, 'conversion-report.json': {'source': args.input.name, 'warnings': importer.warnings, 'preservedAssets': importer.assets, 'unconvertedContent': importer.unconverted, 'completeFidelity': False}}
+            outputs = {'brand.json': brand, 'conversion-report.json': {'source': args.input.name, 'externalRelationships': external_relationships, 'warnings': importer.warnings, 'preservedAssets': importer.assets, 'unconvertedContent': importer.unconverted, 'completeFidelity': False}}
             if deck is not None: outputs['deck.json'] = deck
             for name, value in outputs.items(): (args.out / name).write_text(json.dumps(value, ensure_ascii=False, indent=2), encoding='utf-8')
             print('Wrote ' + ', '.join(outputs) + '; warnings=' + str(len(importer.warnings)))

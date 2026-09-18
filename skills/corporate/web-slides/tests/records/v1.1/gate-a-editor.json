@@ -1,0 +1,59 @@
+{
+  "environment": {
+    "platform": "darwin",
+    "browser": "153.0.8010.50",
+    "headless": true,
+    "offline": true,
+    "node": "developer test harness only",
+    "windows11": "not verified",
+    "managedBrowser": "not verified",
+    "powerPointUI": "not verified"
+  },
+  "screenshots": [
+    "/tmp/cws-v11-editor-a/展示-1280x720.png",
+    "/tmp/cws-v11-editor-a/展示-1366x768.png",
+    "/tmp/cws-v11-editor-a/展示-1920x1080.png",
+    "/tmp/cws-v11-editor-a/展示-1024x768.png",
+    "/tmp/cws-v11-editor-a/编辑模式.png"
+  ],
+  "checks": [
+    "six-page model, notes, keyboard navigation, reduced motion, headless fullscreen, 4 viewport sizes",
+    "UI title/body/notes/font/color/alignment/image/crop/table/chart edits",
+    "drag reorder and button reorder",
+    "add/duplicate/delete/undo/redo",
+    "two HTML saves and fresh reopen with exact model preservation",
+    "UI export latest content, notes, order, native text/shapes/table/chart workbook",
+    "independent picture bytes exactly match latest requested crop",
+    "POTX theme and native master/layout placeholder package checks",
+    "offline context and network denial"
+  ],
+  "output": "/tmp/cws-v11-editor-a",
+  "editedPptx": {
+    "file": "/tmp/cws-v11-editor-a/编辑后 演示.pptx",
+    "slides": 6,
+    "notes": 6,
+    "textShapes": 40,
+    "pictures": 1,
+    "shapes": 47,
+    "tables": 1,
+    "charts": 1,
+    "chartWorkbooks": 1,
+    "layouts": 5,
+    "powerPointUI": "not verified"
+  },
+  "editedPotx": {
+    "file": "/tmp/cws-v11-editor-a/编辑后 模板.potx",
+    "slides": 6,
+    "notes": 6,
+    "textShapes": 40,
+    "pictures": 1,
+    "shapes": 47,
+    "tables": 1,
+    "charts": 1,
+    "chartWorkbooks": 1,
+    "layouts": 5,
+    "powerPointUI": "not verified"
+  },
+  "baseline": "00b9b9264a3bc011fa087f4337b2a7c52cf8e919",
+  "recordedAt": "2026-09-17T23:17:48.802676+00:00"
+}

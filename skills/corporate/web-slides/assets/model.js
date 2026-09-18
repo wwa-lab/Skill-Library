@@ -1,6 +1,9 @@
 /* Corporate Web Slides — authoritative JSON model, no DOM dependence. */
 (function (root) {
   'use strict';
+  const T = root.CorporateTheme;
+  const layouts = ['cover','content','data','imported','section','title-body','two-column','image-text','kpi','comparison','timeline','process','closing','freeform'];
+  const roles = ['coverTitle','slideTitle','body','subtitle','caption','kpi','label'];
   const clone = value => JSON.parse(JSON.stringify(value));
   const fail = (condition, message) => { if (!condition) throw new Error(message); };
   const hex = value => typeof value === 'string' && /^[0-9a-f]{6}$/i.test(value);
@@ -11,6 +14,9 @@
       if (value[key] !== undefined) fail(hex(value[key]), `${label}: ${key} 必须为六位十六进制颜色`);
     });
     if (value.fontSize !== undefined) fail(finite(value.fontSize) && value.fontSize >= 12 && value.fontSize <= 160, `${label}: 字号需为 12–160`);
+    if (value.role !== undefined) fail(roles.includes(value.role), label+': semantic role');
+    if (value.layoutOverride !== undefined) fail(typeof value.layoutOverride === 'boolean', label+': layoutOverride');
+    if (value.bold !== undefined) fail(typeof value.bold === 'boolean', label+': bold');
     if (value.align !== undefined) fail(['left', 'center', 'right'].includes(value.align), `${label}: 对齐方式无效`);
   }
   function validateElement(el, label) {
@@ -21,6 +27,7 @@
     fail(el.x >= 0 && el.y >= 0 && el.w > 0 && el.h > 0 && el.x + el.w <= 1600.1 && el.y + el.h <= 900.1, `${label}: 对象超出 1600×900 画布`);
     style(el, label);
     if (el.type === 'text' || (el.type === 'shape' && el.text !== undefined)) fail(typeof el.text === 'string' && el.text.length <= 20000, `${label}: 文字无效或过长`);
+    if (el.paragraphs!==undefined){fail(el.type==='text'&&T,'Rich text requires text type and contracts');T.rich(el.paragraphs);fail(el.text===el.paragraphs.map(p=>p.runs.map(r=>r.text).join('')).join('\n'),'Rich text fallback must match paragraphs');}
     if (el.type === 'image') {
       fail(raster(el.src), `${label}: 图片必须为嵌入的 PNG/JPEG，最大约 30 MB`);
       if (el.fit !== undefined) fail(['contain', 'cover'].includes(el.fit), `${label}: 图片显示方式无效`);
@@ -45,7 +52,10 @@
     fail(deck && deck.version === 1, '不支持的演示模型版本，需要 version: 1');
     fail(typeof deck.id === 'string' && deck.id.length > 0, '演示缺少 id');
     fail(typeof deck.title === 'string' && deck.title.length <= 300, '演示名称无效');
+    if (deck.modelVersion !== undefined) fail(deck.modelVersion === '1.1', 'Unsupported modelVersion');
+    if (deck.theme) {fail(T,'Theme module required');T.validate(deck.theme);fail(!deck.brand.id || deck.theme.brand===deck.brand.id,'Theme brand mismatch');}
     const brand = deck.brand;
+    if (brand?.schemaVersion !== undefined) {fail(T,'Brand module required');T.brand(brand);}
     fail(brand && typeof brand === 'object', '缺少品牌配置');
     ['accent', 'background', 'foreground', 'muted'].forEach(k => fail(hex(brand[k]), `品牌 ${k} 颜色无效`));
     ['name', 'fontFace', 'titleFontFace'].forEach(k => fail(typeof brand[k] === 'string' && brand[k].length <= 200, `品牌 ${k} 无效`));
@@ -56,17 +66,28 @@
       const label = `第 ${i + 1} 页`;
       fail(typeof slide.id === 'string' && slide.id && !ids.has(slide.id), `${label}: 页面 id 缺少或重复`); ids.add(slide.id);
       fail(typeof slide.title === 'string' && slide.title.length <= 52 && typeof slide.notes === 'string' && slide.notes.length <= 100000, `${label}: 标题或讲稿无效`);
-      fail(['cover', 'content', 'data', 'imported'].includes(slide.layout), `${label}: 版式无效`);
+      fail(layouts.includes(slide.layout), `${label}: 版式无效`);
+      if(slide.section!==undefined)fail(typeof slide.section==='string'&&slide.section.length<=100,'Invalid section');
+      if(slide.titleBox){const b=slide.titleBox;['x','y','w','h'].forEach(k=>fail(finite(b[k]),'Title coordinates'));fail(b.x>=0&&b.y>=0&&b.w>0&&b.h>0&&b.x+b.w<=1600.1&&b.y+b.h<=900.1,'Title outside canvas');}
       style(slide, label); if (slide.titleStyle) style(slide.titleStyle, label);
       fail(Array.isArray(slide.elements) && slide.elements.length <= 100, `${label}: 最多 100 个对象`);
       const elementIds = new Set();
       slide.elements.forEach(el => {
         validateElement(el, label);
+        for(const p of el.paragraphs||[])for(const run of p.runs)if(run.hyperlink!==undefined)validateLink(run.hyperlink,deck.slides.map(s=>s.id));
+        if(el.hyperlink!==undefined)validateLink(el.hyperlink,deck.slides.map(s=>s.id));
+        if(el.altText!==undefined)fail(typeof el.altText==='string'&&el.altText.length<=2000,'Invalid alt text');
         fail(!elementIds.has(el.id) && el.id !== '__title__', `${label}: 对象 id 重复或保留`); elementIds.add(el.id);
       });
     });
     if (deck.warnings !== undefined) fail(Array.isArray(deck.warnings) && deck.warnings.every(w => typeof w === 'string'), '转换警告必须为文字数组');
     return deck;
+  }
+  function validateLink(value,ids=[]) {
+    fail(typeof value==='string'&&value.length<=2048&&!/[\x00-\x20<>"\\]/.test(value),'Invalid hyperlink');
+    if(value.startsWith('#'))fail(ids.includes(value.slice(1)),'Missing hyperlink slide');
+    else fail(/^https:\/\/[^/\s?#]+(?:[/?#][^\s]*)?$|^mailto:[^\s@]+@[^\s@]+$/i.test(value),'Only https, mailto or #slide-id hyperlinks are allowed');
+    return value;
   }
   function history(initial) {
     let current = clone(validate(initial)), past = [], future = [];
@@ -92,5 +113,5 @@
     const rest = deck.slides.filter((_, i) => i !== from);
     return {...deck, slides: [...rest.slice(0, to), deck.slides[from], ...rest.slice(to)]};
   }
-  root.CorporateModel = {validate, validateElement, clone, history, uid, changeSlide, changeElement, move};
+  root.CorporateModel = {validate, validateElement, validateLink, layouts, clone, history, uid, changeSlide, changeElement, move};
 })(globalThis);

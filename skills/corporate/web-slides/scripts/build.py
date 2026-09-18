@@ -12,8 +12,15 @@ import re
 import sys
 import uuid
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from contracts import config, check, hyperlink
+
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_BRAND = {"name": "Corporate", "accent": "C8102E", "background": "FFFFFF", "foreground": "171717", "muted": "666666", "fontFace": "Microsoft YaHei", "titleFontFace": "Microsoft YaHei", "logo": None}
+LEGACY_BRAND = DEFAULT_BRAND.copy()
+CONFIG = config()
+DEFAULT_BRAND = CONFIG['brand']
+
 HEX = re.compile(r"^[0-9a-fA-F]{6}$")
 
 
@@ -69,13 +76,19 @@ def normalize(deck, base):
     brand = result.get("brand", {})
     if not isinstance(brand, dict):
         raise ValueError("brand must be an object")
-    result["brand"] = {**DEFAULT_BRAND, **brand}
+    result["brand"] = {**(LEGACY_BRAND if brand and "schemaVersion" not in brand else DEFAULT_BRAND), **brand}
+    if not brand or brand.get("schemaVersion") == 2:
+        result.setdefault("modelVersion", "1.1")
+        if result["brand"].get("id") == "hsbc": result.setdefault("theme", next(t for t in CONFIG["themes"] if t["id"] == "hsbc-light"))
     if result["brand"].get("logo"):
         result["brand"]["logo"] = image_data(result["brand"]["logo"], base)
     for slide in result.get("slides", []):
         if not isinstance(slide, dict):
             raise ValueError("slide must be an object")
         for element in slide.get("elements", []):
+            if isinstance(element,dict) and "paragraphs" in element and "text" not in element:
+                check(element["paragraphs"],CONFIG["contracts"]["paragraphs"],"paragraphs")
+                element["text"]="\n".join("".join(run["text"] for run in p["runs"]) for p in element["paragraphs"])
             if isinstance(element, dict) and element.get("type") == "image":
                 element["src"] = image_data(element.get("src"), base)
     validate(result)
@@ -85,6 +98,10 @@ def normalize(deck, base):
 def validate(deck):
     if not isinstance(deck, dict) or type(deck.get("version")) is not int or deck.get("version") != 1:
         raise ValueError("Expected presentation model version 1")
+    if "modelVersion" in deck and deck["modelVersion"] != "1.1": raise ValueError("Unsupported modelVersion")
+    if "theme" in deck:
+        check(deck["theme"], CONFIG["contracts"]["theme"], "theme")
+        if deck.get("brand", {}).get("id") not in (None, deck["theme"]["brand"]): raise ValueError("Theme brand mismatch")
     string(deck.get("id"), "deck.id")
     string(deck.get("title"), "deck.title")
     if not deck["id"] or len(deck["title"]) > 300:
@@ -92,6 +109,7 @@ def validate(deck):
     brand = deck.get("brand")
     if not isinstance(brand, dict):
         raise ValueError("brand must be an object")
+    if "schemaVersion" in brand: check(brand, CONFIG["contracts"]["brand"], "brand")
     for key in ("accent", "background", "foreground", "muted"):
         color(brand.get(key), "brand." + key)
     for key in ("name", "fontFace", "titleFontFace"):
@@ -104,8 +122,16 @@ def validate(deck):
     if not isinstance(slides, list) or not 1 <= len(slides) <= 200:
         raise ValueError("Expected between 1 and 200 slides")
     seen = set()
+    slide_ids = {s.get("id") for s in slides if isinstance(s,dict)}
     for slide in slides:
         validate_slide(slide, seen)
+        if "section" in slide and (not isinstance(slide["section"],str) or len(slide["section"])>100): raise ValueError("Invalid section")
+        for el in slide["elements"]:
+            for p in el.get("paragraphs",[]):
+                for run in p["runs"]:
+                    if "hyperlink" in run: hyperlink(run["hyperlink"],slide_ids)
+            if "hyperlink" in el: hyperlink(el["hyperlink"],slide_ids)
+            if "altText" in el and (not isinstance(el["altText"],str) or len(el["altText"])>2000): raise ValueError("Invalid alt text")
     if not isinstance(deck.get("warnings", []), list) or any(not isinstance(w, str) for w in deck.get("warnings", [])):
         raise ValueError("warnings must be an array of strings")
 
@@ -125,6 +151,9 @@ def validate_style(item):
         number(item["fontSize"], "fontSize", 12, 160)
     if "align" in item and item["align"] not in ("left", "center", "right"):
         raise ValueError("Unsupported alignment")
+    for k in ("role",):
+        if k in item and item[k] not in CONFIG["themes"][0]["typography"]: raise ValueError("Unknown semantic role")
+    if "layoutOverride" in item and not isinstance(item["layoutOverride"],bool): raise ValueError("layoutOverride must be boolean")
     if "bold" in item and not isinstance(item["bold"], bool):
         raise ValueError("bold must be boolean")
 
@@ -139,10 +168,14 @@ def validate_slide(slide, seen):
     string(slide.get("notes"), "slide.notes")
     if len(slide["notes"]) > 100000:
         raise ValueError("Slide notes exceed 100000 characters")
-    if slide.get("layout") not in ("cover", "content", "data", "imported"):
+    if slide.get("layout") not in [x["id"] for x in CONFIG["layouts"]]:
         raise ValueError("Unsupported slide layout")
     if "background" in slide:
         color(slide["background"], "slide.background")
+    if "titleBox" in slide:
+        box=slide["titleBox"]
+        check(box,CONFIG["contracts"]["layout"]["properties"]["title"],"titleBox")
+        if box["x"]+box["w"]>1600.1 or box["y"]+box["h"]>900.1: raise ValueError("Title outside canvas")
     if "titleStyle" in slide:
         if not isinstance(slide["titleStyle"], dict):
             raise ValueError("titleStyle must be an object")
@@ -169,6 +202,11 @@ def validate_element(item, seen):
     if "text" in item and (not isinstance(item["text"], str) or len(item["text"]) > 20000):
         raise ValueError("Element text exceeds 20000 characters or is invalid")
     kind = item.get("type")
+    if "paragraphs" in item:
+        if kind!="text": raise ValueError("Rich text only supported on text objects")
+        check(item["paragraphs"],CONFIG["contracts"]["paragraphs"],"paragraphs")
+        fallback="\n".join("".join(run["text"] for run in p["runs"]) for p in item["paragraphs"])
+        if item.get("text")!=fallback: raise ValueError("Rich text fallback must match paragraphs")
     if kind == "text":
         string(item.get("text"), "text")
     elif kind == "image":
@@ -271,13 +309,18 @@ def render_html(deck, root=ROOT):
         if bundle not in vendor_files or hashlib.sha256(bundle.read_bytes()).hexdigest() != expected:
             raise ValueError("Bundled PPTX library does not match its locked manifest")
     vendor = "\n;\n".join(path.read_text(encoding="utf-8") for path in vendor_files)
-    app = "\n;\n".join((assets / name).read_text(encoding="utf-8") for name in ("model.js", "render.js", "export.js", "app.js"))
+    app = "\n;\n".join((assets / name).read_text(encoding="utf-8") for name in ("theme.js", "model.js", "qa.js", "editor.js", "render.js", "export.js", "app.js") if (assets / name).exists())
     license_files = sorted(path for path in (assets / "vendor").iterdir() if path.is_file() and ("license" in path.name.lower() or "notice" in path.name.lower()))
     upstream = root / "references" / "upstream-LICENSE.txt"
     if upstream.exists():
         license_files = [*license_files, upstream]
     licenses = "\n\n".join(path.name + "\n" + path.read_text(encoding="utf-8") for path in license_files)
     tokens = {"__DECK_JSON__": json.dumps(deck, ensure_ascii=False, allow_nan=False).replace("<", "\\u003c").replace("\u2028", "\\u2028").replace("\u2029", "\\u2029"), "__CSS__": (assets / "style.css").read_text(encoding="utf-8"), "__VENDOR__": safe_script(vendor), "__APP_JS__": safe_script(app), "__TITLE__": html.escape(deck["title"]), "__LICENSES__": html.escape(licenses)}
+    if "__CONFIG__" in shell: tokens["__CONFIG__"] = json.dumps(CONFIG, ensure_ascii=False).replace("<", "\\u003c")
+    if "__CSP__" in shell:
+        hashes = ["\'sha256-" + base64.b64encode(hashlib.sha256(tokens[k].encode()).digest()).decode() + "\'" for k in ("__VENDOR__", "__APP_JS__")]
+        css_hash = "\'sha256-" + base64.b64encode(hashlib.sha256(tokens["__CSS__"].encode()).digest()).decode() + "\'"
+        tokens["__CSP__"] = "default-src 'none'; script-src " + " ".join(hashes) + "; style-src " + css_hash + "; img-src data: blob:; font-src 'none'; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'none'"
     # Replace in one pass so content containing a placeholder is never interpreted.
     for token in tokens:
         if token not in shell:
