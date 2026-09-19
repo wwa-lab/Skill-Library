@@ -72,16 +72,16 @@
   }
   function slide(slideModel,brand,index,total) {
     const page=node('section','slide'); page.dataset.slideId=slideModel.id;page.setAttribute('aria-label',`${index+1} / ${total} ${slideModel.title}`);
-    page.style.background=`#${slideModel.background||brand.background}`;page.style.color=`#${brand.foreground}`;page.style.fontFamily=`"${brand.fontFace.replace(/["\\]/g,'')}","Microsoft YaHei","PingFang SC",sans-serif`;
+    page.style.background=`#${slideModel.background||brand.background}`;page.style.color=`#${brand.foreground}`;page.style.fontFamily=`"${brand.fontFace.replace(/["\\]/g,'')}","Arial","Aptos",sans-serif`;
     if(slideModel.layout!=='imported') {
       const rule=node('div','brand-rule');rule.style.background=`#${brand.accent}`;if(brand.theme?.titleDecoration==='bar'){rule.style.width='12px';rule.style.height='125px';rule.style.top='92px';rule.style.left='60px';}if(brand.theme?.titleDecoration!=='none')page.append(rule);
-      page.append(node('div','brand-footer',brand.footer||brand.name),node('div','brand-page',`${String(index+1).padStart(2,'0')} / ${String(total).padStart(2,'0')}`));
+      page.append(node('div','brand-footer',brand.footer??brand.name),node('div','brand-page',`${String(index+1).padStart(2,'0')} / ${String(total).padStart(2,'0')}`));
       if(brand.theme?.footerStyle==='hidden')page.querySelectorAll('.brand-footer,.brand-page').forEach(n=>n.hidden=true);
       if(brand.theme?.footerStyle==='accent')page.querySelector('.brand-footer').style.color='#'+brand.accent;
-      if(brand.logo) {const logo=node('img','brand-logo');logo.src=brand.logo;logo.alt=brand.name;if(brand.logoBox)Object.assign(logo.style,{left:brand.logoBox.x+'px',top:brand.logoBox.y+'px',width:brand.logoBox.w+'px',height:brand.logoBox.h+'px'});page.append(logo);}
+      if(brand.logo) {const logo=node('img','brand-logo');logo.src=brand.logo;logo.alt=brand.name;logo.style.background='#FFFFFF';if(brand.logoBox)Object.assign(logo.style,{left:brand.logoBox.x+'px',top:brand.logoBox.y+'px',width:brand.logoBox.w+'px',height:brand.logoBox.h+'px'});page.append(logo);}
     }
     if(slideModel.title) {
-      const title=element({id:'__title__',type:'text',text:slideModel.title,x:100,y:92,w:1400,h:125,...slideModel.titleBox,bold:true,...(root.CorporateTheme?root.CorporateTheme.title(slideModel,brand):{fontSize:slideModel.layout==='cover'?82:58,...slideModel.titleStyle})},brand);title.classList.add('title-element');title.style.fontFamily=`"${brand.titleFontFace.replace(/["\\]/g,'')}","Microsoft YaHei","PingFang SC",sans-serif`;page.append(title);
+      const title=element({id:'__title__',type:'text',text:slideModel.title,x:100,y:92,w:1400,h:125,...slideModel.titleBox,bold:true,...(root.CorporateTheme?root.CorporateTheme.title(slideModel,brand):{fontSize:slideModel.layout==='cover'?82:58,...slideModel.titleStyle})},brand);title.classList.add('title-element');title.style.fontFamily=`"${brand.titleFontFace.replace(/["\\]/g,'')}","Arial","Aptos",sans-serif`;page.append(title);
     }
     slideModel.elements.forEach(el=>page.append(element(el,brand)));return page;
   }
@@ -100,7 +100,7 @@
         }
       });
       el.classList.toggle('overflow',bad);
-      if(bad)problems.push(`${el.closest('.slide').getAttribute('aria-label')} / ${el.dataset.elementId} 内容溢出，请减字、减小字号或拆页`);
+      if(bad)problems.push(`${el.closest('.slide').getAttribute('aria-label')} / ${el.dataset.elementId} Content overflow; shorten text, adjust size or split the slide`);
     });return problems;
   }
   root.CorporateRender={slide,element,overflow};

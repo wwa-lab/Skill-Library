@@ -9,7 +9,7 @@ import zipfile
 from ooxml_package import Package, NS, find, all_nodes, tag, text_content
 from ooxml_shapes import parse_element, geometry
 
-DEFAULT_BRAND = {'name': 'Corporate', 'accent': 'C8102E', 'background': 'FFFFFF', 'foreground': '171717', 'muted': '666666', 'fontFace': 'Microsoft YaHei', 'titleFontFace': 'Microsoft YaHei', 'logo': None}
+DEFAULT_BRAND = {'name': 'Corporate', 'accent': 'C8102E', 'background': 'FFFFFF', 'foreground': '171717', 'muted': '666666', 'fontFace': 'Arial', 'titleFontFace': 'Arial', 'logo': None}
 
 class Importer:
     def __init__(self, package, out):
@@ -98,8 +98,8 @@ class Importer:
             for group, field in [('majorFont', 'titleFontFace'), ('minorFont', 'fontFace')]:
                 node = find(root, './/a:' + group)
                 ea, latin = find(node, 'a:ea'), find(node, 'a:latin')
-                face = ea.get('typeface') if ea is not None else None
-                face = face or (latin.get('typeface') if latin is not None else None)
+                face = latin.get('typeface') if latin is not None else None
+                face = face or (ea.get('typeface') if ea is not None else None)
                 if face: self.brand[field] = face
             if len(themes) > 1: self.warn('brand', 'multiple themes found; first theme used for normalized brand: ' + themes[0])
         for key, color in [('accent', 'accent1'), ('background', 'lt1'), ('foreground', 'dk1')]:

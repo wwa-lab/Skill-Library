@@ -16,7 +16,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from contracts import config, check, hyperlink
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_BRAND = {"name": "Corporate", "accent": "C8102E", "background": "FFFFFF", "foreground": "171717", "muted": "666666", "fontFace": "Microsoft YaHei", "titleFontFace": "Microsoft YaHei", "logo": None}
+DEFAULT_BRAND = {"name": "Corporate", "accent": "C8102E", "background": "FFFFFF", "foreground": "171717", "muted": "666666", "fontFace": "Arial", "titleFontFace": "Arial", "logo": None}
 LEGACY_BRAND = DEFAULT_BRAND.copy()
 CONFIG = config()
 DEFAULT_BRAND = CONFIG['brand']
@@ -101,7 +101,7 @@ def validate(deck):
     if "modelVersion" in deck and deck["modelVersion"] != "1.1": raise ValueError("Unsupported modelVersion")
     if "theme" in deck:
         check(deck["theme"], CONFIG["contracts"]["theme"], "theme")
-        if deck.get("brand", {}).get("id") not in (None, deck["theme"]["brand"]): raise ValueError("Theme brand mismatch")
+        if deck["theme"]["brand"] != "universal" and deck.get("brand", {}).get("id") not in (None, deck["theme"]["brand"]): raise ValueError("Theme brand mismatch")
     string(deck.get("id"), "deck.id")
     string(deck.get("title"), "deck.title")
     if not deck["id"] or len(deck["title"]) > 300:

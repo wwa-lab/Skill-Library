@@ -27,7 +27,7 @@
   function resolve(deck){
     const b=clone(deck.brand),t=deck.theme;
     if(!t)return b;
-    theme(t);brand(b);fail(!b.id||t.brand===b.id,'Theme brand does not match deck brand');
+    theme(t);brand(b);fail(!b.id||t.brand==='universal'||t.brand===b.id,'Theme brand does not match deck brand');
     return {...b,accent:t.colors.accent,background:t.colors.canvas,foreground:t.colors.text,muted:t.colors.textMuted,fontFace:t.fonts.body,titleFontFace:t.fonts.title,chartPalette:t.chartPalette,theme:t};
   }
   function element(el,b){
@@ -40,9 +40,12 @@
     return {fontSize:b.theme?b.theme.typography[role].size:(s.layout==='cover'?82:58),color:b.foreground,align:'left',...s.titleStyle};
   }
   function change(deck,next){
-    theme(next);fail(!deck.brand.id||next.brand===deck.brand.id,'Theme brand mismatch');
+    theme(next);fail(!deck.brand.id||next.brand==='universal'||next.brand===deck.brand.id,'Theme brand mismatch');
     const result=clone(deck),old=resolve(deck),fresh=resolve({...deck,theme:next});
     const map=new Map(['accent','background','foreground','muted'].map(k=>[old[k].toUpperCase(),fresh[k]]));
+    if(old.theme&&fresh.theme){
+      for(const [before,after] of [[old.theme.cards.fill,fresh.theme.cards.fill],[old.theme.colors.border,fresh.theme.colors.border]])if(!map.has(before.toUpperCase()))map.set(before.toUpperCase(),after);
+    }
     for(const s of result.slides){
       for(const obj of [s,s.titleStyle||{},...s.elements])for(const k of ['color','fill','accent','background'])if(typeof obj[k]==='string'&&map.has(obj[k].toUpperCase()))obj[k]=map.get(obj[k].toUpperCase());
     }

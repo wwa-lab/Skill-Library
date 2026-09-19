@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.1
+
+- Default new presentation content to English, while following an explicitly requested language.
+- Use Arial for the default English brand/theme profile and prefer Latin theme fonts when importing a presentation.
+
 ## 1.1 — local delivery candidate
 
 Baseline: repository main `00b9b9264a3bc011fa087f4337b2a7c52cf8e919`. Input source ZIP SHA-256 `4d9cb8a64faa48382ca4c0d8889f1a07b37922d7efb4b29e6c19dce40a596df4`.
@@ -13,3 +18,9 @@ Baseline: repository main `00b9b9264a3bc011fa087f4337b2a7c52cf8e919`. Input sour
 - Current candidate validation: 31 Python tests, 21 JS model/theme/QA/editor tests, repository skill validation, Gate A/B/C browser tests and rich OOXML inspection pass on macOS Chrome 153 offline.
 
 The PowerPoint UI, Windows 11, company-managed Edge/Chrome and Safari remain unverified. Full evidence and exact limits are recorded in `references/test-record.md`; this changelog does not imply unrun acceptance.
+
+### Unreleased — English controls and technology presets
+
+- English toolbar, editor, presenter, help, validation and export messages.
+- Three universal technology themes with brand identity retained and card/border colour remapping.
+- White logo backing shared by HTML and PowerPoint layouts for dark-theme readability.

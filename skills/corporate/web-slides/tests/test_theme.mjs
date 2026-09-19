@@ -30,3 +30,16 @@ test('hyperlink protocol whitelist and existing slide targets',()=>{
  for(const v of ['javascript:alert(1)','data:text/html,x','file:///x','http://example.com','#missing','https://bad\n.invalid']){e.hyperlink=v;assert.throws(()=>M.validate(d));}
  for(const v of ['https://example.com','mailto:user@example.com','#content']){e.hyperlink=v;M.validate(d);}
 });
+test('universal technology themes preserve brand and remap card colours reversibly',()=>{
+ const d=deck();d.slides[0].elements.push({id:'card-test',type:'shape',shape:'rect',x:100,y:300,w:200,h:100,fill:d.theme.cards.fill,color:d.theme.colors.text});
+ for(const id of ['tech-cyan','digital-violet','tech-light']){
+  const t=read('themes/'+id+'.json');T.validate(t);
+  const next=T.change(d,t);M.validate(next);
+  assert.deepEqual(copy(next.brand),copy(d.brand));
+  assert.equal(next.slides[0].elements.at(-1).fill,t.cards.fill);
+  assert.equal(next.slides[0].elements.at(-1).color,t.colors.text);
+  const restored=T.change(next,d.theme);
+  assert.deepEqual(copy(restored.slides),copy(d.slides));
+ }
+ const other=copy(config.themes[0]);other.brand='another-brand';assert.throws(()=>T.change(d,other));
+});

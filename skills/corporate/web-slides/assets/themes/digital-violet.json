@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "id": "hsbc-light",
-  "brand": "hsbc",
+  "id": "digital-violet",
+  "brand": "universal",
   "colors": {
-    "canvas": "FFFFFF",
-    "surface": "FFFFFF",
-    "text": "000000",
-    "textMuted": "5C5C5C",
-    "accent": "DB0011",
-    "border": "D7D7D7"
+    "canvas": "17132D",
+    "surface": "282044",
+    "text": "F5F2FF",
+    "textMuted": "B7ABD2",
+    "accent": "BD9AFF",
+    "border": "4D406B"
   },
   "typography": {
     "coverTitle": {
@@ -50,23 +50,23 @@
   },
   "cards": {
     "radius": 0,
-    "fill": "F4F4F4",
-    "text": "000000"
+    "fill": "282044",
+    "text": "F5F2FF"
   },
   "table": {
-    "header": "DB0011",
-    "headerText": "FFFFFF",
-    "stripe": "F4F4F4",
-    "border": "D7D7D7"
+    "header": "BD9AFF",
+    "headerText": "17132D",
+    "stripe": "282044",
+    "border": "4D406B"
   },
   "chartPalette": [
-    "DB0011",
-    "000000",
-    "999999",
-    "A3000D",
-    "B6B6B6",
-    "E6E6E6"
+    "BD9AFF",
+    "5998E5",
+    "D09BEF",
+    "F1BC69",
+    "58BCA7",
+    "B7ABD2"
   ],
-  "titleDecoration": "rule",
+  "titleDecoration": "bar",
   "footerStyle": "muted"
 }

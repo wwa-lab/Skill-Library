@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en-GB">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -8,71 +8,71 @@
 <style id="corporate-style">__CSS__</style>
 </head>
 <body>
-<header id="toolbar" aria-label="演示工具栏">
-<strong id="deck-name"></strong><span id="mode-label">展示模式</span>
-<button id="mode">编辑</button><button id="toc-toggle">目录</button><button id="notes-toggle">讲稿</button>
-<button id="presenter">演讲者</button><button id="qa">检查</button><label>主题<select id="theme-select" aria-label="主题"></select></label>
-<button id="fullscreen">全屏</button><label class="motion"><input id="reduced" type="checkbox">减少动态</label>
-<button id="save">保存 HTML</button><button id="export">导出 PPTX</button>
-<button id="template">导出 POTX</button><button id="help">帮助</button>
+<header id="toolbar" aria-label="Presentation toolbar">
+<strong id="deck-name"></strong><span id="mode-label">Present mode</span>
+<button id="mode">Edit</button><button id="toc-toggle">Contents</button><button id="notes-toggle">Notes</button>
+<button id="presenter">Presenter</button><button id="qa">Check</button><label>Theme<select id="theme-select" aria-label="Theme"></select></label>
+<button id="fullscreen">Full screen</button><label class="motion"><input id="reduced" type="checkbox">Reduce motion</label>
+<button id="save">Save HTML</button><button id="export">Export PPTX</button>
+<button id="template">Export POTX</button><button id="help">Help</button>
 </header>
 <div id="workspace">
-<aside id="toc" hidden aria-label="页面目录">
-<h2>页面目录</h2><ol id="slide-list"></ol>
-<div class="edit-only"><button id="add">增加页面</button><button id="duplicate">复制</button><button id="delete">删除</button><button id="move-up">上移</button><button id="move-down">下移</button></div>
+<aside id="toc" hidden aria-label="Slide index">
+<h2>Slide index</h2><ol id="slide-list"></ol>
+<div class="edit-only"><button id="add">Add slide</button><button id="duplicate">Duplicate</button><button id="delete">Delete</button><button id="move-up">Move up</button><button id="move-down">Move down</button></div>
 </aside>
-<main id="viewport" aria-label="幻灯片"><div id="stage"></div></main>
-<aside id="presenter-panel" hidden aria-label="演讲者视图"><div class="presenter-time"><output id="timer">00:00</output><output id="clock"></output></div><button id="timer-toggle">暂停计时</button><button id="timer-reset">重置</button><button id="black-screen">黑屏</button><h2>下一页</h2><div id="next-viewport"><div id="next-stage"></div></div><h2>本页讲稿</h2><div id="presenter-notes"></div></aside>
-<aside id="editor" hidden aria-label="版式内编辑器">
-<h2>页面编辑</h2>
-<div class="history"><button id="undo">撤销</button><button id="redo">重做</button></div>
-<label>标题<textarea id="edit-title" rows="2"></textarea></label>
-<label>章节<input id="edit-section" maxlength="100"></label>
-<label>布局<select id="layout-select"></select></label><button id="reapply-layout">重新应用布局</button>
-<label>讲稿<textarea id="edit-notes" rows="4"></textarea></label>
-<label>选择对象<select id="element-select"></select></label>
+<main id="viewport" aria-label="Slides"><div id="stage"></div></main>
+<aside id="presenter-panel" hidden aria-label="Presenter view"><div class="presenter-time"><output id="timer">00:00</output><output id="clock"></output></div><button id="timer-toggle">Pause timer</button><button id="timer-reset">Reset</button><button id="black-screen">Black screen</button><h2>Next slide</h2><div id="next-viewport"><div id="next-stage"></div></div><h2>Speaker notes</h2><div id="presenter-notes"></div></aside>
+<aside id="editor" hidden aria-label="Layout editor">
+<h2>Slide editor</h2>
+<div class="history"><button id="undo">Undo</button><button id="redo">Redo</button></div>
+<label>Title<textarea id="edit-title" rows="2"></textarea></label>
+<label>Section<input id="edit-section" maxlength="100"></label>
+<label>Layout<select id="layout-select"></select></label><button id="reapply-layout">Reapply layout</button>
+<label>Notes<textarea id="edit-notes" rows="4"></textarea></label>
+<label>Select object<select id="element-select"></select></label>
 <div id="object-fields">
-<label id="text-label">内容<textarea id="edit-text" rows="5"></textarea></label>
-<fieldset id="rich-controls" hidden><legend>段落与富文本</legend>
-<div class="rich-actions"><button id="rich-enable">拆分为段落</button><button id="rich-disable" hidden>转回纯文本</button></div>
+<label id="text-label">Content<textarea id="edit-text" rows="5"></textarea></label>
+<fieldset id="rich-controls" hidden><legend>Paragraphs and rich text</legend>
+<div class="rich-actions"><button id="rich-enable">Split into paragraphs</button><button id="rich-disable" hidden>Convert to plain text</button></div>
 <div id="rich-editor" hidden>
-<label>段落<select id="rich-paragraph"></select></label>
-<div class="rich-actions"><button id="rich-add-paragraph">增加段落</button><button id="rich-remove-paragraph">删除段落</button></div>
-<label>段落对齐<select id="rich-align"><option value="left">左对齐</option><option value="center">居中</option><option value="right">右对齐</option></select></label>
-<label>列表样式<select id="rich-list"><option value="none">无</option><option value="bullet">项目符号</option><option value="number">编号</option></select></label>
-<label>缩进档位<select id="rich-indent"><option value="0">无</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></label>
-<label>文本片段<select id="rich-run"></select></label>
-<div class="rich-actions"><button id="rich-add-run">增加片段</button><button id="rich-remove-run">删除片段</button></div>
-<label>片段文字<textarea id="rich-run-text" rows="3"></textarea></label>
-<div class="rich-actions"><label><input id="rich-bold" type="checkbox">粗体</label><label><input id="rich-italic" type="checkbox">斜体</label></div>
-<label>片段字号<input id="rich-size" type="number" min="12" max="160" step="1" placeholder="沿用对象字号"></label>
-<label>片段颜色<input id="rich-color" type="color"></label>
-<label>片段链接（HTTPS / mailto / #页面ID）<input id="rich-link" maxlength="2048"></label>
+<label>Paragraph<select id="rich-paragraph"></select></label>
+<div class="rich-actions"><button id="rich-add-paragraph">Add paragraph</button><button id="rich-remove-paragraph">Remove paragraph</button></div>
+<label>Paragraph alignment<select id="rich-align"><option value="left">Align left</option><option value="center">Centre</option><option value="right">Align right</option></select></label>
+<label>List style<select id="rich-list"><option value="none">None</option><option value="bullet">Bullets</option><option value="number">Numbered</option></select></label>
+<label>Indent level<select id="rich-indent"><option value="0">None</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></label>
+<label>Text run<select id="rich-run"></select></label>
+<div class="rich-actions"><button id="rich-add-run">Add run</button><button id="rich-remove-run">Remove run</button></div>
+<label>Run text<textarea id="rich-run-text" rows="3"></textarea></label>
+<div class="rich-actions"><label><input id="rich-bold" type="checkbox">Bold</label><label><input id="rich-italic" type="checkbox">Italic</label></div>
+<label>Run font size<input id="rich-size" type="number" min="12" max="160" step="1" placeholder="Inherit object size"></label>
+<label>Run colour<input id="rich-color" type="color"></label>
+<label>Run link (HTTPS / mailto / #slide-id)<input id="rich-link" maxlength="2048"></label>
 </div></fieldset>
-<label>字号档位<select id="font-size"><option value="24">小 24</option><option value="28">标准 28</option><option value="32">正文 32</option><option value="40">大 40</option><option value="58">标题 58</option><option value="82">封面 82</option></select></label>
-<label>强调色<input id="color" type="color"></label>
-<label>对齐<select id="align"><option value="left">左对齐</option><option value="center">居中</option><option value="right">右对齐</option></select></label>
-<label>对象链接（HTTPS / mailto / #页面ID）<input id="edit-hyperlink" maxlength="2048"></label>
-<label>替代文字<input id="edit-alt" maxlength="2000"></label><label>素材 / 数据来源<input id="edit-source" maxlength="2000"></label>
+<label>Font size<select id="font-size"><option value="24">Small 24</option><option value="28">Standard 28</option><option value="32">Body 32</option><option value="40">Large 40</option><option value="58">Title 58</option><option value="82">Cover 82</option></select></label>
+<label>Accent colour<input id="color" type="color"></label>
+<label>Alignment<select id="align"><option value="left">Align left</option><option value="center">Centre</option><option value="right">Align right</option></select></label>
+<label>Object link (HTTPS / mailto / #slide-id)<input id="edit-hyperlink" maxlength="2048"></label>
+<label>Alt text<input id="edit-alt" maxlength="2000"></label><label>Asset / data source<input id="edit-source" maxlength="2000"></label>
 <div id="image-fields" hidden>
-<label>替换图片（PNG / JPEG）<input id="image-input" type="file" accept="image/png,image/jpeg"></label>
-<label>显示方式<select id="image-fit"><option value="contain">完整显示</option><option value="cover">裁切填充</option></select></label>
-<label>裁切横向位置<input id="image-x" type="range" min="0" max="1" step="0.05"></label>
-<label>裁切纵向位置<input id="image-y" type="range" min="0" max="1" step="0.05"></label>
+<label>Replace image (PNG / JPEG)<input id="image-input" type="file" accept="image/png,image/jpeg"></label>
+<label>Image fit<select id="image-fit"><option value="contain">Contain</option><option value="cover">Cover</option></select></label>
+<label>Horizontal crop position<input id="image-x" type="range" min="0" max="1" step="0.05"></label>
+<label>Vertical crop position<input id="image-y" type="range" min="0" max="1" step="0.05"></label>
 </div>
-<div id="data-fields" hidden><label>表格 / 图表数据（JSON）<textarea id="edit-data" rows="7"></textarea></label><button id="apply-data">应用数据</button></div>
+<div id="data-fields" hidden><label>Table / chart data (JSON)<textarea id="edit-data" rows="7"></textarea></label><button id="apply-data">Apply data</button></div>
 </div>
-<div id="canvas-tools"><strong>画布微调</strong><div class="align-actions">
-<button data-align="left" title="左对齐">左</button><button data-align="center" title="水平居中">中</button><button data-align="right" title="右对齐">右</button>
-<button data-align="top" title="顶对齐">上</button><button data-align="middle" title="垂直居中">中</button><button data-align="bottom" title="底对齐">下</button>
-<button data-align="horizontal" title="水平等距">横向等距</button><button data-align="vertical" title="垂直等距">纵向等距</button>
+<div id="canvas-tools"><strong>Canvas adjustments</strong><div class="align-actions">
+<button data-align="left" title="Align left">Left</button><button data-align="center" title="Centre horizontally">Centre</button><button data-align="right" title="Align right">Right</button>
+<button data-align="top" title="Align top">Top</button><button data-align="middle" title="Centre vertically">Centre</button><button data-align="bottom" title="Align bottom">Bottom</button>
+<button data-align="horizontal" title="Distribute horizontally">Distribute H</button><button data-align="vertical" title="Distribute vertically">Distribute V</button>
 </div></div>
-<p id="selection-hint" class="hint">拖动对象移动；拖动角点调整大小；按住 Shift 多选，方向键以 1 / 10 单位微调。表格首行为表头；修改后请保存 HTML。</p>
+<p id="selection-hint" class="hint">Drag to move; drag corners to resize. Shift-click to select multiple objects; arrow keys move 1 unit, Shift+arrow 10. The first table row is the header. Save HTML after editing.</p>
 </aside>
 </div>
-<footer id="navigation"><button id="prev" aria-label="上一页">←</button><output id="page-number"></output><button id="next" aria-label="下一页">→</button><span id="status" role="status" aria-live="polite">就绪</span><button id="recover" hidden>恢复缓存副本</button></footer>
-<aside id="notes-panel" hidden aria-label="逐页讲稿"><h2>本页讲稿</h2><div id="notes-content"></div></aside>
-<dialog id="message"><h2 id="message-title"></h2><pre id="message-body"></pre><form method="dialog"><button>关闭</button></form></dialog>
+<footer id="navigation"><button id="prev" aria-label="Previous slide">←</button><output id="page-number"></output><button id="next" aria-label="Next slide">→</button><span id="status" role="status" aria-live="polite">Ready</span><button id="recover" hidden>Restore cached copy</button></footer>
+<aside id="notes-panel" hidden aria-label="Slide notes"><h2>Speaker notes</h2><div id="notes-content"></div></aside>
+<dialog id="message"><h2 id="message-title"></h2><pre id="message-body"></pre><form method="dialog"><button>Close</button></form></dialog>
 <script type="application/json" id="corporate-config">__CONFIG__</script>
 <script type="application/json" id="deck-data">__DECK_JSON__</script>
 <script id="corporate-vendor">__VENDOR__</script>

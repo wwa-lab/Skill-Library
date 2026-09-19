@@ -1,10 +1,12 @@
 # corporate-web-slides
 
-用于公司内部分享、培训和路演的中文网页演示 Skill。默认红、白、黑风格；可在浏览器编辑，保存完整 HTML，并导出原生可编辑 PPTX 或可复用 POTX。
+用于公司内部分享、培训和路演的英文优先网页演示 Skill。默认红、白、黑风格；可在浏览器编辑，保存完整 HTML，并导出原生可编辑 PPTX 或可复用 POTX。用户可以指定中文或其他目标语言。
 
 ## 快速体验
 
 直接用 Edge / Chrome 打开 `examples/six-slides.html`。样例六页包含文字、图片、流程、表格、图表和讲稿；所有统计数字均为演示数据。无需 Node.js、Python、联网或模型即可展示、编辑、保存和导出。
+
+随包六页验证样例保留中文内容；新建演示默认使用英文，也可按请求使用其他语言。
 
 1. 点击“编辑”，选择正文或左侧目录页面。输入后移出输入框即生效。
 2. 在面板修改标题/讲稿，选择独立对象修改正文、字号、颜色、对齐；文字对象可拆分段落并设置项目符号、编号、缩进、字重、斜体、局部字号/颜色和安全链接。画布上拖动对象可移动，拖动选框角点可缩放；按住 Shift 多选，可对齐/等距，方向键微调（Shift+方向键每次 10 单位）。图片可替换、切换完整显示/裁切填充、调整横纵裁切位置。数据对象有 JSON 编辑框及“应用数据”。
@@ -22,7 +24,7 @@ OpenCode 项目级安装：在目标项目下创建 `.opencode/skills/corporate-
 
 给 Agent 的示例请求：
 
-> 用 corporate-web-slides，把这份培训材料做成 12 页中文演示，沿用默认红白黑风格，配完整讲稿，输出离线 HTML 和可编辑 PPTX。
+> 用 corporate-web-slides，把这份培训材料做成 12 页英文演示，沿用默认红白黑风格，配完整英文讲稿，输出离线 HTML 和可编辑 PPTX。
 
 > 分析公司模板.potx，复用颜色、字体和 Logo。将已有培训.pptx 转为网页，先检查并保留所有转换警告。
 
@@ -96,3 +98,7 @@ py -3 scripts/package.py --output "..\corporate-web-slides.zip"
 ```
 
 ZIP 内是平铺安装目录 `corporate-web-slides/`，并带 `PACKAGE-MANIFEST.json` 的逐文件 SHA-256。脚本排除运行缓存和旧压缩包；只在本地写文件，不安装或发布。
+
+### English interface and technology themes
+
+Generated controls, presenter tools, help and runtime messages default to English. The Theme selector includes Tech Cyan, Digital Violet and Tech Light alongside brand-specific presets. Technology presets use `brand: "universal"`, retain the deck brand and logo, and remap theme card and border colours without moving objects. Custom colours remain explicit overrides. A white logo backing keeps an unmodified dark wordmark readable on dark slides in HTML and native PowerPoint layouts. These presets are presentation styles, not official brand approvals.

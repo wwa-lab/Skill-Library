@@ -1,28 +1,28 @@
 {
   "version": 1,
   "id": "new-corporate-deck",
-  "title": "公司演示",
+  "title": "Company Presentation",
   "brand": {
-    "name": "CORPORATE / 内部分享",
+    "name": "CORPORATE / INTERNAL",
     "accent": "C8102E",
     "background": "FFFFFF",
     "foreground": "171717",
     "muted": "666666",
-    "fontFace": "Microsoft YaHei",
-    "titleFontFace": "Microsoft YaHei",
+    "fontFace": "Arial",
+    "titleFontFace": "Arial",
     "logo": null
   },
   "slides": [
     {
       "id": "title",
-      "title": "演示主题",
-      "notes": "填写开场说明。",
+      "title": "Presentation Topic",
+      "notes": "Add opening remarks.",
       "layout": "cover",
       "elements": [
         {
           "id": "intro",
           "type": "text",
-          "text": "填写分享目的与听众收益",
+          "text": "State the purpose of this presentation and its audience value.",
           "x": 100,
           "y": 365,
           "w": 1400,
@@ -35,14 +35,14 @@
     },
     {
       "id": "content",
-      "title": "核心内容",
-      "notes": "填写本页讲稿。",
+      "title": "Key Takeaways",
+      "notes": "Add speaker notes for this slide.",
       "layout": "content",
       "elements": [
         {
           "id": "body",
           "type": "text",
-          "text": "填写本页要点，每页一个主题。",
+          "text": "Add key points; keep one main idea per slide.",
           "x": 100,
           "y": 300,
           "w": 1400,
@@ -55,8 +55,8 @@
     },
     {
       "id": "data",
-      "title": "数据与结论",
-      "notes": "记录数据来源、口径和时间。",
+      "title": "Data and Conclusions",
+      "notes": "Record the data source, definitions, and time period.",
       "layout": "data",
       "elements": [
         {
@@ -68,12 +68,12 @@
           "h": 440,
           "rows": [
             [
-              "指标",
-              "当前",
-              "目标"
+              "Metric",
+              "Current",
+              "Target"
             ],
             [
-              "请填写",
+              "Add data",
               "—",
               "—"
             ]

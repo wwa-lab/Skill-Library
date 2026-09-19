@@ -2,42 +2,42 @@
 (function (root) {
   'use strict';
   const SCALE = 120;
-  const DEFAULT_BRAND = { name: 'Corporate', accent: 'C8102E', background: 'FFFFFF', foreground: '171717', muted: '666666', fontFace: 'Microsoft YaHei', titleFontFace: 'Microsoft YaHei' };
+  const DEFAULT_BRAND = { name: 'Corporate', accent: 'C8102E', background: 'FFFFFF', foreground: '171717', muted: '666666', fontFace: 'Arial', titleFontFace: 'Arial' };
   const LAYOUTS = ['cover', 'content', 'data', 'imported'];
   const allLayouts = ()=>root.CorporateTheme?.layouts.map(l=>l.id)||LAYOUTS;
   const masterName=(layout,brand)=>((brand.theme&&brand.id?brand.id:'corporate')+'_'+layout).toUpperCase().replace(/-/g,'_');
   const PPTX_MIME = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
   const POTX_MIME = 'application/vnd.openxmlformats-officedocument.presentationml.template';
-  const fail = message => { throw new Error('PPTX 导出：' + message); };
+  const fail = message => { throw new Error('PPTX export: ' + message); };
   const hex = (value, fallback) => /^[0-9a-f]{6}$/i.test(value || '') ? value.toUpperCase() : fallback;
   const esc = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' }[c]));
   const box = el => ({ x: el.x / SCALE, y: el.y / SCALE, w: el.w / SCALE, h: el.h / SCALE });
   const pt = (value, fallback = 32) => (Number.isFinite(value) ? value : fallback) * 0.6;
 
   function validate(deck) {
-    if (!deck || deck.version !== 1 || !Array.isArray(deck.slides) || !deck.slides.length) fail('需要非空的 v1 演示模型。');
-    if (deck.slides.length > 200) fail('第一版每次最多导出 200 页。');
+    if (!deck || deck.version !== 1 || !Array.isArray(deck.slides) || !deck.slides.length) fail('A non-empty v1 deck is required.');
+    if (deck.slides.length > 200) fail('Export supports up to 200 slides.');
     const ids = new Set();
     deck.slides.forEach((slide, index) => {
-      if (ids.has(slide.id)) fail('页面 id 重复。');
+      if (ids.has(slide.id)) fail('Duplicate slide id.');
       ids.add(slide.id);
-      if (!allLayouts().includes(slide.layout) || typeof slide.title !== 'string' || !Array.isArray(slide.elements)) fail(`第 ${index + 1} 页格式不正确。`);
-      if (slide.title.length > 52) fail(`第 ${index + 1} 页标题超过 52 字，请缩短。`);
+      if (!allLayouts().includes(slide.layout) || typeof slide.title !== 'string' || !Array.isArray(slide.elements)) fail(`Slide ${index + 1}: invalid format.`);
+      if (slide.title.length > 52) fail(`Slide ${index + 1}: title exceeds 52 characters.`);
       slide.elements.forEach(el => {
-        if (!['text', 'image', 'shape', 'table', 'chart'].includes(el.type)) fail(`不支持对象类型 ${el.type}，已停止以避免内容丢失。`);
-        if (!['x', 'y', 'w', 'h'].every(k => Number.isFinite(el[k]) && el[k] >= 0) || el.x + el.w > 1600.1 || el.y + el.h > 900.1) fail(`对象 ${el.id} 超出画布或坐标无效。`);
-        if (el.type === 'image' && !/^data:image\/(png|jpeg);base64,[a-z0-9+/=\s]+$/i.test(el.src || '')) fail('图片必须是内嵌 PNG/JPEG。');
-        if (el.type === 'shape' && !['rect', 'roundRect', 'ellipse', 'arrow', 'line'].includes(el.shape)) fail(`不支持形状 ${el.shape}。`);
-        if (el.type === 'table' && (!Array.isArray(el.rows) || !el.rows.length || el.rows.length > 12 || !el.rows[0].length || el.rows[0].length > 8 || !el.rows.every(r => Array.isArray(r) && r.length === el.rows[0].length && r.every(v => typeof v === 'string')))) fail('表格必须为最多 12 行、8 列的矩形字符串数组。');
+        if (!['text', 'image', 'shape', 'table', 'chart'].includes(el.type)) fail(`Unsupported object type ${el.type}; stopped to prevent content loss.`);
+        if (!['x', 'y', 'w', 'h'].every(k => Number.isFinite(el[k]) && el[k] >= 0) || el.x + el.w > 1600.1 || el.y + el.h > 900.1) fail(`Object ${el.id}: invalid coordinates or outside canvas.`);
+        if (el.type === 'image' && !/^data:image\/(png|jpeg);base64,[a-z0-9+/=\s]+$/i.test(el.src || '')) fail('Images must be embedded PNG/JPEG.');
+        if (el.type === 'shape' && !['rect', 'roundRect', 'ellipse', 'arrow', 'line'].includes(el.shape)) fail(`Unsupported shape ${el.shape}.`);
+        if (el.type === 'table' && (!Array.isArray(el.rows) || !el.rows.length || el.rows.length > 12 || !el.rows[0].length || el.rows[0].length > 8 || !el.rows.every(r => Array.isArray(r) && r.length === el.rows[0].length && r.every(v => typeof v === 'string')))) fail('Tables require a rectangular string array up to 12 rows and 8 columns.');
         if (el.type === 'chart') validateChart(el);
       });
     });
   }
 
   function validateChart(el) {
-    if (!['bar', 'line', 'pie'].includes(el.chartType) || !Array.isArray(el.labels) || !el.labels.length || el.labels.length > 12 || !Array.isArray(el.series) || !el.series.length || el.series.length > 4) fail('图表类型或数据范围不支持。');
-    if (el.chartType === 'pie' && el.series.length !== 1) fail('饼图只能有一个系列。');
-    if (!el.series.every(s => Array.isArray(s.values) && s.values.length === el.labels.length && s.values.every(v => Number.isFinite(v) && (el.chartType === 'line' || v >= 0)))) fail('图表标签、数值不匹配或含无效数值。');
+    if (!['bar', 'line', 'pie'].includes(el.chartType) || !Array.isArray(el.labels) || !el.labels.length || el.labels.length > 12 || !Array.isArray(el.series) || !el.series.length || el.series.length > 4) fail('Unsupported chart type or data range.');
+    if (el.chartType === 'pie' && el.series.length !== 1) fail('Pie charts require one series.');
+    if (!el.series.every(s => Array.isArray(s.values) && s.values.length === el.labels.length && s.values.every(v => Number.isFinite(v) && (el.chartType === 'line' || v >= 0)))) fail('Chart labels and values do not match or contain invalid values.');
   }
 
   function link(el,deck){
@@ -56,14 +56,14 @@
     });
   }
   function textOptions(el, brand, extra = {}) {
-    return { ...box(el), fontFace: brand.fontFace, fontSize: pt(el.fontSize), color: hex(el.color, brand.foreground), bold: Boolean(el.bold), align: el.align || 'left', valign: 'top', margin: 0, breakLine: false, paraSpaceAfterPt: 0, lineSpacingMultiple: 1.28, lang: 'zh-CN', ...extra };
+    return { ...box(el), fontFace: brand.fontFace, fontSize: pt(el.fontSize), color: hex(el.color, brand.foreground), bold: Boolean(el.bold), align: el.align || 'left', valign: 'top', margin: 0, breakLine: false, paraSpaceAfterPt: 0, lineSpacingMultiple: 1.28, lang: 'en-GB', ...extra };
   }
 
   function imageLoad(src) {
     return new Promise((resolve, reject) => {
       const image = new Image();
       image.addEventListener('load', () => resolve(image));
-      image.addEventListener('error', () => reject(new Error('图片无法解码，请换用有效的 PNG/JPEG。')));
+      image.addEventListener('error', () => reject(new Error('Cannot decode image; use a valid PNG/JPEG.')));
       image.src = src;
     });
   }
@@ -82,7 +82,7 @@
     canvas.width = Math.max(1, Math.round(el.w * quality));
     canvas.height = Math.max(1, Math.round(el.h * quality));
     const context = canvas.getContext('2d');
-    if (!context) fail('浏览器不支持图片裁切。');
+    if (!context) fail('Image cropping is unavailable in this browser.');
     context.drawImage(image, (image.naturalWidth - el.w / factor) * px, (image.naturalHeight - el.h / factor) * py, el.w / factor, el.h / factor, 0, 0, canvas.width, canvas.height);
     return { data: canvas.toDataURL('image/png'), ...box(el), altText: el.altText || el.alt || '' };
   }
@@ -95,8 +95,8 @@
       const slots=brand.theme?semantic.slots:[{x:100,y:260,w:1400,h:540}];
       const objects = layout === 'imported' ? [] : [
         { rect: { x: 0, y: 0, w: 13.333333, h: 0.1, fill: { color: brand.accent }, line: { color: brand.accent, transparency: 100 } } },
-        { text: { text: brand.footer || brand.name, options: { x: 100 / SCALE, y: 838 / SCALE, w: 9, h: 0.22, margin: 0, fontFace: brand.fontFace, fontSize: 12, color: brand.muted } } },
-        { placeholder: { options: { name: 'title', type: 'title', x: 100 / SCALE, y: 92 / SCALE, w: 1400 / SCALE, h: 125 / SCALE, fontFace: brand.titleFontFace, fontSize: pt(titleFontSize), color: brand.foreground, bold: true, margin: 0, valign: 'top' }, text: '单击此处添加标题' } },
+        { text: { text: brand.footer ?? brand.name, options: { x: 100 / SCALE, y: 838 / SCALE, w: 9, h: 0.22, margin: 0, fontFace: brand.fontFace, fontSize: 12, color: brand.muted } } },
+        { placeholder: { options: { name: 'title', type: 'title', x: 100 / SCALE, y: 92 / SCALE, w: 1400 / SCALE, h: 125 / SCALE, fontFace: brand.titleFontFace, fontSize: pt(titleFontSize), color: brand.foreground, bold: true, margin: 0, valign: 'top' }, text: 'Click to add title' } },
         ...slots.map((slot,i)=>({placeholder:{options:{name:i?'body'+(i+1):'body',type:'body',...box(slot),fontFace:brand.fontFace,fontSize:pt(brand.theme?.typography.body.size||32),color:brand.foreground,margin:0,valign:'top'},text:''}}))
       ];
       if(brand.theme&&layout!=='imported'){
@@ -104,7 +104,7 @@
         else if(brand.theme.titleDecoration==='bar')Object.assign(objects[0].rect,{x:.5,y:92/SCALE,w:.1,h:125/SCALE});
         const footer=objects.find(o=>o.text);if(footer){if(brand.theme.footerStyle==='hidden')objects.splice(objects.indexOf(footer),1);else if(brand.theme.footerStyle==='accent')footer.text.options.color=brand.accent;}
       }
-      if (logo && layout !== 'imported') objects.push({ image: logo });
+      if (logo && layout !== 'imported') { objects.push({ rect: { x: logo.x, y: logo.y, w: logo.w, h: logo.h, fill: { color: 'FFFFFF' }, line: { color: 'FFFFFF', transparency: 100 } } }); objects.push({ image: logo }); }
       pptx.defineSlideMaster({ title: masterName(layout,brand), background: { color: brand.background }, objects, ...(layout !== 'imported' && brand.theme?.footerStyle!=='hidden' ? { slideNumber: { x: 11.7, y: 836 / SCALE, w: 0.8, h: 0.3, fontFace: brand.fontFace, fontSize: 14.4, color: brand.foreground, margin: 0, align: 'right' } } : {}) });
     });
   }
@@ -137,7 +137,7 @@
   }
 
   async function build(deck) {
-    if (!(root.PptxGenJS || root.pptxgen) || !root.JSZip) fail('离线导出库缺失，请重新生成完整 HTML。');
+    if (!(root.PptxGenJS || root.pptxgen) || !root.JSZip) fail('Offline export library missing; rebuild the complete HTML.');
     if (root.CorporateModel) root.CorporateModel.validate(deck);
     validate(deck);
     const snapshot = JSON.parse(JSON.stringify(deck));
@@ -149,8 +149,8 @@
     pptx.author = 'Corporate Web Slides';
     pptx.company = brand.name;
     pptx.subject = 'Native editable slides; web animations export as visible final state.';
-    pptx.title = snapshot.title || '公司演示';
-    pptx.lang = 'zh-CN';
+    pptx.title = snapshot.title || 'Corporate presentation';
+    pptx.lang = 'en-GB';
     pptx.theme = { headFontFace: brand.titleFontFace, bodyFontFace: brand.fontFace };
     await defineMasters(pptx, brand);
     for (const page of snapshot.slides) {
@@ -215,7 +215,7 @@
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = (deck.title || '公司演示').replace(/[<>:"/\\|?*\x00-\x1F]/g, '_').slice(0, 100) + (options.template ? '.potx' : '.pptx');
+    a.download = (deck.title || 'Corporate presentation').replace(/[<>:"/\\|?*\x00-\x1F]/g, '_').slice(0, 100) + (options.template ? '.potx' : '.pptx');
     document.body.appendChild(a);
     a.click();
     a.remove();

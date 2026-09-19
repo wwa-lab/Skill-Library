@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "id": "hsbc-light",
-  "brand": "hsbc",
+  "id": "tech-cyan",
+  "brand": "universal",
   "colors": {
-    "canvas": "FFFFFF",
-    "surface": "FFFFFF",
-    "text": "000000",
-    "textMuted": "5C5C5C",
-    "accent": "DB0011",
-    "border": "D7D7D7"
+    "canvas": "081827",
+    "surface": "122C40",
+    "text": "F0F8FF",
+    "textMuted": "9EB5CA",
+    "accent": "4DE0D2",
+    "border": "28475F"
   },
   "typography": {
     "coverTitle": {
@@ -50,23 +50,23 @@
   },
   "cards": {
     "radius": 0,
-    "fill": "F4F4F4",
-    "text": "000000"
+    "fill": "122C40",
+    "text": "F0F8FF"
   },
   "table": {
-    "header": "DB0011",
-    "headerText": "FFFFFF",
-    "stripe": "F4F4F4",
-    "border": "D7D7D7"
+    "header": "4DE0D2",
+    "headerText": "081827",
+    "stripe": "122C40",
+    "border": "28475F"
   },
   "chartPalette": [
-    "DB0011",
-    "000000",
-    "999999",
-    "A3000D",
-    "B6B6B6",
-    "E6E6E6"
+    "4DE0D2",
+    "5998E5",
+    "D09BEF",
+    "F1BC69",
+    "58BCA7",
+    "9EB5CA"
   ],
-  "titleDecoration": "rule",
+  "titleDecoration": "bar",
   "footerStyle": "muted"
 }

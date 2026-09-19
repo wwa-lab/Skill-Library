@@ -53,7 +53,7 @@ class OOXMLTests(unittest.TestCase):
             self.assertTrue(any('group' in warning for warning in deck['warnings']))
             brand = json.loads((out / 'brand.json').read_text(encoding='utf-8'))
             self.assertEqual(brand['accent'], 'C8102E')
-            self.assertEqual(brand['fontFace'], 'Microsoft YaHei')
+            self.assertEqual(brand['fontFace'], 'Arial')
             self.assertEqual(len(brand['masters']), 1)
             self.assertEqual(brand['masters'][0]['objects'][0]['kind'], 'pic')
             self.assertIsNotNone(brand['masters'][0]['objects'][0]['geometry'])

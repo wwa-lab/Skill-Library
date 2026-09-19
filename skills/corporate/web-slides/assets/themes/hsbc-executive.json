@@ -41,8 +41,8 @@
     }
   },
   "fonts": {
-    "body": "Microsoft YaHei",
-    "title": "Microsoft YaHei"
+    "body": "Arial",
+    "title": "Arial"
   },
   "spacing": {
     "margin": 100,

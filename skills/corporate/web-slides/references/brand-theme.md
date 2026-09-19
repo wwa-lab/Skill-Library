@@ -11,3 +11,7 @@ The canonical model stays version 1 for compatibility; `modelVersion: "1.1"` is 
 Manual canvas changes set `layoutOverride: true`. Only the distinct Reapply Layout action resets geometry/that flag. Style switching never calls layout application.
 
 Native exported layouts use `<BRAND_ID>_<LAYOUT>` names (hyphens become underscores). Legacy unthemed decks retain CORPORATE_COVER/CONTENT/DATA/IMPORTED. Semantic layouts contain native title/body placeholders, reusable brand chrome and East Asian fonts. A two-column layout contains two body placeholders. This is normalized generation, not exact cloning of a supplied PowerPoint master. Test package structure and actual Office New Slide behavior separately.
+
+## Technology presets
+
+`tech-cyan`, `digital-violet`, and `tech-light` use the reserved theme brand `universal`. They may be applied to any deck without changing its brand identity or logo. Other themes still require a matching brand. Theme switching remaps existing theme colours, card fills and borders; custom colour overrides remain unchanged and need visual review. Dark presets retain the supplied logo unchanged on a white backing in HTML and PPTX. These are creative styles, not official brand approvals.

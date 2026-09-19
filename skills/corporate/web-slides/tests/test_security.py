@@ -33,7 +33,7 @@ class SecurityTests(unittest.TestCase):
  def test_v1_unchanged_and_default_hsbc(self):
   source=json.loads((ROOT/'examples/six-slides.json').read_text());d=build.normalize(source,ROOT/'examples')
   self.assertEqual(d['brand'],source['brand']);self.assertEqual(d['slides'][0]['id'],source['slides'][0]['id'])
-  del source['brand'];d=build.normalize(source,ROOT/'examples');self.assertEqual(d['theme']['id'],'hsbc-light');self.assertIsNone(d['brand']['logo'])
+  del source['brand'];d=build.normalize(source,ROOT/'examples');self.assertEqual(d['theme']['id'],'hsbc-light');self.assertIsNone(d['brand']['logo']);self.assertEqual(d['brand']['fontFace'],'Arial')
  def test_html_hashes_literal_malicious_title_and_vendor(self):
   d=build.normalize(json.loads((ROOT/'examples/six-slides.json').read_text()),ROOT/'examples')
   d['slides'][0]['title']='<img src=x onerror=alert(1)>';d['slides'][0]['notes']='</script><script>alert(1)</script>'

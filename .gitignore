@@ -6,3 +6,5 @@ yarn-error.log*
 pnpm-debug.log*
 skills/**/tests/results/*
 !skills/**/tests/results/.gitkeep
+
+__pycache__/
